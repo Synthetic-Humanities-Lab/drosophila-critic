@@ -216,6 +216,14 @@ function populateResults() {
   table('activity-table', response.strongest_activity, 10);
   $('events').replaceChildren(...response.events.map(event => element('p', `${event.time.toFixed(2)} s${event.line ? ` · line ${event.line}` : ''} — ${event.kind}${event.state ? `: ${event.state}` : ''} (${signed(event.delta_hz_per_neuron)} Hz/neuron)`)));
   $('reading-text').textContent = result.reading.text;
+  $('circuit-meanings').replaceChildren(...(result.reading.functional_notes || []).map(note => {
+    const card=element('article', undefined, 'circuit-card');
+    card.append(element('h4',note.label),element('span',note.population,'circuit-id'),element('p',note.role),element('p',note.measurement,'circuit-measurement'),element('p',note.inference),element('p',note.limit,'small'));
+    const link=element('a','Basis for this circuit association ↗');
+    link.href=note.source;link.target='_blank';link.rel='noopener';card.append(link);
+    return card;
+  }));
+  if (!result.reading.functional_notes?.length) $('circuit-meanings').textContent='This record has no mapped functional interpretation. New paired readings include source-linked circuit explanations.';
   $('reading-input').textContent = JSON.stringify(result.reading.input_summary, null, 2);
   $('provenance-json').textContent = JSON.stringify({poem_id: result.poem_id, audio: result.audio, fly: result.fly, encoder: result.encoder, provenance: result.provenance}, null, 2);
   $('downloads').replaceChildren(...[

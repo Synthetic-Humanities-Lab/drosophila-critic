@@ -194,3 +194,27 @@ coordinates and firing-bin membership are saved in `neural-display.json`. Camera
 orientation and lighting are presentation choices. Points are neither full neuron
 morphologies nor an anatomical registration to the separate female body. No edges,
 brain regions, body movements or behavioral meanings are invented for this display.
+
+## Functional interpretation (template v2)
+
+READING now includes a source-linked circuit glossary, separate from RESPONSE.
+`circuit_roles.py` gives a small curated set of associations: vibration sensing,
+structural JON targets, descending motor signals, DNa02 steering, DNp01 escape
+take-off, MDN backward walking and pIP10 song production. The links cite research
+for biological functions, not validation of this simulation as a behavioral model.
+Unmapped types receive no inferred role. Structural JON partners are explicitly
+mixed-function, not assigned a single percept or behavior.
+
+The strict, text-blind summary now includes available monitored populations'
+poem and silence rates. Each explanation distinguishes function, measured change,
+and inference limits; net extra spikes are reconstructed as rate difference ×
+neuron count × duration. This avoids making small absolute changes seem dramatic
+through percentages. We infer neither an action from any arbitrary rate threshold
+nor a subjective feeling from a circuit label. An escape-associated neuron is not
+a fear detector; a song-associated neuron is not an attraction detector.
+
+The qualitative reading describes sensory propagation when both the directly
+stimulated JON group and its structural target group increase relative to silence.
+This is a model-level sensory interpretation, not a claim about what a fly felt.
+The original RESPONSE, spikes, benchmark and audio are unchanged when reinterpreting
+an existing saved record; the new interpretation source hash is recorded separately.

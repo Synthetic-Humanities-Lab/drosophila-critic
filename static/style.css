@@ -690,3 +690,11 @@ pre {
 #benchmark-verdict {font:20px/1.6 var(--serif);margin:18px 0 10px;max-width:1000px;}
 @media(max-width:1000px){.listening-room{padding:18px;}.specimen-stage{height:360px;}.instrument{gap:20px;}.response-pane{padding-left:20px;}.current-verse p{font-size:25px;}.live-pop{flex-wrap:wrap;}}
 @media(max-width:700px){.listening-room{padding:14px;margin:0 -8px;}.instrument{grid-template-columns:1fr;}.response-pane{padding-left:0;}.chamber-title{font-size:8px;}.chamber-title span:last-child{max-width:130px;text-align:right;}.specimen-stage{height:330px;}.neural-volume{height:300px;}.benchmark-panel .section-line{align-items:flex-start;}.benchmark-panel .section-line span{max-width:150px;text-align:right;}}
+.circuit-meanings {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin:24px 0;}
+.circuit-card {border-top:1px solid var(--line);padding-top:16px;}
+.circuit-card h4 {font:22px var(--serif);margin:0 0 6px;}
+.circuit-id {font:10px var(--mono);color:var(--accent);display:block;margin-bottom:12px;}
+.circuit-card p {font-size:13px;line-height:1.7;}
+.circuit-card .circuit-measurement {font:11px/1.8 var(--mono);background:var(--soft);padding:12px;}
+.circuit-card a {font:10px var(--mono);display:inline-block;margin-top:10px;}
+@media(max-width:700px){.circuit-meanings{grid-template-columns:1fr;}}

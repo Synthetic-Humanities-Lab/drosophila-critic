@@ -42855,7 +42855,80 @@
     }
   },
   "reading": {
-    "provider": "response-only-matched-template-v1",
+    "provider": "response-only-functional-template-v2",
+    "functional_notes": [
+      {
+        "population": "JO-A/B input",
+        "label": "Sensing vibration",
+        "role": "These antennal sensory neurons respond to vibration and participate in hearing in living flies.",
+        "limit": "We stimulate these neurons directly. Their increase checks the input bridge; it does not demonstrate recognition, attention or enjoyment.",
+        "source": "https://www.frontiersin.org/journals/neural-circuits/articles/10.3389/fncir.2017.00046/full",
+        "measurement": "38,791 more spikes across 138 neurons over 26.18 seconds; +10.737 Hz/neuron against matched silence.",
+        "net_spikes_vs_silence": 38791,
+        "inference": "Activity increased in this circuit."
+      },
+      {
+        "population": "direct JON postsynaptic partners",
+        "label": "Beyond the sensory input",
+        "role": "These neurons receive direct connections from the stimulated JONs in the connectome. This is a structural group with potentially mixed functions.",
+        "limit": "A change here shows that activity differs beyond the injected neurons. It does not by itself establish a specific percept or behavioral response.",
+        "source": "https://github.com/alextitonis/fly.ai/tree/5e931b8dc4856550565c5fa129d3d0c055af3dd1",
+        "measurement": "17,001 more spikes across 1017 neurons over 26.18 seconds; +0.639 Hz/neuron against matched silence.",
+        "net_spikes_vs_silence": 17001,
+        "inference": "Activity increased in this circuit."
+      },
+      {
+        "population": "descending_neuron",
+        "label": "Signals toward motor circuits",
+        "role": "Descending neurons link the brain with motor circuits in the ventral nerve cord. They support many different actions.",
+        "limit": "A whole-group mean cannot identify an action. Opposing, lateralized or brief signals may disappear when averaged together.",
+        "source": "https://www.nature.com/articles/s41586-024-07523-9",
+        "measurement": "1,318 more spikes across 1314 neurons over 26.18 seconds; +0.038 Hz/neuron against matched silence.",
+        "net_spikes_vs_silence": 1318,
+        "inference": "Activity increased in this circuit."
+      },
+      {
+        "population": "DNa02",
+        "label": "Steering-related circuit",
+        "role": "DNa02 belongs to descending circuitry associated with steering during walking.",
+        "limit": "The pooled mean does not resolve left-right steering or establish that a turn would occur.",
+        "source": "https://www.nature.com/articles/s41586-024-07523-9",
+        "measurement": "2 fewer spikes across 2 neurons over 26.18 seconds; -0.038 Hz/neuron against matched silence.",
+        "net_spikes_vs_silence": -2,
+        "inference": "Activity decreased in this circuit."
+      },
+      {
+        "population": "DNp01",
+        "label": "Escape take-off circuit",
+        "role": "DNp01 is the giant-fiber descending neuron associated with rapid escape take-off.",
+        "limit": "A change in this model is an escape-circuit change, not evidence of fear or a predicted jump. No behavioral activation threshold is calibrated here.",
+        "source": "https://www.nature.com/articles/s41586-024-07523-9",
+        "measurement": "2 more spikes across 2 neurons over 26.18 seconds; +0.038 Hz/neuron against matched silence.",
+        "net_spikes_vs_silence": 2,
+        "inference": "Activity increased in this circuit."
+      },
+      {
+        "population": "MDN",
+        "label": "Backward-walking circuit",
+        "role": "Moonwalker descending neurons can recruit the motor circuitry for backward walking in living flies.",
+        "limit": "A rate difference does not establish retreat, avoidance or a subjective wish to get away.",
+        "source": "https://pubmed.ncbi.nlm.nih.gov/33268800/",
+        "measurement": "2 fewer spikes across 4 neurons over 26.18 seconds; -0.019 Hz/neuron against matched silence.",
+        "net_spikes_vs_silence": -2,
+        "inference": "Activity decreased in this circuit."
+      },
+      {
+        "population": "pIP10",
+        "label": "Courtship-song production circuit",
+        "role": "pIP10 descending neurons participate in driving the wing movements that produce courtship song.",
+        "limit": "Activity here is not evidence of attraction, pleasure, or an actual song. Social context and cooperating circuits matter.",
+        "source": "https://www.nature.com/articles/s41593-024-01738-9",
+        "measurement": "2 more spikes across 2 neurons over 26.18 seconds; +0.038 Hz/neuron against matched silence.",
+        "net_spikes_vs_silence": 2,
+        "inference": "Activity increased in this circuit."
+      }
+    ],
+    "scope": "Circuit roles come from research; rate differences come from this model; experience is not measured.",
     "input_summary": {
       "duration": 26.18,
       "seed": 64,
@@ -42884,9 +42957,81 @@
           "delta_hz_per_neuron": 11.739241151005857
         }
       ],
+      "circuits": [
+        {
+          "name": "JO-A/B input",
+          "neurons": 138,
+          "delta_hz_per_neuron": 10.736982540051594,
+          "audio_hz_per_neuron": 10.818635754697135,
+          "silence_hz_per_neuron": 0.081653214645542
+        },
+        {
+          "name": "direct JON postsynaptic partners",
+          "neurons": 1017,
+          "delta_hz_per_neuron": 0.6385337723182594,
+          "audio_hz_per_neuron": 2.7238999649202666,
+          "silence_hz_per_neuron": 2.0853661926020073
+        },
+        {
+          "name": "descending_neuron",
+          "neurons": 1314,
+          "delta_hz_per_neuron": 0.03831337433271331,
+          "audio_hz_per_neuron": 2.6257451922238384,
+          "silence_hz_per_neuron": 2.587431817891125
+        },
+        {
+          "name": "wing motor (flytalk WING_MN)",
+          "neurons": 58,
+          "delta_hz_per_neuron": -0.01843997787202656,
+          "audio_hz_per_neuron": 1.163694317852533,
+          "silence_hz_per_neuron": 1.1821342957245595
+        },
+        {
+          "name": "DNa02",
+          "neurons": 2,
+          "delta_hz_per_neuron": -0.03819709702062646,
+          "audio_hz_per_neuron": 0.5538579067990832,
+          "silence_hz_per_neuron": 0.5920550038197097
+        },
+        {
+          "name": "DNp01",
+          "neurons": 2,
+          "delta_hz_per_neuron": 0.03819709702062644,
+          "audio_hz_per_neuron": 0.05729564553093965,
+          "silence_hz_per_neuron": 0.019098548510313215
+        },
+        {
+          "name": "DNg100",
+          "neurons": 2,
+          "delta_hz_per_neuron": -0.019098548510313215,
+          "audio_hz_per_neuron": 0.019098548510313215,
+          "silence_hz_per_neuron": 0.03819709702062643
+        },
+        {
+          "name": "MDN",
+          "neurons": 4,
+          "delta_hz_per_neuron": -0.0190985485103132,
+          "audio_hz_per_neuron": 0.219633307868602,
+          "silence_hz_per_neuron": 0.2387318563789152
+        },
+        {
+          "name": "pIP10",
+          "neurons": 2,
+          "delta_hz_per_neuron": 0.038197097020626514,
+          "audio_hz_per_neuron": 0.4010695187165776,
+          "silence_hz_per_neuron": 0.3628724216959511
+        },
+        {
+          "name": "dPR1",
+          "neurons": 2,
+          "delta_hz_per_neuron": 0.0,
+          "audio_hz_per_neuron": 0.07639419404125286,
+          "silence_hz_per_neuron": 0.07639419404125286
+        }
+      ],
       "evidence": "matched silence, single paired seed"
     },
-    "text": "Against an equally long silence, the voice shifts mean activity above the control by 0.011 Hz per neuron. Its greatest global separation occurs at 9.28 seconds. The emphasis belongs to this difference, rather than to activity the instrument would have produced anyway. The largest mean cell-type difference is in JO-A (24 neurons, +12.03 Hz per neuron). In the recorded aftermath, the mean difference is +0.004 Hz per neuron. The end can be read as an interval of separation from silence; this single paired run does not establish a stable disposition.",
+    "text": "The voice enters through the modeled vibration-sensing pathway and carries beyond it: both the sensory neurons and their direct postsynaptic partners fire more than in silence. The strongest whole-network departure falls in the middle third, at 9.28 seconds. As a reading, this is contact and propagation: a patterned disturbance that travels, without a demonstrated destination in action. The recorded activity gives the encounter a sensory shape; it does not establish what, if anything, the fly feels.",
     "status": "Interpretation of a model counterfactual, not cognition or observed behavior"
   },
   "provenance": {
@@ -42917,7 +43062,15 @@
     "silence_counts": "silence-populations.npz",
     "neural_display": "neural-display.json",
     "original_audio_record_created_at": "2026-09-20T18:19:17.793122+00:00",
-    "poem_rerun_validation": "All 1434 global timestep spike counts exactly reproduce the original saved poem run."
+    "poem_rerun_validation": "All 1434 global timestep spike counts exactly reproduce the original saved poem run.",
+    "reinterpretation": {
+      "created_at": "2026-09-20T20:01:49.028653+00:00",
+      "sources": {
+        "critic/interpretation.py": "d2c23492be3f3f017401083d2ae0bf78411ff9e93a0120515987cbc5bfe90da2",
+        "critic/circuit_roles.py": "0577a9fd4d3edf1f1e9bc0062daf5f1c8f32fda8bb47a82dc38be6c208f9f4da"
+      },
+      "note": "Response and simulation artifacts unchanged. Functional interpretation regenerated from benchmark only."
+    }
   },
   "display": {
     "poem": "Little fly,\nThy summer\u2019s play\nMy thoughtless hand\nHas brushed away.\n\nAm not I\nA fly like thee?\nOr art not thou\nA man like me?\n\nFor I dance\nAnd drink and sing,\nTill some blind hand\nShall brush my wing.\n\nIf thought is life\nAnd strength and breath,\nAnd the want\nOf thought is death,\n\nThen am I\nA happy fly,\nIf I live,\nOr if I die.",

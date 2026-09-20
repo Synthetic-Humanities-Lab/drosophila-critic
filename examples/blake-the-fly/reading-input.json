@@ -26,5 +26,77 @@
       "delta_hz_per_neuron": 11.739241151005857
     }
   ],
+  "circuits": [
+    {
+      "name": "JO-A/B input",
+      "neurons": 138,
+      "delta_hz_per_neuron": 10.736982540051594,
+      "audio_hz_per_neuron": 10.818635754697135,
+      "silence_hz_per_neuron": 0.081653214645542
+    },
+    {
+      "name": "direct JON postsynaptic partners",
+      "neurons": 1017,
+      "delta_hz_per_neuron": 0.6385337723182594,
+      "audio_hz_per_neuron": 2.7238999649202666,
+      "silence_hz_per_neuron": 2.0853661926020073
+    },
+    {
+      "name": "descending_neuron",
+      "neurons": 1314,
+      "delta_hz_per_neuron": 0.03831337433271331,
+      "audio_hz_per_neuron": 2.6257451922238384,
+      "silence_hz_per_neuron": 2.587431817891125
+    },
+    {
+      "name": "wing motor (flytalk WING_MN)",
+      "neurons": 58,
+      "delta_hz_per_neuron": -0.01843997787202656,
+      "audio_hz_per_neuron": 1.163694317852533,
+      "silence_hz_per_neuron": 1.1821342957245595
+    },
+    {
+      "name": "DNa02",
+      "neurons": 2,
+      "delta_hz_per_neuron": -0.03819709702062646,
+      "audio_hz_per_neuron": 0.5538579067990832,
+      "silence_hz_per_neuron": 0.5920550038197097
+    },
+    {
+      "name": "DNp01",
+      "neurons": 2,
+      "delta_hz_per_neuron": 0.03819709702062644,
+      "audio_hz_per_neuron": 0.05729564553093965,
+      "silence_hz_per_neuron": 0.019098548510313215
+    },
+    {
+      "name": "DNg100",
+      "neurons": 2,
+      "delta_hz_per_neuron": -0.019098548510313215,
+      "audio_hz_per_neuron": 0.019098548510313215,
+      "silence_hz_per_neuron": 0.03819709702062643
+    },
+    {
+      "name": "MDN",
+      "neurons": 4,
+      "delta_hz_per_neuron": -0.0190985485103132,
+      "audio_hz_per_neuron": 0.219633307868602,
+      "silence_hz_per_neuron": 0.2387318563789152
+    },
+    {
+      "name": "pIP10",
+      "neurons": 2,
+      "delta_hz_per_neuron": 0.038197097020626514,
+      "audio_hz_per_neuron": 0.4010695187165776,
+      "silence_hz_per_neuron": 0.3628724216959511
+    },
+    {
+      "name": "dPR1",
+      "neurons": 2,
+      "delta_hz_per_neuron": 0.0,
+      "audio_hz_per_neuron": 0.07639419404125286,
+      "silence_hz_per_neuron": 0.07639419404125286
+    }
+  ],
   "evidence": "matched silence, single paired seed"
 }

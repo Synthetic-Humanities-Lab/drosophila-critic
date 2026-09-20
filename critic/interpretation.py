@@ -4,6 +4,8 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict
 
+from .circuit_roles import ROLES
+
 
 class StrictModel(BaseModel):
     model_config = ConfigDict(extra="forbid", allow_inf_nan=False)
@@ -90,6 +92,11 @@ def interpret(summary: ResponseSummary) -> dict:
     }
 
 
+class CircuitMeasurement(PopulationChange):
+    audio_hz_per_neuron: float
+    silence_hz_per_neuron: float
+
+
 class ControlledSummary(StrictModel):
     duration: float
     seed: int
@@ -102,6 +109,7 @@ class ControlledSummary(StrictModel):
     peak_line: int | None
     tail_delta_hz_per_neuron: float
     populations: list[PopulationChange]
+    circuits: list[CircuitMeasurement] = []
     evidence: Literal["matched silence, single paired seed"] = "matched silence, single paired seed"
 
 
@@ -111,6 +119,11 @@ def summarize_control(benchmark: dict) -> ControlledSummary:
         seed=benchmark["seed"],
         pairs=benchmark["pairs"],
         **benchmark["global"],
+        circuits=[
+            CircuitMeasurement(**{k: p[k] for k in CircuitMeasurement.model_fields})
+            for p in benchmark["monitored_populations"]
+            if p.get("available")
+        ],
         populations=[
             PopulationChange(**{k: p[k] for k in PopulationChange.model_fields})
             for p in benchmark["populations"][:3]
@@ -140,8 +153,61 @@ def interpret_control(summary: ControlledSummary) -> dict:
             "Hz per neuron. The end can be read as an interval of separation from silence; "
             "this single paired run does not establish a stable disposition."
         )
+    notes = []
+    for circuit in s.circuits:
+        role = ROLES.get(circuit.name)
+        if role is None:
+            continue
+        net_spikes = round(circuit.delta_hz_per_neuron * circuit.neurons * s.duration)
+        direction = (
+            "more" if net_spikes > 0 else "fewer" if net_spikes < 0 else "no net difference in"
+        )
+        measurement = (
+            f"{abs(net_spikes):,} {direction} spikes across {circuit.neurons} neurons over "
+            f"{s.duration:.2f} seconds; {circuit.delta_hz_per_neuron:+.3f} Hz/neuron "
+            "against matched silence."
+        )
+        notes.append(
+            {
+                "population": circuit.name,
+                **role,
+                "measurement": measurement,
+                "net_spikes_vs_silence": net_spikes,
+                "inference": "Activity increased in this circuit."
+                if net_spikes > 0
+                else "Activity decreased in this circuit."
+                if net_spikes < 0
+                else "Total activity matched silence; temporal patterns can still differ.",
+            }
+        )
+    circuits = {c.name: c for c in s.circuits}
+    auditory = circuits.get("JO-A/B input")
+    downstream = circuits.get("direct JON postsynaptic partners")
+    if (
+        auditory
+        and downstream
+        and auditory.delta_hz_per_neuron > 0
+        and downstream.delta_hz_per_neuron > 0
+    ):
+        position = (
+            "opening third"
+            if s.peak_time < s.duration / 3
+            else "final third"
+            if s.peak_time > 2 * s.duration / 3
+            else "middle third"
+        )
+        text = (
+            "The voice enters through the modeled vibration-sensing pathway and carries beyond it: "
+            "both the sensory neurons and their direct postsynaptic partners fire more than in silence. "
+            f"The strongest whole-network departure falls in the {position}, at {s.peak_time:.2f} seconds. "
+            "As a reading, this is contact and propagation: a patterned disturbance that travels, "
+            "without a demonstrated destination in action. The recorded activity gives the encounter "
+            "a sensory shape; it does not establish what, if anything, the fly feels."
+        )
     return {
-        "provider": "response-only-matched-template-v1",
+        "provider": "response-only-functional-template-v2",
+        "functional_notes": notes,
+        "scope": "Circuit roles come from research; rate differences come from this model; experience is not measured.",
         "input_summary": s.model_dump(),
         "text": text,
         "status": "Interpretation of a model counterfactual, not cognition or observed behavior",

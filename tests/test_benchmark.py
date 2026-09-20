@@ -52,3 +52,38 @@ def test_mismatched_controls_are_rejected(change):
         control["phase"][75] = "tail"
     with pytest.raises(ValueError):
         compare(r, control, [])
+
+
+def test_functional_reading_keeps_roles_separate_and_counts_spikes():
+    b = compare(paired_record(), paired_record(), [])
+    b["monitored_populations"] = [
+        dict(
+            name="DNp01",
+            neurons=2,
+            available=True,
+            audio_hz_per_neuron=6.0,
+            silence_hz_per_neuron=1.0,
+            delta_hz_per_neuron=5.0,
+        )
+    ]
+    reading = interpret_control(summarize_control(b))
+    note = reading["functional_notes"][0]
+    assert note["net_spikes_vs_silence"] == 2
+    assert note["label"] == "Escape take-off circuit"
+    assert "not evidence of fear" in note["limit"]
+    assert reading["input_summary"]["circuits"][0]["name"] == "DNp01"
+
+
+def test_unknown_cell_type_has_no_invented_behavioral_meaning():
+    b = compare(paired_record(), paired_record(), [])
+    b["monitored_populations"] = [
+        dict(
+            name="unmapped",
+            neurons=2,
+            available=True,
+            audio_hz_per_neuron=10.0,
+            silence_hz_per_neuron=0.0,
+            delta_hz_per_neuron=10.0,
+        )
+    ]
+    assert interpret_control(summarize_control(b))["functional_notes"] == []
