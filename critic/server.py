@@ -258,4 +258,10 @@ app.mount(
     name="temporal-confirmation",
 )
 
+app.mount(
+    "/experiments/history-v3",
+    StaticFiles(directory=ROOT / "experiments/history-v3"),
+    name="history-experiment",
+)
+
 app.mount("/", StaticFiles(directory=ROOT / "static", html=True), name="interface")

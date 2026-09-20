@@ -313,3 +313,33 @@ Its frame clocks refer to injection slots; RMS/drive are reversed from the refer
 and remaining sample metadata is inherited slot metadata, not a synthesized waveform.
 The localized-pause WAV preserves the reference PCM samples exactly, relocating 180 ms
 of digital silence. It is not renormalized or compressed.
+
+## Matched-history probe experiment (phase three)
+
+Open `history.html` from the chamber or temporal report. This tests whether two
+different earlier inputs change reception of an identical later passage beyond
+activity that would continue without it. The four conditions are A/B history ×
+passage/quiet, repeated at 0, 0.5 and 2 second gaps with eight new seeds. Eight
+independent duplicate runs give **104 simulations** in total. The protocol was
+committed before simulations in `experiments/history-v3/PROTOCOL.md`.
+
+```sh
+PYTHONPATH=. .venv/bin/python scripts/history_experiment.py
+PYTHONPATH=. .venv/bin/python scripts/history_experiment.py --analyze
+.venv/bin/python scripts/export_replay.py
+.venv/bin/python -m http.server 8766 --directory dist
+```
+
+The first command resumes only matching cached conditions; the second verifies
+raw artifacts and recalculates the report without resimulation. It requires the
+normal fly.ai/connectome setup and the committed v1 reference PCM. No new model
+or dependency is required. Raw spikes remain in `results/history-v3`; exact WAVs,
+encodings, provenance and compact counts are public under `experiments/history-v3`.
+
+Count archive keys are `<condition>_<seed>_group_counts`, `..._global_counts`,
+`..._phase_counts`, `..._type_sizes`. Axes are `group_names` and `type_names`.
+Global/group counts are spikes at 20 ms steps: 25 warmup + 50 baseline + the
+manifest's stimulus frame count + 50 tail. Phase rows are baseline/audio/tail.
+The probe slot starts at `75 + round(probe_start / 0.02)` and lasts 100 steps.
+Public response JSON contains all five factorial contrasts, groups, gaps,
+fixed windows, per-seed 100 ms traces and exact-control results.

@@ -317,3 +317,35 @@ without presenting that interpretation as an unmediated report from the animal.
 V2 scalar sign counts treat magnitudes below 1e-12 Hz/neuron as arithmetic zero.
 This removes floating-point cancellation residue far below the smallest one-spike
 rate increment; it is not a biological or effect-size threshold.
+
+## Matched-history probe v3
+
+The protocol in `experiments/history-v3/PROTOCOL.md` was committed before running.
+The original neural model and amplitude encoder remain unchanged. Six seconds of
+the level-matched synthetic recording form history A; history B reverses the order
+of its three two-second blocks while leaving each block's samples intact. The next
+two seconds form the common probe. Clock-aligned cuts preserve exact input-value
+multisets and dose across histories. This is an acoustic diagnostic, not a natural
+rendition or a manipulation of semantic units.
+
+At each of three gaps, A/B histories are crossed with probe/quiet continuations.
+The primary contrast is (B-probe − B-quiet) − (A-probe − A-quiet). This distinguishes
+a changed probe increment from residual differences between quiet continuations.
+Contrasts are calculated in signed integer spike counts before rate conversion.
+The underlying simulator draws noise with a fixed per-step shape, independent of
+spiking; paired seeds and clocks therefore align background draws within each gap.
+Across gaps the probe starts at different absolute times, so delay comparisons
+remain descriptive. No cognitive memory or biological time constant is inferred.
+
+The first 0.5 seconds is primary; the full two seconds is secondary. All gap,
+population and window outcomes are retained, using the v2 descriptive temporal
+criterion. No exploratory peak selection occurs. Failed detection is not equivalence.
+Eight independent duplicate trials verify full-spike reproducibility, and each
+probe/quiet pair must match exactly before the probe starts. Initial baselines
+must match across all histories within each seed. Full spike/count hashes,
+configuration, data identity and frozen weights are checked before analysis.
+
+The history interpreter receives a strict numerical response summary only. Its
+reading distinguishes changed reception, lingering activity and unresolved outcomes.
+Any detected dependence may arise from ordinary dynamical state, not learning.
+Extrapolation from these model-specific measurements to living flies remains open.

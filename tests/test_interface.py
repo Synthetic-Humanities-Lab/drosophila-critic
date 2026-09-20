@@ -50,3 +50,12 @@ def test_temporal_dom_matches_its_client():
     for name in re.findall(r"\$\('([^']+)'\)", code):
         assert name in ids, name
     assert "<audio" not in html
+
+
+def test_history_dom_matches_its_client():
+    html = (ROOT / "static/history.html").read_text()
+    ids = re.findall(r'id="([^"]+)"', html)
+    assert len(ids) == len(set(ids))
+    code = (ROOT / "static/history.js").read_text()
+    for name in re.findall(r"\$\('([^']+)'\)", code):
+        assert name in ids, name

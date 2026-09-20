@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Does the encounter have a history? — The Drosophila Critic</title>
+    <link rel="stylesheet" href="./comparison.css" />
+    <script type="module" src="./history.js"></script>
+  </head>
+  <body>
+    <main>
+      <header>
+        <p class="eyebrow">SYNTHETIC HUMANITIES LAB / EXPERIMENT 03</p>
+        <h1>Does the encounter have a history?</h1>
+        <p class="intro">
+          The same passage reaches a receiver after two different lead-ins.
+        </p>
+        <nav>
+          <a href="./">The listening chamber</a
+          ><a href="./temporal.html">Temporal delivery experiment</a>
+        </nav>
+      </header>
+      <p id="status" role="status">Loading measured responses…</p>
+      <div id="report" hidden>
+        <section>
+          <h2>THE COMPARISON</h2>
+          <p>
+            Lead-in A contains six seconds of the synthetic recording. Lead-in B
+            rearranges the same three two-second blocks. They have identical
+            duration, sample distribution and total injected stimulation. Both
+            are followed by exactly the same two-second passage, starting at
+            exactly the same time.
+          </p>
+          <p>
+            For each lead-in we also run a quiet continuation, omitting the
+            passage. This distinguishes an aftereffect from a change in how the
+            passage is received. We repeat the four conditions with gaps of
+            zero, half a second and two seconds.
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Earlier sound</th>
+                  <th>What follows</th>
+                  <th>Purpose</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>A</td>
+                  <td>Shared passage</td>
+                  <td>Response after A</td>
+                </tr>
+                <tr>
+                  <td>B</td>
+                  <td>Shared passage</td>
+                  <td>Response after B</td>
+                </tr>
+                <tr>
+                  <td>A</td>
+                  <td>Quiet</td>
+                  <td>Continuation of A without the passage</td>
+                </tr>
+                <tr>
+                  <td>B</td>
+                  <td>Quiet</td>
+                  <td>Continuation of B without the passage</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="small">
+            104 simulations, eight new seeds (201–208), including eight
+            independent duplicate runs. Seeds vary model background noise, not
+            biological specimens. The original frozen connectome, neural
+            dynamics and amplitude encoder are unchanged. These clock-aligned
+            edits are diagnostic stimuli, not natural alternative performances.
+          </p>
+          <p id="controls"></p>
+        </section>
+        <section>
+          <h2>RESPONSE / does history change reception?</h2>
+          <p id="finding"></p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Gap before passage</th>
+                  <th>Changed reception: first 0.5 s (primary)</th>
+                  <th>Changed reception: full 2 s (secondary)</th>
+                  <th>Lingering difference: first 0.5 s</th>
+                </tr>
+              </thead>
+              <tbody id="overview"></tbody>
+            </table>
+          </div>
+          <p class="small">
+            Primary population: direct JON postsynaptic partners, excluding
+            injected cells. “Criterion met” means a repeatable temporal contrast
+            by the rule fixed before running; it is not a significance test.
+            “Not met” means unresolved at this sensitivity, not proven absence.
+          </p>
+        </section>
+        <section>
+          <h2>INSPECT A CONDITION</h2>
+          <div class="controls">
+            <label>Gap<select id="gap"></select></label
+            ><label>Population<select id="population"></select></label>
+          </div>
+          <p id="clock"></p>
+          <p>
+            The changed-reception contrast subtracts the quiet continuation from
+            each passage response, then compares those increments:
+            <strong
+              >([B + passage] − [B + quiet]) − ([A + passage] − [A +
+              quiet]).</strong
+            >
+            The labels here denote whole trial conditions; the subtractions
+            compare spike counts.
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Contrast</th>
+                  <th>Early mean (Hz/neuron)</th>
+                  <th>Signs + / − / 0</th>
+                  <th>Early criterion</th>
+                  <th>Full criterion</th>
+                </tr>
+              </thead>
+              <tbody id="contrasts"></tbody>
+            </table>
+          </div>
+          <p id="manipulation"></p>
+          <details>
+            <summary>Numerical criterion and time course</summary>
+            <p>
+              Using 100 ms bins, the RMS of the average contrast must exceed the
+              RMS of its across-seed sample standard deviation, and the cosine
+              similarity between the first four and last four repetitions must
+              exceed 0.5. Both windows and all gaps were declared before
+              running. The primary window is the first half-second.
+            </p>
+            <p id="criterion-values"></p>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Seconds after passage onset</th>
+                    <th>Changed-reception mean</th>
+                    <th>Observed seed range</th>
+                  </tr>
+                </thead>
+                <tbody id="timeline"></tbody>
+              </table>
+            </div>
+            <p class="small">
+              Rates in Hz/neuron. Ranges describe the eight observed
+              repetitions, not confidence intervals. No peak windows were
+              selected after observing these data.
+            </p>
+          </details>
+          <details>
+            <summary>
+              Listen to or download the exact diagnostic stimuli
+            </summary>
+            <nav id="audio-links"></nav>
+            <p class="small">
+              PCM files are the exact samples encoded for these simulations.
+              Cuts may interrupt spoken words; the experiment operates on timed
+              audio blocks without language analysis. “Quiet” still includes the
+              audible lead-in. These links open WAV files rather than start a
+              coupled neural replay.
+            </p>
+          </details>
+        </section>
+        <section>
+          <h2>FUNCTIONAL IMPLICATION</h2>
+          <p id="functional"></p>
+        </section>
+        <section>
+          <h2>READING / an affective interpretation</h2>
+          <p id="reading"></p>
+          <p id="limitation" class="small"></p>
+          <p class="small">
+            This rule-based interpretation receives only the measured contrast
+            summary and gap lengths. It receives no poem text, waveform or
+            performer identity. A history-dependent neural response would
+            support a claim about how the modeled encounter unfolds, without
+            identifying a subjective feeling.
+          </p>
+        </section>
+        <details>
+          <summary>Method and evidence</summary>
+          <p>
+            The quiet continuations estimate what each history would produce
+            without the passage. The difference of probe increments tests
+            non-additivity at the selected population readout. It does not
+            locate a biological mechanism. Immediate pre-passage drive also
+            differs between histories; any effect could come from ordinary
+            membrane/spike dynamics or recurrence.
+          </p>
+          <p>
+            Within each gap the model starts identically and encounters the
+            passage at the same absolute time. Across different gaps, absolute
+            timing changes, so a delay trend would be descriptive rather than a
+            fitted memory timescale. No learning or weight changes occur.
+          </p>
+          <nav>
+            <a href="./experiments/history-v3/PROTOCOL.md"
+              >Protocol committed before runs</a
+            ><a href="./experiments/history-v3/RESULTS.md">Results and limits</a
+            ><a href="./experiments/history-v3/comparison.json">Response JSON</a
+            ><a href="./experiments/history-v3/interpretation-input.json"
+              >Interpreter input</a
+            ><a href="./experiments/history-v3/counts.npz">Population counts</a
+            ><a href="./experiments/history-v3/raw-artifacts.json"
+              >Local raw spike manifest</a
+            >
+          </nav>
+          <p class="small">
+            Full spikes are retained locally; public counts permit independent
+            reconstruction. This recorded report does not start new online
+            simulations.
+          </p>
+        </details>
+      </div>
+      <footer>
+        EARLIER CONTACT → IDENTICAL PASSAGE → RESPONSE → INTERPRETATION
+      </footer>
+    </main>
+  </body>
+</html>
