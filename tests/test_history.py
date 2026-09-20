@@ -112,4 +112,15 @@ def test_published_interaction_reconstructs_from_counts():
                 rates.append(bin_rates(bp - bq - ap + aq, size))
             expected = report["gaps"][str(gap)]["populations"][group]["interaction"]
             np.testing.assert_allclose(rates, expected["trace"]["seeds"])
-            assert summarize(rates) == expected
+            actual = summarize(rates)
+            for window in ["early", "full"]:
+                for section in ["mean", "temporal"]:
+                    for key, value in actual[window][section].items():
+                        other = expected[window][section][key]
+                        if isinstance(value, (bool, int)) or value is None:
+                            assert value == other
+                        else:
+                            # BLAS reduction roundoff differs between ARM/macOS and x86/Linux.
+                            np.testing.assert_allclose(value, other, rtol=1e-12, atol=1e-12)
+            for key, value in actual["trace"].items():
+                np.testing.assert_allclose(value, expected["trace"][key], rtol=1e-12, atol=1e-12)
