@@ -77,3 +77,20 @@ with an explicit recorded-edition notice and no poem-submission control.
 The downloadable JSON, WAV, injections and spike/population artifacts are
 from the actual completed run. New-poem hosting is a separate Python
 container deployment; no paid hosting was provisioned.
+
+## Listening chamber and paired silence — 2026-09-20
+
+- Full Blake waveform was replayed through the frozen model at seed 64; its 1,434
+  global spike counts exactly reproduced the previously published poem record.
+- A second full-duration zero-input run used the same reset, seed and parameters.
+  Pre-stimulus counts matched exactly. Mean whole-network activity was 3.884326
+  with the poem and 3.872880 with silence (difference +0.011446 Hz/neuron).
+  Direct JON partners differed by +0.638534 Hz/neuron. Peak smoothed global
+  separation was -0.329394 at 9.28 s. These are single-pair measurements.
+- Sampled spatial firing bins were reconciled directly against raw spike indices.
+- A fresh two-line Blake run completed the full TTS → poem simulation → silence
+  simulation → controlled reading pipeline (2.536 s of audio, 252 total steps).
+- 27 Python tests and 2 audio lifecycle tests passed; Ruff lint/format passed.
+- Chrome playback verified changing line, injected voltage, JON rate, point-cloud
+  firing and playback clock. Desktop and 390 px mobile layouts inspected; mobile
+  camera framing adjusted to preserve the fly and speaker at narrow aspect ratios.

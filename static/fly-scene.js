@@ -21,18 +21,22 @@ export class FlyScene {
       this.camera.up.set(0, 0, 1);
       this.target = new THREE.Vector3(0.5, 0, 0.65);
       this.setView(false);
-      this.scene.add(new THREE.HemisphereLight(0xfff8df, 0x635744, 1.5));
-      const key = new THREE.DirectionalLight(0xfff7e9, 2.5);
+      this.scene.add(new THREE.HemisphereLight(0xe7f3ff, 0x3a291a, 2.3));
+      const key = new THREE.DirectionalLight(0xffdda8, 4.0);
       key.position.set(1, -3, 7); key.castShadow = true;
       key.shadow.mapSize.set(2048, 2048); key.shadow.camera.left = -5; key.shadow.camera.right = 5;
       key.shadow.camera.top = 5; key.shadow.camera.bottom = -5; key.shadow.bias = -0.0002;
       this.scene.add(key);
-      const fill = new THREE.DirectionalLight(0xe2e8ed, 1.2); fill.position.set(-2, 4, 3); this.scene.add(fill);
+      const fill = new THREE.DirectionalLight(0x91bdca, 2.8); fill.position.set(-2, 4, 3); this.scene.add(fill);
       const ground = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), new THREE.ShadowMaterial({color: 0x4c4538, opacity: 0.2}));
       ground.position.z = -0.1; ground.receiveShadow = true; this.scene.add(ground);
       this.buildSpeaker();
+      const plinth = new THREE.Mesh(new THREE.CylinderGeometry(3.8, 4, .12, 96), new THREE.MeshStandardMaterial({color:0x263438,roughness:.7,metalness:.2}));
+      plinth.rotation.x = Math.PI/2; plinth.position.z=-.18; plinth.receiveShadow=true; this.scene.add(plinth);
+      const rim = new THREE.Mesh(new THREE.TorusGeometry(3.8,.012,8,96),new THREE.MeshBasicMaterial({color:0x6c8585}));
+      rim.position.z=-.11;this.scene.add(rim);
       for (let i = 0; i < 5; i++) {
-        const ring = new THREE.Mesh(new THREE.RingGeometry(0.96, 1, 48, 1, Math.PI / 2, Math.PI), new THREE.MeshBasicMaterial({color: 0x8a4632, transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false}));
+        const ring = new THREE.Mesh(new THREE.RingGeometry(0.96, 1, 48, 1, Math.PI / 2, Math.PI), new THREE.MeshBasicMaterial({color: 0xf2b35c, transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false}));
         this.scene.add(ring); this.rings.push(ring);
       }
       this.antennae = [];
@@ -56,7 +60,9 @@ export class FlyScene {
   fail(message) { document.getElementById('scene-status').textContent = message; this.ready = false; }
   setView(dorsal) {
     if (!this.camera) return;
-    this.camera.position.copy(dorsal ? new THREE.Vector3(0.5, -0.01, 10) : new THREE.Vector3(1.5, -8, 4.6));
+    this.dorsal = dorsal;
+    this.camera.position.copy(dorsal ? new THREE.Vector3(0.5, -0.01, 10) : new THREE.Vector3(2.5, -7.0, 3.1));
+    this.camera.position.sub(this.target).multiplyScalar(Math.max(1, 1.55 / this.camera.aspect)).add(this.target);
     this.camera.lookAt(this.target); this.update(this.data); this.render();
   }
   buildSpeaker() {
@@ -64,7 +70,7 @@ export class FlyScene {
     speaker.position.set(3.05, 0, 0);
     speaker.rotation.z = 0.55;
     this.scene.add(speaker);
-    const body = new THREE.Mesh(new THREE.BoxGeometry(0.42, 1, 1.35), new THREE.MeshStandardMaterial({color: 0xd9d5c7, roughness: 0.8}));
+    const body = new THREE.Mesh(new THREE.BoxGeometry(0.42, 1, 1.35), new THREE.MeshStandardMaterial({color: 0x394448, roughness: 0.5}));
     body.position.set(0, 0, 0.62); body.castShadow = true; speaker.add(body);
     const cone = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.30, 0.09, 64), new THREE.MeshStandardMaterial({color: 0x31382f, roughness: 0.9}));
     cone.rotation.z = Math.PI / 2; cone.position.set(-0.25, 0, 0.75); speaker.add(cone);
@@ -77,7 +83,7 @@ export class FlyScene {
     const {width, height} = this.container.getBoundingClientRect();
     if (!width || !height || !this.renderer) return;
     this.renderer.setSize(width, height); this.camera.aspect = width / height;
-    this.camera.updateProjectionMatrix(); this.render();
+    this.camera.updateProjectionMatrix(); this.setView(this.dorsal || false);
   }
   update(data) {
     this.data = data;

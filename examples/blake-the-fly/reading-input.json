@@ -1,31 +1,30 @@
 {
   "duration": 26.18,
-  "baseline_hz_per_neuron": 3.8565566886622675,
-  "deviation_hz_per_neuron": 0.027769349109551644,
-  "peak_time": 15.12,
-  "peak_line": 14,
-  "peak_delta_hz_per_neuron": 0.29215356928610126,
-  "transition_count": 6,
-  "tail_delta_hz_per_neuron": 0.02157768446310726,
-  "recovery_seconds": 0.0,
-  "tail_observed_seconds": 1.0,
-  "threshold": 0.23809411113067597,
+  "seed": 64,
+  "pairs": 1,
+  "poem_hz_per_neuron": 3.884326037771819,
+  "silence_hz_per_neuron": 3.872880198597408,
+  "delta_hz_per_neuron": 0.011445839174411113,
+  "peak_delta_hz_per_neuron": -0.32939412117576483,
+  "peak_time": 9.28,
+  "peak_line": null,
+  "tail_delta_hz_per_neuron": 0.004247150569885996,
   "populations": [
     {
-      "name": "LA_ME_unclear",
+      "name": "JO-A",
+      "neurons": 24,
+      "delta_hz_per_neuron": 12.033677107206517
+    },
+    {
+      "name": "JO-A2",
+      "neurons": 13,
+      "delta_hz_per_neuron": 11.846976552858905
+    },
+    {
+      "name": "JO-A4",
       "neurons": 3,
-      "delta_hz_per_neuron": 45.91291061879298
-    },
-    {
-      "name": "AN_multi_1",
-      "neurons": 2,
-      "delta_hz_per_neuron": 21.78915202444614
-    },
-    {
-      "name": "SNpp23",
-      "neurons": 16,
-      "delta_hz_per_neuron": 17.201394194041253
+      "delta_hz_per_neuron": 11.739241151005857
     }
   ],
-  "evidence": "single seeded simulation"
+  "evidence": "matched silence, single paired seed"
 }

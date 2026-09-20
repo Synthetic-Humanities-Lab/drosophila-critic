@@ -88,3 +88,61 @@ def interpret(summary: ResponseSummary) -> dict:
         "text": opening + middle + ending,
         "status": "interpretation of measurements; not cognition or observed behavior",
     }
+
+
+class ControlledSummary(StrictModel):
+    duration: float
+    seed: int
+    pairs: int
+    poem_hz_per_neuron: float
+    silence_hz_per_neuron: float
+    delta_hz_per_neuron: float
+    peak_delta_hz_per_neuron: float
+    peak_time: float
+    peak_line: int | None
+    tail_delta_hz_per_neuron: float
+    populations: list[PopulationChange]
+    evidence: Literal["matched silence, single paired seed"] = "matched silence, single paired seed"
+
+
+def summarize_control(benchmark: dict) -> ControlledSummary:
+    return ControlledSummary(
+        duration=benchmark["duration"],
+        seed=benchmark["seed"],
+        pairs=benchmark["pairs"],
+        **benchmark["global"],
+        populations=[
+            PopulationChange(**{k: p[k] for k in PopulationChange.model_fields})
+            for p in benchmark["populations"][:3]
+        ],
+    )
+
+
+def interpret_control(summary: ControlledSummary) -> dict:
+    s = summary
+    if abs(s.peak_delta_hz_per_neuron) < 1e-12:
+        text = "The sounding leaves the global trajectory indistinguishable from its matched silence. At this scale, the instrument supplies no departure to read."
+    else:
+        direction = "above" if s.delta_hz_per_neuron >= 0 else "below"
+        location = f"line {s.peak_line}, " if s.peak_line else ""
+        text = (
+            f"Against an equally long silence, the voice shifts mean activity {direction} the control "
+            f"by {abs(s.delta_hz_per_neuron):.3f} Hz per neuron. Its greatest global separation "
+            f"occurs at {location}{s.peak_time:.2f} seconds. The emphasis belongs to this "
+            "difference, rather than to activity the instrument would have produced anyway."
+        )
+        changed = [p for p in s.populations if abs(p.delta_hz_per_neuron) > 1e-12]
+        if changed:
+            p = changed[0]
+            text += f" The largest mean cell-type difference is in {p.name} ({p.neurons} neurons, {p.delta_hz_per_neuron:+.2f} Hz per neuron)."
+        text += (
+            f" In the recorded aftermath, the mean difference is {s.tail_delta_hz_per_neuron:+.3f} "
+            "Hz per neuron. The end can be read as an interval of separation from silence; "
+            "this single paired run does not establish a stable disposition."
+        )
+    return {
+        "provider": "response-only-matched-template-v1",
+        "input_summary": s.model_dump(),
+        "text": text,
+        "status": "Interpretation of a model counterfactual, not cognition or observed behavior",
+    }

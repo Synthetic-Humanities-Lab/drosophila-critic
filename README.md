@@ -207,3 +207,16 @@ See [visualization provenance](docs/VISUALIZATION.md). Rebuilding the asset is
 optional and uses `requirements-assets.txt`; no physics engine is installed.
 Kokoro weights are Apache-2.0; kokoro-onnx is MIT. See
 [the model wrapper](https://github.com/thewh1teagle/kokoro-onnx).
+
+### Silence benchmark and spatial replay
+New readings include a full-duration zero-input run with the same seed and reset.
+The main trace overlays matched silence; population rankings and the text-blind
+reading use poem-minus-silence differences. The initial baseline metrics are still
+saved separately. This doubles simulation work. One paired seed establishes a
+model counterfactual, not a statistically typical response. Additional seeds and
+non-speech controls are the next experimental step.
+
+The listening chamber displays the fly anatomy, spoken line, injected envelope,
+and a spatial view of real recorded spikes at supplied MaleCNS coordinates.
+`neural-display.json` documents its fixed 12,000-neuron sample. Full poem and silence
+spikes remain available for audit; body motion is not simulated.

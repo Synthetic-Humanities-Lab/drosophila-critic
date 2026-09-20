@@ -1,5 +1,6 @@
 import { RecordedAudio } from './audio-player.js';
 import { FlyScene } from './fly-scene.js';
+import { NeuralScene } from './neural-scene.js';
 
 const base = new URL('.', import.meta.url);
 const site = await fetch(new URL('site-config.json', base)).then(r => r.json());
@@ -15,6 +16,7 @@ function resource(path) {
 const $ = (id) => document.getElementById(id);
 const audio = new RecordedAudio();
 const flyScene = new FlyScene($('fly-scene'));
+const neuralScene = new NeuralScene($('neural-scene'));
 let playPending = false;
 $('play').addEventListener('click', async () => {
   if (playPending) return;
@@ -84,6 +86,7 @@ const descriptions = {
   'SYNTHESIZING VOICE': 'One fixed local Kokoro neural voice. Identical voice, speed and processing for every poem.',
   'TRANSDUCING AUDIO': 'Normalizing PCM and measuring its 20 ms RMS envelope.',
   'READING': 'Running the complete frozen connectome: silence baseline, auditory input, then decay.',
+  'BENCHMARKING SILENCE': 'Repeating the full duration with the same reset and noise seed, but zero auditory input.',
   'MEASURING RESPONSE': 'Counting recorded spikes and calculating changes from baseline.',
   'INTERPRETING RESPONSE': 'Composing a reading from measurements alone. No poem text is provided.'
 };
@@ -99,7 +102,7 @@ async function poll(id) {
       }
       $('stage').textContent = state.stage;
       $('progress-detail').textContent = descriptions[state.stage] || 'Preparing recorded playback.';
-      if (state.stage === 'READING') {
+      if (['READING', 'BENCHMARKING SILENCE'].includes(state.stage)) {
         $('progress').value = state.fraction;
         $('progress-number').textContent = `${Math.round(state.fraction * 100)}% OF TIMESTEPS`;
       } else {
@@ -142,7 +145,8 @@ function drawCharts() {
   const x = t => 38 + (t - minTime) / (maxTime - minTime) * 590;
   const base = result.response.baseline.hz_per_neuron;
   const band = result.response.measurement_rules.transition_band_hz_per_neuron;
-  const values = rows.map(row => row.smoothed_hz_per_neuron);
+  const controls = (result.benchmark?.timeline || []).filter(row => row.time >= minTime);
+  const values = [...rows.map(row => row.smoothed_hz_per_neuron), ...controls.map(row => row.silence_hz_per_neuron)];
   const low = Math.max(0, Math.min(...values, base - band) - 0.04);
   const high = Math.max(...values, base + band) + 0.04;
   const y = v => 156 - (v - low) / Math.max(high - low, 0.01) * 139;
@@ -152,7 +156,11 @@ function drawCharts() {
   neural.append(svgNode('line', {x1: 38, x2: 628, y1: y(base), y2: y(base), class: 'baseline'}));
   for (const value of [low, base, high]) neural.append(svgNode('text', {x: 0, y: y(value) + 3, class: 'axis-text'}, value.toFixed(2)));
   neural.append(svgNode('path', {d: rows.map((row, i) => `${i ? 'L' : 'M'}${x(row.time).toFixed(2)},${y(row.smoothed_hz_per_neuron).toFixed(2)}`).join(' '), class: 'chart-path'}));
-  for (const event of result.response.events) {
+  if (controls.length) {
+    neural.append(svgNode('path', {d: controls.filter(row => row.time >= minTime).map((row,i) => `${i?'L':'M'}${x(row.time).toFixed(2)},${y(row.silence_hz_per_neuron).toFixed(2)}`).join(' '), class:'control-path'}));
+    $('trace-legend').textContent='— poem · ┄ matched silence';
+  }
+  for (const event of (result.benchmark ? [{kind:'peak poem-minus-silence separation', time:result.benchmark.global.peak_time}] : result.response.events)) {
     const marker = svgNode('circle', {cx: x(event.time), cy: 8, r: event.kind === 'peak perturbation' ? 3 : 1.7, class: 'event-mark'});
     marker.append(svgNode('title', {}, `${event.kind} at ${event.time.toFixed(2)} s`));
     neural.append(marker);
@@ -185,26 +193,33 @@ function populateResults() {
   const metrics = [
     ['BASELINE', response.baseline.hz_per_neuron.toFixed(3), 'Hz/neuron · 1 s of silence'],
     ['DURING THE VOICE', g.during_hz_per_neuron.toFixed(3), `${signed(g.deviation_hz_per_neuron)} from baseline`],
-    ['PEAK DEPARTURE', signed(g.peak_perturbation_hz_per_neuron), `Hz/neuron at ${g.peak_time.toFixed(2)} s`],
-    ['AFTER THE VOICE', signed(g.tail_deviation_hz_per_neuron), 'mean Δ Hz/neuron · 1 s tail'],
+    ['PEAK VS INITIAL BASELINE', signed(g.peak_perturbation_hz_per_neuron), `Hz/neuron at ${g.peak_time.toFixed(2)} s`],
+    ['TAIL VS INITIAL BASELINE', signed(g.tail_deviation_hz_per_neuron), 'mean Δ Hz/neuron · 1 s tail'],
     ['RETURN TO BAND', g.recovery_censored ? 'Unobserved' : `${g.recovery_seconds_after_audio_window.toFixed(2)} s`, 'start of first 200 ms within baseline band'],
     ['TRANSITIONS', String(response.events.filter(e => e.kind === 'activity transition').length), 'sustained crossings of the descriptive band'],
     ['AUDIO DURATION', `${result.audio.duration.toFixed(2)} s`, `${result.audio.voice} · ${result.audio.provider}`],
     ['NETWORK', result.fly.neurons.toLocaleString(), `${result.fly.connections.toLocaleString()} connections · frozen`]
   ];
+  if (result.benchmark) {
+    const b=result.benchmark.global;
+    metrics.unshift(['MATCHED SILENCE', b.silence_hz_per_neuron.toFixed(3), 'Hz/neuron · equal duration'], ['POEM − SILENCE', signed(b.delta_hz_per_neuron), 'mean Hz/neuron · same noise seed']);
+    $('benchmark-panel').hidden=false;
+    $('benchmark-verdict').textContent=`With the poem: ${b.poem_hz_per_neuron.toFixed(3)} Hz/neuron. With silence: ${b.silence_hz_per_neuron.toFixed(3)}. The difference is ${signed(b.delta_hz_per_neuron)}. The strongest global separation occurs at ${b.peak_time.toFixed(2)} s (${signed(b.peak_delta_hz_per_neuron)} Hz/neuron).`;
+  } else $('benchmark-panel').hidden=true;
   $('metrics').replaceChildren(...metrics.map(([label, value, note]) => {
     const node = element('div', undefined, 'metric');
     node.append(element('div', label, 'metric-label'), element('div', value, 'metric-value'), element('div', note, 'metric-note'));
     return node;
   }));
-  table('population-table', response.populations, 10);
-  table('group-table', response.monitored_populations, 10);
+  table('population-table', result.benchmark?.populations || response.populations, 10);
+  table('group-table', result.benchmark?.monitored_populations || response.monitored_populations, 10);
   table('activity-table', response.strongest_activity, 10);
   $('events').replaceChildren(...response.events.map(event => element('p', `${event.time.toFixed(2)} s${event.line ? ` · line ${event.line}` : ''} — ${event.kind}${event.state ? `: ${event.state}` : ''} (${signed(event.delta_hz_per_neuron)} Hz/neuron)`)));
   $('reading-text').textContent = result.reading.text;
   $('reading-input').textContent = JSON.stringify(result.reading.input_summary, null, 2);
   $('provenance-json').textContent = JSON.stringify({poem_id: result.poem_id, audio: result.audio, fly: result.fly, encoder: result.encoder, provenance: result.provenance}, null, 2);
   $('downloads').replaceChildren(...[
+    ...(result.benchmark ? [['benchmark.json','Matched silence comparison'], ['silence-spikes.npz','All silence spike events'], ['silence-populations.npz','Silence population counts'], ['neural-display.json','Spatial display evidence']] : []),
     ['result.json', 'Full response JSON'], ['audio.wav', 'Voice / WAV'], ['encoding.json', 'Every auditory injection'],
     ['reading-input.json', 'Interpretation input'], ['spikes.npz', 'All spike events'],
     ['populations.npz', 'Population counts'], ['population_metrics.json', 'All population metrics'], ['METHOD.md', 'Method snapshot']
@@ -230,10 +245,11 @@ async function loadResult(id) {
     row.append(element('span', String(i + 1).padStart(2, '0'), 'line-number'), document.createTextNode(line || '\u00a0'));
     return row;
   }));
-  $('live-populations').replaceChildren(...result.population_timeline.slice(0, 5).map(population => {
+  $('live-populations').replaceChildren(...(result.benchmark?.monitored_populations || result.response.monitored_populations).filter(p=>p.available).slice(0,5).map(population => {
     const row = element('div', undefined, 'live-pop');
     row.dataset.name = population.name;
     row.append(element('span', population.name), element('span', '—'));
+    row.title=`Mean difference ${signed(population.delta_hz_per_neuron)} Hz/neuron ${result.benchmark?'against matched silence':'against initial baseline'}`;
     return row;
   }));
   $('run-note').textContent = `Recorded, not live computation · seed ${result.fly.seed} · ${result.fly.timestep * 1000} ms steps`;
@@ -246,6 +262,10 @@ async function loadResult(id) {
   $('audio-download').href = resource(`/api/readings/${id}/audio.wav`);
   $('voice-credit').textContent = `${result.audio.provider} / ${result.audio.voice} · fixed voice`;
   flyScene.resize();
+  if (result.provenance.neural_display) {
+    try { neuralScene.load(await request(`/api/readings/${id}/neural-display.json`)); }
+    catch { $('neural-caption').textContent='Spatial data unavailable; measurements remain available.'; }
+  } else $('neural-caption').textContent='This earlier record has no spatial spike export.';
   drawCharts(); populateResults(); updateReplay(0);
   $('playback-note').textContent = 'Press play to hear the poem and replay its recorded neural trajectory.';
 }
@@ -260,9 +280,10 @@ function updateReplay(time) {
   $('seek').value = Math.min(time, result.audio.duration);
   $('player-time').textContent = `${stamp(Math.min(time, result.audio.duration))} / ${stamp(result.audio.duration)}`;
   flyScene.update({...row, time});
+  neuralScene.update(time);
   $('jon-rate').textContent = `JON ${(row.groups['JO-A/B input'] || 0).toFixed(1)} Hz/neuron`;
   $('current-rate').textContent = row.smoothed_hz_per_neuron.toFixed(3);
-  $('current-delta').textContent = `${signed(row.delta_hz_per_neuron)} from baseline`;
+  $('current-delta').textContent = result.benchmark ? `${signed(result.benchmark.timeline[index].delta_hz_per_neuron)} vs silence` : `${signed(row.delta_hz_per_neuron)} from baseline`;
   $('voltage').textContent = `JON input ${row.injected_voltage.toFixed(3)}`;
   const x = 38 + (time - chartRange.minTime) / (chartRange.maxTime - chartRange.minTime) * 590;
   for (const id of ['neural-cursor', 'audio-cursor']) { $(id).setAttribute('x1', x); $(id).setAttribute('x2', x); }
@@ -284,9 +305,8 @@ function updateReplay(time) {
   $('current-verse').textContent = activeLine ? result.display.poem.split(/\r?\n/)[activeLine - 1] : time >= result.audio.duration ? 'The voice has stopped.' : '—';
   $('line-label').textContent = activeLine ? `LINE ${String(activeLine).padStart(2, '0')}` : time >= result.audio.duration ? 'AFTER THE VOICE' : 'LINE BREAK';
   for (const node of $('live-populations').children) {
-    const population = result.population_timeline.find(p => p.name === node.dataset.name);
-    const point = population.points[Math.max(0, Math.min(population.points.length - 1, Math.floor((time - population.points[0].time) / 0.1)))];
-    node.lastChild.textContent = point.hz_per_neuron.toFixed(2);
+    const population=(result.benchmark?.monitored_populations || result.response.monitored_populations).find(p=>p.name===node.dataset.name);
+    node.lastChild.textContent=`${(row.groups[node.dataset.name] || 0).toFixed(1)} / Δ ${signed(population.delta_hz_per_neuron,2)}`;
   }
 }
 function revealResults() { $('results').hidden = false; }

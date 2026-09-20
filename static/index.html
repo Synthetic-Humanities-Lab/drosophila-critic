@@ -11,7 +11,7 @@
 <body>
   <div class="sheet">
     <header>
-      <div class="edition"><span>SYNTHETIC HUMANITIES LAB / A CRITICAL INSTRUMENT</span><span>PROTOTYPE / 02</span></div>
+      <div class="edition"><span>SYNTHETIC HUMANITIES LAB / A CRITICAL INSTRUMENT</span><span>PROTOTYPE / 03</span></div>
       <h1>THE DROSOPHILA CRITIC</h1>
       <div class="subhead"><p>A fruit fly reads poetry.</p><span class="specimen">MaleCNS v1.0 · 166,700 neurons</span></div>
     </header>
@@ -35,7 +35,9 @@
 
       <section id="replay" hidden aria-label="Synchronized replay">
         <div class="section-line replay-heading"><span>RECORDED RESPONSE / SYNCHRONIZED REPLAY</span><button id="new" class="text-button" type="button">Read another poem ↗</button></div>
-        <div class="instrument">
+        <div class="listening-room">
+          <div class="chamber-title"><span>THE LISTENING CHAMBER</span><span>VOICE → AUDITORY INPUT → RECORDED SPIKES</span></div>
+          <div class="instrument">
           <section class="poem-pane" aria-labelledby="spoken-label">
             <div class="section-line"><h2 id="spoken-label">01 / VOICE</h2><span id="line-label">READY</span></div>
             <div class="specimen-stage">
@@ -56,16 +58,24 @@
           </section>
           <section class="response-pane" aria-labelledby="live-label">
             <div class="section-line"><h2 id="live-label">02 / NEURAL RESPONSE</h2><span id="clock">00:00.00</span></div>
+            <div class="neural-volume"><div id="neural-scene"></div><span class="neural-tag">MALECNS / SPATIAL SPIKE DISPLAY</span><span id="spatial-count">Loading recorded coordinates…</span></div>
+            <p id="neural-caption" class="small"></p>
             <div class="live-rate"><div><span id="current-rate">—</span><small>Hz / neuron</small></div><span id="current-delta" class="delta">— from baseline</span></div>
-            <div class="chart-title"><span>GLOBAL ACTIVITY <small>100 ms mean</small></span><span class="legend">— baseline</span></div>
+            <div class="chart-title"><span>GLOBAL ACTIVITY <small>100 ms mean</small></span><span class="legend" id="trace-legend">— poem · ┄ initial baseline</span></div>
             <svg id="neural-chart" viewBox="0 0 640 190" role="img" aria-label="Recorded global activity over time with baseline and playback cursor"></svg>
             <div class="chart-title"><span>ACOUSTIC ENVELOPE <small>20 ms RMS</small></span><span id="voltage">JON input —</span></div>
             <svg id="audio-chart" viewBox="0 0 640 86" role="img" aria-label="Audio RMS envelope and playback cursor"></svg>
-            <div class="section-line population-label"><span>CHANGING CELL TYPES</span><span>Hz / neuron</span></div>
+            <div class="section-line population-label"><span>AUDITORY &amp; OUTPUT POPULATIONS</span><span>Hz / neuron</span></div>
             <div id="live-populations"></div>
-            <p class="small">Population values: recorded 100 ms bins. Ranked by absolute change from baseline over the full sounding.</p>
+            <p class="small">Population values: current recorded 20 ms rates. The accompanying difference is the full-duration mean against matched silence; these groups can overlap.</p>
           </section>
         </div>
+        </div>
+        <section id="benchmark-panel" class="benchmark-panel" hidden>
+          <div class="section-line"><h2>POEM / MATCHED SILENCE</h2><span>SAME SEED · SAME DURATION · ZERO CONTROL INPUT</span></div>
+          <p id="benchmark-verdict"></p>
+          <p class="small">One matched pair. This separates sound-driven changes from ongoing model activity for this seed; it does not establish a typical biological response.</p>
+        </section>
         <div class="record-foot"><span id="run-note" class="small"></span><button id="show-results" class="text-button" type="button">Inspect completed measurements ↓</button></div>
       </section>
 
@@ -75,11 +85,11 @@
           <p class="section-description">What happened in the simulated nervous system.</p>
           <div id="metrics" class="metrics"></div>
           <div class="tables">
-            <div><h3>Largest population changes</h3><p class="small">Mean Hz/neuron during audio, compared with baseline.</p><div class="table-wrap"><table><thead><tr><th>Cell type</th><th>n</th><th>During</th><th>Δ baseline</th></tr></thead><tbody id="population-table"></tbody></table></div></div>
-            <div><h3>Monitored pathways &amp; outputs</h3><p class="small">Anatomical groups and identified cell types; no inferred behavior.</p><div class="table-wrap"><table><thead><tr><th>Population</th><th>n</th><th>During</th><th>Δ baseline</th></tr></thead><tbody id="group-table"></tbody></table></div></div>
+            <div><h3>Largest population changes</h3><p class="small">Mean Hz/neuron during audio. For controlled records, Δ compares the matched silence run.</p><div class="table-wrap"><table><thead><tr><th>Cell type</th><th>n</th><th>During</th><th>Δ reference</th></tr></thead><tbody id="population-table"></tbody></table></div></div>
+            <div><h3>Monitored pathways &amp; outputs</h3><p class="small">Anatomical groups and identified cell types; no inferred behavior.</p><div class="table-wrap"><table><thead><tr><th>Population</th><th>n</th><th>During</th><th>Δ reference</th></tr></thead><tbody id="group-table"></tbody></table></div></div>
           </div>
-          <details><summary>Activity rankings &amp; temporal events</summary><div id="events"></div><h3>Highest mean activity</h3><div class="table-wrap"><table><thead><tr><th>Cell type</th><th>n</th><th>During</th><th>Δ baseline</th></tr></thead><tbody id="activity-table"></tbody></table></div></details>
-          <p class="small caution">Descriptive changes from one seeded run. The baseline band is a display rule, not a significance test. Small populations can dominate rankings.</p>
+          <details><summary>Activity rankings &amp; temporal events</summary><div id="events"></div><h3>Highest mean activity</h3><div class="table-wrap"><table><thead><tr><th>Cell type</th><th>n</th><th>During</th><th>Δ reference</th></tr></thead><tbody id="activity-table"></tbody></table></div></details>
+          <p class="small caution">Matched records rank changes against equal-duration silence. The opening baseline remains a separate descriptive measure. One paired seed is not a significance test; small populations can dominate rankings.</p>
         </section>
         <section class="reading-section" aria-labelledby="reading-heading">
           <div class="section-line"><h2 id="reading-heading">READING</h2><span>INTERPRETATION OF THE RESPONSE</span></div>

@@ -32,6 +32,14 @@ def export(source: Path, output: Path):
     target.mkdir(parents=True, exist_ok=True)
     for name in ARTIFACTS:
         shutil.copy2(source / name, target / name)
+    for name in (
+        "silence-spikes.npz",
+        "silence-populations.npz",
+        "benchmark.json",
+        "neural-display.json",
+    ):
+        if (source / name).exists():
+            shutil.copy2(source / name, target / name)
     (target / "status.json").write_text(json.dumps({"status": "complete", "id": result["id"]}))
     (output / "site-config.json").write_text(
         json.dumps(

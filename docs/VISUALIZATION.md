@@ -49,3 +49,10 @@ trajectory. Seeking repositions all displays; replay reuses the saved audio
 and response without another simulation. WAV download preserves exact input
 PCM. Device output volume/sample-rate conversion can affect what a human
 hears, but never changes the waveform that was injected into the fly.
+
+### Listening chamber / matched comparison
+The third interface revision pairs a larger specimen on a lit plinth with a separate
+MaleCNS spatial spike display. It uses 12,000 deterministic samples of actual finite
+neuron coordinates, each lit from actual recorded spikes in a 100 ms window. The
+poem trace is amber; matched silence is dashed cyan. Body staging is illustrative,
+not a neuromechanical simulation. See METHOD.md for selection and control rules.

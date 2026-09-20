@@ -157,3 +157,40 @@ color encodes recorded JON firing. No pose, locomotion, wing movement or
 comprehension is inferred from the activity. See [the exact visualization
 mappings and asset provenance](docs/VISUALIZATION.md). This layer receives
 completed records; it has no route back into the simulator or interpreter.
+
+## Matched silence benchmark (schema 1.1)
+
+Each new reading now runs twice: the poem's RMS injections, then zero injections
+for exactly the same number of timesteps. Both use the same `reset(seed)`, frozen
+weights, warmup, initial baseline and tail. In pinned `brain.py`, every step draws
+an `(n, batch)` noise array regardless of activity; resetting the seed therefore
+reproduces the random input stream. We verify identical pre-stimulus spike counts
+and matching configuration, seed, populations and weights before comparison.
+The control has ongoing tonic/noise/connectome activity: silence is not zero firing.
+
+`benchmark.json` contains control provenance, the global control trace, paired
+poem-minus-silence rates, the largest absolute paired population differences and
+monitored pathways. Phase means use raw counts; displayed traces and peak use a
+causal 100 ms average. The original initial-baseline measurements remain separately
+available in `response`. The interpreter now receives only a strict controlled
+summary, never the poem. Its prose explicitly identifies one paired seed.
+
+This is a counterfactual within this computational model. One pair is not a
+normative baseline, a significance test, or evidence of language processing.
+Multiple paired seeds and non-speech acoustic controls remain necessary to assess
+robustness and specificity. Matching noise controls stochastic input; subsequent
+network trajectories are allowed to diverge. Small cell types can dominate rankings.
+Full poem and silence spikes and population counts are downloadable independently.
+
+## Spatial spike display
+
+The listening chamber stages the existing NeuroMechFly body facing an illustrative
+speaker. Its pose remains static; rings encode audio RMS and antennal color encodes
+recorded JON activity. The separate neural volume uses finite `positions` from the
+pinned MaleCNS `brain.npz`: 140,638 of 166,700 neurons have coordinates. We choose
+12,000 uniformly spaced valid neuron indices, independent of activity, and light a
+point only when its recorded neuron fired in that 100 ms bin. The index list,
+coordinates and firing-bin membership are saved in `neural-display.json`. Camera
+orientation and lighting are presentation choices. Points are neither full neuron
+morphologies nor an anatomical registration to the separate female body. No edges,
+brain regions, body movements or behavioral meanings are invented for this display.

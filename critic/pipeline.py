@@ -4,9 +4,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from .audio_encoder import EAR_CAP, VERSION, VOLTAGE_GAIN, encode, preprocess, write_wav
+from .benchmark import compare
 from .config import DT, MAX_AUDIO_SECONDS, MAX_CHARACTERS, ROOT
 from .example import EXAMPLE  # noqa: F401 — retained for existing validation imports
-from .interpretation import interpret, summarize_response
+from .interpretation import interpret_control, summarize_control
+from .neural_display import export_neural_display
 from .neural_tts import KokoroProvider
 from .response import analyze
 
@@ -51,20 +53,36 @@ def run_reading(poem: str, directory: Path, runner, progress=lambda *_: None, tt
     save_json(directory / "encoding.json", encoding)
     progress("READING", 0)
     record = runner.run(frames, directory, progress)
+    progress("BENCHMARKING SILENCE", 0)
+    control_dir = directory / "control"
+    control_dir.mkdir(exist_ok=True)
+    silent_frames = [{**f, "rms": 0.0, "injected_voltage": 0.0} for f in frames]
+    control = runner.run(
+        silent_frames,
+        control_dir,
+        lambda _, value: progress("BENCHMARKING SILENCE", value),
+        seed=record["fly"]["seed"],
+    )
+    for name in ("spikes.npz", "populations.npz"):
+        (control_dir / name).replace(directory / f"silence-{name}")
+    control_dir.rmdir()
+    benchmark = compare(record, control, lines)
+    save_json(directory / "benchmark.json", benchmark)
+    save_json(directory / "neural-display.json", export_neural_display(runner, directory))
     progress("MEASURING RESPONSE", 0)
     response, timeline, populations, population_timeline = analyze(record, frames, lines)
     save_json(directory / "population_metrics.json", populations)
     progress("INTERPRETING RESPONSE", 0)
-    summary = summarize_response(response)
+    summary = summarize_control(benchmark)
     # This is the complete, separately saved interpretation input. No poem/line text.
     save_json(directory / "reading-input.json", summary.model_dump())
-    reading = interpret(summary)
+    reading = interpret_control(summary)
     source_hashes = {
         str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
         for p in sorted((ROOT / "critic").glob("*.py"))
     }
     result = {
-        "schema_version": "1.0",
+        "schema_version": "1.1",
         "id": directory.name,
         "poem_id": poem_id,
         "created_at": datetime.now(timezone.utc).isoformat(),
@@ -81,6 +99,7 @@ def run_reading(poem: str, directory: Path, runner, progress=lambda *_: None, tt
         "timeline": timeline,
         "population_timeline": population_timeline,
         "response": response,
+        "benchmark": benchmark,
         "reading": reading,
         "provenance": {
             "application_source_sha256": source_hashes,
@@ -88,6 +107,10 @@ def run_reading(poem: str, directory: Path, runner, progress=lambda *_: None, tt
             "simulation_input": "normalized PCM-derived RMS frames only",
             "interpretation_input": "reading-input.json only",
             "raw_spikes": "spikes.npz",
+            "matched_control": "benchmark.json",
+            "silence_spikes": "silence-spikes.npz",
+            "silence_counts": "silence-populations.npz",
+            "neural_display": "neural-display.json",
             "population_counts": "populations.npz",
             "all_population_metrics": "population_metrics.json",
             "injections": "encoding.json",
