@@ -100,14 +100,27 @@ class SimulationRunner:
             "warning": "Upstream punch/kick groups are arbitrary game mappings, not biological categories; not used.",
         }
 
-    def run(self, frames: list[dict], directory: Path, progress=lambda *_: None, seed=SEED):
+    def run(
+        self,
+        frames: list[dict],
+        directory: Path,
+        progress=lambda *_: None,
+        seed=SEED,
+        tail_seconds=TAIL_SECONDS,
+    ):
         if not frames:
             raise ValueError("At least one acoustic frame is required")
+        if (
+            not np.isfinite(tail_seconds)
+            or tail_seconds <= 0
+            or not np.isclose(tail_seconds / DT, round(tail_seconds / DT))
+        ):
+            raise ValueError("Tail duration must be positive and aligned to the simulation clock")
         numba.set_num_threads(THREADS)
         b = self.brain
         b.reset(seed)
         warmup, baseline, tail = [
-            round(s / DT) for s in (WARMUP_SECONDS, BASELINE_SECONDS, TAIL_SECONDS)
+            round(s / DT) for s in (WARMUP_SECONDS, BASELINE_SECONDS, tail_seconds)
         ]
         before = warmup + baseline
         steps = before + len(frames) + tail
@@ -193,7 +206,7 @@ class SimulationRunner:
                 "numba_threads": THREADS,
                 "warmup_seconds": WARMUP_SECONDS,
                 "baseline_seconds": BASELINE_SECONDS,
-                "tail_seconds": TAIL_SECONDS,
+                "tail_seconds": tail_seconds,
             }
         )
         provenance = {

@@ -252,4 +252,10 @@ app.mount(
     name="delivery-bench",
 )
 
+app.mount(
+    "/experiments/temporal-v2",
+    StaticFiles(directory=ROOT / "experiments/temporal-v2"),
+    name="temporal-confirmation",
+)
+
 app.mount("/", StaticFiles(directory=ROOT / "static", html=True), name="interface")

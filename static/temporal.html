@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>How the encounter unfolds — The Drosophila Critic</title>
+    <link rel="stylesheet" href="./comparison.css" />
+    <script type="module" src="./temporal.js"></script>
+  </head>
+  <body>
+    <main>
+      <header>
+        <p class="eyebrow">SYNTHETIC HUMANITIES LAB / EXPERIMENT 02</p>
+        <h1>How the encounter unfolds.</h1>
+        <p class="intro">
+          Different deliveries can leave different temporal traces, even when
+          their average effects resemble one another.
+        </p>
+        <nav>
+          <a href="./">The listening chamber</a
+          ><a href="./comparison.html">Audio and first comparison</a>
+        </nav>
+      </header>
+      <p id="status" role="status">Loading measured responses…</p>
+      <div id="report" hidden>
+        <section>
+          <label
+            >Compare with the synthetic reference<select id="condition"></select
+          ></label>
+          <p id="condition-note"></p>
+          <p id="exposure" class="small"></p>
+          <p>
+            Eight new repetitions under paired background conditions. Each
+            response is compared with silence of the same duration, then with
+            the reference response. Seeds reproduce simulator variability; they
+            are not eight biological flies.
+          </p>
+        </section>
+        <section>
+          <h2>RESPONSE / measured differences</h2>
+          <p id="measurement"></p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Population</th>
+                  <th>Temporal difference</th>
+                  <th>Background variability</th>
+                  <th>Agreement between halves</th>
+                  <th>Declared criterion</th>
+                </tr>
+              </thead>
+              <tbody id="criteria"></tbody>
+            </table>
+          </div>
+          <p class="small">
+            Temporal difference: RMS of the average paired trace. Variability:
+            RMS of its across-seed standard deviation, both Hz per neuron.
+            Agreement: cosine similarity between the first four and last four
+            repetitions. The criterion requires difference &gt; variability and
+            agreement &gt; 0.5. This rule was fixed before these runs; it is a
+            descriptive check, not a statistical significance test.
+          </p>
+          <h3>Where the responses separate</h3>
+          <svg
+            id="trace"
+            viewBox="0 0 1000 260"
+            role="img"
+            aria-label="Paired downstream response difference and observed range across seeds"
+          ></svg>
+          <p class="small">
+            Direct JON partners; complete 100 ms bins. Line: mean paired
+            difference. Band: observed seed range, not confidence interval.
+            Positive means a larger rate change in the comparison. Elapsed-time
+            alignment compares different passages when performances have
+            different pacing.
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Selected episode</th>
+                  <th>Mean difference</th>
+                  <th>Direction across repetitions</th>
+                </tr>
+              </thead>
+              <tbody id="episodes"></tbody>
+            </table>
+          </div>
+          <p class="small">
+            The three half-second episodes are selected by strongest absolute
+            mean separation, with at least one second between starts. Their
+            selection is exploratory; these are not independently confirmed
+            events.
+          </p>
+        </section>
+        <section>
+          <h2>
+            FUNCTIONAL IMPLICATION / what does this mean for the modeled fly?
+          </h2>
+          <p id="functional"></p>
+          <p>
+            Direct JON partners are cells connected immediately downstream of
+            the injected auditory neurons. A difference here means the
+            disturbance has propagated beyond the cells we directly stimulate.
+            Descending neurons provide a separate, broad measure of activity
+            associated with output toward the body. A rate difference alone does
+            not specify a movement or feeling.
+          </p>
+        </section>
+        <section>
+          <h2>READING / an affective interpretation</h2>
+          <p id="reading"></p>
+          <p id="qualification" class="small"></p>
+          <p class="small">
+            The interpreter receives only response measurements and temporal
+            positions. It has no poem text or performer identity. Sound, sensory
+            mapping, neural model, measurement and prose each make a different
+            part of the encounter available.
+          </p>
+        </section>
+        <section id="local-section" hidden>
+          <h2>ONE PAUSE / the next resumption</h2>
+          <p>
+            We moved 180 ms of verified silence from after source line 8 to
+            after line 4. Every speech sample, total silence and duration remain
+            unchanged. Source line 5 is blank; line 6 is the first displaced
+            spoken onset.
+          </p>
+          <p id="resumption"></p>
+          <p class="small">
+            For each rendition, compare 300 ms after its own line-6 onset with
+            300 ms before, subtract matched silence, then subtract the reference
+            contrast. The injection values in these aligned windows are
+            identical; earlier histories and absolute times differ. This is an
+            onset-associated response measure, not a measured causal latency.
+          </p>
+        </section>
+        <section>
+          <h2>AFTER THE SOUND / five seconds of observation</h2>
+          <p id="tail"></p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Time after each ending</th>
+                  <th>Mean downstream difference</th>
+                  <th>Signs + / − / 0</th>
+                </tr>
+              </thead>
+              <tbody id="tail-bins"></tbody>
+            </table>
+          </div>
+          <p class="small">
+            Relative to each recording’s own ending. These are between-condition
+            differences after subtracting silence. A nonzero bin does not by
+            itself establish sustained persistence.
+          </p>
+        </section>
+        <details>
+          <summary>Exploratory named output circuits</summary>
+          <p class="small">
+            DNa02, DNp01, MDN and pIP10 retain their annotated identities.
+            Passing this numerical criterion does not establish steering,
+            escape, backward walking or song. These small populations are
+            exploratory, not the primary test.
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Population</th>
+                  <th>Difference / variability</th>
+                  <th>Half agreement</th>
+                  <th>Criterion</th>
+                </tr>
+              </thead>
+              <tbody id="circuits"></tbody>
+            </table>
+          </div>
+        </details>
+        <details>
+          <summary>Method, translations and downloadable evidence</summary>
+          <p>
+            The same frozen MaleCNS / fly.ai model receives the existing
+            amplitude-based JON input. No antennal mechanics or frequency
+            sensitivity was added. The change is experimental: new paired runs,
+            controlled temporal interventions, declared measurements, and a
+            longer observation after sound.
+          </p>
+          <p>
+            Distinguishing rearranged input does not by itself demonstrate
+            memory or complex temporal processing: a response that follows the
+            changing drive can also pass this check. The localized pause probes
+            a narrower contrast. We have not calibrated these rates to a living
+            fly’s actions.
+          </p>
+          <nav>
+            <a href="./experiments/temporal-v2/PROTOCOL.md"
+              >Protocol fixed before runs</a
+            ><a href="./experiments/temporal-v2/RESULTS.md"
+              >Results and limits</a
+            ><a href="./experiments/temporal-v2/confirmation.json"
+              >Complete response JSON</a
+            ><a id="interpretation-input">Interpreter input</a
+            ><a href="./experiments/temporal-v2/counts.npz">Population counts</a
+            ><a href="./experiments/temporal-v2/raw-artifacts.json"
+              >Local raw spike manifest</a
+            >
+          </nav>
+          <p class="small">
+            Full spike arrays remain in the local archive. Public counts include
+            all named groups at every simulation step and phase totals for
+            annotated cell types. The original recorded listening chamber is a
+            different, earlier experiment.
+          </p>
+        </details>
+      </div>
+      <footer>
+        PERFORMANCE → SOUND → SENSORY MODEL → NEURAL RESPONSE → MEASUREMENT →
+        AFFECTIVE READING
+      </footer>
+    </main>
+  </body>
+</html>

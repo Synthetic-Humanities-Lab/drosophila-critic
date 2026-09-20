@@ -40,3 +40,13 @@ def test_comparison_dom_matches_its_client():
     for name in re.findall(r"\$\('([^']+)'\)", code):
         assert name in ids, name
     assert "<audio" not in html  # The in-app browser requires our AudioContext transport.
+
+
+def test_temporal_dom_matches_its_client():
+    html = (ROOT / "static/temporal.html").read_text()
+    ids = re.findall(r'id="([^"]+)"', html)
+    assert len(ids) == len(set(ids))
+    code = (ROOT / "static/temporal.js").read_text()
+    for name in re.findall(r"\$\('([^']+)'\)", code):
+        assert name in ids, name
+    assert "<audio" not in html

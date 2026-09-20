@@ -277,3 +277,43 @@ after inspecting initial mean-rate outcomes; it is explicitly labeled as such.
 Min–max bands are observed seed ranges, not confidence intervals. Stable temporal
 responses can coexist with an unchanged overall mean. Equal audio RMS does not
 imply equal injection dose, and diagnostic cut boundaries are not natural speech.
+
+## Temporal confirmation v2 and layered interpretation
+
+This experiment keeps the MaleCNS identities/connectivity, fly.ai neural dynamics
+and our original amplitude transducer unchanged. Only the observation tail is extended
+to five seconds. Eight new seeds, 101–108, are paired across conditions and silence.
+A seed denotes repeatable model noise, not a different animal. See
+`experiments/temporal-v2/PROTOCOL.md` for the rule declared before these simulations.
+
+The primary measure is the temporal rate difference in direct JON postsynaptic
+partners, excluding injected cells. Pooled descending activity is secondary; four
+named output circuits are exploratory. The criterion compares average temporal
+separation with across-seed variability and requires agreement between two halves
+of the ensemble. It is an apparatus diagnostic, not a calibrated significance test.
+Silence subtraction controls modeled background activity; it does not make different
+sound durations, stimulation doses or spoken passages equivalent.
+
+A localized edit moves a verified 180 ms silent interval, preserving all speech samples,
+total silence and duration. An encoder-only reverse-frame control preserves the actual
+injection multiset and dose exactly. The latter has no corresponding played waveform;
+retained frame sample metadata denotes inherited slots only. These controls establish
+what the receiver distinguishes, not a theory of how a biological antenna receives speech.
+
+Response interpretation is a separate, strict numerical-input module. It receives no
+poem text, voice identity or waveform. Its prose distinguishes measured traces, their
+limited functional implications, and an explicitly theoretical affective reading.
+Selected half-second episodes are exploratory, even when the overall temporal contrast
+passes the declared check. Neural rates do not measure a feeling or directly quantify
+capacity to act. The interpretation concerns how this modeled encounter unfolds;
+extrapolation to a living fly remains a hypothesis requiring biological calibration.
+
+Each translation selects what can become evidence: the recording preserves some aspects
+of performance, RMS encoding removes others, the neural model constrains possible
+responses, and our measurements select among those responses. These are constitutive
+choices in the critical apparatus. Keeping them inspectable permits interpretation
+without presenting that interpretation as an unmediated report from the animal.
+
+V2 scalar sign counts treat magnitudes below 1e-12 Hz/neuron as arithmetic zero.
+This removes floating-point cancellation residue far below the smallest one-spike
+rate increment; it is not a biological or effect-size threshold.

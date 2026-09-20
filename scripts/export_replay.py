@@ -106,6 +106,9 @@ def export(source: Path, output: Path):
     bench = ROOT / "experiments/delivery-v1"
     if (bench / "comparison.json").exists():
         shutil.copytree(bench, output / "experiments/delivery-v1", dirs_exist_ok=True)
+    temporal = ROOT / "experiments/temporal-v2"
+    if (temporal / "confirmation.json").exists():
+        shutil.copytree(temporal, output / "experiments/temporal-v2", dirs_exist_ok=True)
     version_interface(output)
     (output / ".nojekyll").touch()
 

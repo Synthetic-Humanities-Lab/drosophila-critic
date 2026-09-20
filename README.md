@@ -283,3 +283,33 @@ Cell-type phase counts have rows baseline/audio/tail. Counts are spikes, not rat
 
 Focused checks: `python -m pytest tests/test_delivery.py tests/test_interface.py` and
 `node --test tests/*.test.mjs`. No additional runtime dependency is required.
+
+## Temporal confirmation (phase two)
+
+Open `temporal.html` from the chamber or comparison bench. This separate experiment
+uses eight new seeds (101–108), the same neural model and five seconds of aftermath.
+The protocol was written before running. It confirms temporal measurements separately
+from exploratory episode selection and supplies a text-free summary to an affect
+interpreter. The page distinguishes response, functional implication and interpretation.
+
+```sh
+PYTHONPATH=. .venv/bin/python scripts/temporal_confirmation.py
+PYTHONPATH=. .venv/bin/python scripts/temporal_confirmation.py --analyze
+.venv/bin/python scripts/export_replay.py
+.venv/bin/python -m http.server 8766 --directory dist
+```
+
+The first command performs/resumes 64 simulations (six stimuli plus two duration-matched
+silence controls per seed). It requires the v1 stimulus artifacts already committed
+under `experiments/delivery-v1`. The second analyzes saved runs without resimulation.
+Raw spikes remain under `results/temporal-v2`; public evidence is under
+`experiments/temporal-v2`. See its `PROTOCOL.md` and `RESULTS.md`.
+`counts.npz` follows the v1 key/axis conventions but includes **250 tail steps**.
+Use each condition encoding's frame count for the audio phase. The default chamber
+and v1 observation remain one second; only this experiment requests a five-second tail.
+
+The reverse-frame stimulus is an encoder-only control, not an oral performance.
+Its frame clocks refer to injection slots; RMS/drive are reversed from the reference,
+and remaining sample metadata is inherited slot metadata, not a synthesized waveform.
+The localized-pause WAV preserves the reference PCM samples exactly, relocating 180 ms
+of digital silence. It is not renormalized or compressed.
