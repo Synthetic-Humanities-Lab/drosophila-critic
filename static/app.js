@@ -248,6 +248,7 @@ function populateResults() {
 }
 
 async function loadResult(id) {
+  for (const button of $('performance-tabs').children) button.disabled = true;
   audio.pause(); tailStarted = null; result = null; chartRange = null;
   $('play').disabled = true; $('seek').disabled = true;
   result = await request(`/api/readings/${id}/result.json`);
@@ -290,6 +291,7 @@ async function loadResult(id) {
   } else $('neural-caption').textContent='This earlier record has no spatial spike export.';
   drawCharts(); populateResults(); updateReplay(0);
   $('playback-note').textContent = 'Press play to hear the poem and replay its recorded neural trajectory.';
+  for (const button of $('performance-tabs').children) button.disabled = false;
 }
 
 function updateReplay(time) {
@@ -374,8 +376,9 @@ if (recorded && site.performances?.length > 1) {
     const button=element('button',performance.label);button.type='button';button.dataset.id=performance.id;
     button.setAttribute('aria-pressed',String(performance.id===site.reading));
     button.addEventListener('click',async()=>{
+      const wasReading = !$('results').hidden;
       for(const item of $('performance-tabs').children)item.disabled=true;
-      try {await loadResult(performance.id);$('replay').scrollIntoView({block:'start'});$('method-link').href=resource(`/api/readings/${performance.id}/METHOD.md`);}
+      try {await loadResult(performance.id);if(wasReading){revealResults();$('reading-heading').scrollIntoView({block:'start'});}else{$('replay').scrollIntoView({block:'start'});}$('method-link').href=resource(`/api/readings/${performance.id}/METHOD.md`);}
       catch(e){error(e.message);}
       finally{for(const item of $('performance-tabs').children)item.disabled=false;}
     });
