@@ -1,0 +1,31 @@
+name: Check Python, audio, and container
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: |
+          mkdir -p vendor data results
+          git clone https://github.com/alextitonis/fly.ai.git vendor/fly.ai
+          git -C vendor/fly.ai checkout --detach 5e931b8dc4856550565c5fa129d3d0c055af3dd1
+          pip install -r requirements.txt
+          python scripts/setup_voice.py
+      - run: |
+          ruff check critic scripts tests
+          ruff format --check critic scripts tests
+          python -m pytest -q
+          node --test tests/audio-player.test.mjs
+          python scripts/export_replay.py
+      - run: docker build -t drosophila-critic .

@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A poem, a fixed voice, a frozen fruit-fly connectome. A critical instrument, not a claim of understanding.">
+  <title>The Drosophila Critic</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./app.js" type="module"></script>
+</head>
+<body>
+  <div class="sheet">
+    <header>
+      <div class="edition"><span>SYNTHETIC HUMANITIES LAB / A CRITICAL INSTRUMENT</span><span>PROTOTYPE / 02</span></div>
+      <h1>THE DROSOPHILA CRITIC</h1>
+      <div class="subhead"><p>A fruit fly reads poetry.</p><span class="specimen">MaleCNS v1.0 · 166,700 neurons</span></div>
+    </header>
+
+    <main>
+      <p id="edition-notice" class="edition-notice" hidden></p>
+      <section id="entry" aria-labelledby="poem-label">
+        <div class="section-line"><label id="poem-label" for="poem">01 / THE POEM</label><button id="example" class="text-button" type="button">William Blake · The Fly ↗</button></div>
+        <textarea id="poem" maxlength="2000" spellcheck="false" placeholder="Place a poem here.&#10;&#10;The fly will receive its sound." aria-describedby="limits"></textarea>
+        <div class="entry-foot"><div><p id="source" class="source"></p><p id="limits" class="small">Fixed English voice. Up to 2,000 characters / 60 seconds of audio.</p></div><span id="count" class="small">0 / 2,000</span></div>
+        <div class="submit-row"><button id="submit" class="primary" type="button">READ TO FLY <span aria-hidden="true">→</span></button><p>The voice is standardized.<br>The nervous system remains frozen.</p></div>
+      </section>
+
+      <section id="progress-panel" hidden aria-live="polite" aria-atomic="true">
+        <div class="section-line"><span>THE INSTRUMENT IS RUNNING</span><span id="progress-number"></span></div>
+        <h2 id="stage">LOADING CONNECTOME</h2>
+        <progress id="progress" max="1" aria-label="Simulation progress"></progress>
+        <p id="progress-detail" class="muted">The response is computed before synchronized playback.</p>
+      </section>
+      <p id="error" role="alert" hidden></p>
+
+      <section id="replay" hidden aria-label="Synchronized replay">
+        <div class="section-line replay-heading"><span>RECORDED RESPONSE / SYNCHRONIZED REPLAY</span><button id="new" class="text-button" type="button">Read another poem ↗</button></div>
+        <div class="instrument">
+          <section class="poem-pane" aria-labelledby="spoken-label">
+            <div class="section-line"><h2 id="spoken-label">01 / VOICE</h2><span id="line-label">READY</span></div>
+            <div class="specimen-stage">
+              <div id="fly-scene"></div>
+              <div class="scene-top"><span id="scene-status">LOADING ANATOMICAL DISPLAY</span><button id="view-toggle" class="text-button" type="button" aria-pressed="false">Dorsal view ↗</button></div>
+              <div class="scene-bottom"><span>SOUND → ANTENNAE</span><span id="jon-rate">JON — Hz/neuron</span></div>
+            </div>
+            <p class="scene-caption">Body: NeuroMechFly micro-CT anatomy. Static pose; no simulated movement.<br>Rings: audio amplitude. Antennal color: recorded JON firing.</p>
+            <div class="current-verse"><span id="verse-number">THE VOICE</span><p id="current-verse">Ready to begin.</p></div>
+            <div class="player">
+              <button id="play" class="play-button" type="button">PLAY</button>
+              <input id="seek" type="range" min="0" max="1" step="0.02" value="0" aria-label="Playback position in seconds">
+              <span id="player-time">0:00 / 0:00</span>
+            </div>
+            <div class="voice-credit"><span id="voice-credit"></span><a id="audio-download" href="#" download="poem.wav">Download WAV ↗</a></div>
+            <details class="poem-transcript"><summary>Full poem / synchronized transcript</summary><div id="spoken-poem"></div></details>
+            <p id="playback-note" class="small">Press play to hear the poem and replay its recorded neural trajectory.</p>
+          </section>
+          <section class="response-pane" aria-labelledby="live-label">
+            <div class="section-line"><h2 id="live-label">02 / NEURAL RESPONSE</h2><span id="clock">00:00.00</span></div>
+            <div class="live-rate"><div><span id="current-rate">—</span><small>Hz / neuron</small></div><span id="current-delta" class="delta">— from baseline</span></div>
+            <div class="chart-title"><span>GLOBAL ACTIVITY <small>100 ms mean</small></span><span class="legend">— baseline</span></div>
+            <svg id="neural-chart" viewBox="0 0 640 190" role="img" aria-label="Recorded global activity over time with baseline and playback cursor"></svg>
+            <div class="chart-title"><span>ACOUSTIC ENVELOPE <small>20 ms RMS</small></span><span id="voltage">JON input —</span></div>
+            <svg id="audio-chart" viewBox="0 0 640 86" role="img" aria-label="Audio RMS envelope and playback cursor"></svg>
+            <div class="section-line population-label"><span>CHANGING CELL TYPES</span><span>Hz / neuron</span></div>
+            <div id="live-populations"></div>
+            <p class="small">Population values: recorded 100 ms bins. Ranked by absolute change from baseline over the full sounding.</p>
+          </section>
+        </div>
+        <div class="record-foot"><span id="run-note" class="small"></span><button id="show-results" class="text-button" type="button">Inspect completed measurements ↓</button></div>
+      </section>
+
+      <section id="results" hidden aria-label="Response and reading">
+        <section class="measurements" aria-labelledby="response-heading">
+          <div class="section-line"><h2 id="response-heading">RESPONSE</h2><span>SIMULATOR-DERIVED MEASUREMENTS</span></div>
+          <p class="section-description">What happened in the simulated nervous system.</p>
+          <div id="metrics" class="metrics"></div>
+          <div class="tables">
+            <div><h3>Largest population changes</h3><p class="small">Mean Hz/neuron during audio, compared with baseline.</p><div class="table-wrap"><table><thead><tr><th>Cell type</th><th>n</th><th>During</th><th>Δ baseline</th></tr></thead><tbody id="population-table"></tbody></table></div></div>
+            <div><h3>Monitored pathways &amp; outputs</h3><p class="small">Anatomical groups and identified cell types; no inferred behavior.</p><div class="table-wrap"><table><thead><tr><th>Population</th><th>n</th><th>During</th><th>Δ baseline</th></tr></thead><tbody id="group-table"></tbody></table></div></div>
+          </div>
+          <details><summary>Activity rankings &amp; temporal events</summary><div id="events"></div><h3>Highest mean activity</h3><div class="table-wrap"><table><thead><tr><th>Cell type</th><th>n</th><th>During</th><th>Δ baseline</th></tr></thead><tbody id="activity-table"></tbody></table></div></details>
+          <p class="small caution">Descriptive changes from one seeded run. The baseline band is a display rule, not a significance test. Small populations can dominate rankings.</p>
+        </section>
+        <section class="reading-section" aria-labelledby="reading-heading">
+          <div class="section-line"><h2 id="reading-heading">READING</h2><span>INTERPRETATION OF THE RESPONSE</span></div>
+          <p id="reading-text"></p>
+          <p class="small">Composed by transparent rules from the measurements alone. The interpreter received no poem text.</p>
+          <details><summary>Exactly what the interpreter received</summary><pre id="reading-input"></pre></details>
+        </section>
+        <details id="provenance"><summary>PROVENANCE / inspect &amp; download</summary><div id="downloads" class="downloads"></div><pre id="provenance-json"></pre></details>
+      </section>
+
+      <details id="method" class="method">
+        <summary>METHOD <span>A voice, an auditory input, a frozen connectome.</span></summary>
+        <div class="method-content">
+          <p>The poem is rendered as audio by one fixed synthetic voice. No semantic representation is provided to the fly. Frame-by-frame sound amplitude becomes equal stimulation of 138 annotated JO-A/JO-B Johnston’s-organ neurons.</p>
+          <p>The full fly.ai connectome simulation runs with its weights frozen and its seeded noise intact. RESPONSE comes from recorded simulated spikes. READING interprets a restricted measurement summary and never sees the poem.</p>
+          <p>The 3D body uses NeuroMechFly anatomy from a female micro-CT exemplar; it is an illustrative surface, separate from the MaleCNS connectome. The static pose does not simulate listening mechanics or behavior. Sound rings display amplitude; antennal color displays JON firing. <a href="./assets/fly/NOTICE.txt">Anatomy credits ↗</a></p>
+          <p>The acoustic bridge is deliberately crude: it measures RMS amplitude, without modeling frequency tuning or antennal mechanics. This is a computational artwork and critical apparatus, not evidence that Drosophila understands poetry.</p>
+          <a id="method-link" href="./api/method" target="_blank" rel="noopener">Read the full method and modeling choices ↗</a>
+        </div>
+      </details>
+    </main>
+    <footer><p>POEM → VOICE → SOUND → JON INPUT → CONNECTOME → RESPONSE → READING</p><span id="storage-note">Everything runs locally. Submitted poems and results are saved on this computer.</span><p><a href="https://github.com/Synthetic-Humanities-Lab/drosophila-critic" target="_blank" rel="noopener">Synthetic Humanities Lab · source &amp; method ↗</a></p></footer>
+  </div>
+</body>
+</html>

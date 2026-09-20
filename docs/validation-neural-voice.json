@@ -1,0 +1,56 @@
+{
+  "passed": true,
+  "voice": {
+    "provider": "kokoro-onnx",
+    "provider_version": "0.4.9",
+    "model": "Kokoro v1.0 (82M)",
+    "voice": "af_sarah",
+    "language": "en-us",
+    "speed": 1.0,
+    "pitch": "native fixed voice; no pitch shift",
+    "line_gap_seconds": 0.18,
+    "line_synthesis": "independent lines; upstream silence trim enabled",
+    "model_sha256": {
+      "kokoro-v1.0.onnx": "beb0d1848dee9a49da392cc3df26958d46cfa35d321edf434f52949153f0df3a",
+      "voices-v1.0.bin": "bca610b8308e8d99f32e6fe4197e7ec01679264efed0cac9140fe9c29f1fbf7d"
+    },
+    "execution_provider": "CPUExecutionProvider",
+    "tts_seed": 64,
+    "speed_transport_adapter": "int32 to model-declared float32 (kokoro-onnx 0.4.9)",
+    "onnxruntime_version": "1.30.0",
+    "intra_op_threads": 4,
+    "inter_op_threads": 1,
+    "duration": 12.448,
+    "sample_rate": 24000,
+    "sha256": "f4218f59c101b090e15ffe5eb9f3033dfe869eb9e191a2fe6de7dcab2bd24108",
+    "normalization": {
+      "method": "whole-waveform RMS, peak-limited linear gain; PCM16 quantization",
+      "target_rms": 0.1,
+      "peak_limit": 0.95,
+      "input_rms": 0.07944515947862694,
+      "gain": 1.2587299296302994,
+      "output_rms": 0.09999696392315963,
+      "output_peak": 0.894073486328125,
+      "silence_preserved": true
+    },
+    "encoder_version": "rms-jon-v1"
+  },
+  "raw_spikes_reconcile": true,
+  "weights_unchanged": true,
+  "interpretation_text_free": true,
+  "timeline_frames": 748,
+  "global": {
+    "during_hz_per_neuron": 3.8760275232272963,
+    "deviation_hz_per_neuron": 0.01947083456502874,
+    "peak_perturbation_hz_per_neuron": 0.2505818836232083,
+    "peak_time": 9.8,
+    "tail_hz_per_neuron": 3.873563287342531,
+    "tail_deviation_hz_per_neuron": 0.01700659868026344,
+    "recovery_seconds_after_audio_window": 0.0,
+    "recovery_censored": false,
+    "tail_observed_seconds": 1.0,
+    "audio_window_seconds": 12.46
+  },
+  "reading_id": "validation-kokoro",
+  "neural_fixture": false
+}

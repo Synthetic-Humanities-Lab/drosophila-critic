@@ -1,0 +1,3 @@
+# Optional: regenerate the checked-in GLB; not needed to run the app.
+trimesh==5.1.0
+PyYAML==6.0.3

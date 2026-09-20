@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+/vendor/
+data/
+results/
+*.log
+.DS_Store
+
+:memory:.ses
+
+/dist/
+.env
+.env.*

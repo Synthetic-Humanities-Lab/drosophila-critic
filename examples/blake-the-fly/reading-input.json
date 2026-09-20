@@ -1,0 +1,31 @@
+{
+  "duration": 26.18,
+  "baseline_hz_per_neuron": 3.8565566886622675,
+  "deviation_hz_per_neuron": 0.027769349109551644,
+  "peak_time": 15.12,
+  "peak_line": 14,
+  "peak_delta_hz_per_neuron": 0.29215356928610126,
+  "transition_count": 6,
+  "tail_delta_hz_per_neuron": 0.02157768446310726,
+  "recovery_seconds": 0.0,
+  "tail_observed_seconds": 1.0,
+  "threshold": 0.23809411113067597,
+  "populations": [
+    {
+      "name": "LA_ME_unclear",
+      "neurons": 3,
+      "delta_hz_per_neuron": 45.91291061879298
+    },
+    {
+      "name": "AN_multi_1",
+      "neurons": 2,
+      "delta_hz_per_neuron": 21.78915202444614
+    },
+    {
+      "name": "SNpp23",
+      "neurons": 16,
+      "delta_hz_per_neuron": 17.201394194041253
+    }
+  ],
+  "evidence": "single seeded simulation"
+}

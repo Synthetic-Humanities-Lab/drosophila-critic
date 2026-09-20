@@ -1,0 +1,51 @@
+{
+  "passed": true,
+  "neural_fixture": false,
+  "upstream_commit": "5e931b8dc4856550565c5fa129d3d0c055af3dd1",
+  "neurons": 166700,
+  "connections": 25582938,
+  "input_neurons": 138,
+  "same_seed_repeat_exact_counts": true,
+  "weights_unchanged": true,
+  "raw_spikes_reconcile_with_reported_counts": true,
+  "silence_baseline_hz_per_neuron": 3.8565566886622675,
+  "pulse_vs_silence_changed_downstream_frames": 121,
+  "silence_downstream": {
+    "name": "direct JON postsynaptic partners",
+    "neurons": 1017,
+    "available": true,
+    "baseline_hz_per_neuron": 2.125860373647984,
+    "audio_hz_per_neuron": 2.1155358898721737,
+    "tail_hz_per_neuron": 2.0678466076696167,
+    "delta_hz_per_neuron": -0.0103244837758103
+  },
+  "pulse_downstream": {
+    "name": "direct JON postsynaptic partners",
+    "neurons": 1017,
+    "available": true,
+    "baseline_hz_per_neuron": 2.125860373647984,
+    "audio_hz_per_neuron": 3.0639134709931177,
+    "tail_hz_per_neuron": 2.0570304818092433,
+    "delta_hz_per_neuron": 0.9380530973451338
+  },
+  "poem": {
+    "title": "Who Has Seen the Wind?",
+    "author": "Christina Rossetti",
+    "source": "https://poets.org/poem/who-has-seen-wind",
+    "public_domain": true,
+    "audio_seconds": 12.9837641723356,
+    "global": {
+      "during_hz_per_neuron": 3.8801292049282443,
+      "deviation_hz_per_neuron": 0.023572516265976784,
+      "peak_perturbation_hz_per_neuron": 0.2356448710257424,
+      "peak_time": 7.42,
+      "tail_hz_per_neuron": 3.8802939412117574,
+      "tail_deviation_hz_per_neuron": 0.023737252549489885,
+      "recovery_seconds_after_audio_window": 0.0,
+      "recovery_censored": false,
+      "tail_observed_seconds": 1.0,
+      "audio_window_seconds": 13.0
+    }
+  },
+  "limits": "One seed; pulse causal comparison does not calibrate speech hearing or validate behavior."
+}

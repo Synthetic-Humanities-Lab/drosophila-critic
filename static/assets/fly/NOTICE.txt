@@ -1,0 +1,5 @@
+NeuroMechFly anatomy from NeLy-EPFL/flygym, commit 38c8ec61034cd59bc5ba0de20688d4a3c0000d60.
+Copyright 2023–2026 NeuroMechFly v2 Authors. Apache License 2.0.
+Modified for The Drosophila Critic: simplified STL meshes converted to GLB; static neutral pose baked; display materials replaced.
+The micro-CT anatomy is a female exemplar; MaleCNS is a separate male connectome. No anatomical registration or behavioral simulation.
+https://github.com/NeLy-EPFL/flygym
