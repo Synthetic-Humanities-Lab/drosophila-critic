@@ -30,3 +30,13 @@ def test_published_modules_share_content_version(tmp_path):
     assert f"app.{version}.js" in (tmp_path / "index.html").read_text()
     assert f"audio-player.{version}.js" in (tmp_path / f"app.{version}.js").read_text()
     assert (tmp_path / f"audio-player.{version}.js").exists()
+
+
+def test_comparison_dom_matches_its_client():
+    html = (ROOT / "static/comparison.html").read_text()
+    ids = re.findall(r'id="([^"]+)"', html)
+    assert len(ids) == len(set(ids))
+    code = (ROOT / "static/comparison.js").read_text()
+    for name in re.findall(r"\$\('([^']+)'\)", code):
+        assert name in ids, name
+    assert "<audio" not in html  # The in-app browser requires our AudioContext transport.

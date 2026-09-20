@@ -252,3 +252,28 @@ claim that firing rate measures capacity to act. Excluding semantic input by des
 cannot establish the theoretical independence of affect from meaning. The associated
 critical directions document explicitly includes Leys's challenge alongside Massumi
 and Hayles; these frameworks motivate questions rather than certify the simulation.
+
+## Delivery bench v1
+
+The optional comparison page runs a separate level-matched experiment using the
+same frozen network and RMS transducer. See `experiments/delivery-v1/PROTOCOL.md`
+for choices fixed before running and `RESULTS.md` for findings. It compares eight
+paired seeds; these represent simulator noise, not biological specimens. Inputs
+are the previously published PCM waveforms, preserved as experiment sources,
+with their earlier preprocessing retained in provenance. Linear gain matches
+whole-waveform RMS to approximately 0.05 without clipping or compression.
+
+Pause diagnostics redistribute verified digital gaps while preserving every
+speech segment and total sample count. Emphasis multiplies alternating source-line
+segments by 0.5/1.5 before level matching (blank source lines retain their indices).
+Reordering reverses complete line-plus-gap chunks. Repeat and polarity controls
+are independently run. No semantic feature or textual content selects stimulation.
+Line numbers only identify existing acoustic segments and navigation positions.
+
+Primary downstream rates, temporal response magnitude and one-second persistence
+are prespecified. Population rankings are exploratory. A supplementary RMS
+comparison of mean paired temporal trajectories versus pointwise seed SD was added
+after inspecting initial mean-rate outcomes; it is explicitly labeled as such.
+Min–max bands are observed seed ranges, not confidence intervals. Stable temporal
+responses can coexist with an unchanged overall mean. Equal audio RMS does not
+imply equal injection dose, and diagnostic cut boundaries are not natural speech.

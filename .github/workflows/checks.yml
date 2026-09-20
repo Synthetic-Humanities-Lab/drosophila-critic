@@ -26,6 +26,6 @@ jobs:
           ruff check critic scripts tests
           ruff format --check critic scripts tests
           python -m pytest -q
-          node --test tests/audio-player.test.mjs
+          node --test tests/*.test.mjs
           python scripts/export_replay.py
       - run: docker build -t drosophila-critic .

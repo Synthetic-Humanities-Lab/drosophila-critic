@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Delivery bench — The Drosophila Critic</title>
+    <link rel="stylesheet" href="./comparison.css" />
+    <script type="module" src="./comparison.js"></script>
+  </head>
+  <body>
+    <main>
+      <header>
+        <p class="eyebrow">SYNTHETIC HUMANITIES LAB / EXPERIMENT 01</p>
+        <h1>One poem. Different deliveries.</h1>
+        <p class="intro">
+          What can the existing amplitude-based fly receiver distinguish?
+        </p>
+        <a href="./">← The listening chamber</a>
+      </header>
+      <p id="status" role="status">Loading the recorded comparison…</p>
+      <section id="bench" hidden>
+        <div class="controls">
+          <label
+            >Compare against the synthetic reference<select
+              id="condition"
+            ></select></label
+          ><label>Neural population<select id="population"></select></label>
+        </div>
+        <p id="design"></p>
+        <p class="small">
+          Frozen MaleCNS / fly.ai. Identical reset and seed set. No antenna
+          model, training, or semantic input. Seeds sample simulator noise; they
+          are not different flies.
+        </p>
+        <section class="audio-pair">
+          <article>
+            <h2>REFERENCE</h2>
+            <p>Synthetic voice · matched level</p>
+            <div class="player">
+              <button id="play-left" type="button">PLAY REFERENCE</button
+              ><input
+                id="seek-left"
+                type="range"
+                min="0"
+                max="1"
+                step="0.02"
+                value="0"
+                aria-label="Reference playback position"
+              /><span id="time-left">0:00</span>
+            </div>
+            <p id="exposure-left" class="small"></p>
+          </article>
+          <article>
+            <h2>COMPARISON</h2>
+            <p id="right-label"></p>
+            <div class="player">
+              <button id="play-right" type="button">PLAY COMPARISON</button
+              ><input
+                id="seek-right"
+                type="range"
+                min="0"
+                max="1"
+                step="0.02"
+                value="0"
+                aria-label="Comparison playback position"
+              /><span id="time-right">0:00</span>
+            </div>
+            <p id="exposure-right" class="small"></p>
+          </article>
+        </section>
+        <p class="small">
+          Playing one recording pauses the other. Both neural traces are
+          ensemble summaries; the moving cursor follows the selected recording.
+          The acoustic plots show the processed audio used by the simulator.
+        </p>
+        <details>
+          <summary>Navigate to the same source line</summary>
+          <p class="small">
+            Select a line to seek both recordings to its own timestamp. No time
+            stretching. Human timing is approximate; reversed-order diagnostics
+            retain original line identities.
+          </p>
+          <div id="lines"></div>
+        </details>
+        <section>
+          <h2>RESPONSE / what changed?</h2>
+          <p id="metric-title"></p>
+          <div id="metrics"></div>
+          <p id="verdict"></p>
+          <p class="small">
+            Paired difference = (comparison − its silence) − (reference − its
+            silence). SD describes paired differences across seeds. These
+            descriptive checks do not establish statistical significance.
+          </p>
+        </section>
+        <section>
+          <h2>Neural trajectories</h2>
+          <p class="legend">
+            <span class="ref">— Reference</span> ·
+            <span class="other">— Comparison</span> · shaded bands: observed
+            seed minimum–maximum
+          </p>
+          <svg
+            id="response-chart"
+            viewBox="0 0 1000 260"
+            role="img"
+            aria-label="Mean neural response relative to matched silence and seed ranges"
+          ></svg>
+          <p class="small">
+            Elapsed seconds, 100 ms bins, Hz per neuron relative to matched
+            silence. Dashed vertical lines mark audio endings; one second of
+            aftermath is recorded. No extrapolation between unequal durations.
+          </p>
+          <h3>Paired difference through time</h3>
+          <svg
+            id="difference-chart"
+            viewBox="0 0 1000 230"
+            role="img"
+            aria-label="Across-seed paired difference during the common audio interval"
+          ></svg>
+          <p id="temporal-summary"></p>
+          <p class="small">
+            Supplementary descriptive trace metric, added after inspecting the
+            initial mean-rate results; not a significance test.
+          </p>
+          <p class="small">
+            Only complete 100 ms bins within the shorter audio duration are
+            compared here. Positive means a larger rate change in the
+            comparison, not preference. Curves are aligned by elapsed time, not
+            by words.
+          </p>
+        </section>
+        <section>
+          <h2>What entered the receiver?</h2>
+          <h3>Processed waveform · signed sample range per 20 ms</h3>
+          <svg
+            id="wave-chart"
+            viewBox="0 0 1000 200"
+            role="img"
+            aria-label="Reference and comparison waveform ranges"
+          ></svg>
+          <h3>Injected drive · 20 ms RMS mapping</h3>
+          <svg
+            id="input-chart"
+            viewBox="0 0 1000 200"
+            role="img"
+            aria-label="Reference and comparison actual auditory injection"
+          ></svg>
+          <p class="small">
+            Same waveform RMS does not guarantee equal mean frame RMS, capped
+            drive, or total exposure. Duration and integrated injected drive are
+            reported above. The original gain and cap are unchanged.
+          </p>
+        </section>
+        <details>
+          <summary>Exploratory annotated population differences</summary>
+          <p class="small">
+            Non-input annotated types with at least ten neurons, ranked by
+            absolute mean paired rate difference. This selection is exploratory;
+            direction agreement is not a corrected significance test.
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Population</th>
+                  <th>Neurons</th>
+                  <th>Mean Δ</th>
+                  <th>SD</th>
+                  <th>Signs + / − / 0</th>
+                </tr>
+              </thead>
+              <tbody id="recruitment"></tbody>
+            </table>
+          </div>
+        </details>
+        <details>
+          <summary>Individual seeds and exact controls</summary>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Seed</th>
+                  <th>Reference − silence</th>
+                  <th>Comparison − silence</th>
+                  <th>Paired Δ</th>
+                </tr>
+              </thead>
+              <tbody id="seed-table"></tbody>
+            </table>
+          </div>
+          <p id="exact"></p>
+        </details>
+        <section>
+          <h2>READING / interpretation of the experiment</h2>
+          <p id="reading"></p>
+          <p class="small">
+            This short account is generated by transparent rules from paired
+            response statistics alone. It receives no poem text. “More activity”
+            does not establish enjoyment, fear, or a performed action.
+          </p>
+        </section>
+        <details>
+          <summary>Method and downloadable evidence</summary>
+          <p>
+            These are new level-matched experiments. The listening chamber
+            retains its earlier single-seed recordings. The two should not be
+            confused.
+          </p>
+          <p>
+            The original inputs here are the previously published PCM files;
+            their prior normalization and source provenance are retained.
+            Diagnostic variants alter synthetic line segments or verified
+            digital silence. All simulations retain the original connectome and
+            model parameters.
+          </p>
+          <nav id="downloads"></nav>
+          <p class="small">
+            Full spike arrays are retained in the local experiment archive. The
+            public count archive contains per-step global/group counts and phase
+            counts for every annotated cell type, including silence controls.
+            The manifest records local raw-file hashes.
+          </p>
+        </details>
+      </section>
+      <footer>
+        POEM → SOUND → RMS INPUT → FROZEN CONNECTOME → RESPONSE → INTERPRETATION
+      </footer>
+    </main>
+  </body>
+</html>

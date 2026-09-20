@@ -240,3 +240,46 @@ alignment, not in the auditory or simulation pipeline; it is not a runtime depen
 
 See [Critical directions](docs/CRITICAL-DIRECTIONS.md) for the affect-theory,
 digital-humanities and posthumanities research agenda and its limits.
+
+## Delivery comparison bench (phase one)
+
+Open **Delivery bench** from the listening chamber, or visit
+`https://synthetic-humanities-lab.github.io/drosophila-critic/comparison.html`.
+This is a separate, newly level-matched ensemble experiment; the chamber's original
+single-seed records remain labeled as such.
+
+The committed `experiments/delivery-v1/PROTOCOL.md` specifies the stimuli and primary
+measurements. `RESULTS.md` reports outcomes and limitations. The bench uses the
+unchanged `SimulationRunner` and original fly.ai `FlyBrain`. There is no learned
+readout or change to the neural model. Eight matched seeds, seven conditions and two
+silence durations give 72 actual simulations. Exact repeat and polarity controls
+are independently simulated and checked against complete spike arrays.
+
+After the normal environment/connectome setup:
+
+```sh
+PYTHONPATH=. .venv/bin/python scripts/delivery_bench.py --pilot
+PYTHONPATH=. .venv/bin/python scripts/delivery_bench.py
+PYTHONPATH=. .venv/bin/python scripts/delivery_bench.py --analyze
+.venv/bin/python scripts/export_replay.py
+.venv/bin/python -m http.server 8766 --directory dist
+```
+
+The second command resumes matching cached runs and completes the chosen seed set;
+it refuses cached input mismatches. The third recalculates analysis without
+simulation. Pilot runs took approximately 8–14 seconds each on the development
+machine; all 72 simulations totaled 707 seconds excluding setup and final analysis.
+Raw spikes and population files occupy about 2.1 GB under `results/delivery-v1/` and
+are not committed. Public artifacts include the source and processed WAVs, every
+injection, per-seed scalar responses, mean/range timelines, full global/group counts,
+all cell-type phase counts, provenance and a hash manifest for the local raw archive.
+The public comparison is recorded replay, not an online simulation service.
+
+`counts.npz` keys are `<condition>_<seed>_global_counts`, `..._group_counts`,
+`..._phase_counts`, `..._type_sizes`. Silence keys begin `silence_<audio-frame-count>`.
+`group_names` and `type_names` identify axes. Global/group counts use 20 ms steps:
+25 warmup + 50 baseline + the manifest's audio frame count + 50 tail steps.
+Cell-type phase counts have rows baseline/audio/tail. Counts are spikes, not rates.
+
+Focused checks: `python -m pytest tests/test_delivery.py tests/test_interface.py` and
+`node --test tests/*.test.mjs`. No additional runtime dependency is required.

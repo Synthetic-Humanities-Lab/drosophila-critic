@@ -246,4 +246,10 @@ def critical_directions():
     return FileResponse(ROOT / "docs/CRITICAL-DIRECTIONS.md", media_type="text/plain")
 
 
+app.mount(
+    "/experiments/delivery-v1",
+    StaticFiles(directory=ROOT / "experiments/delivery-v1"),
+    name="delivery-bench",
+)
+
 app.mount("/", StaticFiles(directory=ROOT / "static", html=True), name="interface")

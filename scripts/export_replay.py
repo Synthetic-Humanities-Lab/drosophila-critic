@@ -60,7 +60,7 @@ def version_interface(output: Path):
         digest.update(path.read_bytes())
     version = digest.hexdigest()[:16]
     names = {path.name: f"{path.stem}.{version}{path.suffix}" for path in files}
-    for path in [output / "index.html", *files]:
+    for path in [*output.glob("*.html"), *files]:
         text = path.read_text()
         for old, new in names.items():
             text = text.replace(f"./{old}", f"./{new}")
@@ -103,6 +103,9 @@ def export(source: Path, output: Path):
         )
     )
     shutil.copy2(ROOT / "docs/CRITICAL-DIRECTIONS.md", output / "CRITICAL-DIRECTIONS.md")
+    bench = ROOT / "experiments/delivery-v1"
+    if (bench / "comparison.json").exists():
+        shutil.copytree(bench, output / "experiments/delivery-v1", dirs_exist_ok=True)
     version_interface(output)
     (output / ".nojekyll").touch()
 
