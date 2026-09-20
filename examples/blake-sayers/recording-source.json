@@ -1,0 +1,114 @@
+{
+  "performer": "Denny Sayers (credited as Dennis Sayers in the recording)",
+  "source": "https://librivox.org/songs-of-innocence-and-experience-by-william-blake/",
+  "download": "https://archive.org/download/songs_innocence_experience_librivox/songs_of_innocence_and_experience_29_blake.mp3",
+  "rights": "LibriVox recording: public domain in the USA",
+  "rights_source": "https://librivox.org/pages/public-domain/",
+  "source_sha256": "8eb6b0d8c43d298b34f137cbbed9e06a007c39fef235183f7b3aa682fcc4889b",
+  "clip_start_seconds": 32.3,
+  "clip_end_seconds": 77.4,
+  "edits": "Remove spoken introduction, title and closing credits only. Preserve internal pauses. No time stretch, denoising, music or dynamic compression.",
+  "alignment": "Approximate display-only word timestamps from faster-whisper 1.2.1 base.en; grouped against the printed lines. ASR transcript was not used as poem text and never enters encoder, simulator or interpretation. Boundaries need human listening review.",
+  "lines": [
+    {
+      "line": 1,
+      "start": 0.52,
+      "end": 1.64
+    },
+    {
+      "line": 2,
+      "start": 1.64,
+      "end": 2.98
+    },
+    {
+      "line": 3,
+      "start": 3.48,
+      "end": 4.66
+    },
+    {
+      "line": 4,
+      "start": 4.66,
+      "end": 6.24
+    },
+    {
+      "line": 6,
+      "start": 7.92,
+      "end": 8.92
+    },
+    {
+      "line": 7,
+      "start": 8.92,
+      "end": 10.04
+    },
+    {
+      "line": 8,
+      "start": 10.64,
+      "end": 13.02
+    },
+    {
+      "line": 9,
+      "start": 13.34,
+      "end": 14.06
+    },
+    {
+      "line": 11,
+      "start": 17.02,
+      "end": 18.18
+    },
+    {
+      "line": 12,
+      "start": 18.18,
+      "end": 19.76
+    },
+    {
+      "line": 13,
+      "start": 20.8,
+      "end": 22.12
+    },
+    {
+      "line": 14,
+      "start": 22.12,
+      "end": 24.14
+    },
+    {
+      "line": 16,
+      "start": 26.28,
+      "end": 27.94
+    },
+    {
+      "line": 17,
+      "start": 27.94,
+      "end": 30.44
+    },
+    {
+      "line": 18,
+      "start": 32.22,
+      "end": 32.7
+    },
+    {
+      "line": 19,
+      "start": 32.7,
+      "end": 34.88
+    },
+    {
+      "line": 21,
+      "start": 36.56,
+      "end": 37.88
+    },
+    {
+      "line": 22,
+      "start": 37.88,
+      "end": 38.76
+    },
+    {
+      "line": 23,
+      "start": 39.44,
+      "end": 41.54
+    },
+    {
+      "line": 24,
+      "start": 41.54,
+      "end": 44.54
+    }
+  ]
+}

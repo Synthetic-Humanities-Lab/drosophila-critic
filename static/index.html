@@ -11,9 +11,9 @@
 <body>
   <div class="sheet">
     <header>
-      <div class="edition"><span>SYNTHETIC HUMANITIES LAB / A CRITICAL INSTRUMENT</span><span>PROTOTYPE / 03</span></div>
+      <div class="edition"><span>SYNTHETIC HUMANITIES LAB / A CRITICAL INSTRUMENT</span><span>PROTOTYPE / 04</span></div>
       <h1>THE DROSOPHILA CRITIC</h1>
-      <div class="subhead"><p>A fruit fly reads poetry.</p><span class="specimen">MaleCNS v1.0 · 166,700 neurons</span></div>
+      <div class="subhead"><p>A fruit fly listens to poetry.</p><span class="specimen">MaleCNS v1.0 · 166,700 neurons</span></div>
     </header>
 
     <main>
@@ -33,7 +33,9 @@
       </section>
       <p id="error" role="alert" hidden></p>
 
+      <div id="performance-tabs" class="performance-tabs" role="group" aria-label="Choose a performance" hidden></div>
       <section id="replay" hidden aria-label="Synchronized replay">
+        <p id="performance-note" class="small"></p>
         <div class="section-line replay-heading"><span>RECORDED RESPONSE / SYNCHRONIZED REPLAY</span><button id="new" class="text-button" type="button">Read another poem ↗</button></div>
         <div class="listening-room">
           <div class="chamber-title"><span>THE LISTENING CHAMBER</span><span>VOICE → AUDITORY INPUT → RECORDED SPIKES</span></div>
@@ -93,6 +95,8 @@
         </section>
         <section class="reading-section" aria-labelledby="reading-heading">
           <div class="section-line"><h2 id="reading-heading">READING</h2><span>INTERPRETATION OF THE RESPONSE</span></div>
+          <div class="interpretation-tabs" role="group" aria-label="Choose an interpretation lens"><button id="circuit-lens" type="button" aria-pressed="true">Circuit reading</button><button id="affect-lens" type="button" aria-pressed="false">Affect-theory reading</button></div>
+          <div id="affect-reading" hidden><p id="affect-text"></p><p id="affect-scope" class="small"></p><div id="affect-sources" class="downloads"></div></div>
           <p id="reading-text"></p>
           <h3>What this could mean for the fly</h3>
           <p class="small">Known circuit functions help interpret the response. They do not turn simulated spikes into a report of subjective experience.</p>
@@ -106,10 +110,11 @@
       <details id="method" class="method">
         <summary>METHOD <span>A voice, an auditory input, a frozen connectome.</span></summary>
         <div class="method-content">
-          <p>The poem is rendered as audio by one fixed synthetic voice. No semantic representation is provided to the fly. Frame-by-frame sound amplitude becomes equal stimulation of 138 annotated JO-A/JO-B Johnston’s-organ neurons.</p>
+          <p>The reference poem is rendered by one fixed synthetic voice. A separate, credited human performance is available for comparison; each recording receives its own simulation and matched silence control. No semantic representation is provided to the fly. Frame-by-frame sound amplitude becomes equal stimulation of 138 annotated JO-A/JO-B Johnston’s-organ neurons.</p>
           <p>The full fly.ai connectome simulation runs with its weights frozen and its seeded noise intact. RESPONSE comes from recorded simulated spikes. READING interprets a restricted measurement summary and never sees the poem.</p>
           <p>The 3D body uses NeuroMechFly anatomy from a female micro-CT exemplar; it is an illustrative surface, separate from the MaleCNS connectome. The static pose does not simulate listening mechanics or behavior. Sound rings display amplitude; antennal color displays JON firing. <a href="./assets/fly/NOTICE.txt">Anatomy credits ↗</a></p>
           <p>The acoustic bridge is deliberately crude: it measures RMS amplitude, without modeling frequency tuning or antennal mechanics. This is a computational artwork and critical apparatus, not evidence that Drosophila understands poetry.</p>
+          <p><a href="./CRITICAL-DIRECTIONS.md">Critical directions: affect, performance, and posthumanities ↗</a></p>
           <a id="method-link" href="./api/method" target="_blank" rel="noopener">Read the full method and modeling choices ↗</a>
         </div>
       </details>

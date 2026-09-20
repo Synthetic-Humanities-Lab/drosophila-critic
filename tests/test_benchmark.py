@@ -87,3 +87,30 @@ def test_unknown_cell_type_has_no_invented_behavioral_meaning():
         )
     ]
     assert interpret_control(summarize_control(b))["functional_notes"] == []
+
+
+def test_affect_lens_uses_the_same_text_blind_summary_and_respects_null_effect():
+    b = compare(paired_record(), paired_record(), [])
+    s = summarize_control(b)
+    reading = interpret_control(s)
+    assert "no global separation" in reading["affect"]["text"]
+    assert "not an affect detector" in reading["affect"]["scope"]
+    assert reading["input_summary"] == s.model_dump()
+    assert "poem" not in reading["input_summary"]
+
+
+def test_published_performances_have_distinct_coupled_evidence():
+    import json
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    a = json.loads((root / "examples/blake-the-fly/result.json").read_text())
+    b = json.loads((root / "examples/blake-sayers/result.json").read_text())
+    assert a["poem_id"] == b["poem_id"]
+    assert a["audio"]["sha256"] != b["audio"]["sha256"]
+    assert a["audio"]["duration"] != b["audio"]["duration"]
+    assert a["timeline"] != b["timeline"]
+    for result in (a, b):
+        assert result["reading"]["input_summary"]["duration"] == result["benchmark"]["duration"]
+        assert result["benchmark"]["pre_stimulus_identical"]
+        assert result["reading"]["affect"]["provider"] == "response-only-affect-lens-v1"

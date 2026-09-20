@@ -218,3 +218,37 @@ stimulated JON group and its structural target group increase relative to silenc
 This is a model-level sensory interpretation, not a claim about what a fly felt.
 The original RESPONSE, spikes, benchmark and audio are unchanged when reinterpreting
 an existing saved record; the new interpretation source hash is recorded separately.
+
+## Performance comparison and affect lens (v4 presentation)
+
+The fly listens to sound. Human performers read poetry; this apparatus produces
+interpretations. The synthetic reference remains fixed. A separate human recording
+is now an explicit experimental condition, not a new default TTS voice. Each
+performance has its own full simulation, equal-duration zero-input control, and
+response-only interpretation. Because durations differ, compare rates rather than
+raw spike totals between performances. Matching a seed does not align the words or
+phases of different performances; this is not an isolated test of dramatic intent.
+Recording technique, pacing, and residual room sound are additional variables.
+
+The Denny Sayers recording comes from LibriVox's 2006 collection. The excerpt spans
+32.30–77.40 seconds of the original MP3, excluding catalog speech and preserving
+internal pauses. Decode/resample: PyAV 18.1.0, mono 24 kHz. The shared normalizer and
+20 ms RMS transducer then process it exactly as they process synthesized PCM.
+No EQ, denoising, time stretching or added music is applied. Source, checksum,
+rights link, edit bounds, approximate line timings and the original MP3 are saved.
+The source is public domain in the USA according to LibriVox.
+
+Line highlighting uses approximate editorial timestamps initially obtained with
+faster-whisper 1.2.1/base.en and grouped against the canonical printed lines. This
+text-aware operation belongs solely to preparing the display and crop; its output
+never changes stimulation, weights, or response interpretation. ASR output is not
+used as the poem text. These line boundaries have not had a human listening review.
+The audio actually played is the normalized waveform actually encoded.
+
+`affect.py` reads the same strict response summary as the circuit interpreter. It
+adds a separately selected, source-linked critical lens concerned with encounter,
+propagation, timing and aftereffects. It does not score affect, infer feelings or
+claim that firing rate measures capacity to act. Excluding semantic input by design
+cannot establish the theoretical independence of affect from meaning. The associated
+critical directions document explicitly includes Leys's challenge alongside Massumi
+and Hayles; these frameworks motivate questions rather than certify the simulation.

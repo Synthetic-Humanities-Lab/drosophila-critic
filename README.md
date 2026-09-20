@@ -1,6 +1,6 @@
 # The Drosophila Critic
 
-**A fruit fly reads poetry.**
+**A fruit fly listens to poetry.**
 
 A Synthetic Humanities Lab project. A working critical instrument:
 
@@ -220,3 +220,23 @@ The listening chamber displays the fly anatomy, spoken line, injected envelope,
 and a spatial view of real recorded spikes at supplied MaleCNS coordinates.
 `neural-display.json` documents its fixed 12,000-neuron sample. Full poem and silence
 spikes remain available for audit; body motion is not simulated.
+
+
+### Comparing performances and critical lenses
+The public recorded edition now offers the fixed Kokoro reference and a human
+performance by Denny Sayers (LibriVox, 2006). Selecting a performance swaps its
+waveform, response, matched silence and interpretation together. Circuit and
+affect-theory lenses read the same response-only summary. Neither receives the
+poem text. This is a deliberate extension of the original single-voice protocol.
+
+The human recording is public domain in the USA. `examples/sayers-source.json`
+records its source, checksum, excerpt bounds and approximate display-only line
+timing. To reproduce its simulation, install the optional media decoder with
+`.venv/bin/python -m pip install av==18.1.0`, then run
+`PYTHONPATH=. .venv/bin/python scripts/import_sayers.py`.
+The importer preserves pacing, normalizes through the same encoder, and runs a
+separate equal-duration silent control. Whisper was used once for editorial
+alignment, not in the auditory or simulation pipeline; it is not a runtime dependency.
+
+See [Critical directions](docs/CRITICAL-DIRECTIONS.md) for the affect-theory,
+digital-humanities and posthumanities research agenda and its limits.

@@ -94,3 +94,18 @@ container deployment; no paid hosting was provisioned.
 - Chrome playback verified changing line, injected voltage, JON rate, point-cloud
   firing and playback clock. Desktop and 390 px mobile layouts inspected; mobile
   camera framing adjusted to preserve the fly and speaker at narrow aspect ratios.
+
+## Two performances and affect lens — 2026-09-20
+
+- Imported the poem-only 32.30–77.40 s excerpt of Denny Sayers's LibriVox source,
+  checksum `8eb6b0d8c43d298b34f137cbbed9e06a007c39fef235183f7b3aa682fcc4889b`.
+- Ran all 166,700 neurons for that 45.10 s waveform and its same-seed silent control.
+  Global paired difference +0.0009485 Hz/neuron; downstream JON partners +0.245777
+  approximately. Audio hash, trajectory, duration and interpretation differ from
+  the synthetic reference while the poem identity remains the same.
+- Actual RMS differs despite the shared peak-limited normalization rule; the UI
+  exposes 0.052 for the human performance and 0.094 for the synthetic reference.
+- Browser verified human selection updates duration, audio URL, neural readouts,
+  benchmark and reading; playback advances line highlighting and measured activity.
+  Affect lens selection exposes the correct performance's 29.82 s peak and source
+  links. Approximate imported line timings remain marked for human listening review.

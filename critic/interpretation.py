@@ -4,6 +4,7 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict
 
+from .affect import interpret_affect
 from .circuit_roles import ROLES
 
 
@@ -163,10 +164,12 @@ def interpret_control(summary: ControlledSummary) -> dict:
             "more" if net_spikes > 0 else "fewer" if net_spikes < 0 else "no net difference in"
         )
         measurement = (
-            f"{abs(net_spikes):,} {direction} spikes across {circuit.neurons} neurons over "
+            f"{abs(net_spikes):,} {direction} {'spike' if abs(net_spikes) == 1 else 'spikes'} across {circuit.neurons} neurons over "
             f"{s.duration:.2f} seconds; {circuit.delta_hz_per_neuron:+.3f} Hz/neuron "
             "against matched silence."
         )
+        if net_spikes == 0:
+            measurement = f"No net change in total spikes across {circuit.neurons} neurons over {s.duration:.2f} seconds."
         notes.append(
             {
                 "population": circuit.name,
@@ -206,6 +209,7 @@ def interpret_control(summary: ControlledSummary) -> dict:
         )
     return {
         "provider": "response-only-functional-template-v2",
+        "affect": interpret_affect(s),
         "functional_notes": notes,
         "scope": "Circuit roles come from research; rate differences come from this model; experience is not measured.",
         "input_summary": s.model_dump(),

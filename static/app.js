@@ -18,6 +18,7 @@ const audio = new RecordedAudio();
 const flyScene = new FlyScene($('fly-scene'));
 const neuralScene = new NeuralScene($('neural-scene'));
 let playPending = false;
+let affectSelected = false;
 $('play').addEventListener('click', async () => {
   if (playPending) return;
   if (!audio.paused) { audio.pause(); return; }
@@ -216,6 +217,13 @@ function populateResults() {
   table('activity-table', response.strongest_activity, 10);
   $('events').replaceChildren(...response.events.map(event => element('p', `${event.time.toFixed(2)} s${event.line ? ` · line ${event.line}` : ''} — ${event.kind}${event.state ? `: ${event.state}` : ''} (${signed(event.delta_hz_per_neuron)} Hz/neuron)`)));
   $('reading-text').textContent = result.reading.text;
+  $('affect-lens').disabled = !result.reading.affect;
+  $('affect-text').textContent = result.reading.affect?.text || '';
+  $('affect-scope').textContent = result.reading.affect?.scope || '';
+  $('affect-sources').replaceChildren(...(result.reading.affect?.sources || []).map(source=>{
+    const link=element('a',source.title+' ↗');link.href=source.url;link.target='_blank';link.rel='noopener';return link;
+  }));
+  selectLens(affectSelected && Boolean(result.reading.affect));
   $('circuit-meanings').replaceChildren(...(result.reading.functional_notes || []).map(note => {
     const card=element('article', undefined, 'circuit-card');
     card.append(element('h4',note.label),element('span',note.population,'circuit-id'),element('p',note.role),element('p',note.measurement,'circuit-measurement'),element('p',note.inference),element('p',note.limit,'small'));
@@ -228,6 +236,7 @@ function populateResults() {
   $('provenance-json').textContent = JSON.stringify({poem_id: result.poem_id, audio: result.audio, fly: result.fly, encoder: result.encoder, provenance: result.provenance}, null, 2);
   $('downloads').replaceChildren(...[
     ...(result.benchmark ? [['benchmark.json','Matched silence comparison'], ['silence-spikes.npz','All silence spike events'], ['silence-populations.npz','Silence population counts'], ['neural-display.json','Spatial display evidence']] : []),
+    ...(result.audio.provider === 'librivox-recording' ? [['recording-source.json','Recording source and edit bounds'],['original.mp3','Original LibriVox recording']] : []),
     ['result.json', 'Full response JSON'], ['audio.wav', 'Voice / WAV'], ['encoding.json', 'Every auditory injection'],
     ['reading-input.json', 'Interpretation input'], ['spikes.npz', 'All spike events'],
     ['populations.npz', 'Population counts'], ['population_metrics.json', 'All population metrics'], ['METHOD.md', 'Method snapshot']
@@ -239,6 +248,8 @@ function populateResults() {
 }
 
 async function loadResult(id) {
+  audio.pause(); tailStarted = null; result = null; chartRange = null;
+  $('play').disabled = true; $('seek').disabled = true;
   result = await request(`/api/readings/${id}/result.json`);
   // Preserve ranking when replaying earlier result files that stored alphabetical traces.
   const rank = new Map(result.response.populations.map((population, i) => [population.name, i]));
@@ -268,7 +279,10 @@ async function loadResult(id) {
   audio.duration = result.audio.duration;
   $('seek').max = result.audio.duration; $('seek').value = 0;
   $('audio-download').href = resource(`/api/readings/${id}/audio.wav`);
-  $('voice-credit').textContent = `${result.audio.provider} / ${result.audio.voice} · fixed voice`;
+  $('voice-credit').textContent = `${result.audio.provider} / ${result.audio.voice}${result.audio.provider === 'librivox-recording' ? ' · human performance' : ' · fixed voice'}`;
+  const performance = site.performances?.find(p=>p.id===id);
+  $('performance-note').textContent = (performance?.description || '') + (performance ? ` Actual normalized RMS: ${result.audio.normalization.output_rms.toFixed(3)}. Equal processing does not guarantee equal loudness under the peak limit.` : '');
+  for (const button of $('performance-tabs').children) button.setAttribute('aria-pressed',String(button.dataset.id===id));
   flyScene.resize();
   if (result.provenance.neural_display) {
     try { neuralScene.load(await request(`/api/readings/${id}/neural-display.json`)); }
@@ -345,9 +359,32 @@ $('new').addEventListener('click', () => {
   history.replaceState(null, '', base.pathname); updateCount(); $('poem').focus();
 });
 
+function selectLens(affect) {
+  affectSelected = affect;
+  $('affect-reading').hidden=!affect;
+  $('reading-text').hidden=affect;
+  $('circuit-lens').setAttribute('aria-pressed',String(!affect));
+  $('affect-lens').setAttribute('aria-pressed',String(affect));
+}
+$('circuit-lens').addEventListener('click',()=>selectLens(false));
+$('affect-lens').addEventListener('click',()=>selectLens(true));
+if (recorded && site.performances?.length > 1) {
+  $('performance-tabs').hidden=false;
+  for(const performance of site.performances) {
+    const button=element('button',performance.label);button.type='button';button.dataset.id=performance.id;
+    button.setAttribute('aria-pressed',String(performance.id===site.reading));
+    button.addEventListener('click',async()=>{
+      for(const item of $('performance-tabs').children)item.disabled=true;
+      try {await loadResult(performance.id);$('replay').scrollIntoView({block:'start'});$('method-link').href=resource(`/api/readings/${performance.id}/METHOD.md`);}
+      catch(e){error(e.message);}
+      finally{for(const item of $('performance-tabs').children)item.disabled=false;}
+    });
+    $('performance-tabs').append(button);
+  }
+}
 if (recorded) {
   $('edition-notice').hidden = false;
-  $('edition-notice').textContent = 'PUBLIC RECORDED EDITION · William Blake, The Fly (1794). Play the voice and its saved full-connectome response. New poems require the Python simulator; this page does not run a live backend.';
+  $('edition-notice').textContent = 'PUBLIC RECORDED EDITION · William Blake, The Fly (1794). Compare performances, each coupled to its own saved full-connectome response. New poems require the Python simulator; this page does not run a live backend.';
   $('new').hidden = true;
   $('storage-note').textContent = 'This edition replays a published reading. It accepts and stores no submitted poems.';
   $('method-link').href = resource(`/api/readings/${site.reading}/METHOD.md`);

@@ -210,6 +210,8 @@ def artifact(identifier: str, artifact: str):
         "encoding.json",
         "reading-input.json",
         "spikes.npz",
+        "recording-source.json",
+        "original.mp3",
         "silence-spikes.npz",
         "silence-populations.npz",
         "benchmark.json",
@@ -237,6 +239,11 @@ def artifact(identifier: str, artifact: str):
 @app.get("/api/method")
 def method():
     return FileResponse(ROOT / "METHOD.md", media_type="text/plain")
+
+
+@app.get("/CRITICAL-DIRECTIONS.md")
+def critical_directions():
+    return FileResponse(ROOT / "docs/CRITICAL-DIRECTIONS.md", media_type="text/plain")
 
 
 app.mount("/", StaticFiles(directory=ROOT / "static", html=True), name="interface")

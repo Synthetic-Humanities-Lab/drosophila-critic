@@ -31,9 +31,18 @@ def validate_poem(poem: str):
 def run_reading(poem: str, directory: Path, runner, progress=lambda *_: None, tts=None):
     validate_poem(poem)
     directory.mkdir(parents=True, exist_ok=True)
-    poem_id = hashlib.sha256(poem.encode()).hexdigest()
     progress("SYNTHESIZING VOICE", 0)
     samples, sample_rate, lines, voice = (tts or KokoroProvider()).synthesize(poem, directory)
+    return run_audio_reading(poem, directory, runner, samples, sample_rate, lines, voice, progress)
+
+
+def run_audio_reading(
+    poem, directory, runner, samples, sample_rate, lines, voice, progress=lambda *_: None
+):
+    """Shared waveform pipeline. Text and alignments remain display-only metadata."""
+    validate_poem(poem)
+    directory.mkdir(parents=True, exist_ok=True)
+    poem_id = hashlib.sha256(poem.encode()).hexdigest()
     duration = len(samples) / sample_rate
     if duration > MAX_AUDIO_SECONDS:
         raise ValueError(f"Audio exceeds the {MAX_AUDIO_SECONDS}-second prototype limit")
