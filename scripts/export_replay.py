@@ -1,7 +1,9 @@
 """Export an explicitly labeled static edition from a completed real reading."""
 
 import argparse
+import hashlib
 import json
+import re
 import shutil
 from pathlib import Path
 
@@ -45,6 +47,28 @@ def copy_record(source: Path, output: Path):
     return result
 
 
+def version_interface(output: Path):
+    """Give each published interface an immutable set of module/style URLs."""
+    files = sorted(
+        path
+        for path in [*output.glob("*.js"), *output.glob("*.css")]
+        if not re.search(r"\.[0-9a-f]{16}\.", path.name)
+    )
+    digest = hashlib.sha256((output / "index.html").read_bytes())
+    for path in files:
+        digest.update(path.name.encode())
+        digest.update(path.read_bytes())
+    version = digest.hexdigest()[:16]
+    names = {path.name: f"{path.stem}.{version}{path.suffix}" for path in files}
+    for path in [output / "index.html", *files]:
+        text = path.read_text()
+        for old, new in names.items():
+            text = text.replace(f"./{old}", f"./{new}")
+        target = output / names.get(path.name, path.name)
+        target.write_text(text)
+    return version
+
+
 def export(source: Path, output: Path):
     shutil.copytree(ROOT / "static", output, dirs_exist_ok=True)
     primary = copy_record(source, output)
@@ -79,6 +103,7 @@ def export(source: Path, output: Path):
         )
     )
     shutil.copy2(ROOT / "docs/CRITICAL-DIRECTIONS.md", output / "CRITICAL-DIRECTIONS.md")
+    version_interface(output)
     (output / ".nojekyll").touch()
 
 

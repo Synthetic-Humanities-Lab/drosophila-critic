@@ -1,0 +1,32 @@
+"""Publish-time contracts for the DOM and its matching client modules."""
+
+import re
+from pathlib import Path
+
+from scripts.export_replay import version_interface
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def test_client_static_ids_exist_once():
+    html = (ROOT / "static/index.html").read_text()
+    ids = re.findall(r'id="([^"]+)"', html)
+    assert len(ids) == len(set(ids))
+    app = (ROOT / "static/app.js").read_text()
+    for name in re.findall(r"\$\('([^']+)'\)", app):
+        assert name in ids, name
+    assert 'id="current-verse"' not in html
+    assert html.index('id="reading-heading"') < html.index('id="response-heading"')
+
+
+def test_published_modules_share_content_version(tmp_path):
+    (tmp_path / "index.html").write_text(
+        '<script src="./app.js"></script><link href="./style.css">'
+    )
+    (tmp_path / "app.js").write_text("import {Audio} from './audio-player.js';")
+    (tmp_path / "audio-player.js").write_text("export class Audio {}")
+    (tmp_path / "style.css").write_text("body {}")
+    version = version_interface(tmp_path)
+    assert f"app.{version}.js" in (tmp_path / "index.html").read_text()
+    assert f"audio-player.{version}.js" in (tmp_path / f"app.{version}.js").read_text()
+    assert (tmp_path / f"audio-player.{version}.js").exists()

@@ -34,3 +34,15 @@ test('leaving a reading during audio initialization cancels the pending playback
   const pending = player.play(); player.pause(); await pending;
   assert.equal(player.paused, true); assert.equal(player.source, null);
 });
+
+test('a failed replacement cannot replay the previous performance', async () => {
+  const player = new RecordedAudio(); player.bytes = new ArrayBuffer(8);
+  const fetchBefore = globalThis.fetch;
+  globalThis.fetch = async () => ({ok: false});
+  try {
+    await assert.rejects(player.load('/missing.wav'));
+    assert.equal(player.bytes, null);
+    assert.equal(player.buffer, null);
+    assert.equal(player.paused, true);
+  } finally { globalThis.fetch = fetchBefore; }
+});

@@ -11,7 +11,7 @@
 <body>
   <div class="sheet">
     <header>
-      <div class="edition"><span>SYNTHETIC HUMANITIES LAB / A CRITICAL INSTRUMENT</span><span>PROTOTYPE / 04</span></div>
+      <div class="edition"><span>SYNTHETIC HUMANITIES LAB / A CRITICAL INSTRUMENT</span><span>PROTOTYPE / 05</span></div>
       <h1>THE DROSOPHILA CRITIC</h1>
       <div class="subhead"><p>A fruit fly listens to poetry.</p><span class="specimen">MaleCNS v1.0 · 166,700 neurons</span></div>
     </header>
@@ -48,14 +48,14 @@
               <div class="scene-bottom"><span>SOUND → ANTENNAE</span><span id="jon-rate">JON — Hz/neuron</span></div>
             </div>
             <p class="scene-caption">Body: NeuroMechFly micro-CT anatomy. Static pose; no simulated movement.<br>Rings: audio amplitude. Antennal color: recorded JON firing.</p>
-            <div class="current-verse"><span id="verse-number">THE VOICE</span><p id="current-verse">Ready to begin.</p></div>
+            <div id="spoken-poem" aria-label="Poem with the current line highlighted"></div>
             <div class="player">
               <button id="play" class="play-button" type="button">PLAY</button>
               <input id="seek" type="range" min="0" max="1" step="0.02" value="0" aria-label="Playback position in seconds">
               <span id="player-time">0:00 / 0:00</span>
             </div>
             <div class="voice-credit"><span id="voice-credit"></span><a id="audio-download" href="#" download="poem.wav">Download WAV ↗</a></div>
-            <details class="poem-transcript"><summary>Full poem / synchronized transcript</summary><div id="spoken-poem"></div></details>
+            <button id="show-reading" class="text-button" type="button" disabled>What this could mean for the fly ↓</button>
             <p id="playback-note" class="small">Press play to hear the poem and replay its recorded neural trajectory.</p>
           </section>
           <section class="response-pane" aria-labelledby="live-label">
@@ -82,6 +82,17 @@
       </section>
 
       <section id="results" hidden aria-label="Response and reading">
+        <section class="reading-section" aria-labelledby="reading-heading">
+          <div class="section-line"><h2 id="reading-heading">READING</h2><span>INTERPRETATION OF THE RESPONSE</span></div>
+          <div class="interpretation-tabs" role="group" aria-label="Choose an interpretation lens"><button id="circuit-lens" type="button" aria-pressed="true">Circuit reading</button><button id="affect-lens" type="button" aria-pressed="false">Affect-theory reading</button></div>
+          <div id="affect-reading" hidden><p id="affect-text"></p><p id="affect-scope" class="small"></p><div id="affect-sources" class="downloads"></div></div>
+          <p id="reading-text"></p>
+          <h3 id="fly-meaning-heading">What this could mean for the fly</h3>
+          <p class="small">Known circuit functions help interpret the response. They do not turn simulated spikes into a report of subjective experience.</p>
+          <div id="circuit-meanings" class="circuit-meanings"></div>
+          <p class="small">Composed by transparent rules from the measurements alone. The interpreter received no poem text.</p>
+          <details><summary>Exactly what the interpreter received</summary><pre id="reading-input"></pre></details>
+        </section>
         <section class="measurements" aria-labelledby="response-heading">
           <div class="section-line"><h2 id="response-heading">RESPONSE</h2><span>SIMULATOR-DERIVED MEASUREMENTS</span></div>
           <p class="section-description">What happened in the simulated nervous system.</p>
@@ -92,17 +103,6 @@
           </div>
           <details><summary>Activity rankings &amp; temporal events</summary><div id="events"></div><h3>Highest mean activity</h3><div class="table-wrap"><table><thead><tr><th>Cell type</th><th>n</th><th>During</th><th>Δ reference</th></tr></thead><tbody id="activity-table"></tbody></table></div></details>
           <p class="small caution">Matched records rank changes against equal-duration silence. The opening baseline remains a separate descriptive measure. One paired seed is not a significance test; small populations can dominate rankings.</p>
-        </section>
-        <section class="reading-section" aria-labelledby="reading-heading">
-          <div class="section-line"><h2 id="reading-heading">READING</h2><span>INTERPRETATION OF THE RESPONSE</span></div>
-          <div class="interpretation-tabs" role="group" aria-label="Choose an interpretation lens"><button id="circuit-lens" type="button" aria-pressed="true">Circuit reading</button><button id="affect-lens" type="button" aria-pressed="false">Affect-theory reading</button></div>
-          <div id="affect-reading" hidden><p id="affect-text"></p><p id="affect-scope" class="small"></p><div id="affect-sources" class="downloads"></div></div>
-          <p id="reading-text"></p>
-          <h3>What this could mean for the fly</h3>
-          <p class="small">Known circuit functions help interpret the response. They do not turn simulated spikes into a report of subjective experience.</p>
-          <div id="circuit-meanings" class="circuit-meanings"></div>
-          <p class="small">Composed by transparent rules from the measurements alone. The interpreter received no poem text.</p>
-          <details><summary>Exactly what the interpreter received</summary><pre id="reading-input"></pre></details>
         </section>
         <details id="provenance"><summary>PROVENANCE / inspect &amp; download</summary><div id="downloads" class="downloads"></div><pre id="provenance-json"></pre></details>
       </section>

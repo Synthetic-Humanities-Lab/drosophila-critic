@@ -18,6 +18,15 @@ export class NeuralScene {
       this.observer.observe(container);
     } catch { container.textContent = 'Spatial display unavailable. Recorded measurements remain below.'; }
   }
+  clear() {
+    this.data = null; this.lastBin = null;
+    if (this.points) {
+      this.scene.remove(this.points); this.points.geometry.dispose(); this.points.material.dispose();
+      this.points = null;
+    }
+    if (this.renderer) this.renderer.render(this.scene, this.camera);
+    document.getElementById('spatial-count').textContent = 'No spatial record loaded';
+  }
   load(data) {
     if (!this.renderer || !data.available) return;
     this.data = data; this.lastBin = null;

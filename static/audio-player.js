@@ -7,7 +7,7 @@ export class RecordedAudio extends EventTarget {
     this.offset = 0; this.started = 0; this.paused = true; this.duration = 0;
   }
   async load(url) {
-    this.pause(); this.generation++; this.offset = 0; this.buffer = null;
+    this.pause(); this.generation++; this.offset = 0; this.buffer = null; this.bytes = null;
     const response = await fetch(url);
     if (!response.ok) throw new Error('The saved waveform could not be loaded.');
     this.bytes = await response.arrayBuffer();

@@ -3,7 +3,7 @@ import { FlyScene } from './fly-scene.js';
 import { NeuralScene } from './neural-scene.js';
 
 const base = new URL('.', import.meta.url);
-const site = await fetch(new URL('site-config.json', base)).then(r => r.json());
+const site = await fetch(new URL('site-config.json', base), {cache: 'no-cache'}).then(r => r.json());
 const recorded = site.mode === 'recorded';
 function resource(path) {
   if (recorded && path.startsWith('/api/readings/')) {
@@ -44,7 +44,7 @@ const signed = (n, digits = 3) => `${n >= 0 ? '+' : '−'}${Math.abs(n).toFixed(
 const stamp = (n) => `${String(Math.floor(Math.max(0, n) / 60)).padStart(2, '0')}:${(Math.max(0, n) % 60).toFixed(2).padStart(5, '0')}`;
 
 async function request(path, options) {
-  const response = await fetch(resource(path), options);
+  const response = await fetch(resource(path), {cache: 'no-cache', ...options});
   if (!response.ok) {
     const body = await response.json().catch(() => ({}));
     throw new Error(typeof body.detail === 'string' ? body.detail : `Request failed (${response.status}).`);
@@ -128,7 +128,7 @@ $('submit').addEventListener('click', async () => {
     history.replaceState(null, '', `?reading=${response.id}`);
     await poll(response.id);
   } catch (e) {
-    error(e.message); $('entry').hidden = false; $('progress-panel').hidden = true;
+    loadFailure(e);
   } finally { $('submit').disabled = false; }
 });
 
@@ -247,16 +247,28 @@ function populateResults() {
   }));
 }
 
+function loadFailure(e) {
+  result = null; chartRange = null; audio.pause();
+  $('replay').hidden = true; $('results').hidden = true; $('progress-panel').hidden = true;
+  $('entry').hidden = recorded;
+  error(`The saved performance could not be displayed. Reload the page to retry. ${e.message}`);
+  for (const button of $('performance-tabs').children) button.disabled = false;
+}
+
 async function loadResult(id) {
+  $('error').hidden = true;
+  $('replay').hidden = true; $('results').hidden = true; $('entry').hidden = true;
+  $('progress-panel').hidden = false; $('stage').textContent = 'LOADING RECORDED RESPONSE';
+  $('show-results').disabled = true; $('show-reading').disabled = true;
   for (const button of $('performance-tabs').children) button.disabled = true;
-  audio.pause(); tailStarted = null; result = null; chartRange = null;
+  audio.pause(); neuralScene.clear(); tailStarted = null; result = null; chartRange = null;
   $('play').disabled = true; $('seek').disabled = true;
   result = await request(`/api/readings/${id}/result.json`);
   // Preserve ranking when replaying earlier result files that stored alphabetical traces.
   const rank = new Map(result.response.populations.map((population, i) => [population.name, i]));
   result.population_timeline.sort((a, b) => rank.get(a.name) - rank.get(b.name));
   tailStarted = null; lastFrame = -1; lastLine = null; chartRange = null;
-  $('entry').hidden = true; $('progress-panel').hidden = true; $('replay').hidden = false;
+  $('entry').hidden = true;
   $('results').hidden = true; $('error').hidden = true;
   $('poem').value = result.display.poem;
   $('spoken-poem').replaceChildren(...result.display.poem.split(/\r?\n/).map((line, i) => {
@@ -276,7 +288,7 @@ async function loadResult(id) {
   $('play').disabled = true;
   $('seek').disabled = true;
   try { await audio.load(resource(`/api/readings/${id}/audio.wav`)); }
-  finally { $('play').disabled = false; $('seek').disabled = false; }
+  catch (e) { error(`Audio unavailable: ${e.message}. The recorded interpretation remains available.`); }
   audio.duration = result.audio.duration;
   $('seek').max = result.audio.duration; $('seek').value = 0;
   $('audio-download').href = resource(`/api/readings/${id}/audio.wav`);
@@ -284,12 +296,16 @@ async function loadResult(id) {
   const performance = site.performances?.find(p=>p.id===id);
   $('performance-note').textContent = (performance?.description || '') + (performance ? ` Actual normalized RMS: ${result.audio.normalization.output_rms.toFixed(3)}. Equal processing does not guarantee equal loudness under the peak limit.` : '');
   for (const button of $('performance-tabs').children) button.setAttribute('aria-pressed',String(button.dataset.id===id));
-  flyScene.resize();
+
   if (result.provenance.neural_display) {
     try { neuralScene.load(await request(`/api/readings/${id}/neural-display.json`)); }
     catch { $('neural-caption').textContent='Spatial data unavailable; measurements remain available.'; }
   } else $('neural-caption').textContent='This earlier record has no spatial spike export.';
-  drawCharts(); populateResults(); updateReplay(0);
+  drawCharts(); populateResults();
+  $('progress-panel').hidden = true; $('replay').hidden = false; $('results').hidden = false;
+  flyScene.resize(); neuralScene.resize(); updateReplay(0);
+  $('play').disabled = !audio.bytes; $('seek').disabled = !audio.bytes;
+  $('show-results').disabled = false; $('show-reading').disabled = false;
   $('playback-note').textContent = 'Press play to hear the poem and replay its recorded neural trajectory.';
   for (const button of $('performance-tabs').children) button.disabled = false;
 }
@@ -325,16 +341,15 @@ function updateReplay(time) {
     }
   }
   lastLine = activeLine;
-  $('verse-number').textContent = activeLine ? `LINE ${String(activeLine).padStart(2, '0')}` : time >= result.audio.duration ? 'AFTER THE VOICE' : 'LINE BREAK';
-  $('current-verse').textContent = activeLine ? result.display.poem.split(/\r?\n/)[activeLine - 1] : time >= result.audio.duration ? 'The voice has stopped.' : '—';
   $('line-label').textContent = activeLine ? `LINE ${String(activeLine).padStart(2, '0')}` : time >= result.audio.duration ? 'AFTER THE VOICE' : 'LINE BREAK';
   for (const node of $('live-populations').children) {
     const population=(result.benchmark?.monitored_populations || result.response.monitored_populations).find(p=>p.name===node.dataset.name);
     node.lastChild.textContent=`${(row.groups[node.dataset.name] || 0).toFixed(1)} / Δ ${signed(population.delta_hz_per_neuron,2)}`;
   }
 }
+$('show-reading').addEventListener('click', () => { revealResults(); $('reading-heading').scrollIntoView({behavior: 'smooth', block: 'start'}); });
 function revealResults() { $('results').hidden = false; }
-$('show-results').addEventListener('click', () => { revealResults(); $('results').scrollIntoView({behavior: 'smooth', block: 'start'}); });
+$('show-results').addEventListener('click', () => { revealResults(); $('response-heading').scrollIntoView({behavior: 'smooth', block: 'start'}); });
 audio.addEventListener('play', () => { $('play').textContent = 'PAUSE'; tailStarted = null; $('playback-note').textContent = 'Replaying the computed response in sync with the voice.'; });
 audio.addEventListener('seeking', () => { tailStarted = null; lastFrame = -1; });
 audio.addEventListener('pause', () => { $('play').textContent = 'PLAY'; });
@@ -376,10 +391,10 @@ if (recorded && site.performances?.length > 1) {
     const button=element('button',performance.label);button.type='button';button.dataset.id=performance.id;
     button.setAttribute('aria-pressed',String(performance.id===site.reading));
     button.addEventListener('click',async()=>{
-      const wasReading = !$('results').hidden;
+      const wasReading = $('reading-heading').getBoundingClientRect().top < window.innerHeight && $('reading-heading').getBoundingClientRect().top >= 0;
       for(const item of $('performance-tabs').children)item.disabled=true;
       try {await loadResult(performance.id);if(wasReading){revealResults();$('reading-heading').scrollIntoView({block:'start'});}else{$('replay').scrollIntoView({block:'start'});}$('method-link').href=resource(`/api/readings/${performance.id}/METHOD.md`);}
-      catch(e){error(e.message);}
+      catch(e){loadFailure(e);}
       finally{for(const item of $('performance-tabs').children)item.disabled=false;}
     });
     $('performance-tabs').append(button);
@@ -398,7 +413,7 @@ if (saved && /^[a-z0-9-]{1,64}$/.test(saved)) {
   $('stage').textContent='LOADING RECORDED RESPONSE';
   $('progress-detail').textContent='Downloading the saved voice, measurements and spatial spike display.';
   $('entry').hidden = true; $('progress-panel').hidden = false;
-  poll(saved).catch(e => { error(e.message); $('entry').hidden = false; $('progress-panel').hidden = true; });
+  poll(saved).catch(loadFailure);
 }
 
 if (!saved) loadExample();
