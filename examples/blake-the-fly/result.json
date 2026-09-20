@@ -2,7 +2,7 @@
   "schema_version": "1.1",
   "id": "blake-benchmark-v1",
   "poem_id": "84eeb4029cca157417f6050ed96206feb14207defa6f7fa601bf330593220211",
-  "created_at": "2026-09-20T18:19:17.793122+00:00",
+  "created_at": "2026-09-20T19:50:50.707811+00:00",
   "audio": {
     "provider": "kokoro-onnx",
     "provider_version": "0.4.9",
@@ -42915,7 +42915,9 @@
     "matched_control": "benchmark.json",
     "silence_spikes": "silence-spikes.npz",
     "silence_counts": "silence-populations.npz",
-    "neural_display": "neural-display.json"
+    "neural_display": "neural-display.json",
+    "original_audio_record_created_at": "2026-09-20T18:19:17.793122+00:00",
+    "poem_rerun_validation": "All 1434 global timestep spike counts exactly reproduce the original saved poem run."
   },
   "display": {
     "poem": "Little fly,\nThy summer\u2019s play\nMy thoughtless hand\nHas brushed away.\n\nAm not I\nA fly like thee?\nOr art not thou\nA man like me?\n\nFor I dance\nAnd drink and sing,\nTill some blind hand\nShall brush my wing.\n\nIf thought is life\nAnd strength and breath,\nAnd the want\nOf thought is death,\n\nThen am I\nA happy fly,\nIf I live,\nOr if I die.",

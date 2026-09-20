@@ -346,6 +346,9 @@ if (recorded) {
 }
 const saved = recorded ? site.reading : new URLSearchParams(location.search).get('reading');
 if (saved && /^[a-z0-9-]{1,64}$/.test(saved)) {
+  $('progress-label').textContent='RETRIEVING A SAVED READING';
+  $('stage').textContent='LOADING RECORDED RESPONSE';
+  $('progress-detail').textContent='Downloading the saved voice, measurements and spatial spike display.';
   $('entry').hidden = true; $('progress-panel').hidden = false;
   poll(saved).catch(e => { error(e.message); $('entry').hidden = false; $('progress-panel').hidden = true; });
 }
