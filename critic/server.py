@@ -264,4 +264,10 @@ app.mount(
     name="history-experiment",
 )
 
+app.mount(
+    "/experiments/emphasis-v4",
+    StaticFiles(directory=ROOT / "experiments/emphasis-v4"),
+    name="emphasis-experiment",
+)
+
 app.mount("/", StaticFiles(directory=ROOT / "static", html=True), name="interface")

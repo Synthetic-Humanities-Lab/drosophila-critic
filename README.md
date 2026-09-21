@@ -343,3 +343,31 @@ manifest's stimulus frame count + 50 tail. Phase rows are baseline/audio/tail.
 The probe slot starts at `75 + round(probe_start / 0.02)` and lasts 100 steps.
 Public response JSON contains all five factorial contrasts, groups, gaps,
 fixed windows, per-seed 100 ms traces and exact-control results.
+
+## Controlled emphasis in the listening chamber (phase four)
+
+The main page now includes **Compare controlled emphasis** (direct link: `?mode=emphasis`).
+Select earlier/later emphasis or either against unchanged audio, then switch the heard
+recording at the same paused timestamp. Line highlighting, frame RMS/JON drive and
+silence-subtracted ensemble traces follow the selected audio clock. This is separate
+from the earlier single-seed original-performance replay. Both use the tested AudioContext
+transport, and changing modes pauses the other player.
+
+```sh
+PYTHONPATH=. .venv/bin/python scripts/emphasis_experiment.py
+PYTHONPATH=. .venv/bin/python scripts/emphasis_experiment.py --analyze
+.venv/bin/python scripts/export_replay.py
+.venv/bin/python -m http.server 8766 --directory dist
+```
+
+32 simulations: unchanged, earlier emphasis, later emphasis and equal-duration silence,
+using seeds 301–308. Source-line intervals 2 and 17 receive complementary smooth power
+gains; energy added to one is removed from the other, avoiding global renormalization.
+No off-target sample changes. The exact gain envelopes, PCM and injected input are saved.
+This is amplitude emphasis only; naturalness has not had independent human listening review.
+
+Artifacts are in `experiments/emphasis-v4`; raw spikes remain locally in
+`results/emphasis-v4`. The protocol was committed before running. Count archive layout
+matches v3, with 75 pre-audio steps, 1309 audio steps and 50 tail steps. See `RESULTS.md`
+for local versus whole-audio outcomes. The interpreter uses a separate strict numerical
+schema and receives no text. No new dependency or model mechanism was added.

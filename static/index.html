@@ -14,13 +14,41 @@
       <div class="edition"><span>SYNTHETIC HUMANITIES LAB / A CRITICAL INSTRUMENT</span><span>PROTOTYPE / 05</span></div>
       <h1>THE DROSOPHILA CRITIC</h1>
       <div class="subhead"><p>A fruit fly listens to poetry.</p><span class="specimen">MaleCNS v1.0 · 166,700 neurons</span></div>
-    <p><a href="./temporal.html">How the encounter unfolds: temporal confirmation ↗</a></p>
-    <p><a href="./history.html">Does earlier sound change reception of an identical passage? ↗</a></p>
+
+
 </header>
 
     <main>
-      <p><a href="./comparison.html">Delivery bench: compare level-matched performances across repeated seeds ↗</a></p>
+
       <p id="edition-notice" class="edition-notice" hidden></p>
+      <div class="performance-tabs" role="group" aria-label="Listening mode"><button id="mode-chamber" type="button" aria-pressed="true">Original performances</button><button id="mode-emphasis" type="button" aria-pressed="false">Compare controlled emphasis</button></div>
+<section id="emphasis-mode" hidden aria-label="Controlled emphasis listening experiment">
+  <div class="section-line"><h2>WHERE EMPHASIS FALLS</h2><span>RECORDED ENSEMBLE / 8 PAIRED RUNS</span></div>
+  <p>The same voice and timing. Energy moves between two passages; every other audio sample stays unchanged. These are smoothly edited amplitude contrasts, not new performances or changes in intonation.</p>
+  <p data-em="status" role="status">Loading the experiment…</p>
+  <div data-em="body" hidden>
+    <label>Compare <select data-em="comparison"><option value="earlier_later">Earlier emphasis versus later emphasis</option><option value="earlier_reference">Earlier emphasis versus unchanged recording</option><option value="later_reference">Later emphasis versus unchanged recording</option></select></label>
+    <div class="em-choice" role="group" aria-label="Choose comparison audio"><button data-em="first" type="button"></button><button data-em="second" type="button"></button></div>
+    <p data-em="exposure" class="small"></p>
+    <div class="em-grid"><section>
+      <div class="section-line"><h3>VOICE</h3><span data-em="line">READY</span></div>
+      <div data-em="poem" class="em-poem" aria-label="Poem with playback highlighting"></div>
+      <div class="player"><button data-em="play" type="button">PLAY</button><input data-em="seek" type="range" min="0" step="0.02" value="0" aria-label="Emphasis recording playback position" /><span data-em="time">0:00</span></div>
+      <div class="em-choice"><button data-em="target1" type="button">First altered passage ↗</button><button data-em="target2" type="button">Second altered passage ↗</button></div>
+      <a data-em="download" download="emphasis.wav">Download the selected WAV</a>
+    </section><section>
+      <h3>RESPONSE / direct auditory downstream cells</h3>
+      <p data-em="current" aria-live="off"></p><p data-em="input" class="small"></p>
+      <svg data-em="chart" viewBox="0 0 650 230" role="img" aria-label="Downstream response relative to silence for both compared recordings"></svg>
+      <p data-em="legend" class="small"></p>
+      <p class="small">Mean firing relative to matched silence, Hz/neuron, in 100 ms bins. Bands are the observed range of eight runs, not confidence intervals. The cursor follows audio playback; this is a recorded ensemble, not one live fly.</p>
+      <h3>What changed at the altered passages?</h3><div data-em="windows"></div><p data-em="averages" class="small"></p>
+    </section></div>
+    <section class="em-reading"><h3>READING / interpretation of this comparison</h3><p data-em="response"></p><p data-em="reading"></p><p data-em="functional" class="small"></p></section>
+    <details><summary>Method and measured evidence</summary><p>Targets use source-line intervals 2 and 17. The gain envelope transfers equal waveform energy between them, with 80 ms tapered edges. RMS is matched within PCM rounding; total injected drive is measured separately. No compression, pitch, timing or connectome changes. The amplitude edit has not been independently reviewed for naturalness.</p><p>Local windows and the response criterion were declared before 32 simulations with seeds 301–308. Criterion: temporal mean difference RMS exceeds across-seed variability RMS and the two four-run halves have cosine similarity above 0.5. This is a descriptive check, not statistical significance. Off-target means exclude both target windows and their 0.3-second extensions. The reading receives only response measurements, never poem text. No movement, feeling or preference is established.</p><nav><a href="./experiments/emphasis-v4/PROTOCOL.md">Protocol</a> · <a href="./experiments/emphasis-v4/RESULTS.md">Results</a> · <a href="./experiments/emphasis-v4/comparison.json">Response JSON</a> · <a href="./experiments/emphasis-v4/interpretation-input.json">Interpreter input</a> · <a href="./experiments/emphasis-v4/counts.npz">Spike counts</a> · <a href="./experiments/emphasis-v4/gain-envelopes.npz">Gain envelopes</a></nav></details>
+  </div>
+</section>
+      <div id="chamber-mode">
       <section id="entry" aria-labelledby="poem-label">
         <div class="section-line"><label id="poem-label" for="poem">01 / THE POEM</label><button id="example" class="text-button" type="button">William Blake · The Fly ↗</button></div>
         <textarea id="poem" maxlength="2000" spellcheck="false" placeholder="Place a poem here.&#10;&#10;The fly will receive its sound." aria-describedby="limits"></textarea>
@@ -110,9 +138,13 @@
         <details id="provenance"><summary>PROVENANCE / inspect &amp; download</summary><div id="downloads" class="downloads"></div><pre id="provenance-json"></pre></details>
       </section>
 
+      </div>
       <details id="method" class="method">
         <summary>METHOD <span>A voice, an auditory input, a frozen connectome.</span></summary>
         <div class="method-content">
+<p><a href="./temporal.html">How the encounter unfolds: temporal confirmation ↗</a></p>
+<p><a href="./history.html">Does earlier sound change reception of an identical passage? ↗</a></p>
+<p><a href="./comparison.html">Delivery bench: compare level-matched performances across repeated seeds ↗</a></p>
           <p>The reference poem is rendered by one fixed synthetic voice. A separate, credited human performance is available for comparison; each recording receives its own simulation and matched silence control. No semantic representation is provided to the fly. Frame-by-frame sound amplitude becomes equal stimulation of 138 annotated JO-A/JO-B Johnston’s-organ neurons.</p>
           <p>The full fly.ai connectome simulation runs with its weights frozen and its seeded noise intact. RESPONSE comes from recorded simulated spikes. READING interprets a restricted measurement summary and never sees the poem.</p>
           <p>The 3D body uses NeuroMechFly anatomy from a female micro-CT exemplar; it is an illustrative surface, separate from the MaleCNS connectome. The static pose does not simulate listening mechanics or behavior. Sound rings display amplitude; antennal color displays JON firing. <a href="./assets/fly/NOTICE.txt">Anatomy credits ↗</a></p>

@@ -349,3 +349,21 @@ The history interpreter receives a strict numerical response summary only. Its
 reading distinguishes changed reception, lingering activity and unresolved outcomes.
 Any detected dependence may arise from ordinary dynamical state, not learning.
 Extrapolation from these model-specific measurements to living flies remains open.
+
+## Local emphasis v4
+
+This diagnostic transfers waveform energy between two predeclared source-line intervals
+using smooth complementary power gains. Outside those intervals every PCM sample stays
+identical, unlike whole-file normalization after local editing. The 80 ms raised-cosine
+ramps bound gain transitions; overall RMS is equal within quantization tolerance. Peak
+ceiling, untouched samples, source/processed hashes, gain envelopes and actual capped
+JON input are checked and saved. This is an amplitude edit, not a claim to reproduce
+full expressive prosody. No independent human naturalness review has been performed.
+
+The protocol predates all 32 runs. Source numbers 2 and 17 select timed audio regions
+for the experimental edit and display only; the neural encoder still receives waveform
+measurements alone. Analyses compare every declared pair/window, downstream and descending
+populations, and whole-audio/off-target averages. Primary windows include 0.3 s after
+each target and use complete 100 ms bins on the 20 ms clock. No response peaks are selected.
+A positive result can reflect tracking current amplitude; no memory or feeling follows.
+The separate response-only interpreter makes that measurement/interpretation boundary explicit.

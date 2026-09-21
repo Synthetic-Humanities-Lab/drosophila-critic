@@ -59,3 +59,12 @@ def test_history_dom_matches_its_client():
     code = (ROOT / "static/history.js").read_text()
     for name in re.findall(r"\$\('([^']+)'\)", code):
         assert name in ids, name
+
+
+def test_emphasis_player_markup_contract():
+    html = (ROOT / "static/index.html").read_text()
+    keys = re.findall(r'data-em="([^"]+)"', html)
+    assert len(keys) == len(set(keys))
+    code = (ROOT / "static/emphasis-player.js").read_text()
+    for key in re.findall(r"this.q\('([^']+)'\)", code):
+        assert key in keys, key

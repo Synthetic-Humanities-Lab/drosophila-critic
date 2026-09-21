@@ -112,6 +112,9 @@ def export(source: Path, output: Path):
     history = ROOT / "experiments/history-v3"
     if (history / "comparison.json").exists():
         shutil.copytree(history, output / "experiments/history-v3", dirs_exist_ok=True)
+    emphasis = ROOT / "experiments/emphasis-v4"
+    if (emphasis / "comparison.json").exists():
+        shutil.copytree(emphasis, output / "experiments/emphasis-v4", dirs_exist_ok=True)
     version_interface(output)
     (output / ".nojekyll").touch()
 

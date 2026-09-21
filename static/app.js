@@ -1,3 +1,4 @@
+import { EmphasisPlayer } from './emphasis-player.js';
 import { RecordedAudio } from './audio-player.js';
 import { FlyScene } from './fly-scene.js';
 import { NeuralScene } from './neural-scene.js';
@@ -15,6 +16,16 @@ function resource(path) {
 
 const $ = (id) => document.getElementById(id);
 const audio = new RecordedAudio();
+const emphasis = new EmphasisPlayer($('emphasis-mode'));
+async function listeningMode(experiment) {
+  audio.pause(); tailStarted = null; emphasis.pause();
+  $('chamber-mode').hidden = experiment; $('emphasis-mode').hidden = !experiment;
+  $('mode-chamber').setAttribute('aria-pressed', String(!experiment));
+  $('mode-emphasis').setAttribute('aria-pressed', String(experiment));
+  if (experiment) {const example = site.example || await request('/api/example');await emphasis.show(example.poem);}
+}
+$('mode-chamber').addEventListener('click',()=>listeningMode(false));
+$('mode-emphasis').addEventListener('click',()=>listeningMode(true).catch(e=>error(e.message)));
 const flyScene = new FlyScene($('fly-scene'));
 const neuralScene = new NeuralScene($('neural-scene'));
 let playPending = false;
@@ -356,7 +367,7 @@ audio.addEventListener('pause', () => { $('play').textContent = 'PLAY'; });
 audio.addEventListener('ended', () => { $('play').textContent = 'REPLAY'; tailStarted = performance.now(); $('playback-note').textContent = 'The voice has stopped. Replaying the recorded silent aftermath.'; });
 audio.addEventListener('error', () => error('The saved audio could not be loaded. The measurements remain available below.'));
 function animate(now) {
-  if (result && chartRange && !$('replay').hidden) {
+  if (result && chartRange && !$('replay').hidden && !$('chamber-mode').hidden) {
     let time = audio.currentTime;
     if (tailStarted !== null) {
       time = Math.min(chartRange.maxTime - result.fly.timestep, result.audio.duration + (now - tailStarted) / 1000);
@@ -421,3 +432,5 @@ if (!saved) loadExample();
 if (!recorded) request('/api/settings').then(settings => {
   if (settings.public) $('storage-note').textContent = 'Submitted poems and recordings are stored temporarily on this server for up to 24 hours. Anyone with a reading link can view it. Download artifacts to retain them.';
 }).catch(() => {});
+
+if (new URLSearchParams(location.search).get('mode') === 'emphasis') listeningMode(true).catch(e=>error(e.message));

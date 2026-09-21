@@ -713,3 +713,20 @@ pre {
 #spoken-poem { height: 200px; overflow-y: auto; margin: 16px 0; }
 #reading-heading, #response-heading { scroll-margin-top: 110px; }
 #show-reading { margin: 12px 0; font-weight: 600; }
+
+/* Controlled delivery lives in the listening interface, with its own ensemble provenance. */
+#emphasis-mode { margin: 28px 0; }
+#emphasis-mode h3 { font: 18px Georgia,serif; }
+#emphasis-mode select { padding: 10px; max-width: 100%; background: transparent; color: inherit; }
+.em-choice { display: flex; flex-wrap: wrap; gap: 12px; margin: 18px 0; }
+.em-choice button { padding: 9px 12px; border: 1px solid #cfcec3; background: transparent; color: inherit; cursor: pointer; }
+.em-choice button[aria-pressed="true"] { border-color: #a55235; background: #ede8dd; }
+.em-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 32px; margin: 24px 0; }
+.em-poem { max-height: 360px; overflow: auto; font: 20px/1.7 Georgia,serif; }
+.em-poem .em-target { border-left: 2px solid #a55235; padding-left: 8px; }
+.em-poem .active { background: #ebe4d6; }
+.em-reading { border-top: 1px solid #cfcec3; padding-top: 20px; margin-top: 24px; }
+#emphasis-mode [data-em="reading"] { font: 23px/1.5 Georgia,serif; }
+#emphasis-mode [data-em="chart"] { width: 100%; }
+#emphasis-mode details { margin-top: 24px; }
+@media(max-width:700px) { .em-grid { grid-template-columns: 1fr; } }
