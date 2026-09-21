@@ -398,3 +398,16 @@ PYTHONPATH=. .venv/bin/python scripts/population_screen.py validate
 ```
 
 The committed compact count archives also let tests reconstruct the held-out comparisons without downloading the connectome or rerunning simulations. Read the protocol before interpreting the gates: validation reuses the same performances, and residual differences only challenge three simple amplitude approximations.
+
+### Experimental auditory receiver v2
+
+The [receiver laboratory method](docs/RECEIVER-V2.md) documents the new waveform
+calibration, published oscillator benchmark, adaptation motif, and fine-clock
+adapter around the original FlyBrain. Run `PYTHONPATH=. .venv/bin/python
+scripts/receiver_lab.py --neural-pilot` to regenerate the checks and actual
+connectome timing pilot, then export and open `/receiver.html`.
+
+This build deliberately does **not** replace the poem receiver: the source
+oscillator parameters describe DMSO-induced motion, and physical-to-neural
+calibration is unresolved. The laboratory exposes those gates and measured timing
+changes instead of manufacturing a new poem response.

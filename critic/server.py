@@ -241,6 +241,11 @@ def method():
     return FileResponse(ROOT / "METHOD.md", media_type="text/plain")
 
 
+@app.get("/RECEIVER-V2.md")
+def receiver_method():
+    return FileResponse(ROOT / "docs/RECEIVER-V2.md", media_type="text/plain")
+
+
 @app.get("/CRITICAL-DIRECTIONS.md")
 def critical_directions():
     return FileResponse(ROOT / "docs/CRITICAL-DIRECTIONS.md", media_type="text/plain")
@@ -280,6 +285,12 @@ app.mount(
     "/experiments/populations-v6",
     StaticFiles(directory=ROOT / "experiments/populations-v6"),
     name="population-comparison",
+)
+
+app.mount(
+    "/experiments/receiver-v2",
+    StaticFiles(directory=ROOT / "experiments/receiver-v2"),
+    name="receiver-lab",
 )
 
 app.mount("/", StaticFiles(directory=ROOT / "static", html=True), name="interface")

@@ -85,3 +85,12 @@ def test_public_origin_is_checked_independently_of_proxy_scheme(monkeypatch):
         ).status_code
         == 403
     )
+
+
+def test_receiver_lab_is_explicitly_experimental_and_method_available():
+    assert client.get("/receiver.html").status_code == 200
+    assert client.get("/RECEIVER-V2.md").status_code == 200
+    report = client.get("/experiments/receiver-v2/report.json").json()
+    assert report["status"] == "experimental components; production coupling blocked"
+    assert not any(report["gates"].values())
+    assert all(row["neural_response"] is None for row in report["recordings"].values())

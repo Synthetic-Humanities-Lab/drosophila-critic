@@ -385,3 +385,10 @@ One bounded retrospective screen tests whether whole annotated cell types differ
 Discovery and per-type baseline calibration use v1 seeds 64–71. The top five qualifying type/stanza pairs from 350 comparisons were committed before validation (`22fa9b8`). Validation uses v2 seeds 101–108 without reselection or refitting. It holds out noise runs for these population tests, not stimulus identity or all prior project analysis. V2 has a five-second observation tail versus v1's one second: only complete audio bins enter this screen; all dynamics and pre-audio settings must match. Hash checks retain both configurations and reject other differences.
 
 Raw and all three residual contrasts must exceed seed SD in absolute mean, agree in sign in at least seven of eight runs, survive all nine human-boundary shifts and retain discovery direction. Ranking uses the weakest residual mean/SD. These are descriptive gates with no multiple-comparison error guarantee. Whole-type firing differences and baseline residuals do not identify an action or isolate connectome causation. Two candidates survive and three fail; all five and the complete discovery screen remain published. CB4176 and CB1038d are annotated `cb_intrinsic`; no specific behavioral association for these labels was located in the inherited Python/Markdown sources. The reading therefore stays anatomical and numerical. Small named output circuits and finer temporal patterns are outside this screen's scope.
+
+## Experimental auditory receiver v2
+
+The separate [receiver laboratory](docs/RECEIVER-V2.md) implements source-component
+benchmarks and a clock diagnostic. It is not used in any archived poem reading.
+Healthy forced mechanics and receptor-to-connectome calibration remain unresolved;
+no new physiological or literary result is inferred from these component tests.

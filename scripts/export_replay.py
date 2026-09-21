@@ -121,6 +121,10 @@ def export(source: Path, output: Path):
     populations = ROOT / "experiments/populations-v6"
     if (populations / "comparison.json").exists():
         shutil.copytree(populations, output / "experiments/populations-v6", dirs_exist_ok=True)
+    receiver = ROOT / "experiments/receiver-v2"
+    if (receiver / "report.json").exists():
+        shutil.copytree(receiver, output / "experiments/receiver-v2", dirs_exist_ok=True)
+        shutil.copy2(ROOT / "docs/RECEIVER-V2.md", output / "RECEIVER-V2.md")
     version_interface(output)
     (output / ".nojekyll").touch()
 

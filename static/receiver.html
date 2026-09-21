@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Auditory receiver laboratory · The Drosophila Critic</title>
+    <style>
+      :root {
+        font-family: system-ui, sans-serif;
+        color: #292d2b;
+        background: #f6f4eb;
+        line-height: 1.6;
+      }
+      body {
+        margin: 0;
+      }
+      main {
+        max-width: 960px;
+        margin: 3rem auto;
+        padding: 0 1.5rem;
+      }
+      h1 {
+        font-family: Georgia, serif;
+        font-weight: normal;
+        font-size: 2.6rem;
+        line-height: 1.1;
+      }
+      h2 {
+        font-weight: 500;
+        margin-top: 2.5rem;
+      }
+      a {
+        color: #91472f;
+      }
+      strong {
+        font-weight: 600;
+      }
+      .status {
+        border-left: 3px solid #91472f;
+        padding: 1rem;
+        background: #eae9df;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 0.95rem;
+      }
+      th,
+      td {
+        text-align: left;
+        border-bottom: 1px solid #ccc;
+        padding: 0.7rem;
+      }
+      .scroll {
+        overflow: auto;
+      }
+      svg {
+        width: 100%;
+        height: 220px;
+        background: #eae9df;
+      }
+      footer {
+        border-top: 1px solid #bbb;
+        margin-top: 3rem;
+        padding: 1rem 0;
+      }
+      .small {
+        font-size: 0.9rem;
+      }
+      #error {
+        color: #91472f;
+      }
+    </style>
+    <script type="module" src="./receiver-lab.js"></script>
+  </head>
+  <body>
+    <main>
+      <a href="./">← Return to the recorded poem readings</a>
+      <h1>Building the auditory receiver</h1>
+      <p class="status">
+        <strong>Experimental components. Not yet a new poem receiver.</strong
+        ><br />The current poem readings use the original amplitude receiver.
+        This laboratory shows what has been implemented and tested before a
+        replacement is connected.
+      </p>
+      <p id="error" role="alert"></p>
+      <h2>What is working?</h2>
+      <p>
+        Waveform calibration into a virtual local air-velocity field; a
+        published autonomous antennal oscillator; a receptor-adaptation motif;
+        and a finer-clock adapter around the original frozen connectome. These
+        components have not yet been validated as one biological receiver.
+      </p>
+      <h2>A source model, with a consequential limit</h2>
+      <p>
+        This trace is an oscillator fitted to chemically induced antennal
+        motion. It oscillates without a poem. It is a numerical benchmark, not a
+        rendering of a healthy fly listening.
+      </p>
+      <svg
+        id="oscillator"
+        viewBox="0 0 900 220"
+        role="img"
+        aria-label="Published autonomous oscillator velocity over 50 milliseconds"
+      ></svg>
+      <p id="convergence" class="small">
+        Loading measured convergence results…
+      </p>
+      <h2>What changes when the neural clock changes?</h2>
+      <p>
+        The pilot runs the actual full connectome with its weights unchanged and
+        its 20 ms propagation delay retained. Each run lasts half a second.
+        Counts below are global spikes with the usual noise enabled, using one
+        seed. This is a diagnostic, not a population estimate.
+      </p>
+      <div class="scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Neural timestep</th>
+              <th>Silence spikes</th>
+              <th>Pulse spikes</th>
+            </tr>
+          </thead>
+          <tbody id="clocks"></tbody>
+        </table>
+      </div>
+      <p id="weights" class="small"></p>
+      <p>
+        More spikes at a finer timestep show that this alters the apparatus. A
+        new clock needs validation before its outputs can be compared with the
+        existing poem experiments.
+      </p>
+      <h2>What is still missing?</h2>
+      <ul>
+        <li>A calibrated healthy antenna response to imposed sound.</li>
+        <li>
+          The physical scale connecting displacement to receptor adaptation.
+        </li>
+        <li>
+          A supported mapping from receptor output to the connectome’s abstract
+          neural current.
+        </li>
+        <li>
+          Validation of finer-clock activity over longer, repeated trials.
+        </li>
+      </ul>
+      <p>
+        No new claim about how either rendition moves the fly follows from this
+        laboratory yet.
+      </p>
+      <footer>
+        <a href="./RECEIVER-V2.md"
+          >Method, source papers and reproduction instructions</a
+        >
+        ·
+        <a href="./experiments/receiver-v2/report.json">Inspect result JSON</a>
+      </footer>
+    </main>
+  </body>
+</html>
