@@ -1,6 +1,8 @@
 const ns = 'http://www.w3.org/2000/svg';
 async function load() {
-  const response = await fetch('./experiments/receiver-v2/report.json');
+  const response = await fetch('./experiments/receiver-v2/report.json', {
+    cache: 'no-store',
+  });
   if (!response.ok)
     throw new Error(`Receiver report unavailable (${response.status})`);
   const report = await response.json();
@@ -75,7 +77,9 @@ load().catch((error) => {
 });
 
 async function loadCalibration() {
-  const response = await fetch('./experiments/receiver-v2/calibration.json');
+  const response = await fetch('./experiments/receiver-v2/calibration.json', {
+    cache: 'no-store',
+  });
   if (!response.ok)
     throw new Error(`Calibration report unavailable (${response.status})`);
   const data = await response.json();
@@ -111,6 +115,17 @@ async function loadCalibration() {
         `${tone.frequency_hz} Hz`,
         tone.mean_excess_open_probability.toFixed(4),
       ]);
+  }
+  const bridge = data.constant_force_bridge_audit;
+  if (bridge) {
+    const best = Math.min(
+      ...bridge.fits.map((fit) => fit.normalized_complex_response_error),
+    );
+    document.querySelector('#bridge-audit').textContent =
+      `Attempted air-to-force connection: a fitted constant gain leaves at least ${(100 * best).toFixed(1)}% normalized error between these source models in the linear-response comparison. This cross-study check does not invalidate either model. No fitted gain was applied to the poems.`;
+  } else {
+    document.querySelector('#bridge-audit').textContent =
+      'Bridge comparison unavailable in this report.';
   }
   const discrepant = data.parameter_audit.fits
     .filter((r) => !r.motor_time_within_5_percent)

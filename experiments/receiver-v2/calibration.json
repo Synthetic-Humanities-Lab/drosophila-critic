@@ -238,6 +238,68 @@
     "selected_fit": 7,
     "selection_reason": "symmetric rest; receiver and motor relaxation times agree within 2% with Table S2; chosen before poem processing"
   },
+  "constant_force_bridge_audit": {
+    "purpose": "cross-study compatibility diagnostic, not a measured drag calibration",
+    "assumption": "F_pN = coefficient * air_velocity_mm_s, frequency-independent real coefficient, linear response limit",
+    "frequency_hz": [
+      100,
+      200,
+      300,
+      394,
+      400,
+      600,
+      1000,
+      1500
+    ],
+    "fits": [
+      {
+        "fly": 1,
+        "fitted_constant_pn_per_mm_s": 1.5557566836028276,
+        "normalized_complex_response_error": 0.9085362774527401,
+        "applied_to_recordings": false
+      },
+      {
+        "fly": 2,
+        "fitted_constant_pn_per_mm_s": 6.385138680096574,
+        "normalized_complex_response_error": 0.25199893740515894,
+        "applied_to_recordings": false
+      },
+      {
+        "fly": 3,
+        "fitted_constant_pn_per_mm_s": 10.727374395350589,
+        "normalized_complex_response_error": 0.6342610720809685,
+        "applied_to_recordings": false
+      },
+      {
+        "fly": 4,
+        "fitted_constant_pn_per_mm_s": 5.787148431686166,
+        "normalized_complex_response_error": 0.6754846458538395,
+        "applied_to_recordings": false
+      },
+      {
+        "fly": 5,
+        "fitted_constant_pn_per_mm_s": 4.481118778897732,
+        "normalized_complex_response_error": 0.7847773863061343,
+        "applied_to_recordings": false
+      },
+      {
+        "fly": 6,
+        "fitted_constant_pn_per_mm_s": 1.4803883313964619,
+        "normalized_complex_response_error": 0.8704104066556156,
+        "applied_to_recordings": false
+      },
+      {
+        "fly": 7,
+        "fitted_constant_pn_per_mm_s": 4.411863245749931,
+        "normalized_complex_response_error": 0.8086789863528855,
+        "applied_to_recordings": false
+      }
+    ],
+    "loss": "unweighted complex least squares; ||prediction-target||_2 / ||target||_2; includes gain and phase",
+    "target": "Gopfert-Robert 2002 Fig 2C representative response fit",
+    "limitation": "Different specimens and unspecified matching stimulus level; does not reject either source model or test nonlinear finite-level matching",
+    "decision": "No fitted coefficient is promoted to a physiological or production calibration"
+  },
   "diagnostics": {
     "sound_transfer_tones": [
       {
@@ -4797,6 +4859,6 @@
   "production_receiver_changed": false,
   "implementation_sha256": {
     "critic/receiver/healthy.py": "f88e4341fa89d2d1c81b7e7e28f9a2d64bc4022dc624e8de13a3387c9cff12a4",
-    "scripts/calibrate_receiver.py": "6485d7852d12eeb54d5b4f48196267f6732f4267d4f174c0a004c3a8a8bcc19f"
+    "scripts/calibrate_receiver.py": "73f708f5535963f7a281c56ce4e7c18186406c7883679d5c5aaa6ecb6bc188ab"
   }
 }

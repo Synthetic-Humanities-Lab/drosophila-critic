@@ -131,3 +131,21 @@ source-table discrepancies, waveform hashes and 100 ms mechanical timelines.
 Full-resolution arrays and 100 ms silence tails are retained locally in
 `results/receiver-calibration/`. Earlier `report.json` is the unchanged prior
 laboratory snapshot, including its historical implementation hashes.
+
+## Attempted constant air-to-force calibration
+
+We tested the minimal assumption `F = c * air_velocity` in the **linear-response
+limit**, fitting a nonnegative real scalar c for each of the seven force models.
+The target was the 2002 representative complex velocity-transfer function at
+100, 200, 300, 394, 400, 600, 1000 and 1500 Hz. Unweighted complex least squares
+uses both phase and magnitude; normalized error is the L2 norm of the residual
+divided by the L2 norm of the target.
+
+The best candidate, fit 2, leaves 25.2% normalized complex-response error. Fit 7
+leaves 80.9%. These percentages are neither statistical uncertainty nor biological
+prediction error. The comparison mixes source specimens and lacks a matched
+stimulus level; nonlinear finite-level matching has not been tested. It therefore
+cannot disprove either source model. It does establish that simply inserting a
+constant gain is not an exact reconciliation of these particular linear response
+functions. All candidate coefficients and losses are saved; none is applied to
+the recordings or passed into the connectome.

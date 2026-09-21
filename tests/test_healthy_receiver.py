@@ -140,3 +140,33 @@ def test_consistent_source_time_constants_have_correct_physical_units(index):
     assert derived["tau_motor_ms"] == pytest.approx(p.published_tau_motor_ms, rel=0.05)
     assert derived["tau_receiver_ms"] == pytest.approx(p.published_tau_receiver_ms, rel=0.05)
     assert derived["thermal_energy_pn_nm_from_eq2"] == pytest.approx(4.0, rel=0.02)
+
+
+def test_constant_force_bridge_is_audited_not_applied():
+    import json
+    from pathlib import Path
+
+    report = json.loads(
+        (
+            Path(__file__).resolve().parents[1] / "experiments/receiver-v2/calibration.json"
+        ).read_text()
+    )
+    bridge = report["constant_force_bridge_audit"]
+    frequencies = np.asarray(bridge["frequency_hz"])
+    target = SoundTransfer().velocity_transfer(frequencies)
+    for p, row in zip(SOURCE_FITS, bridge["fits"]):
+        predictor = np.array(
+            [
+                ForceTransducer(p).displacement_transfer(f) * 2j * np.pi * f * 1e-6
+                for f in frequencies
+            ]
+        )
+        coefficient = row["fitted_constant_pn_per_mm_s"]
+        loss = np.linalg.norm(coefficient * predictor - target) / np.linalg.norm(target)
+        assert loss == pytest.approx(row["normalized_complex_response_error"])
+        for factor in [0.9, 1.1]:
+            assert (
+                np.linalg.norm(factor * coefficient * predictor - target) / np.linalg.norm(target)
+                > loss
+            )
+        assert not row["applied_to_recordings"]

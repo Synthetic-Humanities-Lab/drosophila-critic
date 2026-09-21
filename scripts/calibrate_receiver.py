@@ -129,6 +129,45 @@ def source_diagnostics():
     }
 
 
+def constant_force_bridge_audit():
+    """Attempt only a real scalar in the linear limit; do not apply it to poems."""
+    frequencies = np.array([100, 200, 300, 394, 400, 600, 1000, 1500])
+    target = SoundTransfer().velocity_transfer(frequencies)
+    rows = []
+    for parameters in SOURCE_FITS:
+        model = ForceTransducer(parameters)
+        velocity_per_force = np.array(
+            [model.displacement_transfer(f) * 2j * np.pi * f * 1e-6 for f in frequencies]
+        )
+        coefficient = max(
+            0.0,
+            float(
+                np.vdot(velocity_per_force, target).real
+                / np.vdot(velocity_per_force, velocity_per_force).real
+            ),
+        )
+        predicted = coefficient * velocity_per_force
+        error = float(np.linalg.norm(predicted - target) / np.linalg.norm(target))
+        rows.append(
+            {
+                "fly": parameters.fly,
+                "fitted_constant_pn_per_mm_s": coefficient,
+                "normalized_complex_response_error": error,
+                "applied_to_recordings": False,
+            }
+        )
+    return {
+        "purpose": "cross-study compatibility diagnostic, not a measured drag calibration",
+        "assumption": "F_pN = coefficient * air_velocity_mm_s, frequency-independent real coefficient, linear response limit",
+        "frequency_hz": frequencies.tolist(),
+        "fits": rows,
+        "loss": "unweighted complex least squares; ||prediction-target||_2 / ||target||_2; includes gain and phase",
+        "target": "Gopfert-Robert 2002 Fig 2C representative response fit",
+        "limitation": "Different specimens and unspecified matching stimulus level; does not reject either source model or test nonlinear finite-level matching",
+        "decision": "No fitted coefficient is promoted to a physiological or production calibration",
+    }
+
+
 def process_recordings():
     rows = {}
     for name in ["reference", "human"]:
@@ -208,6 +247,7 @@ def main():
         "sound_transfer_config": asdict(SoundTransferConfig()),
         "virtual_field_config": asdict(ReceiverConfig()),
         "parameter_audit": parameter_audit(),
+        "constant_force_bridge_audit": constant_force_bridge_audit(),
         "diagnostics": source_diagnostics(),
         "recordings": process_recordings(),
         "remaining_contracts": [
