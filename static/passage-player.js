@@ -93,11 +93,59 @@ export class PassagePlayer {
         }),
       );
       await this.selectSource();
+      await this.loadPopulations();
       this.q('body').hidden = false;
       this.q('status').hidden = true;
     } catch (e) {
       this.data = null;
       this.fail(e);
+    }
+  }
+  async loadPopulations() {
+    try {
+      const response = await fetch(
+        './experiments/populations-v6/comparison.json',
+      );
+      if (!response.ok)
+        throw new Error('saved population evidence unavailable');
+      const result = await response.json();
+      this.q('population-status').textContent =
+        `${result.eligible_count} annotated types, ${result.screened_pairs} type/stanza comparisons. ${result.qualified_discovery} passed discovery; five candidates were frozen before validation. ${result.candidates.filter((r) => r.survives).length} of ${result.candidates.length} survived held-out checks.`;
+      this.q('population-reading').textContent = result.reading;
+      this.q('population-table').replaceChildren(
+        ...result.candidates.map((row) => {
+          const tr = document.createElement('tr'),
+            title = document.createElement('td');
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.textContent = `${row.type} / stanza ${row.stanza}`;
+          button.addEventListener('click', () => {
+            if (this.busy) return;
+            this.q('passage').value = String(row.stanza);
+            this.selectPassage();
+            this.q('play').focus();
+          });
+          title.append(button);
+          tr.append(title);
+          const residuals = Object.values(row.validation.residuals).map(
+            (checks) => checks[4].mean,
+          );
+          for (const value of [
+            `${row.total} / ${row.direct}`,
+            signed(row.validation.raw[4].mean),
+            `${signed(Math.min(...residuals))} to ${signed(Math.max(...residuals))}`,
+            row.survives ? 'Yes' : 'No',
+          ]) {
+            const td = document.createElement('td');
+            td.textContent = value;
+            tr.append(td);
+          }
+          return tr;
+        }),
+      );
+    } catch (e) {
+      this.q('population-status').textContent =
+        `Population follow-up unavailable: ${e.message}`;
     }
   }
   async selectSource() {

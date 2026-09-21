@@ -384,3 +384,17 @@ PYTHONPATH=. .venv/bin/python scripts/passage_comparison.py
 ```
 
 The committed v1/v2 count archives supply the measured original-fly responses. Calibration uses v1 synthetic seeds 64–71; evaluation uses v2 seeds 101–108. See `experiments/passages-v5/RESULTS.md` for the actual findings and the distinction between local differences and what simple input tracking explains.
+
+### Annotated population follow-up
+
+The stanza interface includes a five-candidate held-out population comparison. Discovery uses v1 seeds 64–71; fixed-candidate validation uses v2 seeds 101–108. No new fly runs or training occur. All selected candidates, including failures, and all 350 discovery comparisons are public under `experiments/populations-v6`.
+
+To reproduce, local raw `results/delivery-v1` and `results/temporal-v2` population archives plus the pinned connectome files are required:
+
+```sh
+PYTHONPATH=. .venv/bin/python scripts/population_screen.py discover
+PYTHONPATH=. .venv/bin/python scripts/population_screen.py validate
+.venv/bin/python scripts/export_replay.py
+```
+
+The committed compact count archives also let tests reconstruct the held-out comparisons without downloading the connectome or rerunning simulations. Read the protocol before interpreting the gates: validation reuses the same performances, and residual differences only challenge three simple amplitude approximations.

@@ -276,4 +276,10 @@ app.mount(
     name="passage-comparison",
 )
 
+app.mount(
+    "/experiments/populations-v6",
+    StaticFiles(directory=ROOT / "experiments/populations-v6"),
+    name="population-comparison",
+)
+
 app.mount("/", StaticFiles(directory=ROOT / "static", html=True), name="interface")

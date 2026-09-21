@@ -200,7 +200,15 @@ def validate():
         raise ValueError("Protocol changed after selection")
     eligible = discovery["eligible"]
     data, artifacts, configuration = extract("temporal-v2", range(101, 109), eligible)
-    if configuration != discovery["configuration"]:
+    expected = json.loads(json.dumps(discovery["configuration"]))
+    actual = json.loads(json.dumps(configuration))
+    # v2 extends observation after audio; no tail samples enter this analysis.
+    if (
+        expected["configuration"].pop("tail_seconds") != 1
+        or actual["configuration"].pop("tail_seconds") != 5
+    ):
+        raise ValueError("Unexpected observation-tail settings")
+    if actual != expected:
         raise ValueError("Validation model differs from discovery")
     drive, manifest = inputs()
     sizes = np.array([e["total"] for e in eligible])
@@ -247,6 +255,7 @@ def validate():
 
     reading = interpret(ReadingInput(**summary))
     result = dict(
+        configuration=configuration,
         eligible_count=len(eligible),
         screened_pairs=len(discovery["screen"]),
         qualified_discovery=sum(r["evidence"]["qualifies"] for r in discovery["screen"]),

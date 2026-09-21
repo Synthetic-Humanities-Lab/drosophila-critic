@@ -118,6 +118,9 @@ def export(source: Path, output: Path):
     passages = ROOT / "experiments/passages-v5"
     if (passages / "comparison.json").exists():
         shutil.copytree(passages, output / "experiments/passages-v5", dirs_exist_ok=True)
+    populations = ROOT / "experiments/populations-v6"
+    if (populations / "comparison.json").exists():
+        shutil.copytree(populations, output / "experiments/populations-v6", dirs_exist_ok=True)
     version_interface(output)
     (output / ".nojekyll").touch()
 

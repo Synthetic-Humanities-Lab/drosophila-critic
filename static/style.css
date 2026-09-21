@@ -734,3 +734,6 @@ pre {
 #passage-mode svg { width: 100%; display: block; }
 #passage-mode select { max-width: 100%; }
 #passage-mode .em-choice { align-items: center; }
+
+.population-scroll { overflow-x: auto; }
+.population-scroll button { background: transparent; border: 1px solid var(--line); color: inherit; padding: 8px; cursor: pointer; }
