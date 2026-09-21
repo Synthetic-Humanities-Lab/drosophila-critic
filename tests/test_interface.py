@@ -68,3 +68,12 @@ def test_emphasis_player_markup_contract():
     code = (ROOT / "static/emphasis-player.js").read_text()
     for key in re.findall(r"this.q\('([^']+)'\)", code):
         assert key in keys, key
+
+
+def test_passage_player_markup_contract():
+    html = (ROOT / "static/index.html").read_text()
+    keys = re.findall(r'data-p="([^"]+)"', html)
+    assert len(keys) == len(set(keys))
+    code = (ROOT / "static/passage-player.js").read_text()
+    for key in re.findall(r"this.q\('([^']+)'\)", code):
+        assert key in keys, key

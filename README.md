@@ -371,3 +371,16 @@ Artifacts are in `experiments/emphasis-v4`; raw spikes remain locally in
 matches v3, with 75 pre-audio steps, 1309 audio steps and 50 tail steps. See `RESULTS.md`
 for local versus whole-audio outcomes. The interpreter uses a separate strict numerical
 schema and receives no text. No new dependency or model mechanism was added.
+
+### Corresponding performance passages
+
+Open `/?mode=passages` for stanza-by-stanza listening to the two level-matched recordings, native-time neural traces, actual injected input, and three external amplitude-following baselines. Switching recordings goes to the same stanza's start and pauses playback. The interpreter sees only numerical summaries; approximate human alignment and baseline limitations are displayed.
+
+Rebuild this retrospective analysis without running new simulations:
+
+```sh
+PYTHONPATH=. .venv/bin/python scripts/passage_comparison.py
+.venv/bin/python scripts/export_replay.py
+```
+
+The committed v1/v2 count archives supply the measured original-fly responses. Calibration uses v1 synthetic seeds 64–71; evaluation uses v2 seeds 101–108. See `experiments/passages-v5/RESULTS.md` for the actual findings and the distinction between local differences and what simple input tracking explains.

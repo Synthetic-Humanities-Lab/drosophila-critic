@@ -367,3 +367,13 @@ populations, and whole-audio/off-target averages. Primary windows include 0.3 s 
 each target and use complete 100 ms bins on the 20 ms clock. No response peaks are selected.
 A positive result can reflect tracking current amplitude; no memory or feeling follows.
 The separate response-only interpreter makes that measurement/interpretation boundary explicit.
+
+## Corresponding passages and external amplitude baselines (v5)
+
+The main listening interface compares five corresponding stanzas from the level-matched synthetic and Sayers recordings, using existing original FlyBrain v2 seeds 101–108. Audio is not stretched; each stanza runs on its own native clock. Stanza means subtract equal-duration same-seed silence. Pairing across performances does not align the noise intervals, because the passages occur at different elapsed times. Human timing was approximate display metadata: these retrospective comparisons remain exploratory. Each human start/end is independently shifted ±0.2 seconds for a nine-window sensitivity check, not a validation of the alignment.
+
+A descriptive contrast requires absolute mean greater than sample seed SD and at least seven of eight signs agreeing. Boundary robustness requires all nine checks to pass with the same direction. All five stanzas, seed values, duration, mean and integrated injection, excess spikes, and secondary pooled descending summaries are retained. No strongest-event selection or significance claim is made.
+
+Three external input-only comparators use immediate injection or causal exponential smoothing (fixed 0.1/0.3 second time constants). Each fits one nonnegative gain, zero intercept, to earlier v1 reference seeds 64–71 using complete 100 ms bins. The fly is never trained. All comparators are evaluated, without selection, on v2 reference and human traces; the latter holds out both stimulus and seeds. R²/RMSE concern the ensemble mean. Residual errors do not establish connectome specificity: these are only three simple approximations, and pooled measurements can conceal neural structure.
+
+The response-only interpreter receives strict numerical passage summaries and no text or performer identity. Display/navigation can show the poem separately. The published analysis includes full artifact hashes, coefficients, predictions, boundary checks and interpreter input. See `experiments/passages-v5/PROTOCOL.md` and `RESULTS.md`. The source protocol was recorded before this reanalysis, but the simulations and broader findings already existed; this is not a preregistered confirmation experiment.

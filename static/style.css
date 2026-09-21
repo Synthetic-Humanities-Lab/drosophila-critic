@@ -730,3 +730,7 @@ pre {
 #emphasis-mode [data-em="chart"] { width: 100%; }
 #emphasis-mode details { margin-top: 24px; }
 @media(max-width:700px) { .em-grid { grid-template-columns: 1fr; } }
+
+#passage-mode svg { width: 100%; display: block; }
+#passage-mode select { max-width: 100%; }
+#passage-mode .em-choice { align-items: center; }

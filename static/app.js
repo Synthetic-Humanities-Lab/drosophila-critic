@@ -1,3 +1,4 @@
+import { PassagePlayer } from './passage-player.js';
 import { EmphasisPlayer } from './emphasis-player.js';
 import { RecordedAudio } from './audio-player.js';
 import { FlyScene } from './fly-scene.js';
@@ -17,15 +18,20 @@ function resource(path) {
 const $ = (id) => document.getElementById(id);
 const audio = new RecordedAudio();
 const emphasis = new EmphasisPlayer($('emphasis-mode'));
-async function listeningMode(experiment) {
-  audio.pause(); tailStarted = null; emphasis.pause();
-  $('chamber-mode').hidden = experiment; $('emphasis-mode').hidden = !experiment;
-  $('mode-chamber').setAttribute('aria-pressed', String(!experiment));
-  $('mode-emphasis').setAttribute('aria-pressed', String(experiment));
-  if (experiment) {const example = site.example || await request('/api/example');await emphasis.show(example.poem);}
+const passages = new PassagePlayer($('passage-mode'));
+async function listeningMode(mode) {
+  audio.pause(); tailStarted = null; emphasis.pause(); passages.pause();
+  for (const name of ['chamber', 'emphasis', 'passages']) {
+    $(name === 'passages' ? 'passage-mode' : `${name}-mode`).hidden = mode !== name;
+    $(`mode-${name}`).setAttribute('aria-pressed', String(mode === name));
+  }
+  if (mode !== 'chamber') {
+    const example = site.example || await request('/api/example');
+    await (mode === 'emphasis' ? emphasis : passages).show(example.poem);
+  }
 }
-$('mode-chamber').addEventListener('click',()=>listeningMode(false));
-$('mode-emphasis').addEventListener('click',()=>listeningMode(true).catch(e=>error(e.message)));
+for (const mode of ['chamber', 'emphasis', 'passages'])
+  $(`mode-${mode}`).addEventListener('click', () => listeningMode(mode).catch(e => error(e.message)));
 const flyScene = new FlyScene($('fly-scene'));
 const neuralScene = new NeuralScene($('neural-scene'));
 let playPending = false;
@@ -433,4 +439,5 @@ if (!recorded) request('/api/settings').then(settings => {
   if (settings.public) $('storage-note').textContent = 'Submitted poems and recordings are stored temporarily on this server for up to 24 hours. Anyone with a reading link can view it. Download artifacts to retain them.';
 }).catch(() => {});
 
-if (new URLSearchParams(location.search).get('mode') === 'emphasis') listeningMode(true).catch(e=>error(e.message));
+const requestedMode = new URLSearchParams(location.search).get('mode');
+if (['emphasis', 'passages'].includes(requestedMode)) listeningMode(requestedMode).catch(e => error(e.message));
