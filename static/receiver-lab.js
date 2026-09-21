@@ -73,3 +73,51 @@ async function load() {
 load().catch((error) => {
   document.querySelector('#error').textContent = error.message;
 });
+
+async function loadCalibration() {
+  const response = await fetch('./experiments/receiver-v2/calibration.json');
+  if (!response.ok)
+    throw new Error(`Calibration report unavailable (${response.status})`);
+  const data = await response.json();
+  function row(id, values) {
+    const tr = document.createElement('tr');
+    for (const value of values) {
+      const td = document.createElement('td');
+      td.textContent = value;
+      tr.append(td);
+    }
+    document.getElementById(id).append(tr);
+  }
+  for (const tone of data.diagnostics.sound_transfer_tones) {
+    if ([200, 394, 600].includes(tone.frequency_hz))
+      row('sound-tones', [
+        `${tone.frequency_hz} Hz`,
+        `${tone.air_velocity_rms_mm_s.toFixed(2)} mm/s`,
+        `${tone.displacement_rms_nm.toFixed(1)} nm`,
+      ]);
+  }
+  for (const [name, r] of Object.entries(data.recordings))
+    row('mechanical-recordings', [
+      name === 'reference' ? 'Synthetic reference' : 'Human performance',
+      r.air_rms_mm_s.toFixed(5),
+      r.displacement_rms_nm.toFixed(2),
+      r.velocity_rms_mm_s.toFixed(5),
+    ]);
+  document.querySelector('#calibration-range').textContent =
+    `The source measurement covered 100–1500 Hz. Audio energy outside that band: synthetic ${(100 * data.recordings.reference.fraction_audio_energy_outside_source_100_1500_hz).toFixed(1)}%; human ${(100 * data.recordings.human.fraction_audio_energy_outside_source_100_1500_hz).toFixed(1)}%. Out-of-band and arbitrary-level predictions are extrapolations.`;
+  for (const tone of data.diagnostics.force_transduction_tones) {
+    if (tone.force_peak_pn === 1)
+      row('channel-tones', [
+        `${tone.frequency_hz} Hz`,
+        tone.mean_excess_open_probability.toFixed(4),
+      ]);
+  }
+  const discrepant = data.parameter_audit.fits
+    .filter((r) => !r.motor_time_within_5_percent)
+    .map((r) => r.parameters.fly);
+  document.querySelector('#source-audit').textContent =
+    `Source-table audit: motor relaxation times for fits ${discrepant.join(' and ')} do not reconcile with their printed parameters. No silent correction was applied. These force diagnostics use fit ${data.parameter_audit.selected_fit}, with consistent time constants. Channels are not connectome neuron identities.`;
+}
+loadCalibration().catch((error) => {
+  document.querySelector('#calibration-error').textContent = error.message;
+});

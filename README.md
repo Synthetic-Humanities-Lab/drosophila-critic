@@ -411,3 +411,17 @@ This build deliberately does **not** replace the poem receiver: the source
 oscillator parameters describe DMSO-induced motion, and physical-to-neural
 calibration is unresolved. The laboratory exposes those gates and measured timing
 changes instead of manufacturing a new poem response.
+
+The next [calibration stage](experiments/receiver-v2/CALIBRATION.md) implements a
+measured wild-type sound-transfer reference and a force-driven mechanotransduction
+model with physical units. It includes seven source parameter sets, an audit of
+table inconsistencies, tone checks, and mechanical predictions for the existing
+recordings. Reproduce with:
+
+```sh
+PYTHONPATH=. .venv/bin/python scripts/calibrate_receiver.py
+PYTHONPATH=. .venv/bin/python -m pytest -q tests/test_healthy_receiver.py
+```
+
+These physical components do not yet provide calibrated neural current. They are
+not automatically connected to the existing poem simulations.

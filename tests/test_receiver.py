@@ -66,7 +66,7 @@ def test_adaptation_chunk_reset_and_offset_rejection():
 
 
 def test_production_gate_fails_closed():
-    with pytest.raises(RuntimeError, match="DMSO"):
+    with pytest.raises(RuntimeError, match="current calibration"):
         require_validated_receiver()
 
 

@@ -84,7 +84,82 @@
         replacement is connected.
       </p>
       <p id="error" role="alert"></p>
-      <h2>What is working?</h2>
+      <h2>New: sound-driven mechanics and receptor channels</h2>
+      <p>
+        We now have a measured sound-to-antenna reference and a separate
+        physical model of force-driven receptor channels. These replace the
+        missing source components; their connection to neural current is still
+        uncalibrated.
+      </p>
+      <p id="calibration-error" role="alert"></p>
+      <h3>Same air-motion level, different frequency</h3>
+      <p>
+        The measured linear reference predicts different antennal movement for
+        tones with equal air-velocity RMS. Its parameters come from one published response fit;
+        it does not reproduce intensity-dependent tuning.
+      </p>
+      <div class="scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Tone</th>
+              <th>Air RMS</th>
+              <th>Displacement RMS</th>
+            </tr>
+          </thead>
+          <tbody id="sound-tones"></tbody>
+        </table>
+      </div>
+      <h3>The two recordings: mechanical predictions only</h3>
+      <p>
+        Nearly equal input RMS does not produce identical movement. Displacement
+        and speed can change in different directions. These are predictions from
+        the linear reference, not new connectome responses or judgments of a
+        rendition.
+      </p>
+      <div class="scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Recording</th>
+              <th>Air RMS (mm/s)</th>
+              <th>Displacement RMS (nm)</th>
+              <th>Velocity RMS (mm/s)</th>
+            </tr>
+          </thead>
+          <tbody id="mechanical-recordings"></tbody>
+        </table>
+      </div>
+      <p id="calibration-range" class="small"></p>
+      <h3>Force to receptor opening</h3>
+      <p>
+        The active transducer model uses physical displacements and predicts
+        channel opening. At the same 1 pN peak force, changing frequency changes
+        its response. This is a separate diagnostic; these channel values are
+        not assigned to the poems.
+      </p>
+      <div class="scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Force frequency</th>
+              <th>Mean excess open probability</th>
+            </tr>
+          </thead>
+          <tbody id="channel-tones"></tbody>
+        </table>
+      </div>
+      <p id="source-audit" class="small"></p>
+      <p>
+        <a href="./experiments/receiver-v2/CALIBRATION.md"
+          >Calibration methods, checks and remaining connections ↗</a
+        >
+        ·
+        <a href="./experiments/receiver-v2/calibration.json"
+          >Calibration JSON ↗</a
+        >
+      </p>
+      <h2>Earlier component benchmarks</h2>
       <p>
         Waveform calibration into a virtual local air-velocity field; a
         published autonomous antennal oscillator; a receptor-adaptation motif;
@@ -133,9 +208,10 @@
       </p>
       <h2>What is still missing?</h2>
       <ul>
-        <li>A calibrated healthy antenna response to imposed sound.</li>
+        <li>A joint acoustic calibration for the nonlinear active receiver.</li>
         <li>
-          The physical scale connecting displacement to receptor adaptation.
+          Validation of receptor-current and spiking responses beyond channel
+          opening.
         </li>
         <li>
           A supported mapping from receptor output to the connectome’s abstract

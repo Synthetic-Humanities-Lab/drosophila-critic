@@ -4,6 +4,14 @@ Status: **not a validated poem receiver**. Existing readings still use `rms-jon-
 The new code is in `critic/receiver`; it does not change the legacy encoder,
 connectome, interpreter, or archived experiments. No v2 literary reading is generated.
 
+## Latest calibration work
+
+The [healthy receiver calibration report](https://synthetic-humanities-lab.github.io/drosophila-critic/experiments/receiver-v2/CALIBRATION.md)
+adds a measured sound-transfer reference and a physically scaled force-to-channel
+model. It identifies a likely source-table inconsistency and records mechanical
+predictions for both recordings. Acoustic-force and channel-to-neural-current
+calibration remain unresolved. The following sections document the initial build.
+
 ## Implemented boundaries
 
 - `acoustics.py`: waveform-only mono conversion and polyphase resampling to 48 kHz,

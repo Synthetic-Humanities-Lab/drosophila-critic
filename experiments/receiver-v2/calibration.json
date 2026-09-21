@@ -1,0 +1,4802 @@
+{
+  "version": "receiver-calibration-v1",
+  "status": "physical source models implemented; complete neural calibration unresolved",
+  "sources": {
+    "sound_transfer": {
+      "doi": "10.1242/jeb.205.9.1199",
+      "location": "Figure 2C; example fitted velocity transfer",
+      "author_copy": "https://www.researchgate.net/publication/11418850_The_mechanical_basis_ofDrosophilaaudition"
+    },
+    "transduction": {
+      "doi": "10.1016/j.cub.2008.07.095",
+      "location": "Supplement eqs 1-9,18,21; Tables S1-S2",
+      "url": "https://ars.els-cdn.com/content/image/1-s2.0-S096098220801049X-mmc1.pdf",
+      "downloaded_pdf_sha256": "7b78c1a45716e9ee7e693ad667ece3eef476a8cabda89f7e3cdf88e0efbe2a99"
+    }
+  },
+  "sound_transfer_config": {
+    "resonance_hz": 394.0,
+    "quality_factor": 1.24,
+    "velocity_gain_at_resonance": 1.13,
+    "dt_seconds": 2.0833333333333333e-05
+  },
+  "virtual_field_config": {
+    "sample_rate": 48000,
+    "reference_digital_rms": 0.1,
+    "reference_velocity_mm_s_rms": 0.5,
+    "reference_frequency_hz": 200.0,
+    "azimuth_degrees": 0.0
+  },
+  "parameter_audit": {
+    "fits": [
+      {
+        "parameters": {
+          "fly": 1,
+          "k_gs_pn_nm": 0.037,
+          "k_joint_pn_nm": 0.04,
+          "feedback_s": 0.38,
+          "resting_open_probability": 0.5,
+          "delta_nm": 223,
+          "channels_per_population": 2653,
+          "friction_1e9_kg_s": 5.07,
+          "motor_friction_1e9_kg_s": 99.0,
+          "mass_1e12_kg": 3.57,
+          "gating_swing_nm": 1290,
+          "stall_force_pn": 101,
+          "feedback_force_pn": 38.0,
+          "published_tau_motor_ms": 9.3,
+          "published_tau_receiver_ms": 1.48
+        },
+        "derived": {
+          "tau_receiver_ms": 1.4082840236686387,
+          "tau_motor_ms": 3.7942768754833724,
+          "thermal_energy_pn_nm_from_eq2": 4.011982661138334,
+          "largest_eigenvalue_real_per_ms": -0.10820341846514991
+        },
+        "motor_time_relative_discrepancy": 0.5920132391953363,
+        "motor_time_within_5_percent": false
+      },
+      {
+        "parameters": {
+          "fly": 2,
+          "k_gs_pn_nm": 0.017,
+          "k_joint_pn_nm": 0.032,
+          "feedback_s": 0.25,
+          "resting_open_probability": 0.58,
+          "delta_nm": 210,
+          "channels_per_population": 1221,
+          "friction_1e9_kg_s": 7.13,
+          "motor_friction_1e9_kg_s": 10.8,
+          "mass_1e12_kg": 2.7,
+          "gating_swing_nm": 1346,
+          "stall_force_pn": 41.8,
+          "feedback_force_pn": 10.6,
+          "published_tau_motor_ms": 4.0,
+          "published_tau_receiver_ms": 0.76
+        },
+        "derived": {
+          "tau_receiver_ms": 0.7573632538569425,
+          "tau_motor_ms": 3.923164104501471,
+          "thermal_energy_pn_nm_from_eq2": 3.9354791154791156,
+          "largest_eigenvalue_real_per_ms": -0.2548962962962961
+        },
+        "motor_time_relative_discrepancy": 0.019208973874632274,
+        "motor_time_within_5_percent": true
+      },
+      {
+        "parameters": {
+          "fly": 3,
+          "k_gs_pn_nm": 0.087,
+          "k_joint_pn_nm": 0.084,
+          "feedback_s": 0.16,
+          "resting_open_probability": 0.5,
+          "delta_nm": 239,
+          "channels_per_population": 6823,
+          "friction_1e9_kg_s": 14.8,
+          "motor_friction_1e9_kg_s": 42.8,
+          "mass_1e12_kg": 6.99,
+          "gating_swing_nm": 1310,
+          "stall_force_pn": 227,
+          "feedback_force_pn": 36.2,
+          "published_tau_motor_ms": 7.32,
+          "published_tau_receiver_ms": 0.95
+        },
+        "derived": {
+          "tau_receiver_ms": 0.9445945945945946,
+          "tau_motor_ms": 7.574379859311346,
+          "thermal_energy_pn_nm_from_eq2": 3.992207240216913,
+          "largest_eigenvalue_real_per_ms": -0.1320240096977284
+        },
+        "motor_time_relative_discrepancy": 0.034751346900457,
+        "motor_time_within_5_percent": true
+      },
+      {
+        "parameters": {
+          "fly": 4,
+          "k_gs_pn_nm": 0.038,
+          "k_joint_pn_nm": 0.053,
+          "feedback_s": 0.29,
+          "resting_open_probability": 0.5,
+          "delta_nm": 190,
+          "channels_per_population": 2033,
+          "friction_1e9_kg_s": 6.94,
+          "motor_friction_1e9_kg_s": 117,
+          "mass_1e12_kg": 5.44,
+          "gating_swing_nm": 1112,
+          "stall_force_pn": 85.3,
+          "feedback_force_pn": 24.4,
+          "published_tau_motor_ms": 8.23,
+          "published_tau_receiver_ms": 1.57
+        },
+        "derived": {
+          "tau_receiver_ms": 1.5677233429394812,
+          "tau_motor_ms": 8.066037735849056,
+          "thermal_energy_pn_nm_from_eq2": 3.949158878504673,
+          "largest_eigenvalue_real_per_ms": -0.12397660818713453
+        },
+        "motor_time_relative_discrepancy": 0.01992251083243557,
+        "motor_time_within_5_percent": true
+      },
+      {
+        "parameters": {
+          "fly": 5,
+          "k_gs_pn_nm": 0.016,
+          "k_joint_pn_nm": 0.026,
+          "feedback_s": 0.38,
+          "resting_open_probability": 0.5,
+          "delta_nm": 208,
+          "channels_per_population": 1006,
+          "friction_1e9_kg_s": 6.25,
+          "motor_friction_1e9_kg_s": 64.4,
+          "mass_1e12_kg": 4.8,
+          "gating_swing_nm": 1202,
+          "stall_force_pn": 41.4,
+          "feedback_force_pn": 15.9,
+          "published_tau_motor_ms": 5.4,
+          "published_tau_receiver_ms": 1.54
+        },
+        "derived": {
+          "tau_receiver_ms": 1.5359999999999998,
+          "tau_motor_ms": 5.368817635270542,
+          "thermal_energy_pn_nm_from_eq2": 3.976397614314115,
+          "largest_eigenvalue_real_per_ms": -0.18626075011944576
+        },
+        "motor_time_relative_discrepancy": 0.005774511986936792,
+        "motor_time_within_5_percent": true
+      },
+      {
+        "parameters": {
+          "fly": 6,
+          "k_gs_pn_nm": 0.026,
+          "k_joint_pn_nm": 0.017,
+          "feedback_s": 0.21,
+          "resting_open_probability": 0.5,
+          "delta_nm": 461,
+          "channels_per_population": 6989,
+          "friction_1e9_kg_s": 2.51,
+          "motor_friction_1e9_kg_s": 243,
+          "mass_1e12_kg": 1.93,
+          "gating_swing_nm": 2329,
+          "stall_force_pn": 134,
+          "feedback_force_pn": 28.3,
+          "published_tau_motor_ms": 11.7,
+          "published_tau_receiver_ms": 1.54
+        },
+        "derived": {
+          "tau_receiver_ms": 1.5378486055776894,
+          "tau_motor_ms": 28.55908221797323,
+          "thermal_energy_pn_nm_from_eq2": 3.9941900128773784,
+          "largest_eigenvalue_real_per_ms": -0.03501513082134918
+        },
+        "motor_time_relative_discrepancy": 1.4409471981173705,
+        "motor_time_within_5_percent": false
+      },
+      {
+        "parameters": {
+          "fly": 7,
+          "k_gs_pn_nm": 0.036,
+          "k_joint_pn_nm": 0.037,
+          "feedback_s": 0.24,
+          "resting_open_probability": 0.5,
+          "delta_nm": 246,
+          "channels_per_population": 3031,
+          "friction_1e9_kg_s": 7.47,
+          "motor_friction_1e9_kg_s": 90.0,
+          "mass_1e12_kg": 4.39,
+          "gating_swing_nm": 1374,
+          "stall_force_pn": 100,
+          "feedback_force_pn": 24.4,
+          "published_tau_motor_ms": 8.48,
+          "published_tau_receiver_ms": 1.18
+        },
+        "derived": {
+          "tau_receiver_ms": 1.1753681392235609,
+          "tau_motor_ms": 8.54826254826255,
+          "thermal_energy_pn_nm_from_eq2": 4.0145641702408446,
+          "largest_eigenvalue_real_per_ms": -0.1169828364950316
+        },
+        "motor_time_relative_discrepancy": 0.008049828804545855,
+        "motor_time_within_5_percent": true
+      }
+    ],
+    "unapplied_transposition_hypothesis": [
+      {
+        "fly": 1,
+        "hypothesis": "exchange motor friction values for flies 1 and 6 only",
+        "hypothetical_tau_motor_ms": 9.313225058004642,
+        "published_tau_motor_ms": 9.3,
+        "applied": false
+      },
+      {
+        "fly": 6,
+        "hypothesis": "exchange motor friction values for flies 1 and 6 only",
+        "hypothetical_tau_motor_ms": 11.635181644359465,
+        "published_tau_motor_ms": 11.7,
+        "applied": false
+      }
+    ],
+    "selected_fit": 7,
+    "selection_reason": "symmetric rest; receiver and motor relaxation times agree within 2% with Table S2; chosen before poem processing"
+  },
+  "diagnostics": {
+    "sound_transfer_tones": [
+      {
+        "frequency_hz": 100,
+        "air_velocity_rms_mm_s": 0.5,
+        "displacement_rms_nm": 192.18233714998922,
+        "velocity_gain": 0.24145336225260833,
+        "analytic_gain": 0.24150517110292605,
+        "relative_gain_error": 0.00021452480740313806
+      },
+      {
+        "frequency_hz": 200,
+        "air_velocity_rms_mm_s": 0.5,
+        "displacement_rms_nm": 217.1126831001966,
+        "velocity_gain": 0.5455738931608095,
+        "analytic_gain": 0.5456792675182187,
+        "relative_gain_error": 0.00019310676377437552
+      },
+      {
+        "frequency_hz": 300,
+        "air_velocity_rms_mm_s": 0.5,
+        "displacement_rms_nm": 247.34471177480012,
+        "velocity_gain": 0.9323807159191381,
+        "analytic_gain": 0.9325275037648781,
+        "relative_gain_error": 0.00015740859668744722
+      },
+      {
+        "frequency_hz": 394,
+        "air_velocity_rms_mm_s": 0.5,
+        "displacement_rms_nm": 228.20451170545047,
+        "velocity_gain": 1.1298747623251617,
+        "analytic_gain": 1.13,
+        "relative_gain_error": 0.00011082980074172966
+      },
+      {
+        "frequency_hz": 400,
+        "air_velocity_rms_mm_s": 0.5,
+        "displacement_rms_nm": 224.622937749118,
+        "velocity_gain": 1.1290857052974652,
+        "analytic_gain": 1.1292070139341772,
+        "relative_gain_error": 0.00010742816438003011
+      },
+      {
+        "frequency_hz": 600,
+        "air_velocity_rms_mm_s": 0.5,
+        "displacement_rms_nm": 102.09936537245345,
+        "velocity_gain": 0.7700362825057245,
+        "analytic_gain": 0.7700090300774649,
+        "relative_gain_error": 3.53923489142538e-05
+      },
+      {
+        "frequency_hz": 1000,
+        "air_velocity_rms_mm_s": 0.5,
+        "displacement_rms_nm": 31.63472513474828,
+        "velocity_gain": 0.39801400462561837,
+        "analytic_gain": 0.39781803548522915,
+        "relative_gain_error": 0.0004926099947937246
+      },
+      {
+        "frequency_hz": 1500,
+        "air_velocity_rms_mm_s": 0.5,
+        "displacement_rms_nm": 13.278459702877656,
+        "velocity_gain": 0.2510445946456793,
+        "analytic_gain": 0.25069701382249965,
+        "relative_gain_error": 0.0013864577717936921
+      }
+    ],
+    "force_transduction_tones": [
+      {
+        "frequency_hz": 100,
+        "force_peak_pn": 0.01,
+        "displacement_fundamental_gain_nm_pn": 129.88242059230544,
+        "small_signal_gain_nm_pn": 129.88621929802022,
+        "mean_excess_open_probability": 0.0008260957135595233,
+        "max_excess_open_probability": 0.0012976428925004502
+      },
+      {
+        "frequency_hz": 100,
+        "force_peak_pn": 1.0,
+        "displacement_fundamental_gain_nm_pn": 111.78150620921784,
+        "small_signal_gain_nm_pn": 129.88621929802022,
+        "mean_excess_open_probability": 0.07002869633740079,
+        "max_excess_open_probability": 0.11115468082213498
+      },
+      {
+        "frequency_hz": 100,
+        "force_peak_pn": 10.0,
+        "displacement_fundamental_gain_nm_pn": 44.93534775649502,
+        "small_signal_gain_nm_pn": 129.88621929802022,
+        "mean_excess_open_probability": 0.25188848864472096,
+        "max_excess_open_probability": 0.3509146060497186
+      },
+      {
+        "frequency_hz": 200,
+        "force_peak_pn": 0.01,
+        "displacement_fundamental_gain_nm_pn": 143.1987104488347,
+        "small_signal_gain_nm_pn": 143.20402878841136,
+        "mean_excess_open_probability": 0.0009224470009014801,
+        "max_excess_open_probability": 0.0014489954076574163
+      },
+      {
+        "frequency_hz": 200,
+        "force_peak_pn": 1.0,
+        "displacement_fundamental_gain_nm_pn": 130.40554013555803,
+        "small_signal_gain_nm_pn": 143.20402878841136,
+        "mean_excess_open_probability": 0.0824572322046718,
+        "max_excess_open_probability": 0.12999850842821103
+      },
+      {
+        "frequency_hz": 200,
+        "force_peak_pn": 10.0,
+        "displacement_fundamental_gain_nm_pn": 45.960967527573814,
+        "small_signal_gain_nm_pn": 143.20402878841136,
+        "mean_excess_open_probability": 0.24195795564552372,
+        "max_excess_open_probability": 0.38665569038388825
+      },
+      {
+        "frequency_hz": 400,
+        "force_peak_pn": 0.01,
+        "displacement_fundamental_gain_nm_pn": 38.5349495090234,
+        "small_signal_gain_nm_pn": 38.53933553312264,
+        "mean_excess_open_probability": 0.00024906862564765176,
+        "max_excess_open_probability": 0.00039107117553505155
+      },
+      {
+        "frequency_hz": 400,
+        "force_peak_pn": 1.0,
+        "displacement_fundamental_gain_nm_pn": 38.703442310141924,
+        "small_signal_gain_nm_pn": 38.53933553312264,
+        "mean_excess_open_probability": 0.02497953918311497,
+        "max_excess_open_probability": 0.0392067596240393
+      },
+      {
+        "frequency_hz": 400,
+        "force_peak_pn": 10.0,
+        "displacement_fundamental_gain_nm_pn": 53.57933499331027,
+        "small_signal_gain_nm_pn": 38.53933553312264,
+        "mean_excess_open_probability": 0.2758681385459482,
+        "max_excess_open_probability": 0.40301110880129665
+      },
+      {
+        "frequency_hz": 600,
+        "force_peak_pn": 0.01,
+        "displacement_fundamental_gain_nm_pn": 16.549425234956136,
+        "small_signal_gain_nm_pn": 16.553680881277064,
+        "mean_excess_open_probability": 0.00010700329218936818,
+        "max_excess_open_probability": 0.00016809410515350454
+      },
+      {
+        "frequency_hz": 600,
+        "force_peak_pn": 1.0,
+        "displacement_fundamental_gain_nm_pn": 16.556343080850095,
+        "small_signal_gain_nm_pn": 16.553680881277064,
+        "mean_excess_open_probability": 0.010701974340210538,
+        "max_excess_open_probability": 0.016810415466518625
+      },
+      {
+        "frequency_hz": 600,
+        "force_peak_pn": 10.0,
+        "displacement_fundamental_gain_nm_pn": 17.3036754480058,
+        "small_signal_gain_nm_pn": 16.553680881277064,
+        "mean_excess_open_probability": 0.10885940604051715,
+        "max_excess_open_probability": 0.16910274916745094
+      },
+      {
+        "frequency_hz": 1000,
+        "force_peak_pn": 0.01,
+        "displacement_fundamental_gain_nm_pn": 5.83543890519174,
+        "small_signal_gain_nm_pn": 5.839613778187973,
+        "mean_excess_open_probability": 3.7755616103640585e-05,
+        "max_excess_open_probability": 5.9258255702743234e-05
+      },
+      {
+        "frequency_hz": 1000,
+        "force_peak_pn": 1.0,
+        "displacement_fundamental_gain_nm_pn": 5.835554659262638,
+        "small_signal_gain_nm_pn": 5.839613778187973,
+        "mean_excess_open_probability": 0.0037755166628165105,
+        "max_excess_open_probability": 0.005925671581783254
+      },
+      {
+        "frequency_hz": 1000,
+        "force_peak_pn": 10.0,
+        "displacement_fundamental_gain_nm_pn": 5.847029095888159,
+        "small_signal_gain_nm_pn": 5.839613778187973,
+        "mean_excess_open_probability": 0.03771056677128771,
+        "max_excess_open_probability": 0.059104199956813264
+      }
+    ],
+    "force_trace_sha256": "6074dafbb7de0d7016f3b70cf64d95176402370e1fd6d8c02b28a5c395a5beca",
+    "force_step_halving_relative_trajectory_errors": {
+      "displacement": 2.586141875903984e-08,
+      "velocity": 4.237121233775021e-08,
+      "excess_open_probability": 2.4728442117775795e-08
+    },
+    "numerical_convergence_pass_2_percent": true,
+    "force_input_convention": "interval-held pN, deterministic eqs 3-6, dt=1/48000 second; refine held input without changing stimulus",
+    "force_tone_parameters": {
+      "fly": 7,
+      "k_gs_pn_nm": 0.036,
+      "k_joint_pn_nm": 0.037,
+      "feedback_s": 0.24,
+      "resting_open_probability": 0.5,
+      "delta_nm": 246,
+      "channels_per_population": 3031,
+      "friction_1e9_kg_s": 7.47,
+      "motor_friction_1e9_kg_s": 90.0,
+      "mass_1e12_kg": 4.39,
+      "gating_swing_nm": 1374,
+      "stall_force_pn": 100,
+      "feedback_force_pn": 24.4,
+      "published_tau_motor_ms": 8.48,
+      "published_tau_receiver_ms": 1.18
+    }
+  },
+  "recordings": {
+    "reference": {
+      "source": "experiments/delivery-v1/reference/audio.wav",
+      "source_sha256": "71668414064748744b5d9d7f2f784c851ff7f4b02bdbdd79607155d00064f65a",
+      "preprocessing": {
+        "source_sample_rate_hz": 24000,
+        "processing_sample_rate_hz": 48000,
+        "source_samples": 627968,
+        "processed_samples": 1255936,
+        "source_duration_seconds": 26.165333333333333,
+        "processed_duration_seconds": 26.165333333333333,
+        "linear_gain": 1.0,
+        "normalization": "none; retain prior whole-recording level matching",
+        "resampling": "scipy.signal.resample_poly, default Kaiser window",
+        "processed_peak": 0.5040143398171743
+      },
+      "trace": "results/receiver-calibration/reference-sound-transfer.npz",
+      "trace_sha256": "9e296525d6d2d5761a0cd3b737d755946bc0a0842ce85d4d46145d5137ff28b5",
+      "air_rms_mm_s": 0.2500428306621471,
+      "displacement_rms_nm": 91.18661676386216,
+      "velocity_rms_mm_s": 0.17715462763346637,
+      "fraction_audio_energy_outside_source_100_1500_hz": 0.298624699471177,
+      "timeline": [
+        {
+          "time_seconds": 0.0,
+          "air_rms_mm_s": 0.2505763484090993,
+          "displacement_rms_nm": 106.58117488214187,
+          "velocity_rms_mm_s": 0.15896990311934694
+        },
+        {
+          "time_seconds": 0.1,
+          "air_rms_mm_s": 0.621090327057503,
+          "displacement_rms_nm": 228.97641492899558,
+          "velocity_rms_mm_s": 0.4965057566877857
+        },
+        {
+          "time_seconds": 0.2,
+          "air_rms_mm_s": 0.3661718671916026,
+          "displacement_rms_nm": 115.52409411548126,
+          "velocity_rms_mm_s": 0.26129342983877313
+        },
+        {
+          "time_seconds": 0.3,
+          "air_rms_mm_s": 0.1860569022449281,
+          "displacement_rms_nm": 63.12352873586982,
+          "velocity_rms_mm_s": 0.13560820268464002
+        },
+        {
+          "time_seconds": 0.4,
+          "air_rms_mm_s": 0.14688563889410136,
+          "displacement_rms_nm": 58.029864002432156,
+          "velocity_rms_mm_s": 0.1188267396147349
+        },
+        {
+          "time_seconds": 0.5,
+          "air_rms_mm_s": 0.3304112940688996,
+          "displacement_rms_nm": 112.21498350614733,
+          "velocity_rms_mm_s": 0.21907007740311293
+        },
+        {
+          "time_seconds": 0.6,
+          "air_rms_mm_s": 0.235502569310619,
+          "displacement_rms_nm": 81.53548324410447,
+          "velocity_rms_mm_s": 0.11757409844549582
+        },
+        {
+          "time_seconds": 0.7,
+          "air_rms_mm_s": 0.20300150361075908,
+          "displacement_rms_nm": 77.06428096388314,
+          "velocity_rms_mm_s": 0.11639440306747673
+        },
+        {
+          "time_seconds": 0.8,
+          "air_rms_mm_s": 0.1141641869610965,
+          "displacement_rms_nm": 45.346281220334134,
+          "velocity_rms_mm_s": 0.04231087924451117
+        },
+        {
+          "time_seconds": 0.9,
+          "air_rms_mm_s": 0.001573936152501421,
+          "displacement_rms_nm": 0.5601423409463215,
+          "velocity_rms_mm_s": 0.0006275684053084688
+        },
+        {
+          "time_seconds": 1.0,
+          "air_rms_mm_s": 0.0,
+          "displacement_rms_nm": 3.86243725189924e-11,
+          "velocity_rms_mm_s": 1.1658443876607672e-13
+        },
+        {
+          "time_seconds": 1.1,
+          "air_rms_mm_s": 0.0020272093074452904,
+          "displacement_rms_nm": 0.7100048772158176,
+          "velocity_rms_mm_s": 0.0006740697327106774
+        },
+        {
+          "time_seconds": 1.2,
+          "air_rms_mm_s": 0.45239129675335754,
+          "displacement_rms_nm": 142.75048752077427,
+          "velocity_rms_mm_s": 0.30183736608162304
+        },
+        {
+          "time_seconds": 1.3,
+          "air_rms_mm_s": 0.39340882417626616,
+          "displacement_rms_nm": 143.43272024003497,
+          "velocity_rms_mm_s": 0.2840385106250729
+        },
+        {
+          "time_seconds": 1.4,
+          "air_rms_mm_s": 0.10618508736503714,
+          "displacement_rms_nm": 16.585730801204527,
+          "velocity_rms_mm_s": 0.02096009842325733
+        },
+        {
+          "time_seconds": 1.5,
+          "air_rms_mm_s": 0.3140229661173787,
+          "displacement_rms_nm": 115.80299534184618,
+          "velocity_rms_mm_s": 0.21422644778674074
+        },
+        {
+          "time_seconds": 1.6,
+          "air_rms_mm_s": 0.34873910839437966,
+          "displacement_rms_nm": 147.13883372963065,
+          "velocity_rms_mm_s": 0.2568928350172002
+        },
+        {
+          "time_seconds": 1.7,
+          "air_rms_mm_s": 0.2287916603524262,
+          "displacement_rms_nm": 89.85027265834341,
+          "velocity_rms_mm_s": 0.16161951496940707
+        },
+        {
+          "time_seconds": 1.8,
+          "air_rms_mm_s": 0.04495734516145008,
+          "displacement_rms_nm": 8.76629932118659,
+          "velocity_rms_mm_s": 0.011177868296596375
+        },
+        {
+          "time_seconds": 1.9,
+          "air_rms_mm_s": 0.3060869109449608,
+          "displacement_rms_nm": 104.23403933372356,
+          "velocity_rms_mm_s": 0.2026765360894707
+        },
+        {
+          "time_seconds": 2.0,
+          "air_rms_mm_s": 0.3070374662613054,
+          "displacement_rms_nm": 106.28768359033123,
+          "velocity_rms_mm_s": 0.2119760000690694
+        },
+        {
+          "time_seconds": 2.1,
+          "air_rms_mm_s": 0.15459985071087162,
+          "displacement_rms_nm": 63.630037130597394,
+          "velocity_rms_mm_s": 0.10132055009123526
+        },
+        {
+          "time_seconds": 2.2,
+          "air_rms_mm_s": 0.014200344757216066,
+          "displacement_rms_nm": 5.558001329796488,
+          "velocity_rms_mm_s": 0.005067204155255191
+        },
+        {
+          "time_seconds": 2.3,
+          "air_rms_mm_s": 0.0003671006519740579,
+          "displacement_rms_nm": 0.1361474281241389,
+          "velocity_rms_mm_s": 0.00010272449353061827
+        },
+        {
+          "time_seconds": 2.4,
+          "air_rms_mm_s": 0.0,
+          "displacement_rms_nm": 3.8942537608576832e-22,
+          "velocity_rms_mm_s": 6.651781057228323e-25
+        },
+        {
+          "time_seconds": 2.5,
+          "air_rms_mm_s": 0.16521841114242625,
+          "displacement_rms_nm": 70.12585240615294,
+          "velocity_rms_mm_s": 0.09561405687951578
+        },
+        {
+          "time_seconds": 2.6,
+          "air_rms_mm_s": 0.4968754354151684,
+          "displacement_rms_nm": 184.40980725747988,
+          "velocity_rms_mm_s": 0.362665125661854
+        },
+        {
+          "time_seconds": 2.7,
+          "air_rms_mm_s": 0.19965051528362837,
+          "displacement_rms_nm": 89.0032897669476,
+          "velocity_rms_mm_s": 0.13945911726552646
+        },
+        {
+          "time_seconds": 2.8,
+          "air_rms_mm_s": 0.3975421390976468,
+          "displacement_rms_nm": 125.34266013315607,
+          "velocity_rms_mm_s": 0.2805626201716056
+        },
+        {
+          "time_seconds": 2.9,
+          "air_rms_mm_s": 0.27806111135495093,
+          "displacement_rms_nm": 73.50471928409056,
+          "velocity_rms_mm_s": 0.16808367337461919
+        },
+        {
+          "time_seconds": 3.0,
+          "air_rms_mm_s": 0.30707062829551,
+          "displacement_rms_nm": 121.79138502826568,
+          "velocity_rms_mm_s": 0.2629789703113736
+        },
+        {
+          "time_seconds": 3.1,
+          "air_rms_mm_s": 0.1248042213034353,
+          "displacement_rms_nm": 27.800214283023642,
+          "velocity_rms_mm_s": 0.03277487143820043
+        },
+        {
+          "time_seconds": 3.2,
+          "air_rms_mm_s": 0.2200878840827336,
+          "displacement_rms_nm": 84.91706092644306,
+          "velocity_rms_mm_s": 0.11421350811621361
+        },
+        {
+          "time_seconds": 3.3,
+          "air_rms_mm_s": 0.23103488504694367,
+          "displacement_rms_nm": 90.56069161030489,
+          "velocity_rms_mm_s": 0.1338221986092048
+        },
+        {
+          "time_seconds": 3.4,
+          "air_rms_mm_s": 0.1273674195788091,
+          "displacement_rms_nm": 50.98266436885101,
+          "velocity_rms_mm_s": 0.06345677096387672
+        },
+        {
+          "time_seconds": 3.5,
+          "air_rms_mm_s": 0.003337647379599105,
+          "displacement_rms_nm": 1.0465477605413605,
+          "velocity_rms_mm_s": 0.0011690811159273918
+        },
+        {
+          "time_seconds": 3.6,
+          "air_rms_mm_s": 7.216618859514581e-05,
+          "displacement_rms_nm": 0.026376006409786715,
+          "velocity_rms_mm_s": 2.6320772106062857e-05
+        },
+        {
+          "time_seconds": 3.7,
+          "air_rms_mm_s": 0.0002083422250728073,
+          "displacement_rms_nm": 0.07044763253155777,
+          "velocity_rms_mm_s": 4.011909153697731e-05
+        },
+        {
+          "time_seconds": 3.8,
+          "air_rms_mm_s": 0.3324138167854522,
+          "displacement_rms_nm": 129.04186860184805,
+          "velocity_rms_mm_s": 0.2503956390344447
+        },
+        {
+          "time_seconds": 3.9,
+          "air_rms_mm_s": 0.2071973215574595,
+          "displacement_rms_nm": 80.31779773458878,
+          "velocity_rms_mm_s": 0.11968491239516421
+        },
+        {
+          "time_seconds": 4.0,
+          "air_rms_mm_s": 0.21006431416294633,
+          "displacement_rms_nm": 80.54423663791005,
+          "velocity_rms_mm_s": 0.15292179345940796
+        },
+        {
+          "time_seconds": 4.1,
+          "air_rms_mm_s": 0.45323880682764833,
+          "displacement_rms_nm": 133.6940085517813,
+          "velocity_rms_mm_s": 0.3103106862640939
+        },
+        {
+          "time_seconds": 4.2,
+          "air_rms_mm_s": 0.16899114045467503,
+          "displacement_rms_nm": 60.0825264511227,
+          "velocity_rms_mm_s": 0.10307219141341584
+        },
+        {
+          "time_seconds": 4.3,
+          "air_rms_mm_s": 0.0648437127220895,
+          "displacement_rms_nm": 6.875355551369838,
+          "velocity_rms_mm_s": 0.007911576494164338
+        },
+        {
+          "time_seconds": 4.4,
+          "air_rms_mm_s": 0.32220223381392854,
+          "displacement_rms_nm": 132.30301021138104,
+          "velocity_rms_mm_s": 0.2699071867603049
+        },
+        {
+          "time_seconds": 4.5,
+          "air_rms_mm_s": 0.3688439003255434,
+          "displacement_rms_nm": 131.1494310604629,
+          "velocity_rms_mm_s": 0.26278231126176277
+        },
+        {
+          "time_seconds": 4.6,
+          "air_rms_mm_s": 0.2767881310154116,
+          "displacement_rms_nm": 95.58410265443577,
+          "velocity_rms_mm_s": 0.17531166521024072
+        },
+        {
+          "time_seconds": 4.7,
+          "air_rms_mm_s": 0.19090567804580882,
+          "displacement_rms_nm": 74.59849397171801,
+          "velocity_rms_mm_s": 0.11665456097523517
+        },
+        {
+          "time_seconds": 4.8,
+          "air_rms_mm_s": 0.04768109438325813,
+          "displacement_rms_nm": 18.856822067162497,
+          "velocity_rms_mm_s": 0.015633492161306602
+        },
+        {
+          "time_seconds": 4.9,
+          "air_rms_mm_s": 0.00024274400462641886,
+          "displacement_rms_nm": 0.08954451931596759,
+          "velocity_rms_mm_s": 6.640496573656793e-05
+        },
+        {
+          "time_seconds": 5.0,
+          "air_rms_mm_s": 0.0,
+          "displacement_rms_nm": 1.6744739418426338e-31,
+          "velocity_rms_mm_s": 3.265122312078993e-34
+        },
+        {
+          "time_seconds": 5.1,
+          "air_rms_mm_s": 0.0,
+          "displacement_rms_nm": 6.944639358541889e-75,
+          "velocity_rms_mm_s": 1.6679672945816568e-77
+        },
+        {
+          "time_seconds": 5.2,
+          "air_rms_mm_s": 7.054736987096087e-05,
+          "displacement_rms_nm": 0.02221779560721392,
+          "velocity_rms_mm_s": 1.0706915996970635e-05
+        },
+        {
+          "time_seconds": 5.3,
+          "air_rms_mm_s": 0.3582585992827854,
+          "displacement_rms_nm": 123.63712397157596,
+          "velocity_rms_mm_s": 0.2550410806951121
+        },
+        {
+          "time_seconds": 5.4,
+          "air_rms_mm_s": 0.4495342933095552,
+          "displacement_rms_nm": 197.6948610856686,
+          "velocity_rms_mm_s": 0.33123595966205815
+        },
+        {
+          "time_seconds": 5.5,
+          "air_rms_mm_s": 0.358667731893607,
+          "displacement_rms_nm": 145.68948810132642,
+          "velocity_rms_mm_s": 0.25223320002480265
+        },
+        {
+          "time_seconds": 5.6,
+          "air_rms_mm_s": 0.22571860884261788,
+          "displacement_rms_nm": 76.6843917426526,
+          "velocity_rms_mm_s": 0.14261991445329655
+        },
+        {
+          "time_seconds": 5.7,
+          "air_rms_mm_s": 0.12912700210468317,
+          "displacement_rms_nm": 42.23992165616431,
+          "velocity_rms_mm_s": 0.07335000419382584
+        },
+        {
+          "time_seconds": 5.8,
+          "air_rms_mm_s": 0.2882863526355691,
+          "displacement_rms_nm": 107.27535844965318,
+          "velocity_rms_mm_s": 0.17542914610053034
+        },
+        {
+          "time_seconds": 5.9,
+          "air_rms_mm_s": 0.2567488737622711,
+          "displacement_rms_nm": 91.85934128254353,
+          "velocity_rms_mm_s": 0.14823075794664414
+        },
+        {
+          "time_seconds": 6.0,
+          "air_rms_mm_s": 0.20963407381436366,
+          "displacement_rms_nm": 81.32641542001663,
+          "velocity_rms_mm_s": 0.133413905608637
+        },
+        {
+          "time_seconds": 6.1,
+          "air_rms_mm_s": 0.054541384183817126,
+          "displacement_rms_nm": 16.128639495939964,
+          "velocity_rms_mm_s": 0.012665128641822825
+        },
+        {
+          "time_seconds": 6.2,
+          "air_rms_mm_s": 0.002040915522393609,
+          "displacement_rms_nm": 0.6594891261291967,
+          "velocity_rms_mm_s": 0.000831296357186245
+        },
+        {
+          "time_seconds": 6.3,
+          "air_rms_mm_s": 0.0,
+          "displacement_rms_nm": 0.0005177620364933134,
+          "velocity_rms_mm_s": 8.715668155750551e-07
+        },
+        {
+          "time_seconds": 6.4,
+          "air_rms_mm_s": 0.00017382405662405003,
+          "displacement_rms_nm": 0.05499155956021235,
+          "velocity_rms_mm_s": 2.4756471222541976e-05
+        },
+        {
+          "time_seconds": 6.5,
+          "air_rms_mm_s": 0.35620523997345227,
+          "displacement_rms_nm": 120.85896925177603,
+          "velocity_rms_mm_s": 0.2462158114245117
+        },
+        {
+          "time_seconds": 6.6,
+          "air_rms_mm_s": 0.06949060533949347,
+          "displacement_rms_nm": 20.303792054799406,
+          "velocity_rms_mm_s": 0.024833914755601365
+        },
+        {
+          "time_seconds": 6.7,
+          "air_rms_mm_s": 0.3290215251941858,
+          "displacement_rms_nm": 108.18273686217582,
+          "velocity_rms_mm_s": 0.23353037517053551
+        },
+        {
+          "time_seconds": 6.8,
+          "air_rms_mm_s": 0.35543205498841285,
+          "displacement_rms_nm": 107.13759754735405,
+          "velocity_rms_mm_s": 0.2151827835277995
+        },
+        {
+          "time_seconds": 6.9,
+          "air_rms_mm_s": 0.3751565749059158,
+          "displacement_rms_nm": 133.38173991992917,
+          "velocity_rms_mm_s": 0.29306236136320757
+        },
+        {
+          "time_seconds": 7.0,
+          "air_rms_mm_s": 0.33462421904118156,
+          "displacement_rms_nm": 116.57172069736666,
+          "velocity_rms_mm_s": 0.2344936626661144
+        },
+        {
+          "time_seconds": 7.1,
+          "air_rms_mm_s": 0.09358428892305473,
+          "displacement_rms_nm": 37.14544408147805,
+          "velocity_rms_mm_s": 0.049980333701494684
+        },
+        {
+          "time_seconds": 7.2,
+          "air_rms_mm_s": 0.2582292458231122,
+          "displacement_rms_nm": 114.26666243182063,
+          "velocity_rms_mm_s": 0.21550452351158075
+        },
+        {
+          "time_seconds": 7.3,
+          "air_rms_mm_s": 0.28791980855862886,
+          "displacement_rms_nm": 120.24623882534104,
+          "velocity_rms_mm_s": 0.1956560863640687
+        },
+        {
+          "time_seconds": 7.4,
+          "air_rms_mm_s": 0.19488959817530063,
+          "displacement_rms_nm": 79.21948146327645,
+          "velocity_rms_mm_s": 0.11745942521424754
+        },
+        {
+          "time_seconds": 7.5,
+          "air_rms_mm_s": 0.03998012537655943,
+          "displacement_rms_nm": 16.55180872733881,
+          "velocity_rms_mm_s": 0.011749196796026245
+        },
+        {
+          "time_seconds": 7.6,
+          "air_rms_mm_s": 0.00032253874641844185,
+          "displacement_rms_nm": 0.11760486206806701,
+          "velocity_rms_mm_s": 7.641055386217086e-05
+        },
+        {
+          "time_seconds": 7.7,
+          "air_rms_mm_s": 0.0,
+          "displacement_rms_nm": 1.2675182031010587e-24,
+          "velocity_rms_mm_s": 3.0743963685087355e-27
+        },
+        {
+          "time_seconds": 7.8,
+          "air_rms_mm_s": 0.313761435174996,
+          "displacement_rms_nm": 116.84699004799113,
+          "velocity_rms_mm_s": 0.25505617689178384
+        },
+        {
+          "time_seconds": 7.9,
+          "air_rms_mm_s": 0.4750265139228142,
+          "displacement_rms_nm": 170.9772044162601,
+          "velocity_rms_mm_s": 0.3980297889533852
+        },
+        {
+          "time_seconds": 8.0,
+          "air_rms_mm_s": 0.20079457120597258,
+          "displacement_rms_nm": 72.84950050248308,
+          "velocity_rms_mm_s": 0.12365671929491107
+        },
+        {
+          "time_seconds": 8.1,
+          "air_rms_mm_s": 0.3665053291665754,
+          "displacement_rms_nm": 128.13960439372389,
+          "velocity_rms_mm_s": 0.2573403664862509
+        },
+        {
+          "time_seconds": 8.2,
+          "air_rms_mm_s": 0.24993054836137363,
+          "displacement_rms_nm": 84.74174760683721,
+          "velocity_rms_mm_s": 0.1819755478536465
+        },
+        {
+          "time_seconds": 8.3,
+          "air_rms_mm_s": 0.14007854961394445,
+          "displacement_rms_nm": 59.885413199139876,
+          "velocity_rms_mm_s": 0.08357619767394386
+        },
+        {
+          "time_seconds": 8.4,
+          "air_rms_mm_s": 0.2975413570997027,
+          "displacement_rms_nm": 119.55734204508556,
+          "velocity_rms_mm_s": 0.19757263135876318
+        },
+        {
+          "time_seconds": 8.5,
+          "air_rms_mm_s": 0.08378252545557538,
+          "displacement_rms_nm": 32.7812313664169,
+          "velocity_rms_mm_s": 0.04328498129498116
+        },
+        {
+          "time_seconds": 8.6,
+          "air_rms_mm_s": 0.35174754337016423,
+          "displacement_rms_nm": 132.36233191461218,
+          "velocity_rms_mm_s": 0.24196019865792553
+        },
+        {
+          "time_seconds": 8.7,
+          "air_rms_mm_s": 0.2450100647325568,
+          "displacement_rms_nm": 90.7245051193622,
+          "velocity_rms_mm_s": 0.12867511876306365
+        },
+        {
+          "time_seconds": 8.8,
+          "air_rms_mm_s": 0.21181570796601237,
+          "displacement_rms_nm": 80.21980027534303,
+          "velocity_rms_mm_s": 0.12426843674904843
+        },
+        {
+          "time_seconds": 8.9,
+          "air_rms_mm_s": 0.1228558616017457,
+          "displacement_rms_nm": 49.10881797189301,
+          "velocity_rms_mm_s": 0.04578147866118595
+        },
+        {
+          "time_seconds": 9.0,
+          "air_rms_mm_s": 0.0026610047976857835,
+          "displacement_rms_nm": 0.823845503032483,
+          "velocity_rms_mm_s": 0.0011178622106612988
+        },
+        {
+          "time_seconds": 9.1,
+          "air_rms_mm_s": 9.086841034511784e-05,
+          "displacement_rms_nm": 0.03255549969053865,
+          "velocity_rms_mm_s": 1.7497020627968804e-05
+        },
+        {
+          "time_seconds": 9.2,
+          "air_rms_mm_s": 0.000140829084310991,
+          "displacement_rms_nm": 0.03808454573783474,
+          "velocity_rms_mm_s": 1.9643402324643694e-05
+        },
+        {
+          "time_seconds": 9.3,
+          "air_rms_mm_s": 0.2723373050543796,
+          "displacement_rms_nm": 89.0617294076731,
+          "velocity_rms_mm_s": 0.18417590549806365
+        },
+        {
+          "time_seconds": 9.4,
+          "air_rms_mm_s": 0.47114070624599985,
+          "displacement_rms_nm": 201.39868019453328,
+          "velocity_rms_mm_s": 0.321606383782996
+        },
+        {
+          "time_seconds": 9.5,
+          "air_rms_mm_s": 0.3481578402928344,
+          "displacement_rms_nm": 122.00258478287462,
+          "velocity_rms_mm_s": 0.24691390522849233
+        },
+        {
+          "time_seconds": 9.6,
+          "air_rms_mm_s": 0.26955578552490767,
+          "displacement_rms_nm": 100.53583864618207,
+          "velocity_rms_mm_s": 0.17728557544486384
+        },
+        {
+          "time_seconds": 9.7,
+          "air_rms_mm_s": 0.3033686390479297,
+          "displacement_rms_nm": 118.26529348739678,
+          "velocity_rms_mm_s": 0.22014908958705545
+        },
+        {
+          "time_seconds": 9.8,
+          "air_rms_mm_s": 0.31949491446559064,
+          "displacement_rms_nm": 105.94954636314867,
+          "velocity_rms_mm_s": 0.21519683962289424
+        },
+        {
+          "time_seconds": 9.9,
+          "air_rms_mm_s": 0.069712376884449,
+          "displacement_rms_nm": 30.944183901852913,
+          "velocity_rms_mm_s": 0.03927689886430077
+        },
+        {
+          "time_seconds": 10.0,
+          "air_rms_mm_s": 0.207980758179278,
+          "displacement_rms_nm": 83.26163864910714,
+          "velocity_rms_mm_s": 0.12387838256537058
+        },
+        {
+          "time_seconds": 10.1,
+          "air_rms_mm_s": 0.21597357871159184,
+          "displacement_rms_nm": 85.996901754722,
+          "velocity_rms_mm_s": 0.1393634498618528
+        },
+        {
+          "time_seconds": 10.2,
+          "air_rms_mm_s": 0.08638109465209523,
+          "displacement_rms_nm": 34.54223700066148,
+          "velocity_rms_mm_s": 0.03338771471869801
+        },
+        {
+          "time_seconds": 10.3,
+          "air_rms_mm_s": 0.000991887984694801,
+          "displacement_rms_nm": 0.34008945773279436,
+          "velocity_rms_mm_s": 0.0003246608625860277
+        },
+        {
+          "time_seconds": 10.4,
+          "air_rms_mm_s": 0.0,
+          "displacement_rms_nm": 2.028292661689461e-12,
+          "velocity_rms_mm_s": 7.316570647382416e-15
+        },
+        {
+          "time_seconds": 10.5,
+          "air_rms_mm_s": 0.0,
+          "displacement_rms_nm": 8.659360952186542e-56,
+          "velocity_rms_mm_s": 3.0554924602030542e-58
+        },
+        {
+          "time_seconds": 10.6,
+          "air_rms_mm_s": 0.0,
+          "displacement_rms_nm": 4.250788104407465e-99,
+          "velocity_rms_mm_s": 1.2021738205718545e-101
+        },
+        {
+          "time_seconds": 10.7,
+          "air_rms_mm_s": 0.004999903597660219,
+          "displacement_rms_nm": 0.8825087105964294,
+          "velocity_rms_mm_s": 0.0008076935155595691
+        },
+        {
+          "time_seconds": 10.8,
+          "air_rms_mm_s": 0.43556791642536785,
+          "displacement_rms_nm": 149.45035682223627,
+          "velocity_rms_mm_s": 0.34374157177807646
+        },
+        {
+          "time_seconds": 10.9,
+          "air_rms_mm_s": 0.44306918414156404,
+          "displacement_rms_nm": 128.56370560373648,
+          "velocity_rms_mm_s": 0.2936802499284399
+        },
+        {
+          "time_seconds": 11.0,
+          "air_rms_mm_s": 0.29243445874741886,
+          "displacement_rms_nm": 121.92376658730196,
+          "velocity_rms_mm_s": 0.22285944691570747
+        },
+        {
+          "time_seconds": 11.1,
+          "air_rms_mm_s": 0.38867276576182486,
+          "displacement_rms_nm": 144.10754711423544,
+          "velocity_rms_mm_s": 0.2890951582755789
+        },
+        {
+          "time_seconds": 11.2,
+          "air_rms_mm_s": 0.33614979540390133,
+          "displacement_rms_nm": 130.98710921481617,
+          "velocity_rms_mm_s": 0.22447514729198786
+        },
+        {
+          "time_seconds": 11.3,
+          "air_rms_mm_s": 0.1979450137352105,
+          "displacement_rms_nm": 78.1797495857286,
+          "velocity_rms_mm_s": 0.10541560153593187
+        },
+        {
+          "time_seconds": 11.4,
+          "air_rms_mm_s": 0.08321599424708884,
+          "displacement_rms_nm": 8.809975361465073,
+          "velocity_rms_mm_s": 0.009912077588573568
+        },
+        {
+          "time_seconds": 11.5,
+          "air_rms_mm_s": 0.06778618193765568,
+          "displacement_rms_nm": 4.354215153983993,
+          "velocity_rms_mm_s": 0.00441935176431917
+        },
+        {
+          "time_seconds": 11.6,
+          "air_rms_mm_s": 0.005513261767604037,
+          "displacement_rms_nm": 1.7934537646195088,
+          "velocity_rms_mm_s": 0.0016325851964032292
+        },
+        {
+          "time_seconds": 11.7,
+          "air_rms_mm_s": 0.00016207877238680788,
+          "displacement_rms_nm": 0.05805121834092194,
+          "velocity_rms_mm_s": 3.732773425460536e-05
+        },
+        {
+          "time_seconds": 11.8,
+          "air_rms_mm_s": 8.877049856232731e-07,
+          "displacement_rms_nm": 3.928766030256191e-07,
+          "velocity_rms_mm_s": 9.708439049037198e-09
+        },
+        {
+          "time_seconds": 11.9,
+          "air_rms_mm_s": 0.272680900436549,
+          "displacement_rms_nm": 73.22434543801391,
+          "velocity_rms_mm_s": 0.16628569847952632
+        },
+        {
+          "time_seconds": 12.0,
+          "air_rms_mm_s": 0.48214943611767624,
+          "displacement_rms_nm": 199.7197365518383,
+          "velocity_rms_mm_s": 0.3437632562416182
+        },
+        {
+          "time_seconds": 12.1,
+          "air_rms_mm_s": 0.2333016238597472,
+          "displacement_rms_nm": 87.53241790435813,
+          "velocity_rms_mm_s": 0.15313153563270965
+        },
+        {
+          "time_seconds": 12.2,
+          "air_rms_mm_s": 0.4147489185246194,
+          "displacement_rms_nm": 136.2209501180349,
+          "velocity_rms_mm_s": 0.30991218096769413
+        },
+        {
+          "time_seconds": 12.3,
+          "air_rms_mm_s": 0.1689376445039405,
+          "displacement_rms_nm": 75.41372339288922,
+          "velocity_rms_mm_s": 0.13014579771743862
+        },
+        {
+          "time_seconds": 12.4,
+          "air_rms_mm_s": 0.26494684150973874,
+          "displacement_rms_nm": 100.74642633464268,
+          "velocity_rms_mm_s": 0.19338463371458717
+        },
+        {
+          "time_seconds": 12.5,
+          "air_rms_mm_s": 0.16140891712721586,
+          "displacement_rms_nm": 49.69292076917674,
+          "velocity_rms_mm_s": 0.06918290422151552
+        },
+        {
+          "time_seconds": 12.6,
+          "air_rms_mm_s": 0.2668988463109595,
+          "displacement_rms_nm": 98.21484300591122,
+          "velocity_rms_mm_s": 0.19257797804044893
+        },
+        {
+          "time_seconds": 12.7,
+          "air_rms_mm_s": 0.26350696978791627,
+          "displacement_rms_nm": 97.46651195922612,
+          "velocity_rms_mm_s": 0.16064097833745328
+        },
+        {
+          "time_seconds": 12.8,
+          "air_rms_mm_s": 0.16887950196642457,
+          "displacement_rms_nm": 67.48955957361228,
+          "velocity_rms_mm_s": 0.08492583079495153
+        },
+        {
+          "time_seconds": 12.9,
+          "air_rms_mm_s": 0.06256946849601366,
+          "displacement_rms_nm": 24.618772005662834,
+          "velocity_rms_mm_s": 0.01942312866813064
+        },
+        {
+          "time_seconds": 13.0,
+          "air_rms_mm_s": 0.0005334487573990291,
+          "displacement_rms_nm": 0.19304242839365326,
+          "velocity_rms_mm_s": 0.0001420280385262047
+        },
+        {
+          "time_seconds": 13.1,
+          "air_rms_mm_s": 0.0,
+          "displacement_rms_nm": 1.1943999140366415e-23,
+          "velocity_rms_mm_s": 3.188370283379053e-26
+        },
+        {
+          "time_seconds": 13.2,
+          "air_rms_mm_s": 0.04629591857129864,
+          "displacement_rms_nm": 3.6553316531157116,
+          "velocity_rms_mm_s": 0.006001462965352784
+        },
+        {
+          "time_seconds": 13.3,
+          "air_rms_mm_s": 0.5364796512516057,
+          "displacement_rms_nm": 175.56441734946534,
+          "velocity_rms_mm_s": 0.4489470095823094
+        },
+        {
+          "time_seconds": 13.4,
+          "air_rms_mm_s": 0.13503060333821126,
+          "displacement_rms_nm": 26.938698776391675,
+          "velocity_rms_mm_s": 0.04355843486685535
+        },
+        {
+          "time_seconds": 13.5,
+          "air_rms_mm_s": 0.326455902733148,
+          "displacement_rms_nm": 108.70875504901453,
+          "velocity_rms_mm_s": 0.22747252659047584
+        },
+        {
+          "time_seconds": 13.6,
+          "air_rms_mm_s": 0.28719910331572185,
+          "displacement_rms_nm": 131.03543682809553,
+          "velocity_rms_mm_s": 0.2168890250181862
+        },
+        {
+          "time_seconds": 13.7,
+          "air_rms_mm_s": 0.2749902953145488,
+          "displacement_rms_nm": 107.55943518838588,
+          "velocity_rms_mm_s": 0.214458763092851
+        },
+        {
+          "time_seconds": 13.8,
+          "air_rms_mm_s": 0.3555578663331492,
+          "displacement_rms_nm": 119.2097328728426,
+          "velocity_rms_mm_s": 0.2213209587987827
+        },
+        {
+          "time_seconds": 13.9,
+          "air_rms_mm_s": 0.3511089646782734,
+          "displacement_rms_nm": 140.0688214417649,
+          "velocity_rms_mm_s": 0.2708611023013831
+        },
+        {
+          "time_seconds": 14.0,
+          "air_rms_mm_s": 0.13047999365316845,
+          "displacement_rms_nm": 53.83427348332422,
+          "velocity_rms_mm_s": 0.0728637726976972
+        },
+        {
+          "time_seconds": 14.1,
+          "air_rms_mm_s": 0.24622856233590387,
+          "displacement_rms_nm": 95.06633555401464,
+          "velocity_rms_mm_s": 0.13545213995499975
+        },
+        {
+          "time_seconds": 14.2,
+          "air_rms_mm_s": 0.22505476043170736,
+          "displacement_rms_nm": 85.36448155021311,
+          "velocity_rms_mm_s": 0.1245594517337908
+        },
+        {
+          "time_seconds": 14.3,
+          "air_rms_mm_s": 0.11954774869095203,
+          "displacement_rms_nm": 47.08823218102407,
+          "velocity_rms_mm_s": 0.0566309808497352
+        },
+        {
+          "time_seconds": 14.4,
+          "air_rms_mm_s": 0.0075991657988024154,
+          "displacement_rms_nm": 2.4077465891193066,
+          "velocity_rms_mm_s": 0.0020744631366780074
+        },
+        {
+          "time_seconds": 14.5,
+          "air_rms_mm_s": 0.00013646425176741785,
+          "displacement_rms_nm": 0.04952041318392071,
+          "velocity_rms_mm_s": 3.0966310806908965e-05
+        },
+        {
+          "time_seconds": 14.6,
+          "air_rms_mm_s": 8.949802239393099e-05,
+          "displacement_rms_nm": 0.03136075792336108,
+          "velocity_rms_mm_s": 1.405384768338795e-05
+        },
+        {
+          "time_seconds": 14.7,
+          "air_rms_mm_s": 0.070634708792532,
+          "displacement_rms_nm": 2.7844041494466163,
+          "velocity_rms_mm_s": 0.005831945358066139
+        },
+        {
+          "time_seconds": 14.8,
+          "air_rms_mm_s": 0.45361250170680745,
+          "displacement_rms_nm": 150.17031661657654,
+          "velocity_rms_mm_s": 0.34734691058167
+        },
+        {
+          "time_seconds": 14.9,
+          "air_rms_mm_s": 0.2204858222206892,
+          "displacement_rms_nm": 85.03236485100348,
+          "velocity_rms_mm_s": 0.1597445927472355
+        },
+        {
+          "time_seconds": 15.0,
+          "air_rms_mm_s": 0.4498616529699216,
+          "displacement_rms_nm": 136.3723123752854,
+          "velocity_rms_mm_s": 0.33273410358224387
+        },
+        {
+          "time_seconds": 15.1,
+          "air_rms_mm_s": 0.18097850095885215,
+          "displacement_rms_nm": 61.5762508832379,
+          "velocity_rms_mm_s": 0.11288161602317433
+        },
+        {
+          "time_seconds": 15.2,
+          "air_rms_mm_s": 0.1327387486360067,
+          "displacement_rms_nm": 52.20223442620079,
+          "velocity_rms_mm_s": 0.0749630829183692
+        },
+        {
+          "time_seconds": 15.3,
+          "air_rms_mm_s": 0.3161245160071094,
+          "displacement_rms_nm": 120.91264402451183,
+          "velocity_rms_mm_s": 0.21646792932702957
+        },
+        {
+          "time_seconds": 15.4,
+          "air_rms_mm_s": 0.2648722895370868,
+          "displacement_rms_nm": 107.17523250661867,
+          "velocity_rms_mm_s": 0.18904462963579308
+        },
+        {
+          "time_seconds": 15.5,
+          "air_rms_mm_s": 0.30403102426623835,
+          "displacement_rms_nm": 117.18677796866822,
+          "velocity_rms_mm_s": 0.19758916676610105
+        },
+        {
+          "time_seconds": 15.6,
+          "air_rms_mm_s": 0.21225669858570664,
+          "displacement_rms_nm": 83.64611315695193,
+          "velocity_rms_mm_s": 0.12598112996664507
+        },
+        {
+          "time_seconds": 15.7,
+          "air_rms_mm_s": 0.12002778741561056,
+          "displacement_rms_nm": 47.622323988635465,
+          "velocity_rms_mm_s": 0.04752158243451507
+        },
+        {
+          "time_seconds": 15.8,
+          "air_rms_mm_s": 0.0022719180662201374,
+          "displacement_rms_nm": 0.8125903761430319,
+          "velocity_rms_mm_s": 0.0008006238791480495
+        },
+        {
+          "time_seconds": 15.9,
+          "air_rms_mm_s": 0.0,
+          "displacement_rms_nm": 4.485695006244171e-09,
+          "velocity_rms_mm_s": 1.5047609499638172e-11
+        },
+        {
+          "time_seconds": 16.0,
+          "air_rms_mm_s": 0.0,
+          "displacement_rms_nm": 2.26310837525124e-52,
+          "velocity_rms_mm_s": 5.840019336790313e-55
+        },
+        {
+          "time_seconds": 16.1,
+          "air_rms_mm_s": 0.0,
+          "displacement_rms_nm": 1.1629251085625873e-95,
+          "velocity_rms_mm_s": 2.2549640000986572e-98
+        },
+        {
+          "time_seconds": 16.2,
+          "air_rms_mm_s": 0.13547889388592135,
+          "displacement_rms_nm": 48.875318744941325,
+          "velocity_rms_mm_s": 0.10393642371604331
+        },
+        {
+          "time_seconds": 16.3,
+          "air_rms_mm_s": 0.42873165932866586,
+          "displacement_rms_nm": 167.5420400856764,
+          "velocity_rms_mm_s": 0.3448695970288567
+        },
+        {
+          "time_seconds": 16.4,
+          "air_rms_mm_s": 0.0337273166391908,
+          "displacement_rms_nm": 9.18277423788672,
+          "velocity_rms_mm_s": 0.010358318872298539
+        },
+        {
+          "time_seconds": 16.5,
+          "air_rms_mm_s": 0.4511662315192711,
+          "displacement_rms_nm": 143.89641371329208,
+          "velocity_rms_mm_s": 0.3103462927149859
+        },
+        {
+          "time_seconds": 16.6,
+          "air_rms_mm_s": 0.25244633825518,
+          "displacement_rms_nm": 79.8954050734564,
+          "velocity_rms_mm_s": 0.1665808294632638
+        },
+        {
+          "time_seconds": 16.7,
+          "air_rms_mm_s": 0.2941764647906738,
+          "displacement_rms_nm": 121.07133321688819,
+          "velocity_rms_mm_s": 0.250815979331879
+        },
+        {
+          "time_seconds": 16.8,
+          "air_rms_mm_s": 0.18554977038175607,
+          "displacement_rms_nm": 67.08682792758876,
+          "velocity_rms_mm_s": 0.11008633164200611
+        },
+        {
+          "time_seconds": 16.9,
+          "air_rms_mm_s": 0.34326681530043585,
+          "displacement_rms_nm": 124.97575557486616,
+          "velocity_rms_mm_s": 0.23529998510316796
+        },
+        {
+          "time_seconds": 17.0,
+          "air_rms_mm_s": 0.29442728838870824,
+          "displacement_rms_nm": 103.0837102338263,
+          "velocity_rms_mm_s": 0.1774793246596282
+        },
+        {
+          "time_seconds": 17.1,
+          "air_rms_mm_s": 0.16325737624639688,
+          "displacement_rms_nm": 65.05899625349542,
+          "velocity_rms_mm_s": 0.09558027263902516
+        },
+        {
+          "time_seconds": 17.2,
+          "air_rms_mm_s": 0.024146619198863604,
+          "displacement_rms_nm": 3.9230473812844697,
+          "velocity_rms_mm_s": 0.004646724505831734
+        },
+        {
+          "time_seconds": 17.3,
+          "air_rms_mm_s": 0.004458940211391945,
+          "displacement_rms_nm": 1.3732275905927387,
+          "velocity_rms_mm_s": 0.0013145814712602127
+        },
+        {
+          "time_seconds": 17.4,
+          "air_rms_mm_s": 0.0,
+          "displacement_rms_nm": 0.0023440881232726597,
+          "velocity_rms_mm_s": 4.279360907240775e-06
+        },
+        {
+          "time_seconds": 17.5,
+          "air_rms_mm_s": 0.0001946933731212715,
+          "displacement_rms_nm": 0.06451660191641982,
+          "velocity_rms_mm_s": 2.466090728013482e-05
+        },
+        {
+          "time_seconds": 17.6,
+          "air_rms_mm_s": 0.3628111895022867,
+          "displacement_rms_nm": 131.36140094206033,
+          "velocity_rms_mm_s": 0.26868414763377785
+        },
+        {
+          "time_seconds": 17.7,
+          "air_rms_mm_s": 0.40679976587888605,
+          "displacement_rms_nm": 175.6571026272649,
+          "velocity_rms_mm_s": 0.28900444753970134
+        },
+        {
+          "time_seconds": 17.8,
+          "air_rms_mm_s": 0.10633998804095333,
+          "displacement_rms_nm": 6.013063428480056,
+          "velocity_rms_mm_s": 0.009840883418275083
+        },
+        {
+          "time_seconds": 17.9,
+          "air_rms_mm_s": 0.3359376123390573,
+          "displacement_rms_nm": 117.45906444873673,
+          "velocity_rms_mm_s": 0.23816433860832895
+        },
+        {
+          "time_seconds": 18.0,
+          "air_rms_mm_s": 0.31604435768552724,
+          "displacement_rms_nm": 126.20486375629034,
+          "velocity_rms_mm_s": 0.2113585324239652
+        },
+        {
+          "time_seconds": 18.1,
+          "air_rms_mm_s": 0.09480782288894517,
+          "displacement_rms_nm": 36.66565698653255,
+          "velocity_rms_mm_s": 0.06794941961947794
+        },
+        {
+          "time_seconds": 18.2,
+          "air_rms_mm_s": 0.2862955906024587,
+          "displacement_rms_nm": 114.81362128859419,
+          "velocity_rms_mm_s": 0.18823902462374398
+        },
+        {
+          "time_seconds": 18.3,
+          "air_rms_mm_s": 0.21950562306557608,
+          "displacement_rms_nm": 88.29343359486785,
+          "velocity_rms_mm_s": 0.14247078899895088
+        },
+        {
+          "time_seconds": 18.4,
+          "air_rms_mm_s": 0.4002464314373348,
+          "displacement_rms_nm": 130.516367508668,
+          "velocity_rms_mm_s": 0.28081409848095484
+        },
+        {
+          "time_seconds": 18.5,
+          "air_rms_mm_s": 0.24891078027213634,
+          "displacement_rms_nm": 82.39247330611985,
+          "velocity_rms_mm_s": 0.1337567253182877
+        },
+        {
+          "time_seconds": 18.6,
+          "air_rms_mm_s": 0.061762467369360724,
+          "displacement_rms_nm": 24.644688303102033,
+          "velocity_rms_mm_s": 0.019490525031991463
+        },
+        {
+          "time_seconds": 18.7,
+          "air_rms_mm_s": 0.02112419484335348,
+          "displacement_rms_nm": 3.1847554517850103,
+          "velocity_rms_mm_s": 0.003596391223495205
+        },
+        {
+          "time_seconds": 18.8,
+          "air_rms_mm_s": 0.0008365233722694676,
+          "displacement_rms_nm": 0.2890060026414166,
+          "velocity_rms_mm_s": 0.00031201603243163716
+        },
+        {
+          "time_seconds": 18.9,
+          "air_rms_mm_s": 0.0,
+          "displacement_rms_nm": 5.0678084214404984e-21,
+          "velocity_rms_mm_s": 9.23545941982344e-24
+        },
+        {
+          "time_seconds": 19.0,
+          "air_rms_mm_s": 0.18066022373919796,
+          "displacement_rms_nm": 53.390705983519574,
+          "velocity_rms_mm_s": 0.10102704343945013
+        },
+        {
+          "time_seconds": 19.1,
+          "air_rms_mm_s": 0.5137282044711088,
+          "displacement_rms_nm": 215.6350022491836,
+          "velocity_rms_mm_s": 0.37486027687169193
+        },
+        {
+          "time_seconds": 19.2,
+          "air_rms_mm_s": 0.44353540877128295,
+          "displacement_rms_nm": 156.42019939723437,
+          "velocity_rms_mm_s": 0.3491625013723077
+        },
+        {
+          "time_seconds": 19.3,
+          "air_rms_mm_s": 0.3938519988244531,
+          "displacement_rms_nm": 122.82744827882507,
+          "velocity_rms_mm_s": 0.26448375136793784
+        },
+        {
+          "time_seconds": 19.4,
+          "air_rms_mm_s": 0.3543920578473415,
+          "displacement_rms_nm": 116.23864453400681,
+          "velocity_rms_mm_s": 0.21464734649658104
+        },
+        {
+          "time_seconds": 19.5,
+          "air_rms_mm_s": 0.1595055506820376,
+          "displacement_rms_nm": 64.04907427847519,
+          "velocity_rms_mm_s": 0.0779082052650766
+        },
+        {
+          "time_seconds": 19.6,
+          "air_rms_mm_s": 0.08931802170183029,
+          "displacement_rms_nm": 6.772313137948124,
+          "velocity_rms_mm_s": 0.009865483921615252
+        },
+        {
+          "time_seconds": 19.7,
+          "air_rms_mm_s": 0.042780603536606863,
+          "displacement_rms_nm": 3.823100375237835,
+          "velocity_rms_mm_s": 0.004252482470733178
+        },
+        {
+          "time_seconds": 19.8,
+          "air_rms_mm_s": 0.0015432150305053278,
+          "displacement_rms_nm": 0.50679654101784,
+          "velocity_rms_mm_s": 0.0005696625243207824
+        },
+        {
+          "time_seconds": 19.9,
+          "air_rms_mm_s": 0.0,
+          "displacement_rms_nm": 3.37157623975746e-06,
+          "velocity_rms_mm_s": 6.847057985195423e-09
+        },
+        {
+          "time_seconds": 20.0,
+          "air_rms_mm_s": 0.0003376084204503571,
+          "displacement_rms_nm": 0.1058658330909237,
+          "velocity_rms_mm_s": 4.475882346422595e-05
+        },
+        {
+          "time_seconds": 20.1,
+          "air_rms_mm_s": 0.4288133761412214,
+          "displacement_rms_nm": 160.43099565984218,
+          "velocity_rms_mm_s": 0.3343049121919258
+        },
+        {
+          "time_seconds": 20.2,
+          "air_rms_mm_s": 0.0603026113225724,
+          "displacement_rms_nm": 22.03728620070199,
+          "velocity_rms_mm_s": 0.028901782932286957
+        },
+        {
+          "time_seconds": 20.3,
+          "air_rms_mm_s": 0.4120795720323883,
+          "displacement_rms_nm": 131.09894341620182,
+          "velocity_rms_mm_s": 0.30262946071609265
+        },
+        {
+          "time_seconds": 20.4,
+          "air_rms_mm_s": 0.3929643421668621,
+          "displacement_rms_nm": 117.45590240837986,
+          "velocity_rms_mm_s": 0.25193820468465983
+        },
+        {
+          "time_seconds": 20.5,
+          "air_rms_mm_s": 0.14158400440746646,
+          "displacement_rms_nm": 53.97066441241706,
+          "velocity_rms_mm_s": 0.10839717526829624
+        },
+        {
+          "time_seconds": 20.6,
+          "air_rms_mm_s": 0.28921773197913253,
+          "displacement_rms_nm": 122.50634652787026,
+          "velocity_rms_mm_s": 0.23487406693995155
+        },
+        {
+          "time_seconds": 20.7,
+          "air_rms_mm_s": 0.13898694007809392,
+          "displacement_rms_nm": 46.65078639874248,
+          "velocity_rms_mm_s": 0.07733310898137628
+        },
+        {
+          "time_seconds": 20.8,
+          "air_rms_mm_s": 0.38023523162198936,
+          "displacement_rms_nm": 136.92778162366753,
+          "velocity_rms_mm_s": 0.2694288121885253
+        },
+        {
+          "time_seconds": 20.9,
+          "air_rms_mm_s": 0.20135028889958326,
+          "displacement_rms_nm": 73.90152243240424,
+          "velocity_rms_mm_s": 0.10534377149123196
+        },
+        {
+          "time_seconds": 21.0,
+          "air_rms_mm_s": 0.034983516569240654,
+          "displacement_rms_nm": 13.340588662496518,
+          "velocity_rms_mm_s": 0.011419547073014449
+        },
+        {
+          "time_seconds": 21.1,
+          "air_rms_mm_s": 0.01987631135986748,
+          "displacement_rms_nm": 2.404137326976805,
+          "velocity_rms_mm_s": 0.002659152327497731
+        },
+        {
+          "time_seconds": 21.2,
+          "air_rms_mm_s": 0.00034786801100037713,
+          "displacement_rms_nm": 0.12750689269374185,
+          "velocity_rms_mm_s": 8.741429305417796e-05
+        },
+        {
+          "time_seconds": 21.3,
+          "air_rms_mm_s": 0.0,
+          "displacement_rms_nm": 5.073503506136823e-27,
+          "velocity_rms_mm_s": 1.8543738784791317e-29
+        },
+        {
+          "time_seconds": 21.4,
+          "air_rms_mm_s": 0.0,
+          "displacement_rms_nm": 2.239148862593762e-70,
+          "velocity_rms_mm_s": 7.632980110579576e-73
+        },
+        {
+          "time_seconds": 21.5,
+          "air_rms_mm_s": 0.0,
+          "displacement_rms_nm": 1.1223385106532673e-113,
+          "velocity_rms_mm_s": 2.972623625831873e-116
+        },
+        {
+          "time_seconds": 21.6,
+          "air_rms_mm_s": 0.11950568225550678,
+          "displacement_rms_nm": 49.259195739206156,
+          "velocity_rms_mm_s": 0.05912212424122814
+        },
+        {
+          "time_seconds": 21.7,
+          "air_rms_mm_s": 0.6287250215092336,
+          "displacement_rms_nm": 223.12284100955517,
+          "velocity_rms_mm_s": 0.5135184193393867
+        },
+        {
+          "time_seconds": 21.8,
+          "air_rms_mm_s": 0.2631576712834278,
+          "displacement_rms_nm": 110.981733682494,
+          "velocity_rms_mm_s": 0.19854253814333658
+        },
+        {
+          "time_seconds": 21.9,
+          "air_rms_mm_s": 0.3065806961522586,
+          "displacement_rms_nm": 126.27456392152395,
+          "velocity_rms_mm_s": 0.202645178335033
+        },
+        {
+          "time_seconds": 22.0,
+          "air_rms_mm_s": 0.2567679789050352,
+          "displacement_rms_nm": 93.57879929180436,
+          "velocity_rms_mm_s": 0.16214468827749415
+        },
+        {
+          "time_seconds": 22.1,
+          "air_rms_mm_s": 0.2636033477093683,
+          "displacement_rms_nm": 96.82443377234571,
+          "velocity_rms_mm_s": 0.14629911532552145
+        },
+        {
+          "time_seconds": 22.2,
+          "air_rms_mm_s": 0.23394897056452893,
+          "displacement_rms_nm": 87.48001083442563,
+          "velocity_rms_mm_s": 0.13730144871211658
+        },
+        {
+          "time_seconds": 22.3,
+          "air_rms_mm_s": 0.10634832428976936,
+          "displacement_rms_nm": 35.88735730247306,
+          "velocity_rms_mm_s": 0.04257528178314382
+        },
+        {
+          "time_seconds": 22.4,
+          "air_rms_mm_s": 0.008407856184891463,
+          "displacement_rms_nm": 1.562976147699066,
+          "velocity_rms_mm_s": 0.002281201300567248
+        },
+        {
+          "time_seconds": 22.5,
+          "air_rms_mm_s": 0.00023453906144031318,
+          "displacement_rms_nm": 0.08501378603285314,
+          "velocity_rms_mm_s": 4.836278749254501e-05
+        },
+        {
+          "time_seconds": 22.6,
+          "air_rms_mm_s": 0.0,
+          "displacement_rms_nm": 2.2087589195389093e-36,
+          "velocity_rms_mm_s": 3.948514600021673e-39
+        },
+        {
+          "time_seconds": 22.7,
+          "air_rms_mm_s": 0.33439758754748206,
+          "displacement_rms_nm": 113.16612249520281,
+          "velocity_rms_mm_s": 0.24238937457335152
+        },
+        {
+          "time_seconds": 22.8,
+          "air_rms_mm_s": 0.2326177333774059,
+          "displacement_rms_nm": 95.6941895157675,
+          "velocity_rms_mm_s": 0.1345715350229121
+        },
+        {
+          "time_seconds": 22.9,
+          "air_rms_mm_s": 0.3463225627182635,
+          "displacement_rms_nm": 121.30636608784539,
+          "velocity_rms_mm_s": 0.21941095531885724
+        },
+        {
+          "time_seconds": 23.0,
+          "air_rms_mm_s": 0.2116244803609488,
+          "displacement_rms_nm": 90.8036239544533,
+          "velocity_rms_mm_s": 0.17015175934900112
+        },
+        {
+          "time_seconds": 23.1,
+          "air_rms_mm_s": 0.21291537370007574,
+          "displacement_rms_nm": 95.32616981521873,
+          "velocity_rms_mm_s": 0.14951036997100017
+        },
+        {
+          "time_seconds": 23.2,
+          "air_rms_mm_s": 0.24212524695487597,
+          "displacement_rms_nm": 92.99846222617249,
+          "velocity_rms_mm_s": 0.20502564226663816
+        },
+        {
+          "time_seconds": 23.3,
+          "air_rms_mm_s": 0.3406231785277353,
+          "displacement_rms_nm": 115.3092214219849,
+          "velocity_rms_mm_s": 0.22339527197192685
+        },
+        {
+          "time_seconds": 23.4,
+          "air_rms_mm_s": 0.24735913406200843,
+          "displacement_rms_nm": 89.47001171159594,
+          "velocity_rms_mm_s": 0.14533719997067343
+        },
+        {
+          "time_seconds": 23.5,
+          "air_rms_mm_s": 0.22096390784875053,
+          "displacement_rms_nm": 87.45943174171691,
+          "velocity_rms_mm_s": 0.1478082724026583
+        },
+        {
+          "time_seconds": 23.6,
+          "air_rms_mm_s": 0.04320366881368577,
+          "displacement_rms_nm": 17.593153387342387,
+          "velocity_rms_mm_s": 0.015421067164620293
+        },
+        {
+          "time_seconds": 23.7,
+          "air_rms_mm_s": 0.0003172992018030002,
+          "displacement_rms_nm": 0.11582544462548446,
+          "velocity_rms_mm_s": 8.041187657687653e-05
+        },
+        {
+          "time_seconds": 23.8,
+          "air_rms_mm_s": 0.0,
+          "displacement_rms_nm": 1.1129415779035492e-25,
+          "velocity_rms_mm_s": 3.3489132798627727e-28
+        },
+        {
+          "time_seconds": 23.9,
+          "air_rms_mm_s": 0.23895924573398,
+          "displacement_rms_nm": 91.62319384839188,
+          "velocity_rms_mm_s": 0.19160156515303517
+        },
+        {
+          "time_seconds": 24.0,
+          "air_rms_mm_s": 0.34740380175338326,
+          "displacement_rms_nm": 136.63194550948202,
+          "velocity_rms_mm_s": 0.2679029074302192
+        },
+        {
+          "time_seconds": 24.1,
+          "air_rms_mm_s": 0.3993662683946089,
+          "displacement_rms_nm": 104.69658829944015,
+          "velocity_rms_mm_s": 0.2295015403507772
+        },
+        {
+          "time_seconds": 24.2,
+          "air_rms_mm_s": 0.34728493660665777,
+          "displacement_rms_nm": 128.72644504640843,
+          "velocity_rms_mm_s": 0.25647903520521764
+        },
+        {
+          "time_seconds": 24.3,
+          "air_rms_mm_s": 0.37389993414136713,
+          "displacement_rms_nm": 149.10433572450552,
+          "velocity_rms_mm_s": 0.3082799411366174
+        },
+        {
+          "time_seconds": 24.4,
+          "air_rms_mm_s": 0.3178790762849147,
+          "displacement_rms_nm": 113.61424944691778,
+          "velocity_rms_mm_s": 0.2157340018999591
+        },
+        {
+          "time_seconds": 24.5,
+          "air_rms_mm_s": 0.1812459964453409,
+          "displacement_rms_nm": 70.74676180765427,
+          "velocity_rms_mm_s": 0.10869659215461568
+        },
+        {
+          "time_seconds": 24.6,
+          "air_rms_mm_s": 0.06986162085611916,
+          "displacement_rms_nm": 5.342476875794068,
+          "velocity_rms_mm_s": 0.006302342809662045
+        },
+        {
+          "time_seconds": 24.7,
+          "air_rms_mm_s": 0.005525004927027505,
+          "displacement_rms_nm": 1.4566293223888853,
+          "velocity_rms_mm_s": 0.0013804914545395301
+        },
+        {
+          "time_seconds": 24.8,
+          "air_rms_mm_s": 0.00017127390335529608,
+          "displacement_rms_nm": 0.06370926937127301,
+          "velocity_rms_mm_s": 3.86881221769239e-05
+        },
+        {
+          "time_seconds": 24.9,
+          "air_rms_mm_s": 0.0,
+          "displacement_rms_nm": 8.05850147739238e-36,
+          "velocity_rms_mm_s": 1.5353899261227223e-38
+        },
+        {
+          "time_seconds": 25.0,
+          "air_rms_mm_s": 0.47385134256233397,
+          "displacement_rms_nm": 180.0007428101186,
+          "velocity_rms_mm_s": 0.41176647636552693
+        },
+        {
+          "time_seconds": 25.1,
+          "air_rms_mm_s": 0.5532548666161341,
+          "displacement_rms_nm": 187.92053275687928,
+          "velocity_rms_mm_s": 0.4481553031209205
+        },
+        {
+          "time_seconds": 25.2,
+          "air_rms_mm_s": 0.16230151967826917,
+          "displacement_rms_nm": 59.747668323540495,
+          "velocity_rms_mm_s": 0.1211862533895455
+        },
+        {
+          "time_seconds": 25.3,
+          "air_rms_mm_s": 0.28544148879798714,
+          "displacement_rms_nm": 95.36515571124613,
+          "velocity_rms_mm_s": 0.1907668048615014
+        },
+        {
+          "time_seconds": 25.4,
+          "air_rms_mm_s": 0.25743081527700573,
+          "displacement_rms_nm": 101.1355375436976,
+          "velocity_rms_mm_s": 0.16980538590274857
+        },
+        {
+          "time_seconds": 25.5,
+          "air_rms_mm_s": 0.30793234898795396,
+          "displacement_rms_nm": 113.92377049656335,
+          "velocity_rms_mm_s": 0.21091349456957106
+        },
+        {
+          "time_seconds": 25.6,
+          "air_rms_mm_s": 0.2206472909855276,
+          "displacement_rms_nm": 78.80503989348044,
+          "velocity_rms_mm_s": 0.1127579615528642
+        },
+        {
+          "time_seconds": 25.7,
+          "air_rms_mm_s": 0.19183533218508436,
+          "displacement_rms_nm": 73.78321493913364,
+          "velocity_rms_mm_s": 0.10576991690086048
+        },
+        {
+          "time_seconds": 25.8,
+          "air_rms_mm_s": 0.11642163213632603,
+          "displacement_rms_nm": 46.13541914325047,
+          "velocity_rms_mm_s": 0.04365073991283885
+        },
+        {
+          "time_seconds": 25.9,
+          "air_rms_mm_s": 0.0016190577491798014,
+          "displacement_rms_nm": 0.5547819824242304,
+          "velocity_rms_mm_s": 0.0006495978509455693
+        },
+        {
+          "time_seconds": 26.0,
+          "air_rms_mm_s": 0.0,
+          "displacement_rms_nm": 2.4743882295220554e-09,
+          "velocity_rms_mm_s": 8.374419779380587e-12
+        },
+        {
+          "time_seconds": 26.1,
+          "air_rms_mm_s": 0.0,
+          "displacement_rms_nm": 1.5391827585197818e-52,
+          "velocity_rms_mm_s": 4.028355738989421e-55
+        }
+      ],
+      "neural_response": null,
+      "reading": null,
+      "claim": "Linear measured-fit reference prediction; arbitrary-level speech and out-of-band response are extrapolations, not validated physiology"
+    },
+    "human": {
+      "source": "experiments/delivery-v1/human/audio.wav",
+      "source_sha256": "661aabb8eb686c416d84b3f4c6afcf59fd8297d28a4671a5c7fc6d5c5d301858",
+      "preprocessing": {
+        "source_sample_rate_hz": 24000,
+        "processing_sample_rate_hz": 48000,
+        "source_samples": 1082400,
+        "processed_samples": 2164800,
+        "source_duration_seconds": 45.1,
+        "processed_duration_seconds": 45.1,
+        "linear_gain": 1.0,
+        "normalization": "none; retain prior whole-recording level matching",
+        "resampling": "scipy.signal.resample_poly, default Kaiser window",
+        "processed_peak": 0.9212658404409471
+      },
+      "trace": "results/receiver-calibration/human-sound-transfer.npz",
+      "trace_sha256": "c7fa8f064f5ae4a5402e96662616cc8608bbfbdc90a4e910a53329dc39749ef1",
+      "air_rms_mm_s": 0.2500871981302806,
+      "displacement_rms_nm": 84.29061368593484,
+      "velocity_rms_mm_s": 0.18781798716393353,
+      "fraction_audio_energy_outside_source_100_1500_hz": 0.15446861844740684,
+      "timeline": [
+        {
+          "time_seconds": 0.0,
+          "air_rms_mm_s": 0.012534969667835606,
+          "displacement_rms_nm": 4.659480982720067,
+          "velocity_rms_mm_s": 0.004623152160984711
+        },
+        {
+          "time_seconds": 0.1,
+          "air_rms_mm_s": 0.012501193891140055,
+          "displacement_rms_nm": 4.625625442057353,
+          "velocity_rms_mm_s": 0.004646957312226638
+        },
+        {
+          "time_seconds": 0.2,
+          "air_rms_mm_s": 0.01170505302408687,
+          "displacement_rms_nm": 4.294087826847658,
+          "velocity_rms_mm_s": 0.004581685906891104
+        },
+        {
+          "time_seconds": 0.3,
+          "air_rms_mm_s": 0.013459882408426159,
+          "displacement_rms_nm": 4.955371994503132,
+          "velocity_rms_mm_s": 0.004587115614988406
+        },
+        {
+          "time_seconds": 0.4,
+          "air_rms_mm_s": 0.01329340819235347,
+          "displacement_rms_nm": 4.912670417667704,
+          "velocity_rms_mm_s": 0.004687330788662477
+        },
+        {
+          "time_seconds": 0.5,
+          "air_rms_mm_s": 0.011981625042544969,
+          "displacement_rms_nm": 4.433249544157228,
+          "velocity_rms_mm_s": 0.004789004377331444
+        },
+        {
+          "time_seconds": 0.6,
+          "air_rms_mm_s": 0.010899358226514236,
+          "displacement_rms_nm": 3.974123562757599,
+          "velocity_rms_mm_s": 0.003991271045321944
+        },
+        {
+          "time_seconds": 0.7,
+          "air_rms_mm_s": 0.01281907401291427,
+          "displacement_rms_nm": 4.73047989153779,
+          "velocity_rms_mm_s": 0.004408221354541739
+        },
+        {
+          "time_seconds": 0.8,
+          "air_rms_mm_s": 0.012681587856028841,
+          "displacement_rms_nm": 4.6768225318458,
+          "velocity_rms_mm_s": 0.004190727200758283
+        },
+        {
+          "time_seconds": 0.9,
+          "air_rms_mm_s": 0.010720631546798936,
+          "displacement_rms_nm": 3.9661113558951695,
+          "velocity_rms_mm_s": 0.004311407801507414
+        },
+        {
+          "time_seconds": 1.0,
+          "air_rms_mm_s": 0.013243091167673948,
+          "displacement_rms_nm": 4.852283599075337,
+          "velocity_rms_mm_s": 0.004594024725487007
+        },
+        {
+          "time_seconds": 1.1,
+          "air_rms_mm_s": 0.37955250455415485,
+          "displacement_rms_nm": 162.7801409682844,
+          "velocity_rms_mm_s": 0.3585306908247906
+        },
+        {
+          "time_seconds": 1.2,
+          "air_rms_mm_s": 0.9628162339301503,
+          "displacement_rms_nm": 406.72245472980495,
+          "velocity_rms_mm_s": 0.9904929490622234
+        },
+        {
+          "time_seconds": 1.3,
+          "air_rms_mm_s": 0.7549879912518808,
+          "displacement_rms_nm": 322.4191867370302,
+          "velocity_rms_mm_s": 0.7786030151350254
+        },
+        {
+          "time_seconds": 1.4,
+          "air_rms_mm_s": 0.06982366989213358,
+          "displacement_rms_nm": 12.329140354096578,
+          "velocity_rms_mm_s": 0.026409940173661172
+        },
+        {
+          "time_seconds": 1.5,
+          "air_rms_mm_s": 0.7758718458458171,
+          "displacement_rms_nm": 188.67533503620396,
+          "velocity_rms_mm_s": 0.49831267988917144
+        },
+        {
+          "time_seconds": 1.6,
+          "air_rms_mm_s": 0.5651701792826441,
+          "displacement_rms_nm": 129.76739467391675,
+          "velocity_rms_mm_s": 0.3277799131558734
+        },
+        {
+          "time_seconds": 1.7,
+          "air_rms_mm_s": 0.42946725578167805,
+          "displacement_rms_nm": 106.87706054158696,
+          "velocity_rms_mm_s": 0.2555632467629912
+        },
+        {
+          "time_seconds": 1.8,
+          "air_rms_mm_s": 0.31752964389734895,
+          "displacement_rms_nm": 125.64998032352891,
+          "velocity_rms_mm_s": 0.2708516080368467
+        },
+        {
+          "time_seconds": 1.9,
+          "air_rms_mm_s": 0.2216590346101302,
+          "displacement_rms_nm": 91.93496703796728,
+          "velocity_rms_mm_s": 0.18088085998328024
+        },
+        {
+          "time_seconds": 2.0,
+          "air_rms_mm_s": 0.44261885254250766,
+          "displacement_rms_nm": 119.1363462970061,
+          "velocity_rms_mm_s": 0.29609313938349757
+        },
+        {
+          "time_seconds": 2.1,
+          "air_rms_mm_s": 0.3258648486590155,
+          "displacement_rms_nm": 104.18289415251884,
+          "velocity_rms_mm_s": 0.24961306464659214
+        },
+        {
+          "time_seconds": 2.2,
+          "air_rms_mm_s": 0.09690948928102489,
+          "displacement_rms_nm": 8.106054173360334,
+          "velocity_rms_mm_s": 0.01885172953121772
+        },
+        {
+          "time_seconds": 2.3,
+          "air_rms_mm_s": 0.23998175461260987,
+          "displacement_rms_nm": 86.60372704316829,
+          "velocity_rms_mm_s": 0.16703859633023896
+        },
+        {
+          "time_seconds": 2.4,
+          "air_rms_mm_s": 0.4409872419010981,
+          "displacement_rms_nm": 183.71148315412404,
+          "velocity_rms_mm_s": 0.3252484601813154
+        },
+        {
+          "time_seconds": 2.5,
+          "air_rms_mm_s": 0.467752420294833,
+          "displacement_rms_nm": 212.1962960241642,
+          "velocity_rms_mm_s": 0.42849150847221434
+        },
+        {
+          "time_seconds": 2.6,
+          "air_rms_mm_s": 0.3313779571283257,
+          "displacement_rms_nm": 150.5230732682545,
+          "velocity_rms_mm_s": 0.31449871455783657
+        },
+        {
+          "time_seconds": 2.7,
+          "air_rms_mm_s": 0.09217675669473123,
+          "displacement_rms_nm": 12.72517788909133,
+          "velocity_rms_mm_s": 0.025770498244236214
+        },
+        {
+          "time_seconds": 2.8,
+          "air_rms_mm_s": 0.035858813302105635,
+          "displacement_rms_nm": 8.953972968716066,
+          "velocity_rms_mm_s": 0.0181171674970539
+        },
+        {
+          "time_seconds": 2.9,
+          "air_rms_mm_s": 0.2887137031304938,
+          "displacement_rms_nm": 111.37081481452971,
+          "velocity_rms_mm_s": 0.23413137539632214
+        },
+        {
+          "time_seconds": 3.0,
+          "air_rms_mm_s": 0.4288707074961339,
+          "displacement_rms_nm": 142.89063702888106,
+          "velocity_rms_mm_s": 0.3182308386450142
+        },
+        {
+          "time_seconds": 3.1,
+          "air_rms_mm_s": 0.3868120106512941,
+          "displacement_rms_nm": 153.38827028472917,
+          "velocity_rms_mm_s": 0.37342204257213274
+        },
+        {
+          "time_seconds": 3.2,
+          "air_rms_mm_s": 0.25431437155141806,
+          "displacement_rms_nm": 100.24635143305743,
+          "velocity_rms_mm_s": 0.23830635301017974
+        },
+        {
+          "time_seconds": 3.3,
+          "air_rms_mm_s": 0.10674253532304588,
+          "displacement_rms_nm": 43.30755961692724,
+          "velocity_rms_mm_s": 0.0623231500573608
+        },
+        {
+          "time_seconds": 3.4,
+          "air_rms_mm_s": 0.02049601393896074,
+          "displacement_rms_nm": 7.936991656428217,
+          "velocity_rms_mm_s": 0.007294301000428381
+        },
+        {
+          "time_seconds": 3.5,
+          "air_rms_mm_s": 0.01202352791908755,
+          "displacement_rms_nm": 4.443489927167022,
+          "velocity_rms_mm_s": 0.004837723875860204
+        },
+        {
+          "time_seconds": 3.6,
+          "air_rms_mm_s": 0.1705270489655929,
+          "displacement_rms_nm": 62.100963542569396,
+          "velocity_rms_mm_s": 0.10816616035584407
+        },
+        {
+          "time_seconds": 3.7,
+          "air_rms_mm_s": 0.1572741294497076,
+          "displacement_rms_nm": 53.54088770128387,
+          "velocity_rms_mm_s": 0.10004151545736638
+        },
+        {
+          "time_seconds": 3.8,
+          "air_rms_mm_s": 0.03932100061578194,
+          "displacement_rms_nm": 15.189971145979095,
+          "velocity_rms_mm_s": 0.026630002525948243
+        },
+        {
+          "time_seconds": 3.9,
+          "air_rms_mm_s": 0.011403199302883575,
+          "displacement_rms_nm": 4.091769873644459,
+          "velocity_rms_mm_s": 0.00429234655822275
+        },
+        {
+          "time_seconds": 4.0,
+          "air_rms_mm_s": 0.35092266818104867,
+          "displacement_rms_nm": 96.07614402847568,
+          "velocity_rms_mm_s": 0.245064675210387
+        },
+        {
+          "time_seconds": 4.1,
+          "air_rms_mm_s": 0.37568458030787405,
+          "displacement_rms_nm": 67.87455699825585,
+          "velocity_rms_mm_s": 0.19891619069247585
+        },
+        {
+          "time_seconds": 4.2,
+          "air_rms_mm_s": 0.29626686357327175,
+          "displacement_rms_nm": 119.69523606668278,
+          "velocity_rms_mm_s": 0.2767346948904181
+        },
+        {
+          "time_seconds": 4.3,
+          "air_rms_mm_s": 0.2313228207814676,
+          "displacement_rms_nm": 89.80245559175808,
+          "velocity_rms_mm_s": 0.1609524811854502
+        },
+        {
+          "time_seconds": 4.4,
+          "air_rms_mm_s": 0.06544902552021187,
+          "displacement_rms_nm": 13.472609931865103,
+          "velocity_rms_mm_s": 0.024433704441097333
+        },
+        {
+          "time_seconds": 4.5,
+          "air_rms_mm_s": 0.16137796625632156,
+          "displacement_rms_nm": 49.95460656625022,
+          "velocity_rms_mm_s": 0.10267811863699589
+        },
+        {
+          "time_seconds": 4.6,
+          "air_rms_mm_s": 0.11112448390874989,
+          "displacement_rms_nm": 36.666795126175224,
+          "velocity_rms_mm_s": 0.07088991087458985
+        },
+        {
+          "time_seconds": 4.7,
+          "air_rms_mm_s": 0.045214482644844935,
+          "displacement_rms_nm": 19.907811260074222,
+          "velocity_rms_mm_s": 0.03253907792417175
+        },
+        {
+          "time_seconds": 4.8,
+          "air_rms_mm_s": 0.030411218667777625,
+          "displacement_rms_nm": 11.148325054770336,
+          "velocity_rms_mm_s": 0.026710447683475236
+        },
+        {
+          "time_seconds": 4.9,
+          "air_rms_mm_s": 0.017363990069663222,
+          "displacement_rms_nm": 6.470793104200094,
+          "velocity_rms_mm_s": 0.0051106913829488615
+        },
+        {
+          "time_seconds": 5.0,
+          "air_rms_mm_s": 0.016710304316339783,
+          "displacement_rms_nm": 6.121991457359603,
+          "velocity_rms_mm_s": 0.004830109843295828
+        },
+        {
+          "time_seconds": 5.1,
+          "air_rms_mm_s": 0.020308880123910144,
+          "displacement_rms_nm": 7.656972446563126,
+          "velocity_rms_mm_s": 0.006259612395700409
+        },
+        {
+          "time_seconds": 5.2,
+          "air_rms_mm_s": 0.01659596543815765,
+          "displacement_rms_nm": 6.126452855029959,
+          "velocity_rms_mm_s": 0.0049729063722974195
+        },
+        {
+          "time_seconds": 5.3,
+          "air_rms_mm_s": 0.01603664750480944,
+          "displacement_rms_nm": 5.82698314582108,
+          "velocity_rms_mm_s": 0.004840931259503234
+        },
+        {
+          "time_seconds": 5.4,
+          "air_rms_mm_s": 0.015929601063777405,
+          "displacement_rms_nm": 5.930644835648681,
+          "velocity_rms_mm_s": 0.005030059097519143
+        },
+        {
+          "time_seconds": 5.5,
+          "air_rms_mm_s": 0.2348634216573503,
+          "displacement_rms_nm": 88.20631124732384,
+          "velocity_rms_mm_s": 0.21331973947245292
+        },
+        {
+          "time_seconds": 5.6,
+          "air_rms_mm_s": 0.043649541632862714,
+          "displacement_rms_nm": 10.317962975892948,
+          "velocity_rms_mm_s": 0.01600150989445474
+        },
+        {
+          "time_seconds": 5.7,
+          "air_rms_mm_s": 0.2114016582445026,
+          "displacement_rms_nm": 83.1732686360767,
+          "velocity_rms_mm_s": 0.20685044759710658
+        },
+        {
+          "time_seconds": 5.8,
+          "air_rms_mm_s": 0.14839401245480438,
+          "displacement_rms_nm": 45.9219229067882,
+          "velocity_rms_mm_s": 0.12212873452723151
+        },
+        {
+          "time_seconds": 5.9,
+          "air_rms_mm_s": 0.13531981079068903,
+          "displacement_rms_nm": 6.685960203289866,
+          "velocity_rms_mm_s": 0.025476259637374328
+        },
+        {
+          "time_seconds": 6.0,
+          "air_rms_mm_s": 0.152455822597955,
+          "displacement_rms_nm": 68.25125834950435,
+          "velocity_rms_mm_s": 0.1514150450934717
+        },
+        {
+          "time_seconds": 6.1,
+          "air_rms_mm_s": 0.17927702355432618,
+          "displacement_rms_nm": 68.04593642288053,
+          "velocity_rms_mm_s": 0.16746237973040393
+        },
+        {
+          "time_seconds": 6.2,
+          "air_rms_mm_s": 0.09735453758021433,
+          "displacement_rms_nm": 33.47222338829741,
+          "velocity_rms_mm_s": 0.07926691967556379
+        },
+        {
+          "time_seconds": 6.3,
+          "air_rms_mm_s": 0.03951823453917722,
+          "displacement_rms_nm": 10.543251026783462,
+          "velocity_rms_mm_s": 0.018785971652235053
+        },
+        {
+          "time_seconds": 6.4,
+          "air_rms_mm_s": 0.014808942624239547,
+          "displacement_rms_nm": 5.534268029911396,
+          "velocity_rms_mm_s": 0.005668084253040177
+        },
+        {
+          "time_seconds": 6.5,
+          "air_rms_mm_s": 0.01312204406844309,
+          "displacement_rms_nm": 4.853958476279268,
+          "velocity_rms_mm_s": 0.004538811680360218
+        },
+        {
+          "time_seconds": 6.6,
+          "air_rms_mm_s": 0.010769395758146803,
+          "displacement_rms_nm": 3.955870943438327,
+          "velocity_rms_mm_s": 0.004585621734642988
+        },
+        {
+          "time_seconds": 6.7,
+          "air_rms_mm_s": 0.01324542788455615,
+          "displacement_rms_nm": 4.900972607463195,
+          "velocity_rms_mm_s": 0.004526259153433646
+        },
+        {
+          "time_seconds": 6.8,
+          "air_rms_mm_s": 0.012401105481244885,
+          "displacement_rms_nm": 4.596280862294323,
+          "velocity_rms_mm_s": 0.004312051672703934
+        },
+        {
+          "time_seconds": 6.9,
+          "air_rms_mm_s": 0.012174740477363956,
+          "displacement_rms_nm": 4.489920954392484,
+          "velocity_rms_mm_s": 0.004485739731480694
+        },
+        {
+          "time_seconds": 7.0,
+          "air_rms_mm_s": 0.010954264390993241,
+          "displacement_rms_nm": 3.985597302984317,
+          "velocity_rms_mm_s": 0.004186791669708252
+        },
+        {
+          "time_seconds": 7.1,
+          "air_rms_mm_s": 0.011202177247537403,
+          "displacement_rms_nm": 4.065867527921635,
+          "velocity_rms_mm_s": 0.004562784122078284
+        },
+        {
+          "time_seconds": 7.2,
+          "air_rms_mm_s": 0.01050737013056213,
+          "displacement_rms_nm": 3.7907438624638616,
+          "velocity_rms_mm_s": 0.004082853342062465
+        },
+        {
+          "time_seconds": 7.3,
+          "air_rms_mm_s": 0.011643324093324848,
+          "displacement_rms_nm": 4.2546096145873955,
+          "velocity_rms_mm_s": 0.003991606430179106
+        },
+        {
+          "time_seconds": 7.4,
+          "air_rms_mm_s": 0.011602729069373612,
+          "displacement_rms_nm": 4.1957817322293165,
+          "velocity_rms_mm_s": 0.004346200111878828
+        },
+        {
+          "time_seconds": 7.5,
+          "air_rms_mm_s": 0.010274507982924149,
+          "displacement_rms_nm": 3.7588889682080353,
+          "velocity_rms_mm_s": 0.004323223342651404
+        },
+        {
+          "time_seconds": 7.6,
+          "air_rms_mm_s": 0.011387634617781337,
+          "displacement_rms_nm": 4.183717561625466,
+          "velocity_rms_mm_s": 0.004490259333757132
+        },
+        {
+          "time_seconds": 7.7,
+          "air_rms_mm_s": 0.012108747996315276,
+          "displacement_rms_nm": 4.5027681061974185,
+          "velocity_rms_mm_s": 0.004719450385584005
+        },
+        {
+          "time_seconds": 7.8,
+          "air_rms_mm_s": 0.012713371741607516,
+          "displacement_rms_nm": 4.647006062636229,
+          "velocity_rms_mm_s": 0.0047398040373927645
+        },
+        {
+          "time_seconds": 7.9,
+          "air_rms_mm_s": 0.011991075808715859,
+          "displacement_rms_nm": 4.401297319156137,
+          "velocity_rms_mm_s": 0.004488856593891507
+        },
+        {
+          "time_seconds": 8.0,
+          "air_rms_mm_s": 0.011057659825634562,
+          "displacement_rms_nm": 4.022927573237067,
+          "velocity_rms_mm_s": 0.00436156558032748
+        },
+        {
+          "time_seconds": 8.1,
+          "air_rms_mm_s": 0.012088864695208038,
+          "displacement_rms_nm": 4.461432021657149,
+          "velocity_rms_mm_s": 0.004543626813998845
+        },
+        {
+          "time_seconds": 8.2,
+          "air_rms_mm_s": 0.010637469746951135,
+          "displacement_rms_nm": 3.8267950597253444,
+          "velocity_rms_mm_s": 0.003931175590662579
+        },
+        {
+          "time_seconds": 8.3,
+          "air_rms_mm_s": 0.01293616151492553,
+          "displacement_rms_nm": 4.822674334440175,
+          "velocity_rms_mm_s": 0.004816095619839353
+        },
+        {
+          "time_seconds": 8.4,
+          "air_rms_mm_s": 0.11904524348835234,
+          "displacement_rms_nm": 36.64194214168833,
+          "velocity_rms_mm_s": 0.0704268763978284
+        },
+        {
+          "time_seconds": 8.5,
+          "air_rms_mm_s": 0.2544239717526051,
+          "displacement_rms_nm": 113.62864543265611,
+          "velocity_rms_mm_s": 0.20565891903590916
+        },
+        {
+          "time_seconds": 8.6,
+          "air_rms_mm_s": 0.4917520265360766,
+          "displacement_rms_nm": 133.18102213770254,
+          "velocity_rms_mm_s": 0.2746782244435203
+        },
+        {
+          "time_seconds": 8.7,
+          "air_rms_mm_s": 0.41554701109419695,
+          "displacement_rms_nm": 112.23966243213418,
+          "velocity_rms_mm_s": 0.24666563579607778
+        },
+        {
+          "time_seconds": 8.8,
+          "air_rms_mm_s": 0.5831282339909988,
+          "displacement_rms_nm": 115.29896748001671,
+          "velocity_rms_mm_s": 0.2628228512791334
+        },
+        {
+          "time_seconds": 8.9,
+          "air_rms_mm_s": 0.8242140363911067,
+          "displacement_rms_nm": 218.86726185148135,
+          "velocity_rms_mm_s": 0.5007969478930933
+        },
+        {
+          "time_seconds": 9.0,
+          "air_rms_mm_s": 0.5313837634705629,
+          "displacement_rms_nm": 159.40481621312694,
+          "velocity_rms_mm_s": 0.3707253329805998
+        },
+        {
+          "time_seconds": 9.1,
+          "air_rms_mm_s": 0.07479296470719861,
+          "displacement_rms_nm": 20.05812863501721,
+          "velocity_rms_mm_s": 0.023814639745983614
+        },
+        {
+          "time_seconds": 9.2,
+          "air_rms_mm_s": 0.46058440483349267,
+          "displacement_rms_nm": 123.90820586063509,
+          "velocity_rms_mm_s": 0.3191215202952238
+        },
+        {
+          "time_seconds": 9.3,
+          "air_rms_mm_s": 0.6230069693254638,
+          "displacement_rms_nm": 98.36717493329473,
+          "velocity_rms_mm_s": 0.29075617767993667
+        },
+        {
+          "time_seconds": 9.4,
+          "air_rms_mm_s": 0.5361557291014689,
+          "displacement_rms_nm": 132.54811918741885,
+          "velocity_rms_mm_s": 0.2946902390791916
+        },
+        {
+          "time_seconds": 9.5,
+          "air_rms_mm_s": 0.3556554476207763,
+          "displacement_rms_nm": 152.0678373310708,
+          "velocity_rms_mm_s": 0.2705676803023289
+        },
+        {
+          "time_seconds": 9.6,
+          "air_rms_mm_s": 0.39330134813933554,
+          "displacement_rms_nm": 120.20746085594087,
+          "velocity_rms_mm_s": 0.2994931409919497
+        },
+        {
+          "time_seconds": 9.7,
+          "air_rms_mm_s": 0.23601057089737495,
+          "displacement_rms_nm": 86.68609462450054,
+          "velocity_rms_mm_s": 0.21437985732752238
+        },
+        {
+          "time_seconds": 9.8,
+          "air_rms_mm_s": 0.05079763093704956,
+          "displacement_rms_nm": 21.148694249976923,
+          "velocity_rms_mm_s": 0.026316880337878584
+        },
+        {
+          "time_seconds": 9.9,
+          "air_rms_mm_s": 0.2505993011880669,
+          "displacement_rms_nm": 109.48752810411327,
+          "velocity_rms_mm_s": 0.20566354819498506
+        },
+        {
+          "time_seconds": 10.0,
+          "air_rms_mm_s": 0.26755299574723995,
+          "displacement_rms_nm": 122.91291621974501,
+          "velocity_rms_mm_s": 0.23084044733350362
+        },
+        {
+          "time_seconds": 10.1,
+          "air_rms_mm_s": 0.240671995238535,
+          "displacement_rms_nm": 106.48440848055336,
+          "velocity_rms_mm_s": 0.18486653545652637
+        },
+        {
+          "time_seconds": 10.2,
+          "air_rms_mm_s": 0.15057946818516565,
+          "displacement_rms_nm": 66.99433928336634,
+          "velocity_rms_mm_s": 0.11125130752163666
+        },
+        {
+          "time_seconds": 10.3,
+          "air_rms_mm_s": 0.02372118363820507,
+          "displacement_rms_nm": 10.419625327183567,
+          "velocity_rms_mm_s": 0.017434429260123823
+        },
+        {
+          "time_seconds": 10.4,
+          "air_rms_mm_s": 0.010408946215028293,
+          "displacement_rms_nm": 3.8479283086231844,
+          "velocity_rms_mm_s": 0.004128721413227053
+        },
+        {
+          "time_seconds": 10.5,
+          "air_rms_mm_s": 0.01108107226480909,
+          "displacement_rms_nm": 4.061574975657548,
+          "velocity_rms_mm_s": 0.004199281650486847
+        },
+        {
+          "time_seconds": 10.6,
+          "air_rms_mm_s": 0.010499787660852942,
+          "displacement_rms_nm": 3.7724033661980347,
+          "velocity_rms_mm_s": 0.0040717288897109205
+        },
+        {
+          "time_seconds": 10.7,
+          "air_rms_mm_s": 0.011635873046229277,
+          "displacement_rms_nm": 4.285184416862662,
+          "velocity_rms_mm_s": 0.004198670184809445
+        },
+        {
+          "time_seconds": 10.8,
+          "air_rms_mm_s": 0.01100892707034369,
+          "displacement_rms_nm": 4.045453310306491,
+          "velocity_rms_mm_s": 0.004427944236558124
+        },
+        {
+          "time_seconds": 10.9,
+          "air_rms_mm_s": 0.011624329073783775,
+          "displacement_rms_nm": 4.281392791287494,
+          "velocity_rms_mm_s": 0.0042604968827278265
+        },
+        {
+          "time_seconds": 11.0,
+          "air_rms_mm_s": 0.011214863057744424,
+          "displacement_rms_nm": 4.1172752878791945,
+          "velocity_rms_mm_s": 0.004372991104997607
+        },
+        {
+          "time_seconds": 11.1,
+          "air_rms_mm_s": 0.012199107814839622,
+          "displacement_rms_nm": 4.476601329274044,
+          "velocity_rms_mm_s": 0.004374663932085522
+        },
+        {
+          "time_seconds": 11.2,
+          "air_rms_mm_s": 0.012415008364495387,
+          "displacement_rms_nm": 4.557424854865405,
+          "velocity_rms_mm_s": 0.004422322942873643
+        },
+        {
+          "time_seconds": 11.3,
+          "air_rms_mm_s": 0.011249023297207329,
+          "displacement_rms_nm": 4.15487777454647,
+          "velocity_rms_mm_s": 0.004684330059752999
+        },
+        {
+          "time_seconds": 11.4,
+          "air_rms_mm_s": 0.0113146059200451,
+          "displacement_rms_nm": 4.174100679456079,
+          "velocity_rms_mm_s": 0.004703457067933254
+        },
+        {
+          "time_seconds": 11.5,
+          "air_rms_mm_s": 0.011289237617549982,
+          "displacement_rms_nm": 4.135908603607063,
+          "velocity_rms_mm_s": 0.004372317452208758
+        },
+        {
+          "time_seconds": 11.6,
+          "air_rms_mm_s": 0.269769148827057,
+          "displacement_rms_nm": 108.54566798085106,
+          "velocity_rms_mm_s": 0.27715440109605616
+        },
+        {
+          "time_seconds": 11.7,
+          "air_rms_mm_s": 0.20087167703526548,
+          "displacement_rms_nm": 67.50412651621478,
+          "velocity_rms_mm_s": 0.18437339867688923
+        },
+        {
+          "time_seconds": 11.8,
+          "air_rms_mm_s": 0.03086224873232723,
+          "displacement_rms_nm": 11.362428266445338,
+          "velocity_rms_mm_s": 0.026647369919677717
+        },
+        {
+          "time_seconds": 11.9,
+          "air_rms_mm_s": 0.01317002286454689,
+          "displacement_rms_nm": 4.831152945295905,
+          "velocity_rms_mm_s": 0.004711077408894879
+        },
+        {
+          "time_seconds": 12.0,
+          "air_rms_mm_s": 0.011776947099603887,
+          "displacement_rms_nm": 4.266910916836822,
+          "velocity_rms_mm_s": 0.0044203612887176525
+        },
+        {
+          "time_seconds": 12.1,
+          "air_rms_mm_s": 0.01166241220981142,
+          "displacement_rms_nm": 4.242778147572422,
+          "velocity_rms_mm_s": 0.004337299243539656
+        },
+        {
+          "time_seconds": 12.2,
+          "air_rms_mm_s": 0.19674691240695463,
+          "displacement_rms_nm": 50.91771237580659,
+          "velocity_rms_mm_s": 0.13358358410131008
+        },
+        {
+          "time_seconds": 12.3,
+          "air_rms_mm_s": 0.38947636727314766,
+          "displacement_rms_nm": 112.58403312815767,
+          "velocity_rms_mm_s": 0.29002305147559215
+        },
+        {
+          "time_seconds": 12.4,
+          "air_rms_mm_s": 0.040978272760925416,
+          "displacement_rms_nm": 13.268108355906879,
+          "velocity_rms_mm_s": 0.02432837064696909
+        },
+        {
+          "time_seconds": 12.5,
+          "air_rms_mm_s": 0.18429437706090035,
+          "displacement_rms_nm": 80.60763685040439,
+          "velocity_rms_mm_s": 0.14083862811659412
+        },
+        {
+          "time_seconds": 12.6,
+          "air_rms_mm_s": 0.35755819960693636,
+          "displacement_rms_nm": 92.0850452315246,
+          "velocity_rms_mm_s": 0.18805301246497316
+        },
+        {
+          "time_seconds": 12.7,
+          "air_rms_mm_s": 0.1183576731847744,
+          "displacement_rms_nm": 30.689793984280545,
+          "velocity_rms_mm_s": 0.06389577255126964
+        },
+        {
+          "time_seconds": 12.8,
+          "air_rms_mm_s": 0.014760466080399916,
+          "displacement_rms_nm": 5.519872506463139,
+          "velocity_rms_mm_s": 0.00630227284162984
+        },
+        {
+          "time_seconds": 12.9,
+          "air_rms_mm_s": 0.21651918422358266,
+          "displacement_rms_nm": 78.16180862065397,
+          "velocity_rms_mm_s": 0.1760741695170915
+        },
+        {
+          "time_seconds": 13.0,
+          "air_rms_mm_s": 0.2980109503100291,
+          "displacement_rms_nm": 78.10673454838242,
+          "velocity_rms_mm_s": 0.17220959285184978
+        },
+        {
+          "time_seconds": 13.1,
+          "air_rms_mm_s": 0.40133115031038,
+          "displacement_rms_nm": 80.38092277474486,
+          "velocity_rms_mm_s": 0.19767197807524284
+        },
+        {
+          "time_seconds": 13.2,
+          "air_rms_mm_s": 0.27353364564637445,
+          "displacement_rms_nm": 105.08609680330174,
+          "velocity_rms_mm_s": 0.16655742537220314
+        },
+        {
+          "time_seconds": 13.3,
+          "air_rms_mm_s": 0.26799747432129684,
+          "displacement_rms_nm": 99.70580197352712,
+          "velocity_rms_mm_s": 0.18958644343769324
+        },
+        {
+          "time_seconds": 13.4,
+          "air_rms_mm_s": 0.2440056683300663,
+          "displacement_rms_nm": 97.5980568418594,
+          "velocity_rms_mm_s": 0.18641401637436422
+        },
+        {
+          "time_seconds": 13.5,
+          "air_rms_mm_s": 0.35893735114958963,
+          "displacement_rms_nm": 106.37240771030973,
+          "velocity_rms_mm_s": 0.20822499839168138
+        },
+        {
+          "time_seconds": 13.6,
+          "air_rms_mm_s": 0.2803612650663215,
+          "displacement_rms_nm": 118.42862716734966,
+          "velocity_rms_mm_s": 0.18223113342532368
+        },
+        {
+          "time_seconds": 13.7,
+          "air_rms_mm_s": 0.33020550622629685,
+          "displacement_rms_nm": 116.39943241380828,
+          "velocity_rms_mm_s": 0.24826761784826737
+        },
+        {
+          "time_seconds": 13.8,
+          "air_rms_mm_s": 0.11382976529095842,
+          "displacement_rms_nm": 51.27890641827359,
+          "velocity_rms_mm_s": 0.08444498992663009
+        },
+        {
+          "time_seconds": 13.9,
+          "air_rms_mm_s": 0.2751112585542859,
+          "displacement_rms_nm": 117.48884804006593,
+          "velocity_rms_mm_s": 0.20751788162651646
+        },
+        {
+          "time_seconds": 14.0,
+          "air_rms_mm_s": 0.33747338870470955,
+          "displacement_rms_nm": 142.22239182046613,
+          "velocity_rms_mm_s": 0.2116595567658952
+        },
+        {
+          "time_seconds": 14.1,
+          "air_rms_mm_s": 0.16565639632634138,
+          "displacement_rms_nm": 75.12717672339784,
+          "velocity_rms_mm_s": 0.12934819868498396
+        },
+        {
+          "time_seconds": 14.2,
+          "air_rms_mm_s": 0.01862477774099708,
+          "displacement_rms_nm": 7.34482914547868,
+          "velocity_rms_mm_s": 0.008145760425940696
+        },
+        {
+          "time_seconds": 14.3,
+          "air_rms_mm_s": 0.011666357663996107,
+          "displacement_rms_nm": 4.223102570999748,
+          "velocity_rms_mm_s": 0.004264869669025553
+        },
+        {
+          "time_seconds": 14.4,
+          "air_rms_mm_s": 0.014267976629504917,
+          "displacement_rms_nm": 5.280219191803723,
+          "velocity_rms_mm_s": 0.004551473058588873
+        },
+        {
+          "time_seconds": 14.5,
+          "air_rms_mm_s": 0.013720099965403633,
+          "displacement_rms_nm": 5.07863243342513,
+          "velocity_rms_mm_s": 0.004450755803676283
+        },
+        {
+          "time_seconds": 14.6,
+          "air_rms_mm_s": 0.012601184521626958,
+          "displacement_rms_nm": 4.618913963919783,
+          "velocity_rms_mm_s": 0.004215106470171896
+        },
+        {
+          "time_seconds": 14.7,
+          "air_rms_mm_s": 0.014529169452305405,
+          "displacement_rms_nm": 5.340423950064065,
+          "velocity_rms_mm_s": 0.004144088552526949
+        },
+        {
+          "time_seconds": 14.8,
+          "air_rms_mm_s": 0.01174619487064206,
+          "displacement_rms_nm": 4.328756917964772,
+          "velocity_rms_mm_s": 0.004325729659275004
+        },
+        {
+          "time_seconds": 14.9,
+          "air_rms_mm_s": 0.014436342096662629,
+          "displacement_rms_nm": 5.3204676106725595,
+          "velocity_rms_mm_s": 0.004442368952396043
+        },
+        {
+          "time_seconds": 15.0,
+          "air_rms_mm_s": 0.01230004134033875,
+          "displacement_rms_nm": 4.500428475250403,
+          "velocity_rms_mm_s": 0.004147637545706296
+        },
+        {
+          "time_seconds": 15.1,
+          "air_rms_mm_s": 0.012968387156725936,
+          "displacement_rms_nm": 4.755696291390244,
+          "velocity_rms_mm_s": 0.0042520500530380265
+        },
+        {
+          "time_seconds": 15.2,
+          "air_rms_mm_s": 0.010687630140994936,
+          "displacement_rms_nm": 3.8562128046653674,
+          "velocity_rms_mm_s": 0.00411082052407257
+        },
+        {
+          "time_seconds": 15.3,
+          "air_rms_mm_s": 0.012217942913528134,
+          "displacement_rms_nm": 4.534092822777239,
+          "velocity_rms_mm_s": 0.004588275220604877
+        },
+        {
+          "time_seconds": 15.4,
+          "air_rms_mm_s": 0.011391685906527133,
+          "displacement_rms_nm": 4.129421003630266,
+          "velocity_rms_mm_s": 0.004213102489572452
+        },
+        {
+          "time_seconds": 15.5,
+          "air_rms_mm_s": 0.010976196967181414,
+          "displacement_rms_nm": 4.003290484692435,
+          "velocity_rms_mm_s": 0.0041970653519114755
+        },
+        {
+          "time_seconds": 15.6,
+          "air_rms_mm_s": 0.015212072992664053,
+          "displacement_rms_nm": 5.596140953406005,
+          "velocity_rms_mm_s": 0.004329537597995474
+        },
+        {
+          "time_seconds": 15.7,
+          "air_rms_mm_s": 0.018034104863805547,
+          "displacement_rms_nm": 5.731411785702259,
+          "velocity_rms_mm_s": 0.005579328784162664
+        },
+        {
+          "time_seconds": 15.8,
+          "air_rms_mm_s": 0.021415283700860037,
+          "displacement_rms_nm": 6.647382012549594,
+          "velocity_rms_mm_s": 0.00696067581208127
+        },
+        {
+          "time_seconds": 15.9,
+          "air_rms_mm_s": 0.030961733385354184,
+          "displacement_rms_nm": 11.863304849090248,
+          "velocity_rms_mm_s": 0.008567819726908985
+        },
+        {
+          "time_seconds": 16.0,
+          "air_rms_mm_s": 0.04193570256886888,
+          "displacement_rms_nm": 16.282760256972978,
+          "velocity_rms_mm_s": 0.012351238548826478
+        },
+        {
+          "time_seconds": 16.1,
+          "air_rms_mm_s": 0.03406207676629035,
+          "displacement_rms_nm": 13.165288235630495,
+          "velocity_rms_mm_s": 0.009970650706061764
+        },
+        {
+          "time_seconds": 16.2,
+          "air_rms_mm_s": 0.03753453733500923,
+          "displacement_rms_nm": 14.589326288595428,
+          "velocity_rms_mm_s": 0.011159071079856791
+        },
+        {
+          "time_seconds": 16.3,
+          "air_rms_mm_s": 0.029393656054499,
+          "displacement_rms_nm": 11.349993337096874,
+          "velocity_rms_mm_s": 0.008751315140485844
+        },
+        {
+          "time_seconds": 16.4,
+          "air_rms_mm_s": 0.0259501414732895,
+          "displacement_rms_nm": 10.03475123291299,
+          "velocity_rms_mm_s": 0.008766179542769446
+        },
+        {
+          "time_seconds": 16.5,
+          "air_rms_mm_s": 0.024518211233377198,
+          "displacement_rms_nm": 9.53562041497836,
+          "velocity_rms_mm_s": 0.00821843093864036
+        },
+        {
+          "time_seconds": 16.6,
+          "air_rms_mm_s": 0.030766967025149194,
+          "displacement_rms_nm": 12.037853239831152,
+          "velocity_rms_mm_s": 0.010612059474252087
+        },
+        {
+          "time_seconds": 16.7,
+          "air_rms_mm_s": 0.02809362276806821,
+          "displacement_rms_nm": 11.159228994375743,
+          "velocity_rms_mm_s": 0.010505608259985335
+        },
+        {
+          "time_seconds": 16.8,
+          "air_rms_mm_s": 0.030307958587041925,
+          "displacement_rms_nm": 11.929652169741326,
+          "velocity_rms_mm_s": 0.011279896646903433
+        },
+        {
+          "time_seconds": 16.9,
+          "air_rms_mm_s": 0.030139304280529165,
+          "displacement_rms_nm": 11.990177860635669,
+          "velocity_rms_mm_s": 0.011953352179736894
+        },
+        {
+          "time_seconds": 17.0,
+          "air_rms_mm_s": 0.029439600312885495,
+          "displacement_rms_nm": 11.817774096282944,
+          "velocity_rms_mm_s": 0.012310339216571679
+        },
+        {
+          "time_seconds": 17.1,
+          "air_rms_mm_s": 0.028445056969376475,
+          "displacement_rms_nm": 11.32319127829792,
+          "velocity_rms_mm_s": 0.011692798717579573
+        },
+        {
+          "time_seconds": 17.2,
+          "air_rms_mm_s": 0.026026471472982454,
+          "displacement_rms_nm": 10.341526234843135,
+          "velocity_rms_mm_s": 0.010963434470299467
+        },
+        {
+          "time_seconds": 17.3,
+          "air_rms_mm_s": 0.03462590976612681,
+          "displacement_rms_nm": 13.290925255385417,
+          "velocity_rms_mm_s": 0.011832914262781402
+        },
+        {
+          "time_seconds": 17.4,
+          "air_rms_mm_s": 0.03211221810919193,
+          "displacement_rms_nm": 12.884981969430068,
+          "velocity_rms_mm_s": 0.012258581209600175
+        },
+        {
+          "time_seconds": 17.5,
+          "air_rms_mm_s": 0.03203144355798899,
+          "displacement_rms_nm": 12.690488657819825,
+          "velocity_rms_mm_s": 0.012470028182083634
+        },
+        {
+          "time_seconds": 17.6,
+          "air_rms_mm_s": 0.02857329143633363,
+          "displacement_rms_nm": 11.283902569691895,
+          "velocity_rms_mm_s": 0.012176733430006347
+        },
+        {
+          "time_seconds": 17.7,
+          "air_rms_mm_s": 0.6848648591272751,
+          "displacement_rms_nm": 274.19772595021385,
+          "velocity_rms_mm_s": 0.6796519546874024
+        },
+        {
+          "time_seconds": 17.8,
+          "air_rms_mm_s": 0.8796504770097413,
+          "displacement_rms_nm": 282.4180255592243,
+          "velocity_rms_mm_s": 0.7659133247613298
+        },
+        {
+          "time_seconds": 17.9,
+          "air_rms_mm_s": 0.6607543018576104,
+          "displacement_rms_nm": 178.0773210662803,
+          "velocity_rms_mm_s": 0.44555365815782566
+        },
+        {
+          "time_seconds": 18.0,
+          "air_rms_mm_s": 0.530773217517596,
+          "displacement_rms_nm": 216.55686471440936,
+          "velocity_rms_mm_s": 0.4478270737770671
+        },
+        {
+          "time_seconds": 18.1,
+          "air_rms_mm_s": 0.589415328400912,
+          "displacement_rms_nm": 188.40892873832402,
+          "velocity_rms_mm_s": 0.4332445111865048
+        },
+        {
+          "time_seconds": 18.2,
+          "air_rms_mm_s": 0.579666379760469,
+          "displacement_rms_nm": 177.51068258198302,
+          "velocity_rms_mm_s": 0.2868617574257568
+        },
+        {
+          "time_seconds": 18.3,
+          "air_rms_mm_s": 0.3021470892317356,
+          "displacement_rms_nm": 124.7627795038022,
+          "velocity_rms_mm_s": 0.21772998897971288
+        },
+        {
+          "time_seconds": 18.4,
+          "air_rms_mm_s": 0.08517250862243786,
+          "displacement_rms_nm": 10.749152205369914,
+          "velocity_rms_mm_s": 0.01603991602246758
+        },
+        {
+          "time_seconds": 18.5,
+          "air_rms_mm_s": 0.3164696834413637,
+          "displacement_rms_nm": 126.8580231698587,
+          "velocity_rms_mm_s": 0.2975530508014206
+        },
+        {
+          "time_seconds": 18.6,
+          "air_rms_mm_s": 0.2859219936658713,
+          "displacement_rms_nm": 134.46773255521938,
+          "velocity_rms_mm_s": 0.2339389482473013
+        },
+        {
+          "time_seconds": 18.7,
+          "air_rms_mm_s": 0.1844679435112439,
+          "displacement_rms_nm": 74.52019399288943,
+          "velocity_rms_mm_s": 0.15625237348620374
+        },
+        {
+          "time_seconds": 18.8,
+          "air_rms_mm_s": 0.41091249266005797,
+          "displacement_rms_nm": 142.47853369845487,
+          "velocity_rms_mm_s": 0.33774310714881906
+        },
+        {
+          "time_seconds": 18.9,
+          "air_rms_mm_s": 0.21641144692231046,
+          "displacement_rms_nm": 93.81517070083514,
+          "velocity_rms_mm_s": 0.15792322205644796
+        },
+        {
+          "time_seconds": 19.0,
+          "air_rms_mm_s": 0.04874775735395573,
+          "displacement_rms_nm": 16.026301113327744,
+          "velocity_rms_mm_s": 0.018607916324251322
+        },
+        {
+          "time_seconds": 19.1,
+          "air_rms_mm_s": 0.03938236279327002,
+          "displacement_rms_nm": 11.835335915883697,
+          "velocity_rms_mm_s": 0.011808289164841628
+        },
+        {
+          "time_seconds": 19.2,
+          "air_rms_mm_s": 0.03741395530523653,
+          "displacement_rms_nm": 14.76481689291344,
+          "velocity_rms_mm_s": 0.021363581958927735
+        },
+        {
+          "time_seconds": 19.3,
+          "air_rms_mm_s": 0.12637214132363775,
+          "displacement_rms_nm": 47.289359378357126,
+          "velocity_rms_mm_s": 0.09161258066352362
+        },
+        {
+          "time_seconds": 19.4,
+          "air_rms_mm_s": 0.17947114603966544,
+          "displacement_rms_nm": 81.42295621097985,
+          "velocity_rms_mm_s": 0.13559133399320603
+        },
+        {
+          "time_seconds": 19.5,
+          "air_rms_mm_s": 0.09844264941641158,
+          "displacement_rms_nm": 18.306461671020916,
+          "velocity_rms_mm_s": 0.02638655896511188
+        },
+        {
+          "time_seconds": 19.6,
+          "air_rms_mm_s": 0.16842374949550717,
+          "displacement_rms_nm": 47.97957133772978,
+          "velocity_rms_mm_s": 0.10740410098435536
+        },
+        {
+          "time_seconds": 19.7,
+          "air_rms_mm_s": 0.35362207768323456,
+          "displacement_rms_nm": 118.78241221765093,
+          "velocity_rms_mm_s": 0.271329821035018
+        },
+        {
+          "time_seconds": 19.8,
+          "air_rms_mm_s": 0.22148111817528726,
+          "displacement_rms_nm": 93.82834268563896,
+          "velocity_rms_mm_s": 0.17385722607407092
+        },
+        {
+          "time_seconds": 19.9,
+          "air_rms_mm_s": 0.25281846846044376,
+          "displacement_rms_nm": 111.04221712286501,
+          "velocity_rms_mm_s": 0.17877263111880493
+        },
+        {
+          "time_seconds": 20.0,
+          "air_rms_mm_s": 0.06636294320101506,
+          "displacement_rms_nm": 28.045546863148637,
+          "velocity_rms_mm_s": 0.03567421945131205
+        },
+        {
+          "time_seconds": 20.1,
+          "air_rms_mm_s": 0.015487644985725033,
+          "displacement_rms_nm": 5.895411065314876,
+          "velocity_rms_mm_s": 0.005892195244487691
+        },
+        {
+          "time_seconds": 20.2,
+          "air_rms_mm_s": 0.014900958968340407,
+          "displacement_rms_nm": 5.644279980034789,
+          "velocity_rms_mm_s": 0.005385727152423138
+        },
+        {
+          "time_seconds": 20.3,
+          "air_rms_mm_s": 0.01595692377852506,
+          "displacement_rms_nm": 6.0554055932149,
+          "velocity_rms_mm_s": 0.005763611504833126
+        },
+        {
+          "time_seconds": 20.4,
+          "air_rms_mm_s": 0.018322968223292477,
+          "displacement_rms_nm": 6.85448198920693,
+          "velocity_rms_mm_s": 0.005600958693497884
+        },
+        {
+          "time_seconds": 20.5,
+          "air_rms_mm_s": 0.011780089572511433,
+          "displacement_rms_nm": 4.271087583710349,
+          "velocity_rms_mm_s": 0.004796396971140082
+        },
+        {
+          "time_seconds": 20.6,
+          "air_rms_mm_s": 0.014945405124723914,
+          "displacement_rms_nm": 5.573293249924157,
+          "velocity_rms_mm_s": 0.005271108034689412
+        },
+        {
+          "time_seconds": 20.7,
+          "air_rms_mm_s": 0.015243840250172823,
+          "displacement_rms_nm": 5.797554357685214,
+          "velocity_rms_mm_s": 0.005727659605455717
+        },
+        {
+          "time_seconds": 20.8,
+          "air_rms_mm_s": 0.47203869311218516,
+          "displacement_rms_nm": 188.43483915226915,
+          "velocity_rms_mm_s": 0.44105257817103194
+        },
+        {
+          "time_seconds": 20.9,
+          "air_rms_mm_s": 0.38892541769880246,
+          "displacement_rms_nm": 154.37461256385768,
+          "velocity_rms_mm_s": 0.33880336713204884
+        },
+        {
+          "time_seconds": 21.0,
+          "air_rms_mm_s": 0.49057035881213645,
+          "displacement_rms_nm": 146.66518055036144,
+          "velocity_rms_mm_s": 0.3456325630246983
+        },
+        {
+          "time_seconds": 21.1,
+          "air_rms_mm_s": 0.6806480459733788,
+          "displacement_rms_nm": 243.63717316550333,
+          "velocity_rms_mm_s": 0.4109752407360726
+        },
+        {
+          "time_seconds": 21.2,
+          "air_rms_mm_s": 0.28030486466822224,
+          "displacement_rms_nm": 118.30439331576798,
+          "velocity_rms_mm_s": 0.16839560909867005
+        },
+        {
+          "time_seconds": 21.3,
+          "air_rms_mm_s": 0.24666427055072981,
+          "displacement_rms_nm": 99.03470217353606,
+          "velocity_rms_mm_s": 0.22372042463354694
+        },
+        {
+          "time_seconds": 21.4,
+          "air_rms_mm_s": 0.6478736863263826,
+          "displacement_rms_nm": 146.29359943077915,
+          "velocity_rms_mm_s": 0.37988394007776877
+        },
+        {
+          "time_seconds": 21.5,
+          "air_rms_mm_s": 0.6521333758356705,
+          "displacement_rms_nm": 178.76484895845624,
+          "velocity_rms_mm_s": 0.32089464439751664
+        },
+        {
+          "time_seconds": 21.6,
+          "air_rms_mm_s": 0.5883439439829139,
+          "displacement_rms_nm": 223.76708067431656,
+          "velocity_rms_mm_s": 0.3457035890107064
+        },
+        {
+          "time_seconds": 21.7,
+          "air_rms_mm_s": 0.3986367401094821,
+          "displacement_rms_nm": 172.75106254097804,
+          "velocity_rms_mm_s": 0.2577384800585172
+        },
+        {
+          "time_seconds": 21.8,
+          "air_rms_mm_s": 0.11793198509697302,
+          "displacement_rms_nm": 46.07474700779624,
+          "velocity_rms_mm_s": 0.04128415507958915
+        },
+        {
+          "time_seconds": 21.9,
+          "air_rms_mm_s": 0.2438527350876555,
+          "displacement_rms_nm": 72.21423661781688,
+          "velocity_rms_mm_s": 0.12314760921126362
+        },
+        {
+          "time_seconds": 22.0,
+          "air_rms_mm_s": 0.4341556293773263,
+          "displacement_rms_nm": 123.6861375820791,
+          "velocity_rms_mm_s": 0.22785593281819355
+        },
+        {
+          "time_seconds": 22.1,
+          "air_rms_mm_s": 0.31910381716541514,
+          "displacement_rms_nm": 108.49470301467184,
+          "velocity_rms_mm_s": 0.2262598256462682
+        },
+        {
+          "time_seconds": 22.2,
+          "air_rms_mm_s": 0.250952153995913,
+          "displacement_rms_nm": 113.04151229302543,
+          "velocity_rms_mm_s": 0.21919952289728747
+        },
+        {
+          "time_seconds": 22.3,
+          "air_rms_mm_s": 0.16694211378486215,
+          "displacement_rms_nm": 78.28292264602591,
+          "velocity_rms_mm_s": 0.15055917876848018
+        },
+        {
+          "time_seconds": 22.4,
+          "air_rms_mm_s": 0.016467457688220204,
+          "displacement_rms_nm": 6.202193426145553,
+          "velocity_rms_mm_s": 0.005424771026957278
+        },
+        {
+          "time_seconds": 22.5,
+          "air_rms_mm_s": 0.012690193827162029,
+          "displacement_rms_nm": 4.590535573688026,
+          "velocity_rms_mm_s": 0.00493754554805021
+        },
+        {
+          "time_seconds": 22.6,
+          "air_rms_mm_s": 0.013308997274797622,
+          "displacement_rms_nm": 4.8612004435190554,
+          "velocity_rms_mm_s": 0.0054112541602574235
+        },
+        {
+          "time_seconds": 22.7,
+          "air_rms_mm_s": 0.014838316781268242,
+          "displacement_rms_nm": 5.5304820454712935,
+          "velocity_rms_mm_s": 0.00518235292554084
+        },
+        {
+          "time_seconds": 22.8,
+          "air_rms_mm_s": 0.013756650117503474,
+          "displacement_rms_nm": 5.196698939857061,
+          "velocity_rms_mm_s": 0.00494169408012537
+        },
+        {
+          "time_seconds": 22.9,
+          "air_rms_mm_s": 0.011420546482879827,
+          "displacement_rms_nm": 4.249804046509851,
+          "velocity_rms_mm_s": 0.004710430373901101
+        },
+        {
+          "time_seconds": 23.0,
+          "air_rms_mm_s": 0.012810728691187614,
+          "displacement_rms_nm": 4.760550313665797,
+          "velocity_rms_mm_s": 0.004642836636446087
+        },
+        {
+          "time_seconds": 23.1,
+          "air_rms_mm_s": 0.07952611000389218,
+          "displacement_rms_nm": 6.130601752875165,
+          "velocity_rms_mm_s": 0.016693992765217935
+        },
+        {
+          "time_seconds": 23.2,
+          "air_rms_mm_s": 0.4414358566228483,
+          "displacement_rms_nm": 172.45834805071513,
+          "velocity_rms_mm_s": 0.42417742624618915
+        },
+        {
+          "time_seconds": 23.3,
+          "air_rms_mm_s": 0.07492923799756206,
+          "displacement_rms_nm": 31.13386939211048,
+          "velocity_rms_mm_s": 0.053499588045440936
+        },
+        {
+          "time_seconds": 23.4,
+          "air_rms_mm_s": 0.4966985523394026,
+          "displacement_rms_nm": 181.319670100191,
+          "velocity_rms_mm_s": 0.45865292655303874
+        },
+        {
+          "time_seconds": 23.5,
+          "air_rms_mm_s": 0.24830807383312534,
+          "displacement_rms_nm": 74.66858798783335,
+          "velocity_rms_mm_s": 0.1936732458445568
+        },
+        {
+          "time_seconds": 23.6,
+          "air_rms_mm_s": 0.15511146556285774,
+          "displacement_rms_nm": 6.641819163408593,
+          "velocity_rms_mm_s": 0.028800889746598286
+        },
+        {
+          "time_seconds": 23.7,
+          "air_rms_mm_s": 0.16210852179888915,
+          "displacement_rms_nm": 69.10268180052222,
+          "velocity_rms_mm_s": 0.11806156195609421
+        },
+        {
+          "time_seconds": 23.8,
+          "air_rms_mm_s": 0.3003381989098418,
+          "displacement_rms_nm": 89.91695290718407,
+          "velocity_rms_mm_s": 0.1916268480826785
+        },
+        {
+          "time_seconds": 23.9,
+          "air_rms_mm_s": 0.26528919234347426,
+          "displacement_rms_nm": 103.58887892187771,
+          "velocity_rms_mm_s": 0.20638359635807516
+        },
+        {
+          "time_seconds": 24.0,
+          "air_rms_mm_s": 0.14833098624423208,
+          "displacement_rms_nm": 64.37392835539713,
+          "velocity_rms_mm_s": 0.1344483974697324
+        },
+        {
+          "time_seconds": 24.1,
+          "air_rms_mm_s": 0.09670227637095763,
+          "displacement_rms_nm": 37.45154144950368,
+          "velocity_rms_mm_s": 0.07185054456684643
+        },
+        {
+          "time_seconds": 24.2,
+          "air_rms_mm_s": 0.04720000019946844,
+          "displacement_rms_nm": 19.900082496694324,
+          "velocity_rms_mm_s": 0.02875936121902942
+        },
+        {
+          "time_seconds": 24.3,
+          "air_rms_mm_s": 0.016313802808701334,
+          "displacement_rms_nm": 6.111075421419399,
+          "velocity_rms_mm_s": 0.006036007426417427
+        },
+        {
+          "time_seconds": 24.4,
+          "air_rms_mm_s": 0.013890514445615187,
+          "displacement_rms_nm": 5.268261311967275,
+          "velocity_rms_mm_s": 0.005080042571946089
+        },
+        {
+          "time_seconds": 24.5,
+          "air_rms_mm_s": 0.01489202377498078,
+          "displacement_rms_nm": 5.632037956264042,
+          "velocity_rms_mm_s": 0.005189975813429573
+        },
+        {
+          "time_seconds": 24.6,
+          "air_rms_mm_s": 0.012956238761150285,
+          "displacement_rms_nm": 4.87990568148741,
+          "velocity_rms_mm_s": 0.004810452562701999
+        },
+        {
+          "time_seconds": 24.7,
+          "air_rms_mm_s": 0.01313649828492509,
+          "displacement_rms_nm": 4.9465921664972194,
+          "velocity_rms_mm_s": 0.004704604861147936
+        },
+        {
+          "time_seconds": 24.8,
+          "air_rms_mm_s": 0.010736026211691148,
+          "displacement_rms_nm": 3.9694988404776628,
+          "velocity_rms_mm_s": 0.004241775000353196
+        },
+        {
+          "time_seconds": 24.9,
+          "air_rms_mm_s": 0.011252204461240905,
+          "displacement_rms_nm": 4.133608774815162,
+          "velocity_rms_mm_s": 0.0039457651761734
+        },
+        {
+          "time_seconds": 25.0,
+          "air_rms_mm_s": 0.012628773264960876,
+          "displacement_rms_nm": 4.794346291024848,
+          "velocity_rms_mm_s": 0.004888202941562422
+        },
+        {
+          "time_seconds": 25.1,
+          "air_rms_mm_s": 0.012890365395230561,
+          "displacement_rms_nm": 4.7790144807826955,
+          "velocity_rms_mm_s": 0.004314088490312028
+        },
+        {
+          "time_seconds": 25.2,
+          "air_rms_mm_s": 0.011108120299107167,
+          "displacement_rms_nm": 4.128837791167779,
+          "velocity_rms_mm_s": 0.004319403591179056
+        },
+        {
+          "time_seconds": 25.3,
+          "air_rms_mm_s": 0.01346619037410816,
+          "displacement_rms_nm": 5.085001333753205,
+          "velocity_rms_mm_s": 0.004958644023154846
+        },
+        {
+          "time_seconds": 25.4,
+          "air_rms_mm_s": 0.012637550378588705,
+          "displacement_rms_nm": 4.69972847993442,
+          "velocity_rms_mm_s": 0.004443023548758408
+        },
+        {
+          "time_seconds": 25.5,
+          "air_rms_mm_s": 0.012024452374133403,
+          "displacement_rms_nm": 4.507664782305659,
+          "velocity_rms_mm_s": 0.0048863963633924085
+        },
+        {
+          "time_seconds": 25.6,
+          "air_rms_mm_s": 0.01538010173099279,
+          "displacement_rms_nm": 5.7556772995935175,
+          "velocity_rms_mm_s": 0.0049865731667051135
+        },
+        {
+          "time_seconds": 25.7,
+          "air_rms_mm_s": 0.013017536891188411,
+          "displacement_rms_nm": 4.887680208848091,
+          "velocity_rms_mm_s": 0.004745627351333371
+        },
+        {
+          "time_seconds": 25.8,
+          "air_rms_mm_s": 0.012975138026459904,
+          "displacement_rms_nm": 4.8153996853709895,
+          "velocity_rms_mm_s": 0.004529078545295799
+        },
+        {
+          "time_seconds": 25.9,
+          "air_rms_mm_s": 0.013707815684691827,
+          "displacement_rms_nm": 5.182985071125726,
+          "velocity_rms_mm_s": 0.005121331357252833
+        },
+        {
+          "time_seconds": 26.0,
+          "air_rms_mm_s": 0.011681304211636082,
+          "displacement_rms_nm": 4.31276584804159,
+          "velocity_rms_mm_s": 0.004316585694395968
+        },
+        {
+          "time_seconds": 26.1,
+          "air_rms_mm_s": 0.014374415066067917,
+          "displacement_rms_nm": 5.4742390156638825,
+          "velocity_rms_mm_s": 0.0053438764372801
+        },
+        {
+          "time_seconds": 26.2,
+          "air_rms_mm_s": 0.011346121332120174,
+          "displacement_rms_nm": 4.22462690982573,
+          "velocity_rms_mm_s": 0.0044194248631515025
+        },
+        {
+          "time_seconds": 26.3,
+          "air_rms_mm_s": 0.011914291706021034,
+          "displacement_rms_nm": 4.4816383245718265,
+          "velocity_rms_mm_s": 0.004639578865990074
+        },
+        {
+          "time_seconds": 26.4,
+          "air_rms_mm_s": 0.011113841753200581,
+          "displacement_rms_nm": 4.133851322836277,
+          "velocity_rms_mm_s": 0.004686474373692142
+        },
+        {
+          "time_seconds": 26.5,
+          "air_rms_mm_s": 0.0100846655290167,
+          "displacement_rms_nm": 3.684750514276138,
+          "velocity_rms_mm_s": 0.004211309350727017
+        },
+        {
+          "time_seconds": 26.6,
+          "air_rms_mm_s": 0.012143054727217746,
+          "displacement_rms_nm": 4.566136503127479,
+          "velocity_rms_mm_s": 0.00472121192858127
+        },
+        {
+          "time_seconds": 26.7,
+          "air_rms_mm_s": 0.011066303860999015,
+          "displacement_rms_nm": 4.089201609875714,
+          "velocity_rms_mm_s": 0.004425315753183621
+        },
+        {
+          "time_seconds": 26.8,
+          "air_rms_mm_s": 0.010900465000303158,
+          "displacement_rms_nm": 4.009316997471409,
+          "velocity_rms_mm_s": 0.0045989499531173
+        },
+        {
+          "time_seconds": 26.9,
+          "air_rms_mm_s": 0.17495386738935387,
+          "displacement_rms_nm": 79.62000018125386,
+          "velocity_rms_mm_s": 0.1521702196011587
+        },
+        {
+          "time_seconds": 27.0,
+          "air_rms_mm_s": 0.0734229392784364,
+          "displacement_rms_nm": 28.868188064722847,
+          "velocity_rms_mm_s": 0.05574075239458001
+        },
+        {
+          "time_seconds": 27.1,
+          "air_rms_mm_s": 0.13127569875360673,
+          "displacement_rms_nm": 48.98345858479677,
+          "velocity_rms_mm_s": 0.1178902311318304
+        },
+        {
+          "time_seconds": 27.2,
+          "air_rms_mm_s": 0.8599724915565932,
+          "displacement_rms_nm": 224.92297854726885,
+          "velocity_rms_mm_s": 0.5670456827584619
+        },
+        {
+          "time_seconds": 27.3,
+          "air_rms_mm_s": 0.4685927305275021,
+          "displacement_rms_nm": 118.99608614855086,
+          "velocity_rms_mm_s": 0.2692423847192019
+        },
+        {
+          "time_seconds": 27.4,
+          "air_rms_mm_s": 0.09765637482114516,
+          "displacement_rms_nm": 36.091693558314006,
+          "velocity_rms_mm_s": 0.07817869210236614
+        },
+        {
+          "time_seconds": 27.5,
+          "air_rms_mm_s": 0.15300166968777104,
+          "displacement_rms_nm": 64.96318624301725,
+          "velocity_rms_mm_s": 0.1470140029046634
+        },
+        {
+          "time_seconds": 27.6,
+          "air_rms_mm_s": 0.218327675782339,
+          "displacement_rms_nm": 92.94390742464081,
+          "velocity_rms_mm_s": 0.20401570349611484
+        },
+        {
+          "time_seconds": 27.7,
+          "air_rms_mm_s": 0.26242651979060166,
+          "displacement_rms_nm": 107.06600703666274,
+          "velocity_rms_mm_s": 0.26160518939838134
+        },
+        {
+          "time_seconds": 27.8,
+          "air_rms_mm_s": 0.432369268368451,
+          "displacement_rms_nm": 125.0379645476246,
+          "velocity_rms_mm_s": 0.340249305813605
+        },
+        {
+          "time_seconds": 27.9,
+          "air_rms_mm_s": 0.37807015097519336,
+          "displacement_rms_nm": 111.28958493083162,
+          "velocity_rms_mm_s": 0.23387677056078268
+        },
+        {
+          "time_seconds": 28.0,
+          "air_rms_mm_s": 0.18186202187412404,
+          "displacement_rms_nm": 72.75923949372543,
+          "velocity_rms_mm_s": 0.16010542604695505
+        },
+        {
+          "time_seconds": 28.1,
+          "air_rms_mm_s": 0.03428406848717626,
+          "displacement_rms_nm": 6.560941409149399,
+          "velocity_rms_mm_s": 0.01022972629076623
+        },
+        {
+          "time_seconds": 28.2,
+          "air_rms_mm_s": 0.02418774081533229,
+          "displacement_rms_nm": 5.6697585433110715,
+          "velocity_rms_mm_s": 0.007469415342714898
+        },
+        {
+          "time_seconds": 28.3,
+          "air_rms_mm_s": 0.015176866314124158,
+          "displacement_rms_nm": 5.701092238464413,
+          "velocity_rms_mm_s": 0.005223348901449563
+        },
+        {
+          "time_seconds": 28.4,
+          "air_rms_mm_s": 0.01587152887851976,
+          "displacement_rms_nm": 6.00612279554961,
+          "velocity_rms_mm_s": 0.005412751777206945
+        },
+        {
+          "time_seconds": 28.5,
+          "air_rms_mm_s": 0.017260509002419842,
+          "displacement_rms_nm": 6.483788410666616,
+          "velocity_rms_mm_s": 0.005470427301693823
+        },
+        {
+          "time_seconds": 28.6,
+          "air_rms_mm_s": 0.10174983270949269,
+          "displacement_rms_nm": 39.96116341341099,
+          "velocity_rms_mm_s": 0.08195216371763063
+        },
+        {
+          "time_seconds": 28.7,
+          "air_rms_mm_s": 0.07108749315930353,
+          "displacement_rms_nm": 10.875279181805961,
+          "velocity_rms_mm_s": 0.019016946179946592
+        },
+        {
+          "time_seconds": 28.8,
+          "air_rms_mm_s": 0.04790495972617411,
+          "displacement_rms_nm": 6.848340421979557,
+          "velocity_rms_mm_s": 0.0130915158293796
+        },
+        {
+          "time_seconds": 28.9,
+          "air_rms_mm_s": 0.409213785648802,
+          "displacement_rms_nm": 142.59101425582858,
+          "velocity_rms_mm_s": 0.35070359997995953
+        },
+        {
+          "time_seconds": 29.0,
+          "air_rms_mm_s": 0.256382234880175,
+          "displacement_rms_nm": 83.15629725350384,
+          "velocity_rms_mm_s": 0.1705011222337992
+        },
+        {
+          "time_seconds": 29.1,
+          "air_rms_mm_s": 0.07507486277635249,
+          "displacement_rms_nm": 31.739734815234865,
+          "velocity_rms_mm_s": 0.04932476758720893
+        },
+        {
+          "time_seconds": 29.2,
+          "air_rms_mm_s": 0.015644787984638885,
+          "displacement_rms_nm": 5.884752871820792,
+          "velocity_rms_mm_s": 0.005904355964406073
+        },
+        {
+          "time_seconds": 29.3,
+          "air_rms_mm_s": 0.01771385206348463,
+          "displacement_rms_nm": 6.28983990821257,
+          "velocity_rms_mm_s": 0.005462134247429457
+        },
+        {
+          "time_seconds": 29.4,
+          "air_rms_mm_s": 0.017615683555309413,
+          "displacement_rms_nm": 6.443335346338249,
+          "velocity_rms_mm_s": 0.005642147304431363
+        },
+        {
+          "time_seconds": 29.5,
+          "air_rms_mm_s": 0.013364992167109133,
+          "displacement_rms_nm": 5.085269725109258,
+          "velocity_rms_mm_s": 0.005333734846919153
+        },
+        {
+          "time_seconds": 29.6,
+          "air_rms_mm_s": 0.014447641574202587,
+          "displacement_rms_nm": 5.443924653999653,
+          "velocity_rms_mm_s": 0.005344517267807551
+        },
+        {
+          "time_seconds": 29.7,
+          "air_rms_mm_s": 0.013120903841800558,
+          "displacement_rms_nm": 4.912953459964848,
+          "velocity_rms_mm_s": 0.0048244078908817704
+        },
+        {
+          "time_seconds": 29.8,
+          "air_rms_mm_s": 0.01542445935954587,
+          "displacement_rms_nm": 5.801225501593879,
+          "velocity_rms_mm_s": 0.005186814938010741
+        },
+        {
+          "time_seconds": 29.9,
+          "air_rms_mm_s": 0.013380975855466349,
+          "displacement_rms_nm": 4.971008622531588,
+          "velocity_rms_mm_s": 0.0049145648667962075
+        },
+        {
+          "time_seconds": 30.0,
+          "air_rms_mm_s": 0.07736146791208202,
+          "displacement_rms_nm": 32.785579394008955,
+          "velocity_rms_mm_s": 0.061238252079022455
+        },
+        {
+          "time_seconds": 30.1,
+          "air_rms_mm_s": 0.07412083402891645,
+          "displacement_rms_nm": 33.388932746489374,
+          "velocity_rms_mm_s": 0.05699624261268963
+        },
+        {
+          "time_seconds": 30.2,
+          "air_rms_mm_s": 0.42364737734387564,
+          "displacement_rms_nm": 157.10311663409703,
+          "velocity_rms_mm_s": 0.4202039284418492
+        },
+        {
+          "time_seconds": 30.3,
+          "air_rms_mm_s": 0.6491106004135869,
+          "displacement_rms_nm": 199.20805051536135,
+          "velocity_rms_mm_s": 0.549177985707033
+        },
+        {
+          "time_seconds": 30.4,
+          "air_rms_mm_s": 0.1948209384554001,
+          "displacement_rms_nm": 62.654550362170944,
+          "velocity_rms_mm_s": 0.15148476468838554
+        },
+        {
+          "time_seconds": 30.5,
+          "air_rms_mm_s": 0.02925587444870714,
+          "displacement_rms_nm": 10.815243500122376,
+          "velocity_rms_mm_s": 0.011693373086102878
+        },
+        {
+          "time_seconds": 30.6,
+          "air_rms_mm_s": 0.017787965402284823,
+          "displacement_rms_nm": 5.18053218291469,
+          "velocity_rms_mm_s": 0.005210539286349847
+        },
+        {
+          "time_seconds": 30.7,
+          "air_rms_mm_s": 0.014653368592950685,
+          "displacement_rms_nm": 5.4130560815030275,
+          "velocity_rms_mm_s": 0.005056532393483031
+        },
+        {
+          "time_seconds": 30.8,
+          "air_rms_mm_s": 0.01389395199184983,
+          "displacement_rms_nm": 5.147938104162971,
+          "velocity_rms_mm_s": 0.00462622444002142
+        },
+        {
+          "time_seconds": 30.9,
+          "air_rms_mm_s": 0.014577090327966984,
+          "displacement_rms_nm": 5.495522406055855,
+          "velocity_rms_mm_s": 0.005245114254477774
+        },
+        {
+          "time_seconds": 31.0,
+          "air_rms_mm_s": 0.012052193378787397,
+          "displacement_rms_nm": 4.454430349954617,
+          "velocity_rms_mm_s": 0.0046228380264552935
+        },
+        {
+          "time_seconds": 31.1,
+          "air_rms_mm_s": 0.013419400568648853,
+          "displacement_rms_nm": 5.069781905201208,
+          "velocity_rms_mm_s": 0.0052315953900046435
+        },
+        {
+          "time_seconds": 31.2,
+          "air_rms_mm_s": 0.013864408567891076,
+          "displacement_rms_nm": 5.07062878774427,
+          "velocity_rms_mm_s": 0.004441763597888458
+        },
+        {
+          "time_seconds": 31.3,
+          "air_rms_mm_s": 0.012110631472905347,
+          "displacement_rms_nm": 4.562737389845315,
+          "velocity_rms_mm_s": 0.004839325922101002
+        },
+        {
+          "time_seconds": 31.4,
+          "air_rms_mm_s": 0.0112362920968474,
+          "displacement_rms_nm": 4.134730748595546,
+          "velocity_rms_mm_s": 0.004369414754373055
+        },
+        {
+          "time_seconds": 31.5,
+          "air_rms_mm_s": 0.011918508361822676,
+          "displacement_rms_nm": 4.436426297862776,
+          "velocity_rms_mm_s": 0.00472458626892075
+        },
+        {
+          "time_seconds": 31.6,
+          "air_rms_mm_s": 0.011451519231276276,
+          "displacement_rms_nm": 4.299684242078364,
+          "velocity_rms_mm_s": 0.004751647220043098
+        },
+        {
+          "time_seconds": 31.7,
+          "air_rms_mm_s": 0.010976099964272408,
+          "displacement_rms_nm": 4.030136602480694,
+          "velocity_rms_mm_s": 0.004252732350062649
+        },
+        {
+          "time_seconds": 31.8,
+          "air_rms_mm_s": 0.012547708349080753,
+          "displacement_rms_nm": 4.685462742799383,
+          "velocity_rms_mm_s": 0.004541165009783745
+        },
+        {
+          "time_seconds": 31.9,
+          "air_rms_mm_s": 0.012903727590403766,
+          "displacement_rms_nm": 4.771031802342278,
+          "velocity_rms_mm_s": 0.004625257259559292
+        },
+        {
+          "time_seconds": 32.0,
+          "air_rms_mm_s": 0.01251147089699408,
+          "displacement_rms_nm": 4.621290896964467,
+          "velocity_rms_mm_s": 0.0042752693425927935
+        },
+        {
+          "time_seconds": 32.1,
+          "air_rms_mm_s": 0.012376375701620044,
+          "displacement_rms_nm": 4.610859843582986,
+          "velocity_rms_mm_s": 0.004351738008393875
+        },
+        {
+          "time_seconds": 32.2,
+          "air_rms_mm_s": 0.012923908763558452,
+          "displacement_rms_nm": 4.599049070527068,
+          "velocity_rms_mm_s": 0.005098272972851118
+        },
+        {
+          "time_seconds": 32.3,
+          "air_rms_mm_s": 0.2945575634296744,
+          "displacement_rms_nm": 124.47193526701662,
+          "velocity_rms_mm_s": 0.24053212098173743
+        },
+        {
+          "time_seconds": 32.4,
+          "air_rms_mm_s": 0.4337860214459632,
+          "displacement_rms_nm": 170.64197571871884,
+          "velocity_rms_mm_s": 0.40054110448517166
+        },
+        {
+          "time_seconds": 32.5,
+          "air_rms_mm_s": 0.5073657261659156,
+          "displacement_rms_nm": 224.95161043116133,
+          "velocity_rms_mm_s": 0.5064237797855277
+        },
+        {
+          "time_seconds": 32.6,
+          "air_rms_mm_s": 1.0439319664069593,
+          "displacement_rms_nm": 309.7037248231098,
+          "velocity_rms_mm_s": 0.7078199286315928
+        },
+        {
+          "time_seconds": 32.7,
+          "air_rms_mm_s": 0.44576182382046753,
+          "displacement_rms_nm": 177.2777134391983,
+          "velocity_rms_mm_s": 0.3709956970682028
+        },
+        {
+          "time_seconds": 32.8,
+          "air_rms_mm_s": 0.5205956643684333,
+          "displacement_rms_nm": 206.72787304687984,
+          "velocity_rms_mm_s": 0.5025260825024043
+        },
+        {
+          "time_seconds": 32.9,
+          "air_rms_mm_s": 0.10559349429898268,
+          "displacement_rms_nm": 43.224970740781814,
+          "velocity_rms_mm_s": 0.08206542485448308
+        },
+        {
+          "time_seconds": 33.0,
+          "air_rms_mm_s": 0.48754960058490904,
+          "displacement_rms_nm": 144.8435942591294,
+          "velocity_rms_mm_s": 0.3991568744617269
+        },
+        {
+          "time_seconds": 33.1,
+          "air_rms_mm_s": 0.5357097158056192,
+          "displacement_rms_nm": 116.0171732176308,
+          "velocity_rms_mm_s": 0.30935898870533124
+        },
+        {
+          "time_seconds": 33.2,
+          "air_rms_mm_s": 0.29428574201815116,
+          "displacement_rms_nm": 65.0899592765866,
+          "velocity_rms_mm_s": 0.15729523625474204
+        },
+        {
+          "time_seconds": 33.3,
+          "air_rms_mm_s": 0.02225417289645123,
+          "displacement_rms_nm": 8.47924870879478,
+          "velocity_rms_mm_s": 0.008999023707838704
+        },
+        {
+          "time_seconds": 33.4,
+          "air_rms_mm_s": 0.027731814497818145,
+          "displacement_rms_nm": 5.899967914837491,
+          "velocity_rms_mm_s": 0.010692126269546767
+        },
+        {
+          "time_seconds": 33.5,
+          "air_rms_mm_s": 0.012309687179397504,
+          "displacement_rms_nm": 4.292540210113868,
+          "velocity_rms_mm_s": 0.004708294051687285
+        },
+        {
+          "time_seconds": 33.6,
+          "air_rms_mm_s": 0.011473266625921371,
+          "displacement_rms_nm": 4.275768255927232,
+          "velocity_rms_mm_s": 0.004707684313010084
+        },
+        {
+          "time_seconds": 33.7,
+          "air_rms_mm_s": 0.012080437574138193,
+          "displacement_rms_nm": 4.444038620813971,
+          "velocity_rms_mm_s": 0.004571541989673528
+        },
+        {
+          "time_seconds": 33.8,
+          "air_rms_mm_s": 0.011425496786697572,
+          "displacement_rms_nm": 4.0879948337611305,
+          "velocity_rms_mm_s": 0.003849069771133231
+        },
+        {
+          "time_seconds": 33.9,
+          "air_rms_mm_s": 0.011715406812672332,
+          "displacement_rms_nm": 4.320071968046639,
+          "velocity_rms_mm_s": 0.0043136325974297085
+        },
+        {
+          "time_seconds": 34.0,
+          "air_rms_mm_s": 0.013659374278222317,
+          "displacement_rms_nm": 5.0703127012315425,
+          "velocity_rms_mm_s": 0.004573364422561437
+        },
+        {
+          "time_seconds": 34.1,
+          "air_rms_mm_s": 0.01466599470852815,
+          "displacement_rms_nm": 5.463552094588314,
+          "velocity_rms_mm_s": 0.004648817191392676
+        },
+        {
+          "time_seconds": 34.2,
+          "air_rms_mm_s": 0.013801155663593474,
+          "displacement_rms_nm": 5.130301148911291,
+          "velocity_rms_mm_s": 0.004443096274315509
+        },
+        {
+          "time_seconds": 34.3,
+          "air_rms_mm_s": 0.011687149424201577,
+          "displacement_rms_nm": 4.301781190970676,
+          "velocity_rms_mm_s": 0.0041832593583144674
+        },
+        {
+          "time_seconds": 34.4,
+          "air_rms_mm_s": 0.029112588807558144,
+          "displacement_rms_nm": 12.202357595311996,
+          "velocity_rms_mm_s": 0.019867959522383582
+        },
+        {
+          "time_seconds": 34.5,
+          "air_rms_mm_s": 0.09985827953439844,
+          "displacement_rms_nm": 43.45849530112591,
+          "velocity_rms_mm_s": 0.0803616340303238
+        },
+        {
+          "time_seconds": 34.6,
+          "air_rms_mm_s": 0.03681551093374663,
+          "displacement_rms_nm": 4.354010680040316,
+          "velocity_rms_mm_s": 0.005425302172812098
+        },
+        {
+          "time_seconds": 34.7,
+          "air_rms_mm_s": 0.3399687451938616,
+          "displacement_rms_nm": 123.24452833229564,
+          "velocity_rms_mm_s": 0.3205765116927
+        },
+        {
+          "time_seconds": 34.8,
+          "air_rms_mm_s": 0.25377046436909273,
+          "displacement_rms_nm": 69.70009032857604,
+          "velocity_rms_mm_s": 0.1996032493838275
+        },
+        {
+          "time_seconds": 34.9,
+          "air_rms_mm_s": 0.02198150309469451,
+          "displacement_rms_nm": 7.203794323661388,
+          "velocity_rms_mm_s": 0.012688741110842373
+        },
+        {
+          "time_seconds": 35.0,
+          "air_rms_mm_s": 0.014706916891096803,
+          "displacement_rms_nm": 4.470770796681043,
+          "velocity_rms_mm_s": 0.004363157330220278
+        },
+        {
+          "time_seconds": 35.1,
+          "air_rms_mm_s": 0.010902444105690898,
+          "displacement_rms_nm": 4.003068088790994,
+          "velocity_rms_mm_s": 0.0043000181248493575
+        },
+        {
+          "time_seconds": 35.2,
+          "air_rms_mm_s": 0.010967945346016363,
+          "displacement_rms_nm": 4.061675250867464,
+          "velocity_rms_mm_s": 0.004318619612622899
+        },
+        {
+          "time_seconds": 35.3,
+          "air_rms_mm_s": 0.011678166645762256,
+          "displacement_rms_nm": 4.3374972065524675,
+          "velocity_rms_mm_s": 0.004546182996857736
+        },
+        {
+          "time_seconds": 35.4,
+          "air_rms_mm_s": 0.014989398394596972,
+          "displacement_rms_nm": 5.523637341557758,
+          "velocity_rms_mm_s": 0.004458959565523887
+        },
+        {
+          "time_seconds": 35.5,
+          "air_rms_mm_s": 0.013935049290263249,
+          "displacement_rms_nm": 5.186876010456593,
+          "velocity_rms_mm_s": 0.0047757514763916604
+        },
+        {
+          "time_seconds": 35.6,
+          "air_rms_mm_s": 0.013746853743844671,
+          "displacement_rms_nm": 5.148054031839714,
+          "velocity_rms_mm_s": 0.00481813141187562
+        },
+        {
+          "time_seconds": 35.7,
+          "air_rms_mm_s": 0.012243397713710403,
+          "displacement_rms_nm": 4.556570107341605,
+          "velocity_rms_mm_s": 0.004701825424579189
+        },
+        {
+          "time_seconds": 35.8,
+          "air_rms_mm_s": 0.011550960265170966,
+          "displacement_rms_nm": 4.336786540357297,
+          "velocity_rms_mm_s": 0.004694235491252083
+        },
+        {
+          "time_seconds": 35.9,
+          "air_rms_mm_s": 0.012101184190523712,
+          "displacement_rms_nm": 4.475366856244481,
+          "velocity_rms_mm_s": 0.004325211892736008
+        },
+        {
+          "time_seconds": 36.0,
+          "air_rms_mm_s": 0.012810953887597743,
+          "displacement_rms_nm": 4.706379438474621,
+          "velocity_rms_mm_s": 0.00432525917877073
+        },
+        {
+          "time_seconds": 36.1,
+          "air_rms_mm_s": 0.012365139504204677,
+          "displacement_rms_nm": 4.601875587293224,
+          "velocity_rms_mm_s": 0.004723622478923059
+        },
+        {
+          "time_seconds": 36.2,
+          "air_rms_mm_s": 0.012401378712280337,
+          "displacement_rms_nm": 4.603451167106678,
+          "velocity_rms_mm_s": 0.004440331254953173
+        },
+        {
+          "time_seconds": 36.3,
+          "air_rms_mm_s": 0.0120259527220578,
+          "displacement_rms_nm": 4.445848618927036,
+          "velocity_rms_mm_s": 0.004385420187194988
+        },
+        {
+          "time_seconds": 36.4,
+          "air_rms_mm_s": 0.013976367278594155,
+          "displacement_rms_nm": 5.178459404625633,
+          "velocity_rms_mm_s": 0.004128716074931451
+        },
+        {
+          "time_seconds": 36.5,
+          "air_rms_mm_s": 0.011083282958002424,
+          "displacement_rms_nm": 4.126178903684058,
+          "velocity_rms_mm_s": 0.004435063375854784
+        },
+        {
+          "time_seconds": 36.6,
+          "air_rms_mm_s": 0.013422583163138225,
+          "displacement_rms_nm": 5.012155832274206,
+          "velocity_rms_mm_s": 0.0046788415133439025
+        },
+        {
+          "time_seconds": 36.7,
+          "air_rms_mm_s": 0.011540245078013739,
+          "displacement_rms_nm": 4.237828802547758,
+          "velocity_rms_mm_s": 0.004113236411373849
+        },
+        {
+          "time_seconds": 36.8,
+          "air_rms_mm_s": 0.012187325732574524,
+          "displacement_rms_nm": 4.528545718252622,
+          "velocity_rms_mm_s": 0.004372469938026195
+        },
+        {
+          "time_seconds": 36.9,
+          "air_rms_mm_s": 0.012776292717176636,
+          "displacement_rms_nm": 4.776172037440903,
+          "velocity_rms_mm_s": 0.004899884672840913
+        },
+        {
+          "time_seconds": 37.0,
+          "air_rms_mm_s": 0.012433338696439132,
+          "displacement_rms_nm": 4.570783744964462,
+          "velocity_rms_mm_s": 0.004240467626836695
+        },
+        {
+          "time_seconds": 37.1,
+          "air_rms_mm_s": 0.03484520666775231,
+          "displacement_rms_nm": 13.17108977372283,
+          "velocity_rms_mm_s": 0.01449033639789965
+        },
+        {
+          "time_seconds": 37.2,
+          "air_rms_mm_s": 0.7746297512654261,
+          "displacement_rms_nm": 264.3118348417254,
+          "velocity_rms_mm_s": 0.5477908528746103
+        },
+        {
+          "time_seconds": 37.3,
+          "air_rms_mm_s": 0.797740880240817,
+          "displacement_rms_nm": 274.22676571251236,
+          "velocity_rms_mm_s": 0.6072189175457442
+        },
+        {
+          "time_seconds": 37.4,
+          "air_rms_mm_s": 0.7526557105996989,
+          "displacement_rms_nm": 246.41214031741978,
+          "velocity_rms_mm_s": 0.5253022048493524
+        },
+        {
+          "time_seconds": 37.5,
+          "air_rms_mm_s": 0.5222117202576241,
+          "displacement_rms_nm": 216.77636698901807,
+          "velocity_rms_mm_s": 0.42763990592694684
+        },
+        {
+          "time_seconds": 37.6,
+          "air_rms_mm_s": 0.3492509039359513,
+          "displacement_rms_nm": 74.97339919043104,
+          "velocity_rms_mm_s": 0.1607432082937862
+        },
+        {
+          "time_seconds": 37.7,
+          "air_rms_mm_s": 0.6408181186642677,
+          "displacement_rms_nm": 146.82884767333752,
+          "velocity_rms_mm_s": 0.2690607401857476
+        },
+        {
+          "time_seconds": 37.8,
+          "air_rms_mm_s": 0.5020289743239389,
+          "displacement_rms_nm": 152.1693283411239,
+          "velocity_rms_mm_s": 0.21866985561628333
+        },
+        {
+          "time_seconds": 37.9,
+          "air_rms_mm_s": 0.30962304002313695,
+          "displacement_rms_nm": 102.57906613353633,
+          "velocity_rms_mm_s": 0.17793181135709654
+        },
+        {
+          "time_seconds": 38.0,
+          "air_rms_mm_s": 0.4593614800021689,
+          "displacement_rms_nm": 99.40461791731235,
+          "velocity_rms_mm_s": 0.21466207813768107
+        },
+        {
+          "time_seconds": 38.1,
+          "air_rms_mm_s": 0.3441410431141787,
+          "displacement_rms_nm": 111.03355236158443,
+          "velocity_rms_mm_s": 0.16841392783144332
+        },
+        {
+          "time_seconds": 38.2,
+          "air_rms_mm_s": 0.12314451912552937,
+          "displacement_rms_nm": 34.651684165088824,
+          "velocity_rms_mm_s": 0.067607122442177
+        },
+        {
+          "time_seconds": 38.3,
+          "air_rms_mm_s": 0.5203944388052231,
+          "displacement_rms_nm": 115.4744919843028,
+          "velocity_rms_mm_s": 0.25281933257006206
+        },
+        {
+          "time_seconds": 38.4,
+          "air_rms_mm_s": 0.16358384230118514,
+          "displacement_rms_nm": 62.23880752848076,
+          "velocity_rms_mm_s": 0.11843107244510329
+        },
+        {
+          "time_seconds": 38.5,
+          "air_rms_mm_s": 0.43672509518332464,
+          "displacement_rms_nm": 178.56637652575924,
+          "velocity_rms_mm_s": 0.33425225998603514
+        },
+        {
+          "time_seconds": 38.6,
+          "air_rms_mm_s": 0.2802431999141715,
+          "displacement_rms_nm": 118.13014077183588,
+          "velocity_rms_mm_s": 0.2550339978222538
+        },
+        {
+          "time_seconds": 38.7,
+          "air_rms_mm_s": 0.5451370588692752,
+          "displacement_rms_nm": 129.4980063790747,
+          "velocity_rms_mm_s": 0.3611558061571232
+        },
+        {
+          "time_seconds": 38.8,
+          "air_rms_mm_s": 0.1689588803818896,
+          "displacement_rms_nm": 43.87843465766863,
+          "velocity_rms_mm_s": 0.10533311972998934
+        },
+        {
+          "time_seconds": 38.9,
+          "air_rms_mm_s": 0.07404791044914562,
+          "displacement_rms_nm": 23.012776850220913,
+          "velocity_rms_mm_s": 0.03945761597397446
+        },
+        {
+          "time_seconds": 39.0,
+          "air_rms_mm_s": 0.019887793406881044,
+          "displacement_rms_nm": 7.474836480963904,
+          "velocity_rms_mm_s": 0.00800288933374339
+        },
+        {
+          "time_seconds": 39.1,
+          "air_rms_mm_s": 0.011119681202451206,
+          "displacement_rms_nm": 4.080826788507201,
+          "velocity_rms_mm_s": 0.004245500017980508
+        },
+        {
+          "time_seconds": 39.2,
+          "air_rms_mm_s": 0.01151206895194417,
+          "displacement_rms_nm": 4.290772742715708,
+          "velocity_rms_mm_s": 0.004519020929283362
+        },
+        {
+          "time_seconds": 39.3,
+          "air_rms_mm_s": 0.011647870806124684,
+          "displacement_rms_nm": 4.369276428863813,
+          "velocity_rms_mm_s": 0.004471888475964445
+        },
+        {
+          "time_seconds": 39.4,
+          "air_rms_mm_s": 0.011559987206329319,
+          "displacement_rms_nm": 4.302075581312474,
+          "velocity_rms_mm_s": 0.004153514907643626
+        },
+        {
+          "time_seconds": 39.5,
+          "air_rms_mm_s": 0.011538079199720464,
+          "displacement_rms_nm": 4.288488972065537,
+          "velocity_rms_mm_s": 0.004487866387389378
+        },
+        {
+          "time_seconds": 39.6,
+          "air_rms_mm_s": 0.011644862477589859,
+          "displacement_rms_nm": 4.376499381483259,
+          "velocity_rms_mm_s": 0.004799514412792619
+        },
+        {
+          "time_seconds": 39.7,
+          "air_rms_mm_s": 0.01227039892734444,
+          "displacement_rms_nm": 4.56097122222375,
+          "velocity_rms_mm_s": 0.004336232953512054
+        },
+        {
+          "time_seconds": 39.8,
+          "air_rms_mm_s": 0.011650995553551905,
+          "displacement_rms_nm": 4.285333482623473,
+          "velocity_rms_mm_s": 0.004105874118850895
+        },
+        {
+          "time_seconds": 39.9,
+          "air_rms_mm_s": 0.011744540231761249,
+          "displacement_rms_nm": 4.363870931355754,
+          "velocity_rms_mm_s": 0.004173397951640154
+        },
+        {
+          "time_seconds": 40.0,
+          "air_rms_mm_s": 0.01183027515945884,
+          "displacement_rms_nm": 4.359961029292894,
+          "velocity_rms_mm_s": 0.004156111378139126
+        },
+        {
+          "time_seconds": 40.1,
+          "air_rms_mm_s": 0.013311171534794145,
+          "displacement_rms_nm": 4.92419400896346,
+          "velocity_rms_mm_s": 0.004320606615034056
+        },
+        {
+          "time_seconds": 40.2,
+          "air_rms_mm_s": 0.011190749269845007,
+          "displacement_rms_nm": 4.1160366819069525,
+          "velocity_rms_mm_s": 0.004175192897027736
+        },
+        {
+          "time_seconds": 40.3,
+          "air_rms_mm_s": 0.010314215124060767,
+          "displacement_rms_nm": 3.8137794992041836,
+          "velocity_rms_mm_s": 0.004081029517081144
+        },
+        {
+          "time_seconds": 40.4,
+          "air_rms_mm_s": 0.011901172516365527,
+          "displacement_rms_nm": 4.388407121556619,
+          "velocity_rms_mm_s": 0.004231794846244825
+        },
+        {
+          "time_seconds": 40.5,
+          "air_rms_mm_s": 0.011440822384263395,
+          "displacement_rms_nm": 4.260583571278611,
+          "velocity_rms_mm_s": 0.0043586235844550215
+        },
+        {
+          "time_seconds": 40.6,
+          "air_rms_mm_s": 0.01178954762295833,
+          "displacement_rms_nm": 4.338149801664031,
+          "velocity_rms_mm_s": 0.0043386853658663955
+        },
+        {
+          "time_seconds": 40.7,
+          "air_rms_mm_s": 0.01140712365264265,
+          "displacement_rms_nm": 4.25591285936058,
+          "velocity_rms_mm_s": 0.004478293579929868
+        },
+        {
+          "time_seconds": 40.8,
+          "air_rms_mm_s": 0.011278158803910273,
+          "displacement_rms_nm": 4.19214377987671,
+          "velocity_rms_mm_s": 0.004274078653944432
+        },
+        {
+          "time_seconds": 40.9,
+          "air_rms_mm_s": 0.038050666569714946,
+          "displacement_rms_nm": 14.215114833103568,
+          "velocity_rms_mm_s": 0.024568519741498283
+        },
+        {
+          "time_seconds": 41.0,
+          "air_rms_mm_s": 0.1479210188006067,
+          "displacement_rms_nm": 63.034590231242625,
+          "velocity_rms_mm_s": 0.13705985348354238
+        },
+        {
+          "time_seconds": 41.1,
+          "air_rms_mm_s": 0.1252074488548316,
+          "displacement_rms_nm": 35.728522929589296,
+          "velocity_rms_mm_s": 0.08545406819906211
+        },
+        {
+          "time_seconds": 41.2,
+          "air_rms_mm_s": 0.2578283660396327,
+          "displacement_rms_nm": 73.04455785471048,
+          "velocity_rms_mm_s": 0.1769970884261032
+        },
+        {
+          "time_seconds": 41.3,
+          "air_rms_mm_s": 0.25119956578264346,
+          "displacement_rms_nm": 107.41097608667265,
+          "velocity_rms_mm_s": 0.22346599041606843
+        },
+        {
+          "time_seconds": 41.4,
+          "air_rms_mm_s": 0.5840263253966907,
+          "displacement_rms_nm": 248.80951815089227,
+          "velocity_rms_mm_s": 0.5760939837510094
+        },
+        {
+          "time_seconds": 41.5,
+          "air_rms_mm_s": 0.6526164161244884,
+          "displacement_rms_nm": 279.27671499122846,
+          "velocity_rms_mm_s": 0.6251123541747017
+        },
+        {
+          "time_seconds": 41.6,
+          "air_rms_mm_s": 0.2811022613413973,
+          "displacement_rms_nm": 121.82018100689601,
+          "velocity_rms_mm_s": 0.20690423414031742
+        },
+        {
+          "time_seconds": 41.7,
+          "air_rms_mm_s": 0.04847428229885079,
+          "displacement_rms_nm": 18.292653890669264,
+          "velocity_rms_mm_s": 0.01785065126059746
+        },
+        {
+          "time_seconds": 41.8,
+          "air_rms_mm_s": 0.01564642366338202,
+          "displacement_rms_nm": 5.056951669805359,
+          "velocity_rms_mm_s": 0.0064992220213305404
+        },
+        {
+          "time_seconds": 41.9,
+          "air_rms_mm_s": 0.011537411676710197,
+          "displacement_rms_nm": 4.297259440569923,
+          "velocity_rms_mm_s": 0.004868395854098122
+        },
+        {
+          "time_seconds": 42.0,
+          "air_rms_mm_s": 0.011683912128981944,
+          "displacement_rms_nm": 4.348156327273661,
+          "velocity_rms_mm_s": 0.004262315732103119
+        },
+        {
+          "time_seconds": 42.1,
+          "air_rms_mm_s": 0.010928668029375825,
+          "displacement_rms_nm": 4.032491936430504,
+          "velocity_rms_mm_s": 0.00416012222194676
+        },
+        {
+          "time_seconds": 42.2,
+          "air_rms_mm_s": 0.011860036183594946,
+          "displacement_rms_nm": 4.3541479752713075,
+          "velocity_rms_mm_s": 0.00414664320777496
+        },
+        {
+          "time_seconds": 42.3,
+          "air_rms_mm_s": 0.011636429947678268,
+          "displacement_rms_nm": 4.300692208476694,
+          "velocity_rms_mm_s": 0.00426833314345295
+        },
+        {
+          "time_seconds": 42.4,
+          "air_rms_mm_s": 0.011233020840483329,
+          "displacement_rms_nm": 4.205498874327056,
+          "velocity_rms_mm_s": 0.00435029856094588
+        },
+        {
+          "time_seconds": 42.5,
+          "air_rms_mm_s": 0.01080978203259449,
+          "displacement_rms_nm": 4.000666127921923,
+          "velocity_rms_mm_s": 0.004189897776779999
+        },
+        {
+          "time_seconds": 42.6,
+          "air_rms_mm_s": 0.010845965264591396,
+          "displacement_rms_nm": 4.032126160548156,
+          "velocity_rms_mm_s": 0.003984214920325953
+        },
+        {
+          "time_seconds": 42.7,
+          "air_rms_mm_s": 0.010665121828841351,
+          "displacement_rms_nm": 3.9079184768399164,
+          "velocity_rms_mm_s": 0.003881002810093605
+        },
+        {
+          "time_seconds": 42.8,
+          "air_rms_mm_s": 0.011148491043003635,
+          "displacement_rms_nm": 4.142036304893721,
+          "velocity_rms_mm_s": 0.004163263123145897
+        },
+        {
+          "time_seconds": 42.9,
+          "air_rms_mm_s": 0.011750453260403545,
+          "displacement_rms_nm": 4.400527200909836,
+          "velocity_rms_mm_s": 0.004462501725820981
+        },
+        {
+          "time_seconds": 43.0,
+          "air_rms_mm_s": 0.011054882888329143,
+          "displacement_rms_nm": 4.1125529504424145,
+          "velocity_rms_mm_s": 0.004452810229303128
+        },
+        {
+          "time_seconds": 43.1,
+          "air_rms_mm_s": 0.01074678842588895,
+          "displacement_rms_nm": 3.950822613877153,
+          "velocity_rms_mm_s": 0.0041915161259693445
+        },
+        {
+          "time_seconds": 43.2,
+          "air_rms_mm_s": 0.010281202514986473,
+          "displacement_rms_nm": 3.7922179489541143,
+          "velocity_rms_mm_s": 0.004330494928962039
+        },
+        {
+          "time_seconds": 43.3,
+          "air_rms_mm_s": 0.012024310729145794,
+          "displacement_rms_nm": 4.443254686053877,
+          "velocity_rms_mm_s": 0.004284745516538202
+        },
+        {
+          "time_seconds": 43.4,
+          "air_rms_mm_s": 0.010664391536584114,
+          "displacement_rms_nm": 3.944948829669609,
+          "velocity_rms_mm_s": 0.004199964097575949
+        },
+        {
+          "time_seconds": 43.5,
+          "air_rms_mm_s": 0.011183827919725645,
+          "displacement_rms_nm": 4.151172274412685,
+          "velocity_rms_mm_s": 0.004309591844515074
+        },
+        {
+          "time_seconds": 43.6,
+          "air_rms_mm_s": 0.012154148311336358,
+          "displacement_rms_nm": 4.592124781193197,
+          "velocity_rms_mm_s": 0.004681844222481892
+        },
+        {
+          "time_seconds": 43.7,
+          "air_rms_mm_s": 0.011725358105244742,
+          "displacement_rms_nm": 4.374191616403012,
+          "velocity_rms_mm_s": 0.004506437042906939
+        },
+        {
+          "time_seconds": 43.8,
+          "air_rms_mm_s": 0.012511218892029066,
+          "displacement_rms_nm": 4.668209797956924,
+          "velocity_rms_mm_s": 0.004673789420734617
+        },
+        {
+          "time_seconds": 43.9,
+          "air_rms_mm_s": 0.29951412111728015,
+          "displacement_rms_nm": 115.1532351035352,
+          "velocity_rms_mm_s": 0.2981519853892704
+        },
+        {
+          "time_seconds": 44.0,
+          "air_rms_mm_s": 0.3107178917671917,
+          "displacement_rms_nm": 103.193903506675,
+          "velocity_rms_mm_s": 0.2772296980001645
+        },
+        {
+          "time_seconds": 44.1,
+          "air_rms_mm_s": 0.12341310655043315,
+          "displacement_rms_nm": 36.245242260631365,
+          "velocity_rms_mm_s": 0.09237970424234285
+        },
+        {
+          "time_seconds": 44.2,
+          "air_rms_mm_s": 0.3733351784767416,
+          "displacement_rms_nm": 91.4909294571788,
+          "velocity_rms_mm_s": 0.23461208135574577
+        },
+        {
+          "time_seconds": 44.3,
+          "air_rms_mm_s": 0.24810894013465673,
+          "displacement_rms_nm": 96.19888645970563,
+          "velocity_rms_mm_s": 0.2357701190933061
+        },
+        {
+          "time_seconds": 44.4,
+          "air_rms_mm_s": 0.3270410798908246,
+          "displacement_rms_nm": 94.13239069821829,
+          "velocity_rms_mm_s": 0.24692096344746728
+        },
+        {
+          "time_seconds": 44.5,
+          "air_rms_mm_s": 0.08359764901892915,
+          "displacement_rms_nm": 23.23939060986372,
+          "velocity_rms_mm_s": 0.04445960194202532
+        },
+        {
+          "time_seconds": 44.6,
+          "air_rms_mm_s": 0.025670748066350824,
+          "displacement_rms_nm": 7.220888534546747,
+          "velocity_rms_mm_s": 0.009744383024882822
+        },
+        {
+          "time_seconds": 44.7,
+          "air_rms_mm_s": 0.010826380738793634,
+          "displacement_rms_nm": 4.009373128332835,
+          "velocity_rms_mm_s": 0.00476903014935755
+        },
+        {
+          "time_seconds": 44.8,
+          "air_rms_mm_s": 0.011786417637298546,
+          "displacement_rms_nm": 4.337714126017759,
+          "velocity_rms_mm_s": 0.004810792637429908
+        },
+        {
+          "time_seconds": 44.9,
+          "air_rms_mm_s": 0.011994318285071854,
+          "displacement_rms_nm": 4.484092689379041,
+          "velocity_rms_mm_s": 0.004737725954297786
+        },
+        {
+          "time_seconds": 45.0,
+          "air_rms_mm_s": 0.011799717212939898,
+          "displacement_rms_nm": 4.4421229944481535,
+          "velocity_rms_mm_s": 0.004649800928889489
+        }
+      ],
+      "neural_response": null,
+      "reading": null,
+      "claim": "Linear measured-fit reference prediction; arbitrary-level speech and out-of-band response are extrapolations, not validated physiology"
+    }
+  },
+  "remaining_contracts": [
+    "Measured air-velocity to effective force relation for the nonlinear source model; suspension friction is not automatically air drag",
+    "Reconciliation of source table inconsistency for fits 1 and 6 before those fits can be preferred",
+    "Channel probability to JON generator current/conductance and spiking; fitted N is channels, not MaleCNS neuron identities",
+    "Mapping and calibration of physiological JON response to FlyBrain abstract voltage; no unique dimensional conversion exists in upstream model",
+    "Fine-clock and stochastic receiver validation; present source reproduction uses published deterministic equations"
+  ],
+  "production_receiver_changed": false,
+  "implementation_sha256": {
+    "critic/receiver/healthy.py": "f88e4341fa89d2d1c81b7e7e28f9a2d64bc4022dc624e8de13a3387c9cff12a4",
+    "scripts/calibrate_receiver.py": "6485d7852d12eeb54d5b4f48196267f6732f4267d4f174c0a004c3a8a8bcc19f"
+  }
+}
