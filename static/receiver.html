@@ -40,6 +40,16 @@
         padding: 1rem;
         background: #eae9df;
       }
+      #sensitivity label {
+        display: inline-flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin: 0.5rem 1rem 0.5rem 0;
+      }
+      #sensitivity select {
+        max-width: 100%;
+        font: inherit;
+      }
       table {
         border-collapse: collapse;
         width: 100%;
@@ -72,19 +82,25 @@
       }
     </style>
     <script type="module" src="./receiver-lab.js"></script>
+    <script type="module" src="./receiver-sensitivity.js"></script>
   </head>
   <body>
     <main>
       <a href="./">← Return to the recorded poem readings</a>
       <h1>Building the auditory receiver</h1>
       <p class="status">
-        <strong>Experimental components. Not yet a new poem receiver.</strong
+        <strong
+          >Experimental receiver comparison. Not physiologically
+          calibrated.</strong
         ><br />The current poem readings use the original amplitude receiver.
-        This laboratory shows what has been implemented and tested before a
-        replacement is connected.
+        This laboratory also tests provisional mechanical adapters connected to
+        the original frozen neural simulation.
       </p>
+      <section id="sensitivity" aria-label="Receiver sensitivity pilot">
+        Loading provisional sensitivity pilot…
+      </section>
       <p id="error" role="alert"></p>
-      <h2>New: sound-driven mechanics and receptor channels</h2>
+      <h2>Source components: sound-driven mechanics and receptor channels</h2>
       <p>
         We now have a measured sound-to-antenna reference and a separate
         physical model of force-driven receptor channels. These replace the
@@ -208,6 +224,7 @@
         new clock needs validation before its outputs can be compared with the
         existing poem experiments.
       </p>
+
       <h2>What is still missing?</h2>
       <ul>
         <li>A joint acoustic calibration for the nonlinear active receiver.</li>
@@ -224,8 +241,9 @@
         </li>
       </ul>
       <p>
-        No new claim about how either rendition moves the fly follows from this
-        laboratory yet.
+        The sensitivity pilot measures how engineering choices change simulated
+        responses. It does not establish a physiologically calibrated response
+        or an actual fly’s experience.
       </p>
       <footer>
         <a href="./RECEIVER-V2.md"

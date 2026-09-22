@@ -425,3 +425,24 @@ PYTHONPATH=. .venv/bin/python -m pytest -q tests/test_healthy_receiver.py
 
 These physical components do not yet provide calibrated neural current. They are
 not automatically connected to the existing poem simulations.
+
+### Provisional mechanical receiver sensitivity pilot
+
+```sh
+PYTHONPATH=. .venv/bin/python scripts/receiver_sensitivity.py
+PYTHONPATH=. .venv/bin/python -m pytest -q tests/test_provisional_receiver.py
+.venv/bin/python scripts/export_replay.py
+```
+
+The receiver laboratory (`receiver.html#sensitivity`) compares the old RMS encoder
+with displacement- and velocity-envelope adapters at three declared strengths,
+using the original frozen FlyBrain and its original 20 ms clock. This is an
+engineering sensitivity study, **not physiological calibration**. Production
+poem readings are unchanged. See
+[the fixed protocol](experiments/receiver-v2/sensitivity/PROTOCOL.md).
+
+Complete seeded spikes and population counts are saved under
+`results/receiver-sensitivity/`; public inputs, provenance and summary traces are
+under `experiments/receiver-v2/sensitivity/`. Runs resume only if their inputs,
+protocol, source and data hashes match. A source/protocol change deliberately
+requires a fresh results directory; preserve the old directory when rerunning.

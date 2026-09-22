@@ -77,3 +77,12 @@ def test_passage_player_markup_contract():
     code = (ROOT / "static/passage-player.js").read_text()
     for key in re.findall(r"this.q\('([^']+)'\)", code):
         assert key in keys, key
+
+
+def test_receiver_sensitivity_mount_exists_once():
+    html = (ROOT / "static/receiver.html").read_text()
+    assert html.count('id="sensitivity"') == 1
+    assert "./receiver-sensitivity.js" in html
+    code = (ROOT / "static/receiver-sensitivity.js").read_text()
+    assert "innerHTML" not in code
+    assert "confidence interval" in code
