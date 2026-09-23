@@ -4,7 +4,7 @@
 
 ## What changed?
 
-**Yes: changing only block order changes the downstream temporal trajectory reproducibly in this pilot.** In direct partners, native-time difference patterns correlate with the other three seeds at 0.710–0.737 for reversal and 0.733–0.756 for shuffling. Their input value distributions and durations are identical. This establishes temporal discrimination in the model, without requiring a change in overall mean firing or a memory claim.
+**Yes: changing only block order changes the downstream temporal trajectory reproducibly in this pilot.** In direct partners, native-time difference patterns have leave-one-seed-out cosine similarities of 0.710–0.737 for reversal and 0.733–0.756 for shuffling. Their input value distributions and durations are identical. This establishes temporal discrimination in the model, without requiring a change in overall mean firing or a memory claim.
 
 Spreading the same stimulation evenly over time reduced direct-partner mean firing relative to the patterned original in all four seeds. Therefore average injected strength alone is insufficient to explain this response. This control changes the input distribution as well as temporal pattern; it cannot establish sensitivity specifically to block order.
 
