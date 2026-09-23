@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Temporal organization · The Drosophila Critic</title>
+    <style>
+      body {
+        font:
+          16px/1.6 system-ui,
+          sans-serif;
+        color: #292d2b;
+        background: #f6f4eb;
+        margin: 0;
+      }
+      main {
+        max-width: 960px;
+        margin: 3rem auto;
+        padding: 0 1.5rem;
+      }
+      h1 {
+        font:
+          normal 2.6rem/1.1 Georgia,
+          serif;
+      }
+      h2 {
+        font-weight: 500;
+        margin-top: 2rem;
+      }
+      a {
+        color: #91472f;
+      }
+      .status {
+        border-left: 3px solid #91472f;
+        background: #eae9df;
+        padding: 1rem;
+      }
+      .scroll {
+        overflow: auto;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        font-variant-numeric: tabular-nums;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 0.6rem;
+        border-bottom: 1px solid #ccc;
+      }
+      svg {
+        width: 100%;
+        height: 240px;
+        background: #eae9df;
+      }
+      label {
+        display: inline-flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin: 0.5rem;
+      }
+      select {
+        font: inherit;
+        max-width: 100%;
+      }
+    </style>
+    <script type="module" src="./receiver-order.js"></script>
+  </head>
+  <body>
+    <main>
+      <a href="./receiver.html">← Receiver laboratory</a>
+      <h1>Does temporal organization matter?</h1>
+      <p class="status">
+        Same injected values. Same duration. Different order. This manipulates
+        the input to the original frozen simulation; it is not a new spoken
+        performance or a physiologically calibrated hearing model.
+      </p>
+      <p>
+        We reorder 200 ms blocks from the synthetic poem’s provisional
+        displacement receiver. Every stimulation value is preserved, including
+        zeros and capped values. A separate constant-input control preserves
+        only average strength and duration.
+      </p>
+      <p>
+        <strong>Pilot finding:</strong> Changing only block order changes the
+        timing of direct downstream activity reproducibly across seeds. Most of
+        that difference follows the relocated input: the stronger test of an
+        identical block in a different preceding context gives weak downstream
+        evidence. No stable descending-neuron disposition is established.
+      </p>
+      <div id="order-report" aria-live="polite">
+        Loading experimental results…
+      </div>
+      <h2>What would count as a difference?</h2>
+      <p>
+        A changed timeline alone is expected when the input moves. The context
+        comparison puts the response blocks back into their original order, then
+        asks whether the same block produced different activity. Ordinary neural
+        lag and recurrent state can cause this; it is not evidence of
+        understanding or learned memory.
+      </p>
+      <p>
+        Four seeds describe simulator variability, not four biological flies.
+        Shaded ranges are not confidence intervals. The signal/error ratio is
+        descriptive, not a significance test. Positive leave-one-seed-out
+        similarity indicates that a difference pattern resembles the pattern in
+        the other three runs; zero or negative values do not support a repeating
+        pattern.
+      </p>
+      <p>
+        <a href="./experiments/receiver-v2/order/PROTOCOL.md">Protocol</a> ·
+        <a href="./experiments/receiver-v2/order/FINDINGS.md">Findings</a> ·
+        <a href="./experiments/receiver-v2/order/comparison.json"
+          >Response JSON</a
+        >
+        ·
+        <a href="./experiments/receiver-v2/order/inputs.json"
+          >Injected values and permutation</a
+        >
+      </p>
+    </main>
+  </body>
+</html>

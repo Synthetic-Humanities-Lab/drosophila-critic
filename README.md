@@ -446,3 +446,23 @@ Complete seeded spikes and population counts are saved under
 under `experiments/receiver-v2/sensitivity/`. Runs resume only if their inputs,
 protocol, source and data hashes match. A source/protocol change deliberately
 requires a fresh results directory; preserve the old directory when rerunning.
+
+### Equal-drive temporal organization experiment
+
+```sh
+PYTHONPATH=. .venv/bin/python scripts/temporal_order.py
+PYTHONPATH=. .venv/bin/python -m pytest -q tests/test_temporal_order.py
+.venv/bin/python scripts/export_replay.py
+```
+
+`receiver-order.html` reports a 21-run pilot: original, reversed and shuffled
+200 ms stimulation blocks, a constant-mean control, paired silence, and an exact
+repeat check. The permutations preserve the complete injected-value distribution
+and duration. They manipulate neural input directly; they are not new recordings.
+The context analysis puts response blocks back into original order, comparing
+identical input blocks in different preceding contexts. All results remain
+separate from literary interpretation and the production encoder.
+
+Protocol and compact results: `experiments/receiver-v2/order/`. Complete spikes
+and population counts: `results/receiver-order/`. Existing caches are accepted
+only when inputs, protocol, code and connectome hashes match.
