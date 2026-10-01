@@ -1,7 +1,13 @@
 import { RecordedAudio } from './audio-player.js';
 import { EncounterScene } from './encounter-scene.js';
 import { NeuralScene } from './neural-scene.js';
-import { selection, interval, traceIndex, signed } from './encounter-data.js';
+import {
+  selection,
+  playbackWindow,
+  stanzaAtTime,
+  traceIndex,
+  signed,
+} from './encounter-data.js';
 
 // Preserve historical deep links without mixing experimental UI into the encounter.
 if (
@@ -115,7 +121,7 @@ async function choose(nextReader, nextStanza, autoplay = false) {
     ]);
     if (token !== generation) return;
     audio.duration = p.duration;
-    audio.offset = interval(manifest, reader, stanza).start;
+    audio.offset = playbackWindow(manifest, reader, stanza).start;
     neural.load(spatial);
     $('neural-caption').textContent =
       `${spatial.displayed_neurons.toLocaleString()} sampled neurons · seed ${spatial.seed}. Trace: mean of four runs; same scale for both readers.`;
@@ -125,7 +131,7 @@ async function choose(nextReader, nextStanza, autoplay = false) {
     $('play').textContent = 'LISTEN ▶';
     ready = true;
     $('status').textContent =
-      'Recorded simulation · click a stanza to compare the same passage. Space: play/pause.';
+      'Recorded simulation · click a stanza to start there; playback continues to the end. Space: play/pause.';
     render();
     if (autoplay) await toggle();
   } catch (error) {
@@ -176,7 +182,7 @@ async function toggle() {
   try {
     tailStart = null;
     if (audio.paused) {
-      const w = interval(manifest, reader, stanza);
+      const w = playbackWindow(manifest, reader, stanza);
       if (audio.currentTime >= w.end) audio.offset = w.start;
       await audio.play(w.end);
     } else audio.pause();
@@ -189,7 +195,7 @@ $('play').onclick = toggle;
 $('replay').onclick = async () => {
   if (!ready) return;
   audio.pause();
-  audio.offset = interval(manifest, reader, stanza).start;
+  audio.offset = playbackWindow(manifest, reader, stanza).start;
   await toggle();
 };
 $('seek').oninput = () => {
@@ -216,10 +222,8 @@ $('share').onclick = async () => {
 for (const b of document.querySelectorAll('[data-reader]'))
   b.onclick = () => {
     let passage = stanza;
-    if (passage === null && audio.currentTime > 0 && manifest) {
-      const windows = manifest.performances[reader].passages;
-      const found = windows.findIndex((w) => audio.currentTime < w.end);
-      passage = found < 0 ? windows.length - 1 : found;
+    if (audio.currentTime > 0 && manifest) {
+      passage = stanzaAtTime(manifest, reader, audio.currentTime);
     }
     choose(b.dataset.reader, passage, !audio.paused);
   };
@@ -237,11 +241,9 @@ addEventListener('keydown', (e) => {
 audio.addEventListener('ended', () => {
   $('play').textContent = 'LISTEN ▶';
   reveal();
-  if (stanza === null) {
-    tailStart = performance.now();
-    $('status').textContent =
-      'The voice has stopped. Replaying 3.1 seconds of recorded persistence.';
-  }
+  tailStart = performance.now();
+  $('status').textContent =
+    'The voice has stopped. Replaying 3.1 seconds of recorded persistence.';
 });
 audio.addEventListener('error', () =>
   failure(new Error('Audio playback failed. Please select the reader again.')),
@@ -268,7 +270,7 @@ try {
       `Select stanza ${i + 1}: ${text.split('\n')[0]}`,
     );
     const small = document.createElement('small');
-    small.textContent = `0${i + 1} / LISTEN TO THIS STANZA`;
+    small.textContent = `0${i + 1} / LISTEN FROM HERE`;
     b.append(small, document.createTextNode(text));
     b.onclick = () => choose(reader, i, true);
     $('poem').append(b);

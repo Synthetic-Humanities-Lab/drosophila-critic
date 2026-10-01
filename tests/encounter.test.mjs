@@ -5,9 +5,10 @@ const code = await readFile(
   new URL('../static/encounter-data.js', import.meta.url),
   'utf8',
 );
-const { selection, interval, traceIndex } = await import(
-  `data:text/javascript;base64,${Buffer.from(code).toString('base64')}`
-);
+const { selection, interval, playbackWindow, stanzaAtTime, traceIndex } =
+  await import(
+    `data:text/javascript;base64,${Buffer.from(code).toString('base64')}`
+  );
 test('share links reject invalid stanzas and select explicit human only', () => {
   assert.deepEqual(selection('?reader=human&stanza=4'), {
     reader: 'b',
@@ -36,4 +37,25 @@ test('timeline clamps baseline and persistence to recorded bounds', () => {
   assert.equal(traceIndex(t, 0), 10);
   assert.equal(traceIndex(t, 100), 29);
   assert.equal(traceIndex(t, -2), 0);
+});
+
+test('selecting a stanza continues past its boundary to the actual recording end', async () => {
+  const m = JSON.parse(
+    await readFile(
+      new URL('../experiments/encounter-v1/manifest.json', import.meta.url),
+      'utf8',
+    ),
+  );
+  assert.equal(interval(m, 'a', 0).end, 4.94);
+  for (const reader of ['a', 'b']) {
+    for (let stanza = 0; stanza < 5; stanza++) {
+      assert.deepEqual(playbackWindow(m, reader, stanza), {
+        start: m.performances[reader].passages[stanza].start,
+        end: m.performances[reader].duration,
+      });
+    }
+  }
+  assert.equal(stanzaAtTime(m, 'a', 11), 2);
+  assert.equal(stanzaAtTime(m, 'b', 37), 4);
+  assert.equal(stanzaAtTime(m, 'a', m.performances.a.duration), 4);
 });
