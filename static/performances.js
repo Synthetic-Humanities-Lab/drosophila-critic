@@ -104,6 +104,7 @@ async function poll(id) {
 }
 async function load(prefix) {
   error('');
+  $('example').disabled = $('new').disabled = true;
   loading = true;
   $('play').disabled = true;
   audio.pause();
@@ -120,7 +121,6 @@ async function load(prefix) {
     $('submission').hidden = true;
     $('progress-section').hidden = true;
     $('results').hidden = false;
-    $('example').disabled = false;
     $('comparison-label').textContent =
       `A · ${result.display.label_a} / B · ${result.display.label_b}`;
     $('level-note').textContent =
@@ -209,6 +209,7 @@ async function load(prefix) {
   } finally {
     loading = false;
     $('play').disabled = false;
+    $('example').disabled = $('new').disabled = false;
   }
 }
 async function choose(name) {
@@ -246,6 +247,11 @@ $('seek').addEventListener('input', () => {
   draw();
 });
 $('population').addEventListener('change', draw);
+audio.addEventListener('ended', draw);
+audio.addEventListener('pause', draw);
+audio.addEventListener('error', () =>
+  error('Audio playback failed. Select the recording again to retry.'),
+);
 $('example').addEventListener('click', () => {
   clearTimeout(pollTimer);
   history.replaceState(null, '', location.pathname);
@@ -380,12 +386,14 @@ function tick(now) {
 requestAnimationFrame(tick);
 window.addEventListener('resize', draw);
 async function init() {
+  const id = new URLSearchParams(location.search).get('comparison');
+  $('example').disabled = true;
   try {
     settings = await json('api/settings');
     $('availability').textContent = settings.comparisons_enabled
       ? 'Simulation service connected. Four paired runs per performance; allow several minutes.'
       : 'This host has not enabled recording uploads. The recorded comparison remains playable.';
-    $('submission').hidden = !settings.comparisons_enabled;
+    $('submission').hidden = !settings.comparisons_enabled || Boolean(id);
     $('token-label').hidden = !settings.upload_token_required;
     $('retention').textContent = settings.public
       ? 'Recordings and results are available to anyone with the result link. Links expire after 24 hours; expired data is deleted on subsequent submissions. Keep a local copy.'
@@ -397,7 +405,7 @@ async function init() {
     $('availability').textContent =
       'This is the recorded online edition. GitHub Pages can replay evidence but cannot receive audio or run the Python simulation. Use the local application to compare your recordings.';
   }
-  const id = new URLSearchParams(location.search).get('comparison');
   if (id) await poll(id);
+  else $('example').disabled = false;
 }
 init();
