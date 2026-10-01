@@ -30,6 +30,7 @@ from .config import (
 )
 from .example import EXAMPLE_METADATA
 from .performance import MAX_FILE_BYTES, decode_upload, run_comparison
+from .performance_passages import MatchedPassage, validate_windows
 from .pipeline import run_reading, validate_poem
 
 app = FastAPI(title="The Drosophila Critic", docs_url=None, redoc_url=None)
@@ -223,6 +224,7 @@ class ComparisonSubmission(BaseModel):
     label_a: str = Field(min_length=1, max_length=80)
     label_b: str = Field(min_length=1, max_length=80)
     same_poem_attested: bool
+    passages: list[MatchedPassage] = Field(default_factory=list, max_length=20)
     source_sha256_a: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
     source_sha256_b: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
     source_format_a: str = Field(default="audio/wav", max_length=100)
@@ -243,15 +245,17 @@ async def submit_comparison(request: Request):
             validate_poem(display.poem)
             if not display.same_poem_attested:
                 raise ValueError("Confirm that both recordings contain the same poem")
-            contents = {}
+            contents, durations = {}, {}
             for name in ("a", "b"):
                 upload = form[name]
                 if not isinstance(upload, UploadFile):
                     raise ValueError("Recordings must be WAV file uploads")
                 contents[name] = await upload.read(MAX_FILE_BYTES + 1)
-                samples, _ = decode_upload(contents[name])
+                samples, info = decode_upload(contents[name])
+                durations[name] = info["duration"]
                 if len(samples) < 48_000:
                     raise ValueError("Each performance must be at least one second")
+            validate_windows([p.model_dump() for p in display.passages], durations)
         except (ValueError, TypeError, ValidationError) as error:
             raise HTTPException(422, str(error)) from error
     with lock:

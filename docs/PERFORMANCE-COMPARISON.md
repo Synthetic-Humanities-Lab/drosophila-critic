@@ -28,3 +28,15 @@ GitHub Pages cannot run Python or receive recordings. The same frontend runs aga
 - [x] Saved waveform, injection, seeds, raw activity, provenance and text-blind interpretation.
 - [x] Usable playback/comparison on desktop and small screens.
 - [ ] Verified online compute deployment or explicit outstanding hosting decision.
+
+## Optional corresponding passages
+
+Submissions may supply up to twenty pairs of start/end times, one interval per recording for each corresponding passage. The user identifies the correspondence by listening; the app does not transcribe, embed or interpret the words. Each interval must span at least 0.2 seconds, lie inside its recording, and appear in nonoverlapping chronological order. These annotations never enter the encoder or simulator.
+
+The analyzer snaps each endpoint to the nearest 20 ms frame and measures silence-subtracted rates on each recording's own clock. It also reports interval duration, mean/integrated injected drive and net excess spikes per neuron. It does not stretch neural time to align syllables. Identical injected inputs cannot be compared using different passage cuts: that would introduce a difference entirely through annotation.
+
+A descriptive sensitivity check independently shifts all four endpoints by −0.1, 0 and +0.1 seconds, up to 81 combinations. Bounds are clipped to the recorded frame extent; empty intervals are omitted and the number of valid combinations is reported. “Consistent” requires the same difference direction in every seed under every valid combination. This is not a significance test or validation of the manual alignment. It is a check of whether small timing errors reverse the reported direction. Durations and acoustic structure remain confounded.
+
+The interface shows every supplied passage, with separate A/B playback buttons. Playback stops are scheduled on the audio clock. The interpretation may identify the largest average direct-recipient contrast, explicitly marked as a selection after measurement, and reports whether its direction survives the boundary check. It receives passage numbers and measurements only.
+
+The curated Blake example uses the previously archived five-stanza timing annotations. `whole-result.json` preserves the original whole-recording report; `result.json` adds a reanalysis of the same sixteen saved count archives. `passage_analysis` records source and analysis hashes. The synthetic boundaries derive from synthesis segments; human timings remain approximate. No new simulation was needed for this addition.

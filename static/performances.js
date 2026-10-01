@@ -1,9 +1,12 @@
 import { RecordedAudio } from './audio-player.js';
 import { prepareUpload } from './audio-upload.js';
+import { parsePassages } from './passage-windows.js';
 
 const $ = (id) => document.getElementById(id);
 const audio = new RecordedAudio();
 const colors = ['#963f2c', '#326d83'];
+let passageStop = null;
+let choiceGeneration = 0;
 let result,
   encoding,
   base,
@@ -44,6 +47,7 @@ $('submission').addEventListener('submit', async (event) => {
   $('submit').disabled = true;
   let context;
   try {
+    const passages = parsePassages($('windows-a').value, $('windows-b').value);
     context = new AudioContext({ sampleRate: 48000 });
     $('progress-section').hidden = false;
     $('stage').textContent = 'DECODING RECORDINGS';
@@ -51,6 +55,7 @@ $('submission').addEventListener('submit', async (event) => {
       b = await prepareUpload($('file-b').files[0], context);
     const metadata = {
       poem: $('poem').value,
+      passages,
       label_a: $('label-a').value,
       label_b: $('label-b').value,
       same_poem_attested: $('attestation').checked,
@@ -103,6 +108,7 @@ async function poll(id) {
   }
 }
 async function load(prefix) {
+  choiceGeneration++;
   error('');
   $('example').disabled = $('new').disabled = true;
   loading = true;
@@ -133,6 +139,7 @@ async function load(prefix) {
       }),
     );
     $('population').value = '1';
+    renderPassages();
     $('metrics').replaceChildren();
     result.response.differences.forEach((row, i) => {
       const tr = document.createElement('tr');
@@ -213,22 +220,35 @@ async function load(prefix) {
   }
 }
 async function choose(name) {
+  const generation = ++choiceGeneration;
+  passageStop = null;
+  $('passage-status').textContent = '';
   selected = name;
   $('choose-a').disabled = $('choose-b').disabled = true;
+  document
+    .querySelectorAll('#passage-metrics button')
+    .forEach((button) => (button.disabled = true));
   $('play').disabled = true;
   try {
     await audio.load(`${base}${name}.wav`);
+    if (generation !== choiceGeneration) return false;
+    audio.duration = result.audio[name].duration;
+    $('seek').max = result.audio[name].duration;
+    $('seek').value = 0;
+    for (const n of ['a', 'b'])
+      $(`choose-${n}`).setAttribute('aria-pressed', String(n === name));
+    $('play').textContent = `PLAY ${name.toUpperCase()}`;
+    $('play').disabled = false;
+    draw();
+    return true;
   } finally {
-    $('choose-a').disabled = $('choose-b').disabled = false;
+    if (generation === choiceGeneration) {
+      $('choose-a').disabled = $('choose-b').disabled = false;
+      document
+        .querySelectorAll('#passage-metrics button')
+        .forEach((button) => (button.disabled = false));
+    }
   }
-  audio.duration = result.audio[name].duration;
-  $('seek').max = result.audio[name].duration;
-  $('seek').value = 0;
-  for (const n of ['a', 'b'])
-    $(`choose-${n}`).setAttribute('aria-pressed', String(n === name));
-  $('play').textContent = `PLAY ${name.toUpperCase()}`;
-  $('play').disabled = false;
-  draw();
 }
 for (const name of ['a', 'b'])
   $(`choose-${name}`).addEventListener('click', () =>
@@ -236,17 +256,22 @@ for (const name of ['a', 'b'])
   );
 $('play').addEventListener('click', async () => {
   try {
-    if (audio.paused) await audio.play();
+    if (audio.paused) await audio.play(passageStop);
     else audio.pause();
   } catch (e) {
     error(e.message);
   }
 });
 $('seek').addEventListener('input', () => {
+  passageStop = null;
+  $('passage-status').textContent = '';
   audio.currentTime = Number($('seek').value);
   draw();
 });
-$('population').addEventListener('change', draw);
+$('population').addEventListener('change', () => {
+  renderPassages();
+  draw();
+});
 audio.addEventListener('ended', draw);
 audio.addEventListener('pause', draw);
 audio.addEventListener('error', () =>
@@ -258,12 +283,63 @@ $('example').addEventListener('click', () => {
   load('experiments/performance-v1/').catch(() => {});
 });
 $('new').addEventListener('click', () => {
+  choiceGeneration++;
   audio.pause();
   $('results').hidden = true;
   $('submission').hidden = !settings?.comparisons_enabled;
   history.replaceState(null, '', location.pathname);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
+function renderPassages() {
+  const passages = result.response.passage_comparison?.passages || [];
+  $('passages').hidden = !passages.length;
+  $('passage-metrics').replaceChildren();
+  const index = Number($('population').value);
+  for (const passage of passages) {
+    const row = document.createElement('tr');
+    const number = document.createElement('td');
+    number.textContent = passage.number;
+    row.append(number);
+    for (const name of ['a', 'b']) {
+      const interval = passage.performances[name];
+      const cell = document.createElement('td'),
+        button = document.createElement('button');
+      button.className = 'secondary';
+      button.textContent = `${name.toUpperCase()} ${interval.start.toFixed(2)}–${interval.end.toFixed(2)} s`;
+      button.addEventListener('click', async () => {
+        try {
+          if (!(await choose(name))) return;
+          audio.currentTime = interval.start;
+          passageStop = interval.end;
+          $('passage-status').textContent =
+            `Passage ${passage.number} · ${name.toUpperCase()}. Playback stops at ${interval.end.toFixed(2)} seconds.`;
+          await audio.play(interval.end);
+          draw();
+        } catch (e) {
+          error(e.message);
+        }
+      });
+      cell.append(button);
+      row.append(cell);
+    }
+    const population = passage.populations[index],
+      stats = population.difference;
+    const values = [
+      `${fmt(passage.performances.a.mean_drive)} / ${fmt(passage.performances.b.mean_drive)}`,
+      fmt(stats.mean),
+      `${stats.positive} ↑ / ${stats.negative} ↓ / ${stats.zero} =`,
+      population.same_direction_across_seeds_and_boundaries
+        ? 'Consistent'
+        : 'Mixed or zero',
+    ];
+    for (const value of values) {
+      const cell = document.createElement('td');
+      cell.textContent = value;
+      row.append(cell);
+    }
+    $('passage-metrics').append(row);
+  }
+}
 function chart(id, series, start, step, unit) {
   const canvas = $(id),
     rect = canvas.getBoundingClientRect(),
@@ -375,6 +451,13 @@ function draw() {
 let lastPaint = 0;
 function tick(now) {
   if (result && !loading && now - lastPaint > 100) {
+    if (passageStop !== null && audio.currentTime >= passageStop) {
+      const end = passageStop;
+      passageStop = null;
+      audio.pause();
+      audio.currentTime = end;
+      draw();
+    }
     $('seek').value = audio.currentTime || 0;
     $('play').textContent =
       `${audio.paused ? 'PLAY' : 'PAUSE'} ${selected.toUpperCase()}`;

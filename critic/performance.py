@@ -12,6 +12,7 @@ from scipy.signal import resample_poly
 from .audio_encoder import VERSION, encode
 from .config import DT, ROOT
 from .delivery import equalize, paired_stats
+from .performance_passages import passage_report, validate_input_correspondence, validate_windows
 from .performance_reading import ComparisonSummary, interpret_comparison
 from .pipeline import save_json
 
@@ -96,6 +97,7 @@ def measure(record, control):
         "timeline": _bins(corrected[start:]),
         "raw_timeline": _bins(raw[start:]),
         "audio_timeline": _bins(corrected[phase == "audio"]),
+        "audio_rates": corrected[phase == "audio"],
         "types": (
             record["phase_type_counts"][1].astype(float)
             - control["phase_type_counts"][1].astype(float)
@@ -181,6 +183,7 @@ def run_comparison(contents, display, directory, runner, progress=lambda *_: Non
         for name in (
             "critic/performance.py",
             "critic/performance_reading.py",
+            "critic/performance_passages.py",
             "critic/audio_encoder.py",
             "critic/delivery.py",
             "critic/simulation.py",
@@ -193,8 +196,11 @@ def run_comparison(contents, display, directory, runner, progress=lambda *_: Non
         if len(decoded[name]) < RATE:
             raise ValueError("Each performance must be at least one second")
         (directory / f"original-{name}.wav").write_bytes(contents[name])
+    passages = display.get("passages", [])
+    validate_windows(passages, {name: audio[name]["duration"] for name in audio})
     waves, levels = equalize(decoded)
     frames = {name: encode(waves[name], RATE) for name in waves}
+    validate_input_correspondence(frames, passages)
     measurements = {"a": [], "b": []}
     runs = []
     for name in waves:
@@ -239,9 +245,25 @@ def run_comparison(contents, display, directory, runner, progress=lambda *_: Non
     progress("COMPARING RESPONSES", 0.97)
     durations = [audio[name]["duration"] for name in ("a", "b")]
     response = analyze_pair(measurements, durations, records[0]["type_names"])
+    response["passage_comparison"] = passage_report(
+        measurements, frames, passages, dict(zip(("a", "b"), durations)), GROUPS
+    )
     summary = ComparisonSummary(
         durations=durations,
         seeds=list(SEEDS),
+        passages=[
+            {
+                "number": p["number"],
+                "durations": [p["performances"][n]["duration"] for n in ("a", "b")],
+                "mean_drives": [p["performances"][n]["mean_drive"] for n in ("a", "b")],
+                "direct_rate_difference": p["populations"][1]["difference"]["mean"],
+                "seed_differences": p["populations"][1]["difference"]["values"],
+                "boundary_direction_consistent": p["populations"][1][
+                    "same_direction_across_seeds_and_boundaries"
+                ],
+            }
+            for p in response["passage_comparison"]["passages"]
+        ],
         differences=[
             {
                 "population": row["population"],
@@ -269,7 +291,7 @@ def run_comparison(contents, display, directory, runner, progress=lambda *_: Non
         "runs": runs,
         "response": response,
         "reading": {
-            "provider": "response-only-template-v1",
+            "provider": "response-only-template-v2",
             "input_summary": summary.model_dump(),
             "text": interpret_comparison(summary),
         },

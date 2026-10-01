@@ -13,11 +13,22 @@ class PopulationDifference(BaseModel):
     temporal_variability_rms: float
 
 
+class PassageDifference(BaseModel):
+    model_config = ConfigDict(extra="forbid", allow_inf_nan=False)
+    number: int = Field(ge=1, le=20)
+    durations: list[float] = Field(min_length=2, max_length=2)
+    mean_drives: list[float] = Field(min_length=2, max_length=2)
+    direct_rate_difference: float
+    seed_differences: list[float] = Field(min_length=2)
+    boundary_direction_consistent: bool
+
+
 class ComparisonSummary(BaseModel):
     model_config = ConfigDict(extra="forbid", allow_inf_nan=False)
     durations: list[float] = Field(min_length=2, max_length=2)
     seeds: list[int] = Field(min_length=2)
     differences: list[PopulationDifference]
+    passages: list[PassageDifference] = Field(default_factory=list, max_length=20)
 
 
 def interpret_comparison(summary: ComparisonSummary) -> str:
@@ -53,8 +64,25 @@ def interpret_comparison(summary: ComparisonSummary) -> str:
             "The separation of the average timelines does not exceed their across-seed spread "
             "on the shared elapsed-time interval. A stable temporal distinction remains uncertain."
         )
+    passage_text = ""
+    if summary.passages:
+        strongest = max(summary.passages, key=lambda p: abs(p.direct_rate_difference))
+        if abs(strongest.direct_rate_difference) > 1e-12:
+            direction = "higher" if strongest.direct_rate_difference > 0 else "lower"
+            consistency = (
+                "The direction remains the same across every tested seed and boundary shift."
+                if strongest.boundary_direction_consistent
+                else "Its direction is not consistent across every seed and boundary shift."
+            )
+            passage_text = (
+                f" Among the supplied corresponding passages, passage {strongest.number} has the "
+                f"largest average direct-recipient contrast: B is {direction} by "
+                f"{abs(strongest.direct_rate_difference):.3f} spikes/second/neuron. {consistency} "
+                "This passage was selected after measurement; timing annotations and input differences "
+                "still limit the inference."
+            )
     return (
-        f"{opening} {timing} These are changes in a simulated capacity to be affected by sound; "
+        f"{opening} {timing}{passage_text} These are changes in a simulated capacity to be affected by sound; "
         "they do not identify an emotion or an experienced meaning. Different durations, pauses "
         "and injected drive remain part of the explanation."
     )

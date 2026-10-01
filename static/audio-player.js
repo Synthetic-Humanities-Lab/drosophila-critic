@@ -4,7 +4,7 @@ export class RecordedAudio extends EventTarget {
     super();
     this.context = null; this.buffer = null; this.source = null;
     this.generation = 0; this.playRequested = false;
-    this.offset = 0; this.started = 0; this.paused = true; this.duration = 0;
+    this.offset = 0; this.started = 0; this.paused = true; this.duration = 0; this.playbackEnd = null;
   }
   async load(url) {
     this.pause(); this.generation++; this.offset = 0; this.buffer = null; this.bytes = null;
@@ -16,7 +16,7 @@ export class RecordedAudio extends EventTarget {
     if (generation === this.generation) this.bytes = bytes;
   }
   get currentTime() {
-    return this.paused ? this.offset : Math.min(this.duration, this.offset + this.context.currentTime - this.started);
+    return this.paused ? this.offset : Math.min(this.playbackEnd ?? this.duration, this.offset + this.context.currentTime - this.started);
   }
   set currentTime(value) {
     const resume = !this.paused;
@@ -24,7 +24,7 @@ export class RecordedAudio extends EventTarget {
     this.dispatchEvent(new Event('seeking'));
     if (resume) this.play().catch(() => this.dispatchEvent(new Event('error')));
   }
-  async play() {
+  async play(endTime = null) {
     if (!this.paused || this.playRequested) return;
     this.playRequested = true;
     const generation = this.generation;
@@ -41,16 +41,22 @@ export class RecordedAudio extends EventTarget {
     this.buffer = buffer;
     this.duration = this.buffer.duration;
     if (this.offset >= this.duration) this.offset = 0;
+    const end = endTime === null ? this.duration : Math.min(endTime, this.duration);
+    if (!Number.isFinite(end) || end <= this.offset) {
+      this.playRequested = false;
+      throw new Error('The playback interval must end after its start.');
+    }
+    this.playbackEnd = end;
     this.source = this.context.createBufferSource();
     this.source.buffer = this.buffer;
     this.source.connect(this.context.destination);
     this.started = this.context.currentTime;
     this.paused = false;
     this.source.onended = () => {
-      this.offset = this.duration; this.paused = true; this.playRequested = false; this.source = null;
+      this.offset = end; this.playbackEnd = null; this.paused = true; this.playRequested = false; this.source = null;
       this.dispatchEvent(new Event('ended'));
     };
-    this.source.start(0, this.offset);
+    this.source.start(0, this.offset, end - this.offset);
     this.dispatchEvent(new Event('play'));
   }
   pause() {

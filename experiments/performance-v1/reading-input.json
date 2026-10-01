@@ -62,5 +62,102 @@
       "temporal_separation_rms": 0.5331335068028624,
       "temporal_variability_rms": 1.0410813682225166
     }
+  ],
+  "passages": [
+    {
+      "number": 1,
+      "durations": [
+        4.94,
+        5.72
+      ],
+      "mean_drives": [
+        0.1536833488872309,
+        0.14931262085203506
+      ],
+      "direct_rate_difference": -0.02863765381231599,
+      "seed_differences": [
+        -0.016412196197943374,
+        -0.04639566819352553,
+        -0.020103583214901355,
+        -0.031639167642893706
+      ],
+      "boundary_direction_consistent": false
+    },
+    {
+      "number": 2,
+      "durations": [
+        5.08,
+        6.140000000000001
+      ],
+      "mean_drives": [
+        0.15169870923820583,
+        0.15160956036025974
+      ],
+      "direct_rate_difference": 0.0010198146551331638,
+      "seed_differences": [
+        -0.0045622125777703415,
+        -0.001923619482417649,
+        0.015023903194539667,
+        -0.0044588125138190216
+      ],
+      "boundary_direction_consistent": false
+    },
+    {
+      "number": 3,
+      "durations": [
+        5.14,
+        7.12
+      ],
+      "mean_drives": [
+        0.15670972671518602,
+        0.17229503428640774
+      ],
+      "direct_rate_difference": 0.022035954720866807,
+      "seed_differences": [
+        0.06125160085136866,
+        0.019257934056036097,
+        0.017575457591684385,
+        -0.009941173615621912
+      ],
+      "boundary_direction_consistent": false
+    },
+    {
+      "number": 4,
+      "durations": [
+        5.0,
+        8.6
+      ],
+      "mean_drives": [
+        0.1485106380540249,
+        0.0995766059085202
+      ],
+      "direct_rate_difference": -0.12426996867210918,
+      "seed_differences": [
+        -0.13493402849237396,
+        -0.12590610779538558,
+        -0.08586128833093232,
+        -0.1503784500697449
+      ],
+      "boundary_direction_consistent": true
+    },
+    {
+      "number": 5,
+      "durations": [
+        4.38,
+        7.98
+      ],
+      "mean_drives": [
+        0.15737930156975358,
+        0.1156193931896782
+      ],
+      "direct_rate_difference": -0.11758553790761835,
+      "seed_differences": [
+        -0.11749987568428061,
+        -0.12375532789490473,
+        -0.10894040505285257,
+        -0.12014654299843547
+      ],
+      "boundary_direction_consistent": true
+    }
   ]
 }

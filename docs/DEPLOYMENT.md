@@ -69,3 +69,5 @@ Raw spike data is substantial. Public comparison admission reserves 4 GB of avai
 Recording links are unlisted, **not authenticated private storage**: anyone with a result URL can access its recordings and measurements. The UI discloses this. For sensitive recordings use a private network or add authenticated artifact access before use. The static export copies only `experiments/performance-v1`, the deliberately curated Blake example; it never copies `results/`.
 
 A public processing host is still unprovisioned. GitHub Pages publication does not satisfy that deployment requirement.
+
+Optional `metadata.passages` is an ordered array of at most twenty objects shaped as `{"a":{"start":0.0,"end":4.9},"b":{"start":1.2,"end":7.8}}`, with seconds on each recording's own clock. These are analysis annotations, not inputs to the fly. The metadata field is limited to 16 KiB; all existing total-body, waveform, token and retention limits still apply.

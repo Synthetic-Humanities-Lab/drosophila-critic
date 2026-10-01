@@ -86,3 +86,15 @@ def test_receiver_sensitivity_mount_exists_once():
     code = (ROOT / "static/receiver-sensitivity.js").read_text()
     assert "innerHTML" not in code
     assert "confidence interval" in code
+
+
+def test_performance_dom_and_passage_controls_match_the_client():
+    html = (ROOT / "static/performances.html").read_text()
+    ids = re.findall(r'id="([^"]+)"', html)
+    assert len(ids) == len(set(ids))
+    code = (ROOT / "static/performances.js").read_text()
+    for name in re.findall(r"\$\('([^']+)'\)", code):
+        assert name in ids, name
+    assert "innerHTML" not in code
+    assert "./performances.js" in html
+    assert "No time warping" in (ROOT / "critic/performance_passages.py").read_text()

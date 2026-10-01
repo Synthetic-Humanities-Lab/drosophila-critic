@@ -71,3 +71,20 @@ test('a superseded decode cannot overwrite the next recording buffer', async () 
   assert.equal(player.buffer.duration, 20);
   assert.equal(player.paused, true);
 });
+
+test('a passage schedules its exact stop on the audio clock', async () => {
+  const player = new RecordedAudio(); player.bytes = new ArrayBuffer(8); player.duration = 10;
+  const context = new FakeContext(); player.context = context;
+  let startArgs;
+  context.createBufferSource = () => ({connect() {}, disconnect() {}, stop() {}, start(...args) { startArgs = args; }});
+  player.currentTime = 2;
+  await player.play(4);
+  assert.deepEqual(startArgs, [0, 2, 2]);
+  context.currentTime = 8;
+  assert.equal(player.currentTime, 4);
+  player.source.onended();
+  assert.equal(player.currentTime, 4);
+  assert.equal(player.paused, true);
+  await player.play();
+  assert.deepEqual(startArgs, [0, 4, 6]);
+});

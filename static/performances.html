@@ -60,6 +60,35 @@
           one shared, peak-safe RMS target. Pauses and internal dynamics remain.
           The original encoded files stay on your computer.
         </p>
+        <details>
+          <summary>Optional: mark corresponding passages</summary>
+          <p class="note">
+            Use the same passage order in both recordings. Enter start,end in
+            seconds, one passage per line (for example: 0,4.9). These may be
+            stanzas or other matching sections you identify by listening. Leave
+            both blank for a whole-recording comparison. The app does not
+            transcribe or verify the words.
+          </p>
+          <div class="pair">
+            <div>
+              <label for="windows-a">A · PASSAGE TIMES</label
+              ><textarea id="windows-a" rows="4" placeholder="0,4.9"></textarea>
+            </div>
+            <div>
+              <label for="windows-b">B · CORRESPONDING TIMES</label
+              ><textarea
+                id="windows-b"
+                rows="4"
+                placeholder="1.2,7.8"
+              ></textarea>
+            </div>
+          </div>
+          <p class="note">
+            Times are rounded to the model’s 20 ms clock. The analysis also
+            shifts both recordings’ boundaries by ±0.1 seconds to check
+            sensitivity. This cannot prove that your alignment is correct.
+          </p>
+        </details>
         <label class="check"
           ><input id="attestation" type="checkbox" required /> Both performances
           contain this poem, and I have permission to process these
@@ -147,6 +176,38 @@
           Colored end markers show when each recording stops; the neural trace
           continues for three seconds.
         </p>
+        <section id="passages" hidden>
+          <h2>CORRESPONDING PASSAGES</h2>
+          <p class="note">
+            Each passage uses its own recording’s clock. Click a time range to
+            listen to that passage. Differences below refer to the selected
+            neural population. Input strength and duration can still explain
+            differences.
+          </p>
+          <p id="passage-status" role="status"></p>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Passage</th>
+                  <th>A · play interval</th>
+                  <th>B · play interval</th>
+                  <th>Mean drive A / B</th>
+                  <th>B − A (Hz/neuron)</th>
+                  <th>Across seeds</th>
+                  <th>Direction under boundary shifts</th>
+                </tr>
+              </thead>
+              <tbody id="passage-metrics"></tbody>
+            </table>
+          </div>
+          <p class="note">
+            “Consistent” means the same direction in every seed and valid
+            boundary-shift combination. This is descriptive, not statistical
+            significance. All supplied passages are shown; none were selected
+            for having an interesting response.
+          </p>
+        </section>
         <div class="table-scroll">
           <table>
             <thead>

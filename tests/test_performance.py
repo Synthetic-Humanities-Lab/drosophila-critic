@@ -197,3 +197,41 @@ def test_equal_rms_timing_change_reaches_encoder_and_analyzer(tmp_path):
     assert result["response"]["differences"][1]["temporal_separation_rms"] > 0
     encoding = json.loads((tmp_path / "encoding.json").read_text())["frames"]
     assert encoding["a"] != encoding["b"]
+
+
+def test_passage_annotations_are_validated_before_admission(monkeypatch, tmp_path):
+    monkeypatch.setattr(server, "RESULTS", tmp_path)
+    monkeypatch.setattr(server, "active", None)
+    captured = []
+    monkeypatch.setattr(server.executor, "submit", lambda *args, **kwargs: captured.append(kwargs))
+    outside = [{"a": {"start": 0.0, "end": 2.0}, "b": {"start": 0.0, "end": 0.5}}]
+    assert request(passages=outside).status_code == 422
+    assert not captured
+    valid = [{"a": {"start": 0.0, "end": 0.5}, "b": {"start": 0.0, "end": 0.5}}]
+    assert request(passages=valid).status_code == 202
+    assert captured[0]["comparison"][1]["passages"] == valid
+
+
+def test_passage_annotations_reach_analysis_but_cannot_fabricate_identical_input_difference(
+    tmp_path,
+):
+    content = wav()
+    windows = [{"a": {"start": 0.0, "end": 0.5}, "b": {"start": 0.0, "end": 0.5}}]
+    result = run_comparison(
+        {"a": content, "b": content},
+        {"poem": "secret", "passages": windows},
+        tmp_path / "valid",
+        DiagnosticRunner(),
+    )
+    passage = result["response"]["passage_comparison"]["passages"][0]
+    assert passage["populations"][1]["difference"]["values"] == [0.0] * 4
+    assert result["reading"]["input_summary"]["passages"][0]["number"] == 1
+    windows[0]["b"] = {"start": 0.5, "end": 1.0}
+    with pytest.raises(ValueError, match="Identical injected inputs"):
+        run_comparison(
+            {"a": content, "b": content},
+            {"poem": "secret", "passages": windows},
+            tmp_path / "invalid",
+            DiagnosticRunner(),
+        )
+    assert not list((tmp_path / "invalid").glob("*-sound-*"))
