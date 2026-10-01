@@ -466,3 +466,18 @@ separate from literary interpretation and the production encoder.
 Protocol and compact results: `experiments/receiver-v2/order/`. Complete spikes
 and population counts: `results/receiver-order/`. Existing caches are accepted
 only when inputs, protocol, code and connectome hashes match.
+
+## Compare your own performances
+
+Start the existing local server, then open **http://127.0.0.1:8765/performances.html**:
+
+```sh
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python -m uvicorn critic.server:app --host 127.0.0.1 --port 8765
+```
+
+Select two recordings of the same poem (1–120 seconds each), confirm the shared text, and submit. The browser decodes them to mono PCM16. The server level-matches them jointly, runs the original frozen connectome sixteen times, and saves the comparison under `results/<id>/`. Allow several minutes. Refreshing the result URL resumes progress polling. There is no LLM or API-key requirement locally.
+
+The comparison provides synchronized audio, amplitude and injection traces, silence-subtracted population traces with seed variability, paired rate and persistence differences, exploratory cell-type changes, and a text-blind interpretation. Download `result.json`, `encoding.json`, `reading-input.json`, original/processed WAVs and each run's spikes, counts and provenance. It uses the established amplitude receiver; experimental antennal adapters are **not** silently promoted into the application.
+
+[Comparison protocol and limitations](docs/PERFORMANCE-COMPARISON.md). GitHub Pages offers the curated recorded example only. Receiving recordings online requires the Python deployment described in [DEPLOYMENT.md](docs/DEPLOYMENT.md).

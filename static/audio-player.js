@@ -8,9 +8,12 @@ export class RecordedAudio extends EventTarget {
   }
   async load(url) {
     this.pause(); this.generation++; this.offset = 0; this.buffer = null; this.bytes = null;
+    const generation = this.generation;
+    this.duration = 0;
     const response = await fetch(url);
     if (!response.ok) throw new Error('The saved waveform could not be loaded.');
-    this.bytes = await response.arrayBuffer();
+    const bytes = await response.arrayBuffer();
+    if (generation === this.generation) this.bytes = bytes;
   }
   get currentTime() {
     return this.paused ? this.offset : Math.min(this.duration, this.offset + this.context.currentTime - this.started);
@@ -22,13 +25,20 @@ export class RecordedAudio extends EventTarget {
     if (resume) this.play().catch(() => this.dispatchEvent(new Event('error')));
   }
   async play() {
-    if (!this.paused) return;
+    if (!this.paused || this.playRequested) return;
     this.playRequested = true;
     const generation = this.generation;
     if (!this.context) this.context = new AudioContext();
-    await this.context.resume();
-    if (!this.buffer) this.buffer = await this.context.decodeAudioData(this.bytes.slice(0));
+    let buffer;
+    try {
+      await this.context.resume();
+      buffer = this.buffer || await this.context.decodeAudioData(this.bytes.slice(0));
+    } catch (error) {
+      if (generation === this.generation) this.playRequested = false;
+      throw error;
+    }
     if (!this.playRequested || generation !== this.generation) return;
+    this.buffer = buffer;
     this.duration = this.buffer.duration;
     if (this.offset >= this.duration) this.offset = 0;
     this.source = this.context.createBufferSource();
@@ -37,7 +47,7 @@ export class RecordedAudio extends EventTarget {
     this.started = this.context.currentTime;
     this.paused = false;
     this.source.onended = () => {
-      this.offset = this.duration; this.paused = true; this.source = null;
+      this.offset = this.duration; this.paused = true; this.playRequested = false; this.source = null;
       this.dispatchEvent(new Event('ended'));
     };
     this.source.start(0, this.offset);

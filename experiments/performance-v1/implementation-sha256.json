@@ -1,0 +1,7 @@
+{
+  "critic/performance.py": "2a2a450bd5193c10161bb00a25cd18d2e8bc445f45ae1255fc62279bf36a37a7",
+  "critic/performance_reading.py": "e2693915eb46d9c60ccc88b986fa94ad460beb169c573f239e51f350f3266e39",
+  "critic/audio_encoder.py": "11718ea15d76e1080c658df9f7f8edcfbde3fcddcc866fba51ec7f60f983fdd9",
+  "critic/delivery.py": "a49f8f58ed0fd233aa528600747be0a652c95becbf3e49ce287b6fd2ca86cde8",
+  "critic/simulation.py": "ef15fe6805d3b2831e9d10a44820ecf7a1b112f536f7f576833c0ee7d12ce45e"
+}

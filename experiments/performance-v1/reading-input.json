@@ -1,0 +1,66 @@
+{
+  "durations": [
+    26.165333333333333,
+    45.1
+  ],
+  "seeds": [
+    1101,
+    1102,
+    1103,
+    1104
+  ],
+  "differences": [
+    {
+      "population": "JO-A/B input",
+      "mean_rate_difference": -1.8074710362309194,
+      "seed_differences": [
+        -1.8746416912469952,
+        -1.8285081312964548,
+        -1.6836521555503383,
+        -1.8430821668298893
+      ],
+      "persistence_difference": 0.01690821256038647,
+      "temporal_separation_rms": 8.182372451533892,
+      "temporal_variability_rms": 0.8163644157971103
+    },
+    {
+      "population": "direct JON postsynaptic partners",
+      "mean_rate_difference": -0.0962442351899063,
+      "seed_differences": [
+        -0.09270653561609762,
+        -0.10702277496756957,
+        -0.08051739555910367,
+        -0.1047302346168543
+      ],
+      "persistence_difference": -0.02540150770239265,
+      "temporal_separation_rms": 0.5093969425751657,
+      "temporal_variability_rms": 0.25010223790838976
+    },
+    {
+      "population": "descending_neuron",
+      "mean_rate_difference": -0.00905513112918628,
+      "seed_differences": [
+        0.00010337336647747806,
+        -0.020948917590099998,
+        0.008638411676873927,
+        -0.02401339196999653
+      ],
+      "persistence_difference": -0.0735032978183663,
+      "temporal_separation_rms": 0.1630985311255676,
+      "temporal_variability_rms": 0.34832337213402337
+    },
+    {
+      "population": "wing motor (flytalk WING_MN)",
+      "mean_rate_difference": -0.01113064692196938,
+      "seed_differences": [
+        0.028434188875489187,
+        -0.04142248687838154,
+        -0.009865709415504038,
+        -0.021668580269481125
+      ],
+      "persistence_difference": -0.07758620689655177,
+      "temporal_separation_rms": 0.5331335068028624,
+      "temporal_variability_rms": 1.0410813682225166
+    }
+  ]
+}

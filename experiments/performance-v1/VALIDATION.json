@@ -1,0 +1,59 @@
+{
+  "checks": [
+    {
+      "seed": 1101,
+      "identical_input_exact_repeat": true,
+      "direct_downstream_change_from_silence": 0.4891838741396263
+    },
+    {
+      "seed": 1102,
+      "identical_input_exact_repeat": true,
+      "direct_downstream_change_from_silence": 0.47050147492625355
+    },
+    {
+      "seed": 1103,
+      "identical_input_exact_repeat": true,
+      "direct_downstream_change_from_silence": 0.3775811209439526
+    },
+    {
+      "seed": 1104,
+      "identical_input_exact_repeat": true,
+      "direct_downstream_change_from_silence": 0.4370698131760078
+    }
+  ],
+  "weights_unchanged": true,
+  "same_input_rate_differences": [
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  ],
+  "same_input_temporal_separation": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "script": "scripts/validate_performance_receiver.py",
+  "note": "Locally generated diagnostic waveform; no uploaded recordings."
+}

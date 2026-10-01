@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Performances · The Drosophila Critic</title>
+    <link rel="stylesheet" href="./performances.css" />
+  </head>
+  <body>
+    <header>
+      <a href="./">THE DROSOPHILA CRITIC</a
+      ><span>A fruit fly listens to poetry.</span>
+    </header>
+    <main>
+      <div class="eyebrow">A COMPARISON APPARATUS</div>
+      <h1>One poem.<br />Two ways of being heard.</h1>
+      <p class="intro">
+        Bring two performances to the same simulated nervous system. Compare
+        when they perturb it, how strongly, and what persists after the sound
+        stops.
+      </p>
+      <p id="availability" role="status">Checking the simulation service…</p>
+      <p>
+        <button id="example" type="button" class="secondary">
+          Listen to the recorded Blake comparison
+        </button>
+      </p>
+      <form id="submission" hidden>
+        <label for="poem"
+          >THE POEM <small>Display only; the fly receives sound.</small></label
+        >
+        <textarea id="poem" rows="10" maxlength="2000" required></textarea>
+        <div class="pair">
+          <fieldset>
+            <legend>DELIVERY A</legend>
+            <label for="label-a">Name for this performance</label
+            ><input
+              id="label-a"
+              value="Performance A"
+              maxlength="80"
+              required
+            /><label for="file-a">Recording</label
+            ><input id="file-a" type="file" accept="audio/*" required />
+          </fieldset>
+          <fieldset>
+            <legend>DELIVERY B</legend>
+            <label for="label-b">Name for this performance</label
+            ><input
+              id="label-b"
+              value="Performance B"
+              maxlength="80"
+              required
+            /><label for="file-b">Recording</label
+            ><input id="file-b" type="file" accept="audio/*" required />
+          </fieldset>
+        </div>
+        <p class="note">
+          Up to two minutes each. WAV, MP3, or other audio your browser can
+          decode. The browser converts each file to mono PCM; the server applies
+          one shared, peak-safe RMS target. Pauses and internal dynamics remain.
+          The original encoded files stay on your computer.
+        </p>
+        <label class="check"
+          ><input id="attestation" type="checkbox" required /> Both performances
+          contain this poem, and I have permission to process these
+          recordings.</label
+        >
+        <label id="token-label" hidden
+          >LAB UPLOAD TOKEN<input id="token" type="password" autocomplete="off"
+        /></label>
+        <p id="retention" class="note"></p>
+        <button id="submit">COMPARE THROUGH THE FLY</button>
+      </form>
+      <section id="progress-section" hidden aria-live="polite">
+        <h2 id="stage">Preparing audio</h2>
+        <progress id="progress" max="1" value="0"></progress>
+        <p>
+          The full frozen connectome runs sixteen times: two performances and
+          their silence controls across four shared seeds. Playback begins after
+          calculation. You can leave this page open.
+        </p>
+      </section>
+      <p id="error" role="alert" hidden></p>
+      <section id="results" hidden>
+        <div class="section-head">
+          <h2>RESPONSE</h2>
+          <button id="new" class="secondary">Another comparison</button>
+        </div>
+        <p id="comparison-label"></p>
+        <p id="level-note" class="note"></p>
+        <div class="player">
+          <div class="switch" role="group" aria-label="Choose recording">
+            <button id="choose-a" aria-pressed="true">A</button
+            ><button id="choose-b" aria-pressed="false">B</button>
+          </div>
+          <button id="play">PLAY A</button><span id="clock">0:00</span
+          ><input
+            id="seek"
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value="0"
+            aria-label="Playback position"
+          />
+        </div>
+        <label for="population">NEURAL POPULATION</label
+        ><select id="population"></select>
+        <figure>
+          <canvas
+            id="trace"
+            aria-label="Paired silence-subtracted neural activity traces with across-seed variability bands"
+          ></canvas>
+          <figcaption>
+            A <span class="key-a">rust</span> · B
+            <span class="key-b">blue</span>. Activity minus each performance’s
+            silence control, in spikes/second/neuron. Shading shows sample
+            standard deviation across four seeds, not confidence intervals. The
+            zero line is no change from silence. The left margin includes one
+            second before sound.
+          </figcaption>
+        </figure>
+        <div class="pair">
+          <figure>
+            <canvas
+              id="envelope"
+              aria-label="Audio RMS amplitude envelopes"
+            ></canvas>
+            <figcaption>
+              Audio envelope: RMS of each 20 ms frame, after level matching.
+            </figcaption>
+          </figure>
+          <figure>
+            <canvas
+              id="injection"
+              aria-label="Johnston organ stimulation traces"
+            ></canvas>
+            <figcaption>
+              Injected drive into JO-A/B, in abstract model units. This is
+              supplied input, not a neural response.
+            </figcaption>
+          </figure>
+        </div>
+        <p class="note">
+          Traces share elapsed time, not corresponding words. If performances
+          have different pacing, the cursor can intersect different passages.
+          Colored end markers show when each recording stops; the neural trace
+          continues for three seconds.
+        </p>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Population</th>
+                <th>A minus silence</th>
+                <th>B minus silence</th>
+                <th>B − A</th>
+                <th>Across seeds</th>
+                <th>After sound, B − A</th>
+              </tr>
+            </thead>
+            <tbody id="metrics"></tbody>
+          </table>
+        </div>
+        <p id="timing-note"></p>
+        <details>
+          <summary>Exploratory cell-type differences</summary>
+          <p>
+            Largest absolute mean changes selected after measurement. These are
+            leads for analysis, not independent confirmations or emotion labels.
+          </p>
+          <ul id="types"></ul>
+        </details>
+        <section class="reading">
+          <h2>READING</h2>
+          <p id="reading"></p>
+          <p class="note">
+            This interpretation was generated from the response summary only. It
+            did not receive the poem, reader names, or recordings.
+          </p>
+        </section>
+        <details>
+          <summary>The poem</summary>
+          <pre id="poem-display"></pre>
+        </details>
+        <details>
+          <summary>Evidence & provenance</summary>
+          <p id="downloads"></p>
+          <ul id="limitations"></ul>
+          <details>
+            <summary>Exact interpretation input</summary>
+            <pre id="reading-input"></pre>
+          </details>
+          <details>
+            <summary>Raw simulation artifacts</summary>
+            <div id="raw-links"></div>
+          </details>
+        </details>
+      </section>
+      <details class="method">
+        <summary>METHOD · What this apparatus can register</summary>
+        <p>
+          Audio is reduced to amplitude over 20 ms frames and supplied to the
+          138 Johnston’s-organ neurons used by fly.ai. The original MaleCNS
+          connectome remains frozen. No words or semantic representation enter
+          the neural simulation. This receiver can register pauses and amplitude
+          structure; it does not reproduce the full mechanics or frequency
+          selectivity of a fly’s ear.
+        </p>
+        <p>
+          Each performance has an equal-duration silence control with the same
+          initialization and simulator seed. Four seeds measure variability in
+          this model, not differences among biological flies. Equal RMS controls
+          one acoustic property; longer recordings still produce longer
+          exposure. The response readouts are measurements. The reading is a
+          conditional interpretation of those measurements, not evidence that a
+          fly understands poetry.
+        </p>
+        <p>
+          <a href="./receiver.html">Experimental receiver research</a> ·
+          <a
+            href="https://github.com/Synthetic-Humanities-Lab/drosophila-critic/blob/main/docs/PERFORMANCE-COMPARISON.md"
+            >Full comparison protocol</a
+          >
+        </p>
+      </details>
+    </main>
+    <footer>
+      SYNTHETIC HUMANITIES LAB · Computational artwork / experimental apparatus
+    </footer>
+    <script type="module" src="./performances.js"></script>
+  </body>
+</html>

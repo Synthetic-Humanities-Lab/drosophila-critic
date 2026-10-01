@@ -125,6 +125,10 @@ def export(source: Path, output: Path):
     if (receiver / "report.json").exists():
         shutil.copytree(receiver, output / "experiments/receiver-v2", dirs_exist_ok=True)
         shutil.copy2(ROOT / "docs/RECEIVER-V2.md", output / "RECEIVER-V2.md")
+    performance = ROOT / "experiments/performance-v1"
+    if (performance / "result.json").exists():
+        # Only this curated public-domain example, never uploaded results.
+        shutil.copytree(performance, output / "experiments/performance-v1", dirs_exist_ok=True)
     version_interface(output)
     (output / ".nojekyll").touch()
 

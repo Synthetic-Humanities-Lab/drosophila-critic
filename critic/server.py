@@ -2,7 +2,9 @@
 
 import json
 import logging
+import os
 import re
+import secrets
 import shutil
 import threading
 import time
@@ -12,7 +14,8 @@ from concurrent.futures import ThreadPoolExecutor
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, ValidationError
+from starlette.datastructures import UploadFile
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from .config import (
@@ -26,6 +29,7 @@ from .config import (
     ROOT,
 )
 from .example import EXAMPLE_METADATA
+from .performance import MAX_FILE_BYTES, decode_upload, run_comparison
 from .pipeline import run_reading, validate_poem
 
 app = FastAPI(title="The Drosophila Critic", docs_url=None, redoc_url=None)
@@ -36,6 +40,7 @@ jobs = {}
 active = None
 runner = None
 logger = logging.getLogger("drosophila")
+UPLOAD_TOKEN = os.environ.get("CRITIC_UPLOAD_TOKEN", "")
 
 
 @app.middleware("http")
@@ -46,16 +51,41 @@ async def local_boundary(request: Request, call_next):
             return JSONResponse(
                 {"detail": "Cross-origin submissions are disabled"}, status_code=403
             )
+        comparison = request.url.path == "/api/comparisons"
+        if comparison and PUBLIC_MODE:
+            if not UPLOAD_TOKEN:
+                return JSONResponse(
+                    {"detail": "Recording uploads are not enabled on this host"}, status_code=503
+                )
+            provided = request.headers.get("authorization", "")
+            if not secrets.compare_digest(provided.encode(), ("Bearer " + UPLOAD_TOKEN).encode()):
+                return JSONResponse(
+                    {"detail": "A valid lab upload token is required"}, status_code=401
+                )
+        if comparison and active is not None:
+            return JSONResponse(
+                {"detail": "A fly is already running. Wait for it to finish."}, status_code=409
+            )
+        limit = 2 * MAX_FILE_BYTES + 20_000 if comparison else 20_000
         try:
             length = int(request.headers.get("content-length", "0"))
         except ValueError:
-            length = 100_001
+            length = limit + 1
         if length <= 0:
             return JSONResponse({"detail": "A Content-Length header is required"}, status_code=411)
-        if length > 20_000 or len(await request.body()) > 20_000:
+        if length > limit:
             return JSONResponse({"detail": "Request is too large"}, status_code=413)
+        chunks, size = [], 0
+        async for chunk in request.stream():
+            size += len(chunk)
+            if size > limit:
+                return JSONResponse({"detail": "Request is too large"}, status_code=413)
+            chunks.append(chunk)
+        # Starlette's middleware cached request replays this bounded body downstream.
+        request._body = b"".join(chunks)
     response = await call_next(request)
     response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["Referrer-Policy"] = "no-referrer"
     response.headers["Cache-Control"] = "no-store"
     response.headers["Content-Security-Policy"] = (
         "default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self' data:; media-src 'self'; connect-src 'self'; object-src 'none'; frame-ancestors 'none'"
@@ -68,7 +98,7 @@ class Submission(BaseModel):
     poem: str = Field(min_length=1, max_length=MAX_CHARACTERS)
 
 
-def execute(identifier, poem):
+def execute(identifier, poem=None, comparison=None):
     global active, runner
 
     def progress(stage, fraction):
@@ -86,7 +116,11 @@ def execute(identifier, poem):
             from .simulation import SimulationRunner
 
             runner = SimulationRunner()
-        run_reading(poem, RESULTS / identifier, runner, progress)
+        if comparison is None:
+            run_reading(poem, RESULTS / identifier, runner, progress)
+        else:
+            contents, display = comparison
+            run_comparison(contents, display, RESULTS / identifier, runner, progress)
         with lock:
             jobs[identifier] = {
                 "id": identifier,
@@ -150,7 +184,13 @@ def prune_expired_readings():
 
 @app.get("/api/settings")
 def settings():
-    return {"public": PUBLIC_MODE, "retention_seconds": RETENTION_SECONDS if PUBLIC_MODE else None}
+    return {
+        "public": PUBLIC_MODE,
+        "retention_seconds": RETENTION_SECONDS if PUBLIC_MODE else None,
+        "comparisons_enabled": not PUBLIC_MODE or bool(UPLOAD_TOKEN),
+        "upload_token_required": PUBLIC_MODE,
+        "max_recording_seconds": 120,
+    }
 
 
 @app.post("/api/readings", status_code=202)
@@ -175,6 +215,91 @@ def submit(body: Submission):
             jobs.pop(next(iter(jobs)))
     executor.submit(execute, identifier, body.poem)
     return {"id": identifier}
+
+
+class ComparisonSubmission(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True)
+    poem: str = Field(min_length=1, max_length=MAX_CHARACTERS)
+    label_a: str = Field(min_length=1, max_length=80)
+    label_b: str = Field(min_length=1, max_length=80)
+    same_poem_attested: bool
+    source_sha256_a: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
+    source_sha256_b: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
+    source_format_a: str = Field(default="audio/wav", max_length=100)
+    source_format_b: str = Field(default="audio/wav", max_length=100)
+
+
+@app.post("/api/comparisons", status_code=202)
+async def submit_comparison(request: Request):
+    global active
+    with lock:
+        if active is not None:
+            raise HTTPException(409, "A fly is already running. Wait for it to finish.")
+    async with request.form(max_files=2, max_fields=1, max_part_size=16384) as form:
+        if sorted(form.keys()) != ["a", "b", "metadata"] or len(form.multi_items()) != 3:
+            raise HTTPException(422, "Supply recordings a and b and one metadata JSON field")
+        try:
+            display = ComparisonSubmission.model_validate_json(form["metadata"])
+            validate_poem(display.poem)
+            if not display.same_poem_attested:
+                raise ValueError("Confirm that both recordings contain the same poem")
+            contents = {}
+            for name in ("a", "b"):
+                upload = form[name]
+                if not isinstance(upload, UploadFile):
+                    raise ValueError("Recordings must be WAV file uploads")
+                contents[name] = await upload.read(MAX_FILE_BYTES + 1)
+                samples, _ = decode_upload(contents[name])
+                if len(samples) < 48_000:
+                    raise ValueError("Each performance must be at least one second")
+        except (ValueError, TypeError, ValidationError) as error:
+            raise HTTPException(422, str(error)) from error
+    with lock:
+        if active is not None:
+            raise HTTPException(409, "A fly is already running. Wait for it to finish.")
+        prune_expired_readings()
+        if PUBLIC_MODE:
+            occupied = sum(p.stat().st_size for p in RESULTS.rglob("*") if p.is_file())
+            reserve = 4_000_000_000
+            if occupied + reserve > 10_000_000_000 or shutil.disk_usage(RESULTS).free < reserve:
+                raise HTTPException(503, "Insufficient temporary space for a full comparison")
+        if PUBLIC_MODE and sum(p.is_dir() for p in RESULTS.iterdir()) >= MAX_SAVED_READINGS:
+            raise HTTPException(503, "Temporary storage is full; try again later")
+        identifier = str(uuid.uuid4())
+        active = identifier
+        jobs[identifier] = {"id": identifier, "status": "running", "stage": "QUEUED", "fraction": 0}
+        if len(jobs) > 50:
+            jobs.pop(next(iter(jobs)))
+    executor.submit(execute, identifier, comparison=(contents, display.model_dump()))
+    return {"id": identifier}
+
+
+@app.get("/api/comparisons/{identifier}")
+def comparison_status(identifier: str):
+    return status(identifier)
+
+
+@app.get("/api/comparisons/{identifier}/{artifact:path}")
+def comparison_artifact(identifier: str, artifact: str):
+    directory = result_directory(identifier)
+    status(identifier)  # Apply expiry and interrupted-job checks before serving anything.
+    allowed = {
+        "result.json",
+        "encoding.json",
+        "reading-input.json",
+        "a.wav",
+        "b.wav",
+        "original-a.wav",
+        "original-b.wav",
+    }
+    run_artifact = re.fullmatch(
+        r"[ab]-(sound|silence)-110[1-4]/(spikes\.npz|populations\.npz|provenance\.json)", artifact
+    )
+    if (artifact not in allowed and not run_artifact) or not (directory / "result.json").exists():
+        raise HTTPException(404, "Artifact not available")
+    if not (directory / artifact).is_file():
+        raise HTTPException(404, "Artifact not available")
+    return FileResponse(directory / artifact)
 
 
 def result_directory(identifier):
@@ -291,6 +416,12 @@ app.mount(
     "/experiments/receiver-v2",
     StaticFiles(directory=ROOT / "experiments/receiver-v2"),
     name="receiver-lab",
+)
+
+app.mount(
+    "/experiments/performance-v1",
+    StaticFiles(directory=ROOT / "experiments/performance-v1", check_dir=False),
+    name="performance-comparison",
 )
 
 app.mount("/", StaticFiles(directory=ROOT / "static", html=True), name="interface")
