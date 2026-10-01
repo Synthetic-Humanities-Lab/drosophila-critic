@@ -3,7 +3,10 @@ import { PCG64 } from './browser-random.js';
 let brain,
   manifest,
   cancelled = false,
-  busy = false;
+  busy = false,
+  cache = null,
+  controller = null,
+  loadedBytes = 0;
 const hash = async (bytes) =>
   Array.from(
     new Uint8Array(await crypto.subtle.digest('SHA-256', bytes)),
@@ -14,7 +17,18 @@ async function loadArray(spec, base) {
   let bytes = 0;
   for (const part of spec.parts) {
     if (cancelled) throw new Error('Cancelled');
-    const response = await fetch(new URL(part.file, base));
+    const url = new URL(part.file, base);
+    let response = cache ? await cache.match(url) : null;
+    if (!response) {
+      response = await fetch(url, { signal: controller?.signal });
+      if (response.ok && cache) {
+        try {
+          await cache.put(url, response.clone());
+        } catch {
+          cache = null;
+        }
+      }
+    }
     if (!response.ok)
       throw new Error(`Missing model chunk (${response.status})`);
     const compressed = await response.arrayBuffer();
@@ -27,12 +41,14 @@ async function loadArray(spec, base) {
     ).arrayBuffer();
     if (raw.byteLength !== part.raw_bytes)
       throw new Error('Model chunk length mismatch');
+    loadedBytes += compressed.byteLength;
     chunks.push(new Uint8Array(raw));
     bytes += raw.byteLength;
     postMessage({
       type: 'progress',
       stage: 'Loading verified connectivity',
-      bytes,
+      fraction: loadedBytes / manifest.transfer_bytes,
+      bytes: loadedBytes,
     });
   }
   const result = new Uint8Array(bytes);
@@ -50,6 +66,7 @@ async function loadArray(spec, base) {
 self.onmessage = async ({ data }) => {
   if (data.type === 'cancel') {
     cancelled = true;
+    controller?.abort();
     return;
   }
   if (busy) {
@@ -58,13 +75,22 @@ self.onmessage = async ({ data }) => {
   }
   busy = true;
   cancelled = false;
+  controller = new AbortController();
   try {
     if (data.type === 'initialize') {
       const start = performance.now();
       const base = new URL(data.url, self.location.href);
-      const r = await fetch(base);
+      loadedBytes = 0;
+      const r = await fetch(base, { signal: controller.signal });
       if (!r.ok) throw new Error('Benchmark model export is unavailable');
       manifest = await r.json();
+      if (data.cache) {
+        try {
+          cache = await caches.open(manifest.version);
+        } catch {
+          cache = null;
+        }
+      }
       const arrays = {};
       for (const [name, spec] of Object.entries(manifest.arrays))
         arrays[name] = await loadArray(spec, base);
@@ -142,12 +168,33 @@ self.onmessage = async ({ data }) => {
       });
     } else if (data.type === 'simulate') {
       if (!brain) throw new Error('Load the model first');
+      if (
+        !Array.isArray(data.input) ||
+        data.input.length > 3300 ||
+        !data.input.every((x) => Number.isFinite(x) && x >= 0 && x <= 0.8)
+      )
+        throw new Error('Invalid acoustic frames');
       brain.reset(data.seed ?? 1101);
       const start = performance.now(),
         counts = [];
+      const groups = Object.entries(manifest.groups).slice(0, 4);
+      const memberships = new Uint8Array(manifest.neurons);
+      groups.forEach(([, ids], g) => {
+        for (const i of ids) memberships[i] |= 1 << g;
+      });
+      const groupCounts = [];
       for (let i = 0; i < data.input.length; i++) {
         if (cancelled) throw new Error('Cancelled');
-        counts.push(brain.step(data.input[i]).length);
+        const fired = brain.step(data.input[i]);
+        counts.push(fired.length);
+        if (data.capture) {
+          const row = [0, 0, 0, 0];
+          for (const id of fired) {
+            const mask = memberships[id];
+            for (let g = 0; g < 4; g++) if (mask & (1 << g)) row[g]++;
+          }
+          groupCounts.push(row);
+        }
         if (i % 10 === 0) {
           postMessage({
             type: 'progress',
@@ -157,13 +204,24 @@ self.onmessage = async ({ data }) => {
           await new Promise((resolve) => setTimeout(resolve, 0));
         }
       }
+      const weightHash = await hash(brain.weights);
+      if (weightHash !== manifest.arrays.weights.sha256)
+        throw new Error('Connectome weights changed');
       postMessage({
         type: 'result',
+        weights_sha256: weightHash,
         label: data.label,
         seconds: performance.now() / 1000 - start / 1000,
         simulated_seconds: data.input.length * manifest.configuration.dt,
         counts,
         seed: data.seed ?? 1101,
+        ...(data.capture
+          ? {
+              group_counts: groupCounts,
+              group_names: groups.map((x) => x[0]),
+              group_sizes: groups.map((x) => x[1].length),
+            }
+          : {}),
       });
     } else throw new Error('Unknown worker request');
   } catch (error) {

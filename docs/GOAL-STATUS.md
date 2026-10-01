@@ -16,7 +16,11 @@ are not requirements for this release. The old API remains available locally.
   strengths and seeds; passage direction/boundary checks survive for 2, 4 and 5.
 - The browser benchmark is separate. Lossless original weights, PCG64 noise and
   original numerical update are tested before any visitor-recording release.
-- No public recording feature is enabled until the benchmark meets its gates.
+- The original-PCG64 browser benchmark passed on the development desktop: exact
+  full-network fixture checks and complete-poem global counts, 40.4 s robot and
+  65.1 s human. Optional local recording is available at `listen.html`, with an
+  explicit 139 MB download, one paired seed and two matched silence runs.
+  Phones are unsupported; other desktop hardware/browser engines are untested.
 
 See `experiments/encounter-v1/` for the new auditable record and
 `docs/BROWSER-BENCHMARK.md` for browser reproduction and limitations.

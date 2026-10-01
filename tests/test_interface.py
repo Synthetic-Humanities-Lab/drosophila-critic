@@ -112,3 +112,18 @@ def test_encounter_dom_and_static_only_boundary():
     assert 'id="poem"' in html and "<textarea" not in html
     assert "archive.html" in html
     assert "Recorded simulation" in code
+
+
+def test_local_listening_dom_and_privacy_boundary():
+    html = (ROOT / "static/listen.html").read_text()
+    ids = re.findall(r'id="([^"]+)"', html)
+    assert len(ids) == len(set(ids))
+    code = (ROOT / "static/local-listening.js").read_text()
+    for name in re.findall(r"\$\('([^']+)'\)", code):
+        assert name in ids, name
+    assert "/api/" not in code
+    assert "POST" not in code
+    assert "sendBeacon" not in code
+    assert "getUserMedia" in code
+    assert 'id="load-local"' in html
+    assert "60 seconds" in html

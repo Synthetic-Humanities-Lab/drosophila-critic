@@ -9,7 +9,10 @@
 > then `PYTHONPATH=. .venv/bin/python -m critic.encounter_reading experiments/encounter-v1/result.json`.
 > Export with `.venv/bin/python scripts/export_replay.py` and serve with
 > `.venv/bin/python -m http.server 8777 --directory dist`.
-> No API key or compute host is needed for recorded playback.
+> No API key or compute host is needed. Optional `listen.html` runs the original
+> full connectome locally after an explicit 139 MB download. It accepts a microphone
+> recording or audio file up to 60 seconds; nothing is uploaded. The current
+> performance qualification covers one development desktop, not every device.
 > See [encounter specification](docs/ENCOUNTER.md) and
 > [browser benchmark](docs/BROWSER-BENCHMARK.md). Raw simulation archives stay
 > in `results/encounter-v1`; all historical experiment outputs remain unchanged.
@@ -20,7 +23,8 @@
 A Synthetic Humanities Lab project. A working critical instrument:
 
 ```
-poem → fixed synthetic voice → PCM audio → RMS envelope → JO-A/B input
+poem → human / fixed synthetic voice → PCM audio → antennal displacement
+     → 20 ms displacement envelope → original JO-A/B input
      → full frozen flybrain connectome → recorded spikes → RESPONSE → READING
 ```
 

@@ -199,7 +199,7 @@ button:disabled {
 .reader-buttons {
   display: flex;
 }
-.reader-buttons button[aria-pressed='true'] {
+.reader-buttons button[aria-pressed="true"] {
   background: #d7dec8;
   color: #1b271e;
   border-color: #d7dec8;
@@ -472,4 +472,15 @@ footer {
   .primary {
     min-width: 85px;
   }
+}
+
+.local-invitation {
+  max-width: 1400px;
+  margin: 2rem auto;
+  padding: 2rem 3vw;
+  border-top: 1px solid var(--line, #ccc);
+  font-size: 0.9rem;
+}
+.local-invitation a {
+  font-size: 1.25rem;
 }
