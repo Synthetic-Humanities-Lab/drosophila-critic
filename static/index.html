@@ -1,189 +1,194 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="A poem, a fixed voice, a frozen fruit-fly connectome. A critical instrument, not a claim of understanding.">
-  <title>The Drosophila Critic</title>
-  <link rel="stylesheet" href="./style.css">
-  <script src="./app.js" type="module"></script>
-</head>
-<body>
-  <div class="sheet">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>The Drosophila Critic — Synthetic Humanities Lab</title>
+    <meta
+      name="description"
+      content="A human. A robot. One poem. A simulated fruit fly listens. An experiment by the Synthetic Humanities Lab."
+    />
+    <meta property="og:title" content="Can you move a fly with a poem?" />
+    <meta
+      property="og:description"
+      content="A human and a robot read Blake to a frozen fly connectome. Listen to the difference."
+    />
+    <link rel="stylesheet" href="./encounter.css" />
+    <script type="module" src="./encounter.js"></script>
+  </head>
+  <body>
     <header>
-      <div class="edition"><span>SYNTHETIC HUMANITIES LAB / A CRITICAL INSTRUMENT</span><span>PROTOTYPE / 05</span></div>
-      <h1>THE DROSOPHILA CRITIC</h1>
-      <div class="subhead"><p>A fruit fly listens to poetry.</p><span class="specimen">MaleCNS v1.0 · 166,700 neurons</span></div>
-
-
-</header>
-
+      <a class="lab" href="./">SYNTHETIC<br />HUMANITIES LAB</a
+      ><a href="#method">How this works ↗</a>
+    </header>
     <main>
-      <p class="edition-notice"><a href="./performances.html">Compare two recordings of the same poem →</a></p>
-
-      <p id="edition-notice" class="edition-notice" hidden></p>
-      <div class="performance-tabs" role="group" aria-label="Listening mode"><button id="mode-chamber" type="button" aria-pressed="true">Original performances</button><button id="mode-emphasis" type="button" aria-pressed="false">Compare controlled emphasis</button><button id="mode-passages" type="button" aria-pressed="false">Compare performances by stanza</button></div>
-<section id="passage-mode" hidden aria-label="Corresponding performance passages">
-  <div class="section-line"><h2>TWO DELIVERIES / FIVE PASSAGES</h2><span>RETROSPECTIVE / 8 PAIRED RUNS</span></div>
-  <p>Compare the same stanza on each recording’s own clock. Sound and neural activity retain their original timing. These level-matched recordings use the original frozen fly simulator.</p>
-  <p data-p="status" role="status">Loading passage analysis…</p>
-  <div data-p="body" hidden>
-    <div class="em-choice"><label>Stanza <select data-p="passage"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label><label>Recording <select data-p="source"><option value="reference">Synthetic reference</option><option value="human">Denny Sayers / human</option></select></label></div>
-    <p class="small">Switching recordings pauses playback and goes to the corresponding stanza’s beginning. Human timestamps are approximate; highlighting is a guide. Playback stops at the selected stanza’s end.</p>
-    <div class="em-grid"><section><h3>VOICE</h3><div data-p="poem" class="em-poem"></div><div class="player"><button data-p="play" type="button">PLAY STANZA</button><input data-p="seek" type="range" min="0" step="0.02" value="0" aria-label="Passage playback position"><span data-p="time"></span></div><a data-p="download" download="performance.wav">Download selected full recording</a></section>
-    <section><h3>RESPONSE / direct auditory downstream cells</h3><svg data-p="chart" viewBox="0 0 630 190" role="img" aria-label="Native-time measured response and input-only baseline"></svg><p class="small">Green: recorded mean response minus matched silence, Hz/neuron. Band: range of eight runs. Dashed rust: input-only prediction. Complete 100 ms bins; no time stretching.</p><h3>INJECTED INPUT</h3><svg data-p="drive" viewBox="0 0 630 190" role="img" aria-label="Actual injected drive on the same native recording clock"></svg></section></div>
-    <label>Input-only comparator <select data-p="baseline"><option value="0">Immediate amplitude following</option><option value="0.1">Amplitude smoothed over 0.1 s</option><option value="0.3">Amplitude smoothed over 0.3 s</option></select></label>
-    <p data-p="measurement"></p><p data-p="exposure" class="small"></p><p data-p="baseline-score" class="small"></p>
-    <h3>All five stanza comparisons</h3><p class="small">Human minus synthetic downstream mean rate, each relative to matched silence. “Robust” requires the declared directional check to survive all nine shifts of the approximate human boundaries (±0.2 s). This is descriptive, not statistical significance.</p>
-    <table><thead><tr><th>Stanza</th><th>Δ Hz/neuron</th><th>Runs higher / lower</th><th>Boundary robust</th></tr></thead><tbody data-p="table"></tbody></table>
-    <section class="em-reading"><h3>READING / interpretation of the comparison</h3><p class="small">First recording: synthetic reference. Second recording: Denny Sayers. This reading concerns pooled downstream activity; population-specific results follow below.</p><p data-p="reading"></p><p data-p="limits" class="small"></p></section>
-    <section aria-label="Held-out annotated population comparison">
-      <h3>WHICH POPULATIONS DIFFER?</h3>
-      <p data-p="population-status" role="status">Loading the population follow-up…</p>
-      <p class="small">Buttons navigate to the corresponding audio stanza; the charts above continue to show pooled downstream activity. Human minus synthetic, each relative to silence. Candidates were selected on earlier runs, then checked on different noise seeds without refitting or reselection. “Survives” requires raw and residual differences to retain their direction under all three amplitude approximations and all nine boundary shifts.</p>
-      <div class="population-scroll"><table><thead><tr><th>Type / stanza</th><th>Cells total / direct</th><th>Held-out raw Δ Hz/neuron</th><th>Residual Δ range*</th><th>Survives?</th></tr></thead><tbody data-p="population-table"></tbody></table></div>
-      <p class="small">*Range across the three baseline-subtracted means at the nominal boundaries; all boundary checks are in the evidence JSON. Whole annotated types are measured, including cells outside the direct input targets. These small populations have five to seven cells; their rates do not represent the whole fly. No behavioral function is assigned from their names.</p>
-      <h4>READING / population-specific response</h4><p data-p="population-reading"></p>
-      <details><summary>Population screen: scope and evidence</summary><p>This is a bounded retrospective screen of 70 types with at least five cells and three directly connected auditory targets, excluding injected cells, blank annotations and composite labels. 350 type/stanza pairs were screened. The gates are descriptive, not significance tests or correction for multiple comparisons. Validation repeats the same performances with new simulator noise; it does not validate across new speakers or biological flies. Residuals test three simple approximations, not all amplitude-based explanations.</p><p>Small named motor circuits fall outside this eligibility rule. The surviving labels do not establish a feeling, percept or disposition toward a specific action. No simulator weights or dynamics changed.</p><nav><a href="./experiments/populations-v6/PROTOCOL.md">Protocol</a> · <a href="./experiments/populations-v6/RESULTS.md">Results</a> · <a href="./experiments/populations-v6/discovery.json">Full discovery screen</a> · <a href="./experiments/populations-v6/comparison.json">Held-out evidence</a> · <a href="./experiments/populations-v6/interpretation-input.json">Interpreter input</a> · <a href="./experiments/populations-v6/discovery-counts.npz">Discovery counts</a> · <a href="./experiments/populations-v6/validation-counts.npz">Validation counts</a></nav></details>
-    </section>
-    <details><summary>Method, limits and measured evidence</summary><p>The comparators are external regressions fitted on earlier synthetic runs (seeds 64–71). The fly is never trained or changed. Evaluation uses seeds 101–108; the human performance is not used for fitting. Reference evaluation repeats the calibration stimulus with new noise. All three comparators are retained. Residuals are approximation errors, not proof of a special connectome contribution.</p><p>Equal RMS does not mean equal stimulation. Human audio lasts 45.1 s versus 26.17 s and has 10 capped input frames. Stanza means exclude inter-stanza gaps. Human alignment is approximate; the boundary check does not validate it. Performance, duration and acoustics differ together, so this is not a causal effect of reader identity. The interpreter receives numerical response summaries, never the poem.</p><nav><a href="./experiments/passages-v5/PROTOCOL.md">Protocol</a> · <a href="./experiments/passages-v5/RESULTS.md">Results</a> · <a href="./experiments/passages-v5/comparison.json">Full comparison JSON</a> · <a href="./experiments/passages-v5/interpretation-input.json">Interpreter input</a></nav></details>
-  </div>
-</section>
-
-<section id="emphasis-mode" hidden aria-label="Controlled emphasis listening experiment">
-  <div class="section-line"><h2>WHERE EMPHASIS FALLS</h2><span>RECORDED ENSEMBLE / 8 PAIRED RUNS</span></div>
-  <p>The same voice and timing. Energy moves between two passages; every other audio sample stays unchanged. These are smoothly edited amplitude contrasts, not new performances or changes in intonation.</p>
-  <p data-em="status" role="status">Loading the experiment…</p>
-  <div data-em="body" hidden>
-    <label>Compare <select data-em="comparison"><option value="earlier_later">Earlier emphasis versus later emphasis</option><option value="earlier_reference">Earlier emphasis versus unchanged recording</option><option value="later_reference">Later emphasis versus unchanged recording</option></select></label>
-    <div class="em-choice" role="group" aria-label="Choose comparison audio"><button data-em="first" type="button"></button><button data-em="second" type="button"></button></div>
-    <p data-em="exposure" class="small"></p>
-    <div class="em-grid"><section>
-      <div class="section-line"><h3>VOICE</h3><span data-em="line">READY</span></div>
-      <div data-em="poem" class="em-poem" aria-label="Poem with playback highlighting"></div>
-      <div class="player"><button data-em="play" type="button">PLAY</button><input data-em="seek" type="range" min="0" step="0.02" value="0" aria-label="Emphasis recording playback position" /><span data-em="time">0:00</span></div>
-      <div class="em-choice"><button data-em="target1" type="button">First altered passage ↗</button><button data-em="target2" type="button">Second altered passage ↗</button></div>
-      <a data-em="download" download="emphasis.wav">Download the selected WAV</a>
-    </section><section>
-      <h3>RESPONSE / direct auditory downstream cells</h3>
-      <p data-em="current" aria-live="off"></p><p data-em="input" class="small"></p>
-      <svg data-em="chart" viewBox="0 0 650 230" role="img" aria-label="Downstream response relative to silence for both compared recordings"></svg>
-      <p data-em="legend" class="small"></p>
-      <p class="small">Mean firing relative to matched silence, Hz/neuron, in 100 ms bins. Bands are the observed range of eight runs, not confidence intervals. The cursor follows audio playback; this is a recorded ensemble, not one live fly.</p>
-      <h3>What changed at the altered passages?</h3><div data-em="windows"></div><p data-em="averages" class="small"></p>
-    </section></div>
-    <section class="em-reading"><h3>READING / interpretation of this comparison</h3><p data-em="response"></p><p data-em="reading"></p><p data-em="functional" class="small"></p></section>
-    <details><summary>Method and measured evidence</summary><p>Targets use source-line intervals 2 and 17. The gain envelope transfers equal waveform energy between them, with 80 ms tapered edges. RMS is matched within PCM rounding; total injected drive is measured separately. No compression, pitch, timing or connectome changes. The amplitude edit has not been independently reviewed for naturalness.</p><p>Local windows and the response criterion were declared before 32 simulations with seeds 301–308. Criterion: temporal mean difference RMS exceeds across-seed variability RMS and the two four-run halves have cosine similarity above 0.5. This is a descriptive check, not statistical significance. Off-target means exclude both target windows and their 0.3-second extensions. The reading receives only response measurements, never poem text. No movement, feeling or preference is established.</p><nav><a href="./experiments/emphasis-v4/PROTOCOL.md">Protocol</a> · <a href="./experiments/emphasis-v4/RESULTS.md">Results</a> · <a href="./experiments/emphasis-v4/comparison.json">Response JSON</a> · <a href="./experiments/emphasis-v4/interpretation-input.json">Interpreter input</a> · <a href="./experiments/emphasis-v4/counts.npz">Spike counts</a> · <a href="./experiments/emphasis-v4/gain-envelopes.npz">Gain envelopes</a></nav></details>
-  </div>
-</section>
-      <div id="chamber-mode">
-      <section id="entry" aria-labelledby="poem-label">
-        <div class="section-line"><label id="poem-label" for="poem">01 / THE POEM</label><button id="example" class="text-button" type="button">William Blake · The Fly ↗</button></div>
-        <textarea id="poem" maxlength="2000" spellcheck="false" placeholder="Place a poem here.&#10;&#10;The fly will receive its sound." aria-describedby="limits"></textarea>
-        <div class="entry-foot"><div><p id="source" class="source"></p><p id="limits" class="small">Fixed English voice. Up to 2,000 characters / 60 seconds of audio.</p></div><span id="count" class="small">0 / 2,000</span></div>
-        <div class="submit-row"><button id="submit" class="primary" type="button">READ TO FLY <span aria-hidden="true">→</span></button><p>The voice is standardized.<br>The nervous system remains frozen.</p></div>
-      </section>
-
-      <section id="progress-panel" hidden aria-live="polite" aria-atomic="true">
-        <div class="section-line"><span id="progress-label">THE INSTRUMENT IS RUNNING</span><span id="progress-number"></span></div>
-        <h2 id="stage">LOADING CONNECTOME</h2>
-        <progress id="progress" max="1" aria-label="Simulation progress"></progress>
-        <p id="progress-detail" class="muted">The response is computed before synchronized playback.</p>
-      </section>
-      <p id="error" role="alert" hidden></p>
-
-      <div id="performance-tabs" class="performance-tabs" role="group" aria-label="Choose a performance" hidden></div>
-      <section id="replay" hidden aria-label="Synchronized replay">
-        <p id="performance-note" class="small"></p>
-        <div class="section-line replay-heading"><span>RECORDED RESPONSE / SYNCHRONIZED REPLAY</span><button id="new" class="text-button" type="button">Read another poem ↗</button></div>
-        <div class="listening-room">
-          <div class="chamber-title"><span>THE LISTENING CHAMBER</span><span>VOICE → AUDITORY INPUT → RECORDED SPIKES</span></div>
-          <div class="instrument">
-          <section class="poem-pane" aria-labelledby="spoken-label">
-            <div class="section-line"><h2 id="spoken-label">01 / VOICE</h2><span id="line-label">READY</span></div>
-            <div class="specimen-stage">
-              <div id="fly-scene"></div>
-              <div class="scene-top"><span id="scene-status">LOADING ANATOMICAL DISPLAY</span><button id="view-toggle" class="text-button" type="button" aria-pressed="false">Dorsal view ↗</button></div>
-              <div class="scene-bottom"><span>SOUND → ANTENNAE</span><span id="jon-rate">JON — Hz/neuron</span></div>
-            </div>
-            <p class="scene-caption">Body: NeuroMechFly micro-CT anatomy. Static pose; no simulated movement.<br>Rings: audio amplitude. Antennal color: recorded JON firing.</p>
-            <div id="spoken-poem" aria-label="Poem with the current line highlighted"></div>
-            <div class="player">
-              <button id="play" class="play-button" type="button">PLAY</button>
-              <input id="seek" type="range" min="0" max="1" step="0.02" value="0" aria-label="Playback position in seconds">
-              <span id="player-time">0:00 / 0:00</span>
-            </div>
-            <div class="voice-credit"><span id="voice-credit"></span><a id="audio-download" href="#" download="poem.wav">Download WAV ↗</a></div>
-            <button id="show-reading" class="text-button" type="button" disabled>What this could mean for the fly ↓</button>
-            <p id="playback-note" class="small">Press play to hear the poem and replay its recorded neural trajectory.</p>
-          </section>
-          <section class="response-pane" aria-labelledby="live-label">
-            <div class="section-line"><h2 id="live-label">02 / NEURAL RESPONSE</h2><span id="clock">00:00.00</span></div>
-            <div class="neural-volume"><div id="neural-scene"></div><span class="neural-tag">MALECNS / SPATIAL SPIKE DISPLAY</span><span id="spatial-count">Loading recorded coordinates…</span></div>
-            <p id="neural-caption" class="small"></p>
-            <div class="live-rate"><div><span id="current-rate">—</span><small>Hz / neuron</small></div><span id="current-delta" class="delta">— from baseline</span></div>
-            <div class="chart-title"><span>GLOBAL ACTIVITY <small>100 ms mean</small></span><span class="legend" id="trace-legend">— poem · ┄ initial baseline</span></div>
-            <svg id="neural-chart" viewBox="0 0 640 190" role="img" aria-label="Recorded global activity over time with baseline and playback cursor"></svg>
-            <div class="chart-title"><span>ACOUSTIC ENVELOPE <small>20 ms RMS</small></span><span id="voltage">JON input —</span></div>
-            <svg id="audio-chart" viewBox="0 0 640 86" role="img" aria-label="Audio RMS envelope and playback cursor"></svg>
-            <div class="section-line population-label"><span>AUDITORY &amp; OUTPUT POPULATIONS</span><span>Hz / neuron</span></div>
-            <div id="live-populations"></div>
-            <p class="small">Population values: current recorded 20 ms rates. The accompanying difference is the full-duration mean against matched silence; these groups can overlap.</p>
-          </section>
+      <div class="intro">
+        <div>
+          <p class="eyebrow">AN EXPERIMENT IN LISTENING</p>
+          <h1>The Drosophila Critic<span>.</span></h1>
         </div>
-        </div>
-        <section id="benchmark-panel" class="benchmark-panel" hidden>
-          <div class="section-line"><h2>POEM / MATCHED SILENCE</h2><span>SAME SEED · SAME DURATION · ZERO CONTROL INPUT</span></div>
-          <p id="benchmark-verdict"></p>
-          <p class="small">One matched pair. This separates sound-driven changes from ongoing model activity for this seed; it does not establish a typical biological response.</p>
-        </section>
-        <div class="record-foot"><span id="run-note" class="small"></span><button id="show-results" class="text-button" type="button">Inspect completed measurements ↓</button></div>
-      </section>
-
-      <section id="results" hidden aria-label="Response and reading">
-        <section class="reading-section" aria-labelledby="reading-heading">
-          <div class="section-line"><h2 id="reading-heading">READING</h2><span>INTERPRETATION OF THE RESPONSE</span></div>
-          <div class="interpretation-tabs" role="group" aria-label="Choose an interpretation lens"><button id="circuit-lens" type="button" aria-pressed="true">Circuit reading</button><button id="affect-lens" type="button" aria-pressed="false">Affect-theory reading</button></div>
-          <div id="affect-reading" hidden><p id="affect-text"></p><p id="affect-scope" class="small"></p><div id="affect-sources" class="downloads"></div></div>
-          <p id="reading-text"></p>
-          <h3 id="fly-meaning-heading">What this could mean for the fly</h3>
-          <p class="small">Known circuit functions help interpret the response. They do not turn simulated spikes into a report of subjective experience.</p>
-          <div id="circuit-meanings" class="circuit-meanings"></div>
-          <p class="small">Composed by transparent rules from the measurements alone. The interpreter received no poem text.</p>
-          <details><summary>Exactly what the interpreter received</summary><pre id="reading-input"></pre></details>
-        </section>
-        <section class="measurements" aria-labelledby="response-heading">
-          <div class="section-line"><h2 id="response-heading">RESPONSE</h2><span>SIMULATOR-DERIVED MEASUREMENTS</span></div>
-          <p class="section-description">What happened in the simulated nervous system.</p>
-          <div id="metrics" class="metrics"></div>
-          <div class="tables">
-            <div><h3>Largest population changes</h3><p class="small">Mean Hz/neuron during audio. For controlled records, Δ compares the matched silence run.</p><div class="table-wrap"><table><thead><tr><th>Cell type</th><th>n</th><th>During</th><th>Δ reference</th></tr></thead><tbody id="population-table"></tbody></table></div></div>
-            <div><h3>Monitored pathways &amp; outputs</h3><p class="small">Anatomical groups and identified cell types; no inferred behavior.</p><div class="table-wrap"><table><thead><tr><th>Population</th><th>n</th><th>During</th><th>Δ reference</th></tr></thead><tbody id="group-table"></tbody></table></div></div>
-          </div>
-          <details><summary>Activity rankings &amp; temporal events</summary><div id="events"></div><h3>Highest mean activity</h3><div class="table-wrap"><table><thead><tr><th>Cell type</th><th>n</th><th>During</th><th>Δ reference</th></tr></thead><tbody id="activity-table"></tbody></table></div></details>
-          <p class="small caution">Matched records rank changes against equal-duration silence. The opening baseline remains a separate descriptive measure. One paired seed is not a significance test; small populations can dominate rankings.</p>
-        </section>
-        <details id="provenance"><summary>PROVENANCE / inspect &amp; download</summary><div id="downloads" class="downloads"></div><pre id="provenance-json"></pre></details>
-      </section>
-
+        <p>A human. A robot. One poem.<br />Can either move a fly?</p>
       </div>
-      <details id="method" class="method">
-        <summary>METHOD <span>A voice, an auditory input, a frozen connectome.</span></summary>
-        <div class="method-content">
-<p><a href="./temporal.html">How the encounter unfolds: temporal confirmation ↗</a></p>
-<p><a href="./receiver.html">Auditory receiver laboratory: development and validation ↗</a></p>
-<p><a href="./history.html">Does earlier sound change reception of an identical passage? ↗</a></p>
-<p><a href="./comparison.html">Delivery bench: compare level-matched performances across repeated seeds ↗</a></p>
-          <p>The reference poem is rendered by one fixed synthetic voice. A separate, credited human performance is available for comparison; each recording receives its own simulation and matched silence control. No semantic representation is provided to the fly. Frame-by-frame sound amplitude becomes equal stimulation of 138 annotated JO-A/JO-B Johnston’s-organ neurons.</p>
-          <p>The full fly.ai connectome simulation runs with its weights frozen and its seeded noise intact. RESPONSE comes from recorded simulated spikes. READING interprets a restricted measurement summary and never sees the poem.</p>
-          <p>The 3D body uses NeuroMechFly anatomy from a female micro-CT exemplar; it is an illustrative surface, separate from the MaleCNS connectome. The static pose does not simulate listening mechanics or behavior. Sound rings display amplitude; antennal color displays JON firing. <a href="./assets/fly/NOTICE.txt">Anatomy credits ↗</a></p>
-          <p>The acoustic bridge is deliberately crude: it measures RMS amplitude, without modeling frequency tuning or antennal mechanics. This is a computational artwork and critical apparatus, not evidence that Drosophila understands poetry.</p>
-          <p><a href="./CRITICAL-DIRECTIONS.md">Critical directions: affect, performance, and posthumanities ↗</a></p>
-          <a id="method-link" href="./api/method" target="_blank" rel="noopener">Read the full method and modeling choices ↗</a>
+      <section class="encounter" aria-label="A poem read to a simulated fly">
+        <div class="stage-wrap">
+          <div
+            id="stage"
+            aria-label="Theatrical reader and anatomical fly"
+          ></div>
+          <div class="stage-caption">
+            <span id="speaker-tag">ROBOT / SYNTHETIC VOICE</span
+            ><span id="stage-state">READY TO LISTEN</span>
+          </div>
+          <p id="scene-fallback" hidden>
+            Reader → sound → simulated fly. The audio and measured response
+            below remain available.
+          </p>
+          <div class="stage-foot">
+            <span>WILLIAM BLAKE · THE FLY</span><span>RECORDED SIMULATION</span>
+          </div>
+        </div>
+        <div class="neural-deck">
+          <div class="neural-header">
+            <span>BRAIN + VENTRAL NERVE CORD</span
+            ><span id="spatial-count">Loading recorded spikes…</span>
+          </div>
+          <div class="neural-grid">
+            <div id="neural-scene"></div>
+            <div class="meter">
+              <span class="eyebrow">DOWNSTREAM OF HEARING</span>
+              <div>
+                <strong id="rate">—</strong
+                ><span>Hz / neuron<br />above matched silence</span>
+              </div>
+              <svg
+                id="trace"
+                viewBox="0 0 540 115"
+                role="img"
+                aria-label="Measured downstream activity and silence baseline"
+              ></svg>
+              <p id="neural-caption"></p>
+            </div>
+          </div>
+        </div>
+        <div class="controls">
+          <div class="reader-buttons" role="group" aria-label="Choose reader">
+            <button data-reader="a" aria-pressed="true">01 ROBOT</button
+            ><button data-reader="b" aria-pressed="false">02 HUMAN</button>
+          </div>
+          <button id="play" class="primary" disabled>LOADING</button
+          ><button id="replay" aria-label="Replay current selection" disabled>
+            ↺</button
+          ><span id="clock">0:00</span
+          ><input
+            id="seek"
+            type="range"
+            min="0"
+            max="1"
+            step="0.02"
+            value="0"
+            aria-label="Playback position"
+          /><button id="share">Copy link ↗</button>
+        </div>
+        <p id="status" role="status">
+          Loading the recorded encounter. No connectome download required.
+        </p>
+        <p id="error" role="alert" hidden></p>
+      </section>
+      <section class="poem-and-reading">
+        <div class="poem">
+          <div class="section-heading">
+            <h2>The Fly</h2>
+            <span>WILLIAM BLAKE · 1794</span>
+          </div>
+          <div id="poem"></div>
+          <button id="whole">Play the whole poem ↗</button>
+          <p id="credit"></p>
+        </div>
+        <div class="after">
+          <p class="eyebrow">WHAT CHANGED IN THE FLY?</p>
+          <p class="invitation">Same words.<br />Different encounter.</p>
+          <p>
+            Listen to a stanza, then switch readers. Each voice has its own
+            timing. The nervous system receives sound.
+          </p>
+          <div id="outcome" hidden>
+            <section>
+              <h2>RESPONSE <small>MEASURED</small></h2>
+              <p id="response-text"></p>
+              <p id="sensitivity-text"></p>
+            </section>
+            <section>
+              <h2>READING <small>INTERPRETATION</small></h2>
+              <p id="reading-text"></p>
+            </section>
+          </div>
+          <button id="reveal">See the measured comparison ↓</button>
+        </div>
+      </section>
+      <details id="method">
+        <summary>METHOD / What are we actually doing?</summary>
+        <div class="method-grid">
+          <div>
+            <h2>A fly listens. We interpret.</h2>
+            <p>
+              The poem was rendered as audio. No semantic representation was
+              provided to the fly. A published model of antennal mechanics
+              filters the sound; its displacement envelope drives the
+              Johnston’s-organ neurons used by fly.ai.
+            </p>
+            <p>
+              The connection from modeled antennal motion to neural input is an
+              explicit engineering assumption. This is a literature-informed
+              auditory model, not a fully validated fly ear. The MaleCNS
+              connectome weights remain frozen.
+            </p>
+            <p>
+              RESPONSE comes from simulated neural activity. READING interprets
+              those measurements without receiving the poem text. This
+              computational artwork is not evidence that a fly understands
+              poetry or experiences a particular emotion.
+            </p>
+          </div>
+          <div>
+            <h3>What you see</h3>
+            <p>
+              The readers’ movements are theatrical animation. The fly body is a
+              posed anatomical model, not a simulated behavioral response. Amber
+              points show a fixed sample of real simulated spikes from one
+              recorded run; the activity trace averages four runs. Both
+              performances use the same scales.
+            </p>
+            <p>
+              Recordings are level-matched without compression. Their durations,
+              pauses and internal dynamics still differ. Human stanza boundaries
+              are approximate. Noise seeds represent model variability, not
+              different biological flies.
+            </p>
+            <p>
+              The body is from NeuroMechFly / FlyGym. Robot: Kokoro af_sarah.
+              Human: Denny Sayers, LibriVox, 2006. Reader figures are fictional
+              stage characters.
+            </p>
+            <nav>
+              <a href="./experiments/encounter-v1/METHOD.md">Full method ↗</a
+              ><a href="./experiments/encounter-v1/result.json"
+                >Response JSON ↗</a
+              ><a href="./experiments/encounter-v1/presentation-reading.json"
+                >Interpretation input ↗</a
+              ><a href="./experiments/encounter-v1/sensitivity.json"
+                >Receiver sensitivity ↗</a
+              ><a href="./archive.html">Research archive ↗</a
+              ><a href="./assets/fly/NOTICE.txt">Asset credits ↗</a>
+            </nav>
+          </div>
         </div>
       </details>
     </main>
-    <footer><p>POEM → VOICE → SOUND → JON INPUT → CONNECTOME → RESPONSE → READING</p><span id="storage-note">Everything runs locally. Submitted poems and results are saved on this computer.</span><p><a href="https://github.com/Synthetic-Humanities-Lab/drosophila-critic" target="_blank" rel="noopener">Synthetic Humanities Lab · source &amp; method ↗</a></p></footer>
-  </div>
-</body>
+    <footer>
+      <span>SYNTHETIC HUMANITIES LAB</span
+      ><a href="https://github.com/Synthetic-Humanities-Lab/drosophila-critic"
+        >Code & evidence ↗</a
+      ><span>A fruit fly listens to poetry.</span>
+    </footer>
+  </body>
 </html>

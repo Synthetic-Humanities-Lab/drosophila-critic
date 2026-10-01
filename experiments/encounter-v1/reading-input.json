@@ -1,0 +1,163 @@
+{
+  "durations": [
+    26.165333333333333,
+    45.1
+  ],
+  "seeds": [
+    1101,
+    1102,
+    1103,
+    1104
+  ],
+  "differences": [
+    {
+      "population": "JO-A/B input",
+      "mean_rate_difference": -1.6517824231784641,
+      "seed_differences": [
+        -1.6841584797420395,
+        -1.6865118745849785,
+        -1.5630943402136679,
+        -1.6733649981731706
+      ],
+      "persistence_difference": 0.005259467040673212,
+      "temporal_separation_rms": 6.711941885728829,
+      "temporal_variability_rms": 0.8138251799137486
+    },
+    {
+      "population": "direct JON postsynaptic partners",
+      "mean_rate_difference": -0.08833178307918374,
+      "seed_differences": [
+        -0.07953592519558,
+        -0.10213649260893518,
+        -0.0747819223968588,
+        -0.09687279211536101
+      ],
+      "persistence_difference": -0.0006343768833063732,
+      "temporal_separation_rms": 0.4224658687993987,
+      "temporal_variability_rms": 0.24474221111212877
+    },
+    {
+      "population": "descending_neuron",
+      "mean_rate_difference": -0.005128325768643355,
+      "seed_differences": [
+        0.0038901850973154326,
+        -0.004671795517101146,
+        -0.0038299194172703166,
+        -0.015901773237517392
+      ],
+      "persistence_difference": 0.012152010605391055,
+      "temporal_separation_rms": 0.18512687162729702,
+      "temporal_variability_rms": 0.3544802960395062
+    },
+    {
+      "population": "wing motor (flytalk WING_MN)",
+      "mean_rate_difference": -0.049716461246169796,
+      "seed_differences": [
+        -0.05331209630423012,
+        -0.03020429824961562,
+        -0.0895913071245777,
+        -0.025758143306255768
+      ],
+      "persistence_difference": -0.08342602892102344,
+      "temporal_separation_rms": 0.5203013157432865,
+      "temporal_variability_rms": 1.0232374953243444
+    }
+  ],
+  "passages": [
+    {
+      "number": 1,
+      "durations": [
+        4.94,
+        5.72
+      ],
+      "mean_drives": [
+        0.12437381206282787,
+        0.11727156760415458
+      ],
+      "direct_rate_difference": -0.0322543988123866,
+      "seed_differences": [
+        -0.006260881901310245,
+        -0.06823637471052446,
+        -0.009481798023949689,
+        -0.045038540613762
+      ],
+      "boundary_direction_consistent": false
+    },
+    {
+      "number": 2,
+      "durations": [
+        5.08,
+        6.140000000000001
+      ],
+      "mean_drives": [
+        0.12954271647571394,
+        0.11071119501095271
+      ],
+      "direct_rate_difference": -0.03712472113191905,
+      "seed_differences": [
+        -0.04394376620307383,
+        -0.05228575550883374,
+        -0.02085844094947209,
+        -0.03141092186629654
+      ],
+      "boundary_direction_consistent": true
+    },
+    {
+      "number": 3,
+      "durations": [
+        5.14,
+        7.12
+      ],
+      "mean_drives": [
+        0.12673443451228694,
+        0.13688059834765245
+      ],
+      "direct_rate_difference": 0.01034701531147085,
+      "seed_differences": [
+        0.0318504455429815,
+        0.015010634798853673,
+        -0.011635472016165771,
+        0.006162452920214001
+      ],
+      "boundary_direction_consistent": false
+    },
+    {
+      "number": 4,
+      "durations": [
+        5.0,
+        8.6
+      ],
+      "mean_drives": [
+        0.12059577923290257,
+        0.07630159790314538
+      ],
+      "direct_rate_difference": -0.10732089364524014,
+      "seed_differences": [
+        -0.0927945850769474,
+        -0.1265418124442616,
+        -0.08582012759827112,
+        -0.12412704946148045
+      ],
+      "boundary_direction_consistent": true
+    },
+    {
+      "number": 5,
+      "durations": [
+        4.38,
+        7.98
+      ],
+      "mean_drives": [
+        0.13085157842085582,
+        0.08863472159157552
+      ],
+      "direct_rate_difference": -0.10826312491267094,
+      "seed_differences": [
+        -0.10696722004631753,
+        -0.09459978929962534,
+        -0.10220051819990555,
+        -0.1292849721048353
+      ],
+      "boundary_direction_consistent": true
+    }
+  ]
+}

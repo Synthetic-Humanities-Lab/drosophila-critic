@@ -129,6 +129,9 @@ def export(source: Path, output: Path):
     if (performance / "result.json").exists():
         # Only this curated public-domain example, never uploaded results.
         shutil.copytree(performance, output / "experiments/performance-v1", dirs_exist_ok=True)
+    encounter = ROOT / "experiments/encounter-v1"
+    if (encounter / "manifest.json").exists():
+        shutil.copytree(encounter, output / "experiments/encounter-v1", dirs_exist_ok=True)
     version_interface(output)
     (output / ".nojekyll").touch()
 

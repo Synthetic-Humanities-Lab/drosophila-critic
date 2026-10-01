@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><title>Full-connectome browser benchmark</title
+  ><link rel="stylesheet" href="./encounter.css" />
+  <script type="module" src="./browser-benchmark.js"></script>
+  <main>
+    <h1>Browser feasibility laboratory</h1>
+    <p>
+      Full original connectivity, lossless weights. Development benchmark; not
+      visitor recording. Loading requires a substantial model download. Nothing
+      is uploaded.
+    </p>
+    <p>
+      The model export is local-only until equivalence and performance checks
+      pass. This page is not part of the public encounter.
+    </p>
+    <button id="load-model">Load benchmark model</button
+    ><button id="validate-model" disabled>Validate against Python</button
+    ><button id="run-benchmark" disabled>Benchmark both poems</button
+    ><button id="cancel-benchmark">Cancel</button
+    ><button id="save-benchmark" disabled>Save report</button>
+    <pre id="benchmark-status" role="status">Ready.</pre>
+    <a href="./">Return to the encounter</a>
+  </main>
+</html>

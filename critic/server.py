@@ -428,4 +428,9 @@ app.mount(
     name="performance-comparison",
 )
 
+app.mount(
+    "/experiments/encounter-v1",
+    StaticFiles(directory=ROOT / "experiments/encounter-v1", check_dir=False),
+    name="encounter-evidence",
+)
 app.mount("/", StaticFiles(directory=ROOT / "static", html=True), name="interface")

@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_client_static_ids_exist_once():
-    html = (ROOT / "static/index.html").read_text()
+    html = (ROOT / "static/archive.html").read_text()
     ids = re.findall(r'id="([^"]+)"', html)
     assert len(ids) == len(set(ids))
     app = (ROOT / "static/app.js").read_text()
@@ -62,7 +62,7 @@ def test_history_dom_matches_its_client():
 
 
 def test_emphasis_player_markup_contract():
-    html = (ROOT / "static/index.html").read_text()
+    html = (ROOT / "static/archive.html").read_text()
     keys = re.findall(r'data-em="([^"]+)"', html)
     assert len(keys) == len(set(keys))
     code = (ROOT / "static/emphasis-player.js").read_text()
@@ -71,7 +71,7 @@ def test_emphasis_player_markup_contract():
 
 
 def test_passage_player_markup_contract():
-    html = (ROOT / "static/index.html").read_text()
+    html = (ROOT / "static/archive.html").read_text()
     keys = re.findall(r'data-p="([^"]+)"', html)
     assert len(keys) == len(set(keys))
     code = (ROOT / "static/passage-player.js").read_text()
@@ -98,3 +98,17 @@ def test_performance_dom_and_passage_controls_match_the_client():
     assert "innerHTML" not in code
     assert "./performances.js" in html
     assert "No time warping" in (ROOT / "critic/performance_passages.py").read_text()
+
+
+def test_encounter_dom_and_static_only_boundary():
+    html = (ROOT / "static/index.html").read_text()
+    ids = re.findall(r'id="([^"]+)"', html)
+    assert len(ids) == len(set(ids))
+    code = (ROOT / "static/encounter.js").read_text()
+    for name in re.findall(r"\$\('([^']+)'\)", code):
+        assert name in ids, name
+    assert "/api/" not in code
+    assert "weights" not in code
+    assert 'id="poem"' in html and "<textarea" not in html
+    assert "archive.html" in html
+    assert "Recorded simulation" in code

@@ -1,0 +1,75 @@
+{
+  "schema_version": "encounter-manifest-v1",
+  "title": "The Drosophila Critic",
+  "poem": "Little fly,\nThy summer\u2019s play\nMy thoughtless hand\nHas brushed away.\n\nAm not I\nA fly like thee?\nOr art not thou\nA man like me?\n\nFor I dance\nAnd drink and sing,\nTill some blind hand\nShall brush my wing.\n\nIf thought is life\nAnd strength and breath,\nAnd the want\nOf thought is death,\n\nThen am I\nA happy fly,\nIf I live,\nOr if I die.",
+  "result": "result.json",
+  "encoding": "encoding.json",
+  "sensitivity": "sensitivity.json",
+  "receiver": "Published antennal filter \u00b7 provisional neural coupling",
+  "spatial_seed": 1101,
+  "scales": {
+    "downstream_min": -0.2826941986234022,
+    "downstream_max": 1.7846607669616517,
+    "input_max": 0.8
+  },
+  "performances": {
+    "a": {
+      "label": "Robot",
+      "credit": "Kokoro af_sarah \u00b7 fixed synthetic voice",
+      "audio": "a.wav",
+      "spatial": "spatial-a.json",
+      "duration": 26.165333333333333,
+      "passages": [
+        {
+          "start": 0.0,
+          "end": 4.94
+        },
+        {
+          "start": 5.3,
+          "end": 10.38
+        },
+        {
+          "start": 10.74,
+          "end": 15.88
+        },
+        {
+          "start": 16.240000000000002,
+          "end": 21.240000000000002
+        },
+        {
+          "start": 21.6,
+          "end": 25.98
+        }
+      ]
+    },
+    "b": {
+      "label": "Human",
+      "credit": "Denny Sayers \u00b7 LibriVox, 2006",
+      "audio": "b.wav",
+      "spatial": "spatial-b.json",
+      "duration": 45.1,
+      "passages": [
+        {
+          "start": 0.52,
+          "end": 6.24
+        },
+        {
+          "start": 7.92,
+          "end": 14.06
+        },
+        {
+          "start": 17.02,
+          "end": 24.14
+        },
+        {
+          "start": 26.28,
+          "end": 34.88
+        },
+        {
+          "start": 36.56,
+          "end": 44.54
+        }
+      ]
+    }
+  }
+}

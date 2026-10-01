@@ -1,5 +1,20 @@
 # The Drosophila Critic
 
+> **Public encounter (October 2026):** the landing page now stages a human and
+> robot reading Blake to the same frozen fly model. The new literature-informed
+> displacement receiver has explicitly provisional neural coupling. The original
+> amplitude interface and experiment pages remain at `archive.html`.
+>
+> Reproduce the curated evidence with `PYTHONPATH=. .venv/bin/python scripts/build_encounter.py`,
+> then `PYTHONPATH=. .venv/bin/python -m critic.encounter_reading experiments/encounter-v1/result.json`.
+> Export with `.venv/bin/python scripts/export_replay.py` and serve with
+> `.venv/bin/python -m http.server 8777 --directory dist`.
+> No API key or compute host is needed for recorded playback.
+> See [encounter specification](docs/ENCOUNTER.md) and
+> [browser benchmark](docs/BROWSER-BENCHMARK.md). Raw simulation archives stay
+> in `results/encounter-v1`; all historical experiment outputs remain unchanged.
+
+
 **A fruit fly listens to poetry.**
 
 A Synthetic Humanities Lab project. A working critical instrument:
