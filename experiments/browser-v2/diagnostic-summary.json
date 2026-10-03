@@ -1,0 +1,52 @@
+{
+  "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
+  "hardware_threads": 14,
+  "device_memory_gb": 32,
+  "results": [],
+  "visitor_recording_enabled": false,
+  "initialized": {
+    "type": "initialized",
+    "milliseconds": 1564.2000000476837,
+    "transfer_bytes": 138576365,
+    "connectivity_memory_bytes": 205330308,
+    "working_array_bytes": 208664308
+  },
+  "validation": {
+    "type": "validated",
+    "exact": true,
+    "generated_noise_mismatches": [],
+    "mismatches": [],
+    "noise": {
+      "generator": "PCG64, exact NumPy SeedSequence initial state",
+      "repeatable": true,
+      "observed_probability": 0.023992,
+      "target_probability": 0.024
+    },
+    "visitor_gate": "Numerical gate checked; performance and device qualification still required"
+  },
+  "diagnostics": {
+    "stimulus": "One second with a 200 Hz, peak 0.1 PCM tone between 0.25 and 0.75 s; original receiver; seed 1101",
+    "identical_input_exact": true,
+    "silence_is_active": true,
+    "downstream_change_spikes_per_second_per_cell": 0.3854473942969518,
+    "pulse_changes_response": true,
+    "nonempty_neural_trajectory": true,
+    "response_sha256": {
+      "silence": {
+        "counts": "f328e07cf78a1b9b368e3d6d38b38f94c6202bc1c18802cacd43cd75a2a486ad",
+        "groups": "88e697654e6a9be7eb6f51b50cda431f70dd75f10d3782afaed9002b43d3c381",
+        "spatial": "574a0210c9b0a026600f5a29229b94fd514a33ed3091132cb25582946820708e"
+      },
+      "pulse": {
+        "counts": "902f8c3568e09938ab271a1c009151eff1548dac6696b99c79240f7ccffc19be",
+        "groups": "14c4df74acebe4ea34b699c8a9a98a17cbcf5995d5fe2ae068f221fbbcf2134d",
+        "spatial": "28614baf974187d299293b21f0fa74792e02bc6a08bcbbd13d2f01f214c1ab90"
+      },
+      "pulse repeat": {
+        "counts": "902f8c3568e09938ab271a1c009151eff1548dac6696b99c79240f7ccffc19be",
+        "groups": "14c4df74acebe4ea34b699c8a9a98a17cbcf5995d5fe2ae068f221fbbcf2134d",
+        "spatial": "28614baf974187d299293b21f0fa74792e02bc6a08bcbbd13d2f01f214c1ab90"
+      }
+    }
+  }
+}

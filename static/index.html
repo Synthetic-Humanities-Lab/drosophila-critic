@@ -3,82 +3,118 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'"
+    />
     <title>The Drosophila Critic — Synthetic Humanities Lab</title>
     <meta
       name="description"
-      content="A human. A robot. One poem. A simulated fruit fly listens. An experiment by the Synthetic Humanities Lab."
+      content="Read William Blake to a simulated fruit fly. Listen to a human, a robot, or your own voice, and watch the nervous system respond."
     />
     <meta property="og:title" content="Can you move a fly with a poem?" />
     <meta
       property="og:description"
-      content="A human and a robot read Blake to a frozen fly connectome. Listen to the difference."
+      content="The Drosophila Critic. A listening experiment from the Synthetic Humanities Lab."
     />
     <link rel="stylesheet" href="./encounter.css" />
     <script type="module" src="./encounter.js"></script>
   </head>
   <body>
+    <a class="skip-link" href="#controls">Skip to playback</a>
     <header>
-      <a class="lab" href="./">SYNTHETIC<br />HUMANITIES LAB</a
-      ><a href="#method">How this works ↗</a>
+      <a class="lab" href="./">SYNTHETIC<br />HUMANITIES LAB</a>
+      <nav aria-label="Project">
+        <a href="#method">How it works</a
+        ><a href="./archive.html">Research archive ↗</a>
+      </nav>
     </header>
     <main>
       <div class="intro">
         <div>
-          <p class="eyebrow">AN EXPERIMENT IN LISTENING</p>
-          <h1>The Drosophila Critic<span>.</span></h1>
+          <p class="eyebrow">THE DROSOPHILA CRITIC · A LISTENING EXPERIMENT</p>
+          <h1>Can a poem move a fly?</h1>
         </div>
-        <p>A human. A robot. One poem.<br />Can either move a fly?</p>
+        <p>
+          One poem. A human, a robot, and you.<br /><span
+            >Watch sound enter a simulated nervous system.</span
+          >
+        </p>
       </div>
-      <section class="encounter" aria-label="A poem read to a simulated fly">
-        <div class="stage-wrap">
+      <section
+        class="encounter"
+        aria-label="Listen and watch the fly's measured response"
+      >
+        <div class="condition-bar">
           <div
-            id="stage"
-            aria-label="Theatrical reader and anatomical fly"
-          ></div>
-          <div class="stage-caption">
-            <span id="speaker-tag">ROBOT / SYNTHETIC VOICE</span
-            ><span id="stage-state">READY TO LISTEN</span>
+            class="reader-buttons"
+            role="group"
+            aria-label="Choose what the fly hears"
+          >
+            <button data-condition="silence" aria-pressed="false">
+              <span class="condition-mark">○</span> SILENCE
+            </button>
+            <button data-condition="b" aria-pressed="false">
+              <span class="condition-mark">01</span> HUMAN
+            </button>
+            <button data-condition="a" aria-pressed="true">
+              <span class="condition-mark">02</span> ROBOT
+            </button>
+            <button data-condition="visitor" aria-pressed="false">
+              <span class="condition-mark">＋</span> YOUR VOICE
+            </button>
           </div>
-          <p id="scene-fallback" hidden>
-            Reader → sound → simulated fly. The audio and measured response
-            below remain available.
-          </p>
-          <div class="stage-foot">
-            <span>WILLIAM BLAKE · THE FLY</span><span>RECORDED SIMULATION</span>
-          </div>
+          <span id="condition-note">Recorded full-connectome simulation</span>
         </div>
-        <div class="neural-deck">
-          <div class="neural-header">
-            <span>BRAIN + VENTRAL NERVE CORD</span
-            ><span id="spatial-count">Loading recorded spikes…</span>
-          </div>
-          <div class="neural-grid">
-            <div id="neural-scene"></div>
-            <div class="meter">
-              <span class="eyebrow">DOWNSTREAM OF HEARING</span>
-              <div>
-                <strong id="rate">—</strong
-                ><span>Hz / neuron<br />above matched silence</span>
-              </div>
-              <svg
-                id="trace"
-                viewBox="0 0 540 115"
-                role="img"
-                aria-label="Measured downstream activity and silence baseline"
-              ></svg>
-              <p id="neural-caption"></p>
+        <div class="listening-room">
+          <div class="stage-wrap">
+            <div
+              id="stage"
+              aria-label="An anatomical fly and a staged reader"
+            ></div>
+            <div class="stage-caption">
+              <span id="speaker-tag">ROBOT / SYNTHETIC VOICE</span
+              ><button id="camera" aria-pressed="false">
+                Closer to the fly ↗
+              </button>
+            </div>
+            <p id="scene-fallback" hidden>
+              The 3D view is unavailable.<br />Audio and measured activity still
+              work.
+            </p>
+            <div class="stage-foot">
+              <span>WILLIAM BLAKE · THE FLY</span
+              ><span id="stage-state">READY</span>
             </div>
           </div>
+          <aside class="neural-deck" aria-label="Neural response">
+            <div class="neural-header">
+              <span>INSIDE THE FLY</span
+              ><button id="flashes" aria-pressed="true">Flashes on</button>
+            </div>
+            <div class="neural-map">
+              <div id="neural-scene"></div>
+              <div class="anatomy-labels">
+                <span>BRAIN</span><span>NERVE<br />CORD</span>
+              </div>
+            </div>
+            <p id="spatial-count">Loading measured activity…</p>
+            <p class="neural-key">
+              Each amber flash is a nerve cell firing.<br />Some cells fire even
+              in silence.
+            </p>
+          </aside>
         </div>
-        <div class="controls">
-          <div class="reader-buttons" role="group" aria-label="Choose reader">
-            <button data-reader="a" aria-pressed="true">01 ROBOT</button
-            ><button data-reader="b" aria-pressed="false">02 HUMAN</button>
-          </div>
+        <div class="controls" id="controls">
           <button id="play" class="primary" disabled>LOADING</button
-          ><button id="replay" aria-label="Replay current selection" disabled>
-            ↺</button
-          ><span id="clock">0:00</span
+          ><button
+            id="replay"
+            aria-label="Replay from the selected stanza"
+            disabled
+          >
+            ↺
+          </button>
+          <span id="clock">0:00 / 0:00</span
           ><input
             id="seek"
             type="range"
@@ -87,116 +123,240 @@
             step="0.02"
             value="0"
             aria-label="Playback position"
-          /><button id="share">Copy link ↗</button>
+          />
+          <button id="share">Copy link ↗</button>
         </div>
         <p id="status" role="status">
-          Loading the recorded encounter. No connectome download required.
+          Loading the example. No model download is needed to watch.
         </p>
         <p id="error" role="alert" hidden></p>
+        <div class="instruments">
+          <section class="activity-instrument">
+            <div class="instrument-heading">
+              <label for="population">NEURAL ACTIVITY</label
+              ><select
+                id="population"
+                aria-label="Choose neural population"
+              ></select>
+            </div>
+            <svg
+              id="trace"
+              viewBox="0 0 600 110"
+              role="img"
+              aria-label="Activity during the recording and its silence control"
+            ></svg>
+            <div class="trace-key">
+              <span
+                ><i class="amber"></i
+                ><span id="trace-reading-label">Reading</span></span
+              ><span><i class="grey"></i>Silence</span><span id="rate">—</span>
+            </div>
+          </section>
+          <section class="input-instrument">
+            <div class="instrument-heading">
+              <span>SOUND → ANTENNA</span><span id="input-level">—</span>
+            </div>
+            <svg
+              id="input-trace"
+              viewBox="0 0 420 110"
+              role="img"
+              aria-label="Audio amplitude, modeled antennal vibration, and neural input"
+            ></svg>
+            <div class="trace-key">
+              <span><i class="grey"></i>Sound</span
+              ><span><i class="amber"></i>Modeled vibration</span
+              ><span><i class="rust"></i>Neural input</span>
+            </div>
+          </section>
+        </div>
       </section>
-      <section class="poem-and-reading">
+      <section class="reading-desk">
         <div class="poem">
           <div class="section-heading">
             <h2>The Fly</h2>
             <span>WILLIAM BLAKE · 1794</span>
           </div>
+          <p id="poem-hint">Select a stanza to listen from there.</p>
           <div id="poem"></div>
-          <button id="whole">Restart the whole poem ↗</button>
-          <p id="credit"></p>
-        </div>
-        <div class="after">
-          <p class="eyebrow">WHAT CHANGED IN THE FLY?</p>
-          <p class="invitation">Same words.<br />Different encounter.</p>
-          <p>
-            Start at any stanza and listen through to the end. Switch readers to
-            hear the corresponding stanza on the other recording’s own clock.
-          </p>
-          <div id="outcome" hidden>
-            <section>
-              <h2>RESPONSE <small>MEASURED</small></h2>
-              <p id="response-text"></p>
-              <p id="sensitivity-text"></p>
-            </section>
-            <section>
-              <h2>READING <small>INTERPRETATION</small></h2>
-              <p id="reading-text"></p>
-            </section>
+          <div class="poem-foot">
+            <button id="whole">Start from the beginning ↗</button>
+            <p id="credit"></p>
           </div>
-          <button id="reveal">See the measured comparison ↓</button>
+        </div>
+        <div class="desk-side">
+          <section class="response-note" aria-labelledby="response-heading">
+            <p class="eyebrow" id="response-heading">WHAT CHANGED?</p>
+            <h2 id="response-title">Listen, then look closer.</h2>
+            <p id="response-text"></p>
+            <p id="population-description"></p>
+            <details class="measurement-detail">
+              <summary>Show the measurements</summary>
+              <div id="measurements"></div>
+              <p id="neural-caption"></p>
+              <a
+                id="evidence-link"
+                href="./experiments/encounter-v1/result.json"
+                >Download the recorded evidence ↗</a
+              >
+            </details>
+          </section>
+          <section
+            id="your-voice"
+            class="voice-panel"
+            aria-labelledby="voice-title"
+          >
+            <div class="section-heading">
+              <h2 id="voice-title">Your turn.</h2>
+              <span>PRIVATE · ON THIS DEVICE</span>
+            </div>
+            <p id="support-note">
+              Read the poem yourself. Record here or choose an audio file, then
+              watch the fly listen to your voice.
+            </p>
+            <div id="record-inputs">
+              <div class="record-actions">
+                <button id="record-start">● Record my voice</button
+                ><label class="file-button"
+                  >Choose audio file<input
+                    id="voice-file"
+                    type="file"
+                    accept="audio/*" /></label
+                ><button id="record-stop" hidden>■ Stop recording</button>
+              </div>
+              <p class="small-note">
+                Up to 60 seconds · audio stays on your device
+              </p>
+              <button id="try-example">
+                Try local processing with the robot example ↗
+              </button>
+              <div id="voice-preview" hidden>
+                <div class="recording-info">
+                  <strong id="recording-name"></strong
+                  ><span id="recording-duration"></span>
+                </div>
+                <div class="record-actions">
+                  <button id="preview-voice">Listen back</button
+                  ><button id="clear-voice">Remove</button>
+                </div>
+                <p class="download-note">
+                  Processing loads a <strong>139 MB fly model</strong>, cached
+                  for later visits where possible. It runs here and can take a
+                  few minutes. Nothing is uploaded.
+                </p>
+                <button id="process-voice" class="primary">
+                  READ TO THE FLY →
+                </button>
+              </div>
+              <div id="processing-progress" hidden>
+                <progress id="record-progress" max="1" value="0"></progress
+                ><span id="record-percent">0%</span>
+              </div>
+              <button id="cancel-voice" hidden>Cancel</button>
+            </div>
+            <p id="record-status" role="status"></p>
+            <p id="record-error" role="alert" hidden></p>
+            <div id="voice-downloads" hidden>
+              <p>
+                Your result is kept here until you close or reload the page.
+              </p>
+              <button id="download-result">Save response</button
+              ><button id="download-processed">Save processed audio</button
+              ><button id="download-original">Save original audio</button>
+            </div>
+          </section>
         </div>
       </section>
       <details id="method">
-        <summary>METHOD / What are we actually doing?</summary>
+        <summary>METHOD / What is this fly, exactly?</summary>
         <div class="method-grid">
           <div>
-            <h2>A fly listens. We interpret.</h2>
+            <h2>A fly listens. We inspect the traces.</h2>
             <p>
-              The poem was rendered as audio. No semantic representation was
-              provided to the fly. A published model of antennal mechanics
-              filters the sound; its displacement envelope drives the
-              Johnston’s-organ neurons used by fly.ai.
+              The recording becomes sound data. A published model of antennal
+              mechanics transforms that sound; its vibration envelope stimulates
+              the same 138 hearing neurons used by fly.ai. The MaleCNS
+              connectome stays fixed. No words, meaning, or language model enter
+              this process.
             </p>
             <p>
-              The connection from modeled antennal motion to neural input is an
-              explicit engineering assumption. This is a literature-informed
-              auditory model, not a fully validated fly ear. The MaleCNS
-              connectome weights remain frozen.
+              The antenna-to-neuron connection is an engineering assumption.
+              This is a literature-informed hearing model coupled to a simulated
+              nervous system, not a validated prediction of a real fly listening
+              to speech.
+            </p>
+            <p id="body-method">
+              The body is an anatomical model in a fixed pose. Neural activity
+              is measured; walking and flight are not currently inferred. The
+              question “can you move a fly?” motivates this experiment, rather
+              than supplying a score.
             </p>
             <p>
-              RESPONSE comes from simulated neural activity. READING interprets
-              those measurements without receiving the poem text. This
-              computational artwork is not evidence that a fly understands
-              poetry or experiences a particular emotion.
+              RESPONSE means what the simulation did. Any interpretation is an
+              inference from those measurements; it does not reveal feelings or
+              understanding.
             </p>
           </div>
           <div>
-            <h3>What you see</h3>
+            <h3>Reading the display</h3>
             <p>
-              The readers’ movements are theatrical animation. The fly body is a
-              posed anatomical model, not a simulated behavioral response. Amber
-              points show a fixed sample of real simulated spikes from one
-              recorded run; the activity trace averages four runs. Both
-              performances use the same scales.
+              Amber points mark recorded spikes in a fixed sample of 12,000
+              neurons, at their supplied coordinates. For the examples, that
+              spatial view shows one run; the traces show the average and range
+              of four runs. Visitor results use one run and its own silence
+              control.
             </p>
             <p>
-              Recordings are level-matched without compression. Their durations,
-              pauses and internal dynamics still differ. Human stanza boundaries
-              are approximate. Noise seeds represent model variability, not
-              different biological flies.
+              The grey trace is the same model run with no sound, for the same
+              duration and starting conditions. The two recordings have
+              different lengths. Their levels are matched with linear gain;
+              pauses and dynamics remain. Visitor recordings use the same target
+              level, lowered if needed to avoid clipping.
             </p>
             <p>
-              The body is from NeuroMechFly / FlyGym. Robot: Kokoro af_sarah.
-              Human: Denny Sayers, LibriVox, 2006. Reader figures are fictional
-              stage characters.
+              The antenna trace shows modeled vibration strength in 20 ms
+              frames, not a resolved animation of every oscillation. The
+              waveform and input traces use separate scales, shared across
+              recordings. Antennal colour follows that modeled strength. Reader
+              gestures are theatrical.
+            </p>
+            <h3>Credits & privacy</h3>
+            <p>
+              Fly body: NeuroMechFly / FlyGym. Robot voice: Kokoro af_sarah.
+              Human: Denny Sayers, LibriVox, 2006. William Blake’s poem is in
+              the public domain. The staged human is not a likeness of the
+              reader.
+            </p>
+            <p>
+              Recordings are processed in your browser. We receive no audio,
+              transcript, or result. Model files may be cached. Example links
+              are shareable; private recordings must be saved locally.
             </p>
             <nav>
-              <a href="./experiments/encounter-v1/METHOD.md">Full method ↗</a
-              ><a href="./experiments/encounter-v1/result.json"
-                >Response JSON ↗</a
-              ><a href="./experiments/encounter-v1/presentation-reading.json"
-                >Interpretation input ↗</a
+              <a
+                href="https://github.com/Synthetic-Humanities-Lab/drosophila-critic/blob/main/METHOD.md"
+                >Full method ↗</a
+              ><a
+                href="https://github.com/Synthetic-Humanities-Lab/drosophila-critic/blob/main/docs/BODY-CONTROLLER.md"
+                >Why the body stays still ↗</a
+              ><a href="./experiments/encounter-v1/METHOD.md"
+                >Receiver method ↗</a
+              ><a href="./experiments/encounter-v2/manifest.json"
+                >Playback manifest ↗</a
               ><a href="./experiments/encounter-v1/sensitivity.json"
-                >Receiver sensitivity ↗</a
-              ><a href="./archive.html">Research archive ↗</a
-              ><a href="./assets/fly/NOTICE.txt">Asset credits ↗</a>
+                >Repeated-run checks ↗</a
+              ><a href="./assets/fly/NOTICE.txt">Asset credits ↗</a
+              ><a href="./archive.html">Research archive ↗</a>
             </nav>
           </div>
         </div>
       </details>
     </main>
-    <aside class="local-invitation">
-      <p>Another voice?</p>
-      <a href="./listen.html">Read to the fly yourself ↗</a>
-      <p>
-        Optional desktop experiment · 139 MB model download · audio stays on
-        your device.
-      </p>
-    </aside>
     <footer>
-      <span>SYNTHETIC HUMANITIES LAB</span
+      <span>THE DROSOPHILA CRITIC</span
+      ><span>A fruit fly listens to poetry.</span
       ><a href="https://github.com/Synthetic-Humanities-Lab/drosophila-critic"
-        >Code & evidence ↗</a
-      ><span>A fruit fly listens to poetry.</span>
+        >Source & evidence ↗</a
+      >
     </footer>
   </body>
 </html>

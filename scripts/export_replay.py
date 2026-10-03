@@ -132,6 +132,9 @@ def export(source: Path, output: Path):
     encounter = ROOT / "experiments/encounter-v1"
     if (encounter / "manifest.json").exists():
         shutil.copytree(encounter, output / "experiments/encounter-v1", dirs_exist_ok=True)
+    encounter_v2 = ROOT / "experiments/encounter-v2"
+    if (encounter_v2 / "manifest.json").exists():
+        shutil.copytree(encounter_v2, output / "experiments/encounter-v2", dirs_exist_ok=True)
     version_interface(output)
     (output / ".nojekyll").touch()
 

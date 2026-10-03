@@ -1,26 +1,53 @@
-# Release status — revised scope, October 2026
+# Release status — finalization candidate, 2 October 2026
 
-The user's accepted release is a curated public encounter first, with no paid
-compute hosting or submission service. Earlier hosting and upload-test blockers
-are not requirements for this release. The old API remains available locally.
+Execution brief: [FINALIZATION-GOAL.md](FINALIZATION-GOAL.md). The independent
+app work is implemented and undergoing final public-release checks. Deployment
+is not yet claimed; see [FINALIZATION-QA.md](FINALIZATION-QA.md).
 
-- New staged human/robot encounter replaces the landing page; legacy interface
-  and deep links remain available through `archive.html`.
-- Published antennal displacement reference drives the original 138 JO-A/B
-  inputs; no physiology-calibrated neural current is claimed.
-- Thirty-two new full frozen-connectome runs: two performances at three
-  strengths across four seeds, plus eight shared duration-matched silence runs.
-- Spatial samples use nominal seed 1101; traces average four seeds. All visual
-  scales are common to the two recordings. Displayed reader motion is theatre.
-- Downstream direct-recipient differences retain their direction across tested
-  strengths and seeds; passage direction/boundary checks survive for 2, 4 and 5.
-- The browser benchmark is separate. Lossless original weights, PCG64 noise and
-  original numerical update are tested before any visitor-recording release.
-- The original-PCG64 browser benchmark passed on the development desktop: exact
-  full-network fixture checks and complete-poem global counts, 40.4 s robot and
-  65.1 s human. Optional local recording is available at `listen.html`, with an
-  explicit 139 MB download, one paired seed and two matched silence runs.
-  Phones are unsupported; other desktop hardware/browser engines are untested.
+- [x] Versioned common playback contract, actual silence spikes, shared scales,
+  input/mechanical traces, raw activity and differences against silence.
+- [x] One encounter with human, robot, silence and local visitor replay; larger
+  fly/nervous-system views; one poem; complete audio and stanza navigation.
+- [x] Integrated recording/file controls, preview, deliberate local processing,
+  download disclosure, caching, progress, cancellation and private exports.
+- [x] Actual worker spatial capture matches saved Python poem runs exactly.
+- [x] Research controller command tests and explicit no-motion release decision.
+- [x] Desktop/responsive-layout, fallback, error recovery and focused regression
+  checks. Actual file-picker, microphone hardware and OS download limitations
+  are recorded rather than reported as passes.
+- [x] Current README/method and preserved prototype documentation/history.
+- [ ] Final release checks, publication and inspection of the deployed app.
 
-See `experiments/encounter-v1/` for the new auditable record and
-`docs/BROWSER-BENCHMARK.md` for browser reproduction and limitations.
+## Scope of the result
+
+The receiver, original weights, timestep and noise remain unchanged. New
+`encounter-v2` artifacts adapt existing nominal runs; no outcome was retuned.
+The public robot example completes local sound/silence processing and replays
+newly computed neural activity in the same scene. Visitor trials are single
+comparisons; curated traces show four-run means and ranges. Neither is a poem
+score or a claim about feelings.
+
+The optional flybody research controller passed stand/forward/turn/repeat tests.
+The candidate movement outputs do not yet supply a qualified control signal.
+No body animation was substituted. [BODY-CONTROLLER.md](BODY-CONTROLLER.md)
+identifies the missing neural-to-command calibration and browser qualification.
+
+Browser timings vary with other active work; all measurements are retained in
+`experiments/browser-v2`. Curated playback has no model download. Desktop visitor
+processing requires an explicit 139 MB model download; phones remain playback-only.
+
+## Retained evidence
+
+- `experiments/encounter-v1`: original mechanical-receiver performances, four
+  seeds, half/nominal/double strengths and original auditory result protocol.
+- `experiments/encounter-v2`: shared sound/silence display contract and input scales.
+- `experiments/browser-v1`: original numerical/performance qualification.
+- `experiments/browser-v2`: current capture, numerical parity and diagnostic checks.
+- `experiments/body-controller-v1`: pretrained-policy command tests and measured
+  candidate motor-output audit.
+- Earlier amplitude, temporal, emphasis, passage and receiver experiments remain
+  linked through the research archive with their original qualifications.
+
+The next movement experiment would qualify one lateralized steering adapter,
+starting with a motor-pathway positive control and silence before testing poems.
+It is research work, not a hidden animation parameter.

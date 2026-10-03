@@ -1,0 +1,113 @@
+{
+  "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
+  "hardware_threads": 14,
+  "device_memory_gb": 32,
+  "results": [
+    {
+      "type": "result",
+      "weights_sha256": "6af1f922b600721a0da1974293ec6c1b0b507c8ea6af844f9fe21e0f404e7053",
+      "label": "Robot",
+      "seconds": 57.662199999809246,
+      "simulated_seconds": 30.78,
+      "seed": 1101,
+      "group_names": [
+        "JO-A/B input",
+        "direct JON postsynaptic partners",
+        "descending_neuron",
+        "wing motor (flytalk WING_MN)",
+        "DNa02",
+        "DNp01",
+        "DNg100",
+        "MDN",
+        "pIP10",
+        "dPR1"
+      ],
+      "group_sizes": [
+        138,
+        1017,
+        1314,
+        58,
+        2,
+        2,
+        2,
+        4,
+        2,
+        2
+      ],
+      "spoken_seconds": 26.165333333333333,
+      "response_sha256": {
+        "counts": "752a875f522c15c4616c4826dc2d21f1d4dcc94930a2072938b461b87ad78331",
+        "groups": "2e6820a0503386da35cc34a7a2c92989618215605c3bd9e2b0944c2e3af7cf27",
+        "spatial": "da9c87fba7973e86ec5e779aa89c0b850ddbdb857a48f86867068c60dec0bbdc"
+      },
+      "recorded_steps": 1539,
+      "captured_population_steps": 1539,
+      "displayed_neurons": 12000,
+      "captured_spatial_bins": 308
+    },
+    {
+      "type": "result",
+      "weights_sha256": "6af1f922b600721a0da1974293ec6c1b0b507c8ea6af844f9fe21e0f404e7053",
+      "label": "Human",
+      "seconds": 93.42910000014302,
+      "simulated_seconds": 49.7,
+      "seed": 1101,
+      "group_names": [
+        "JO-A/B input",
+        "direct JON postsynaptic partners",
+        "descending_neuron",
+        "wing motor (flytalk WING_MN)",
+        "DNa02",
+        "DNp01",
+        "DNg100",
+        "MDN",
+        "pIP10",
+        "dPR1"
+      ],
+      "group_sizes": [
+        138,
+        1017,
+        1314,
+        58,
+        2,
+        2,
+        2,
+        4,
+        2,
+        2
+      ],
+      "spoken_seconds": 45.1,
+      "response_sha256": {
+        "counts": "6f6cd5e5ef21ed230682a10db27e578aca89113413a972ad3f4bfb09dc1c7802",
+        "groups": "869c986ea1a6cd276fd6dc15748b3bc20e036f94c976bd8422bed1a5a99c6a82",
+        "spatial": "4f4de5821f6211b0e203f3f13b79bd99f3796aebb1925a15714ebff7b9b223fa"
+      },
+      "recorded_steps": 2485,
+      "captured_population_steps": 2485,
+      "displayed_neurons": 12000,
+      "captured_spatial_bins": 497
+    }
+  ],
+  "visitor_recording_enabled": false,
+  "initialized": {
+    "type": "initialized",
+    "milliseconds": 1479.2000000476837,
+    "transfer_bytes": 138576365,
+    "connectivity_memory_bytes": 205330308,
+    "working_array_bytes": 208664308
+  },
+  "validation": {
+    "type": "validated",
+    "exact": true,
+    "generated_noise_mismatches": [],
+    "mismatches": [],
+    "noise": {
+      "generator": "PCG64, exact NumPy SeedSequence initial state",
+      "repeatable": true,
+      "observed_probability": 0.023992,
+      "target_probability": 0.024
+    },
+    "visitor_gate": "Numerical gate checked; performance and device qualification still required"
+  },
+  "within_twice_duration": false
+}

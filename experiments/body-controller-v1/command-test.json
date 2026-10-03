@@ -1,0 +1,94 @@
+{
+  "schema_version": "flybody-command-test-v1",
+  "controller_commit": "d015e9bfe441bd90ae431bac24c55cb74bdbce26",
+  "policy_sha256": "49cdb0874021609c1aa5634a3073a394ef55b7ce54b6487c020c8ed2ec37d5d4",
+  "environment": {
+    "python": "3.12.14",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "tensorflow": "2.16.2",
+    "tensorflow-probability": "0.24.0",
+    "dm-control": "1.0.47",
+    "mujoco": "3.14.0",
+    "numpy": "1.26.4"
+  },
+  "protocol": {
+    "seed": 1101,
+    "steps": 600,
+    "dt": 0.002,
+    "action": "mean of published action distribution, as upstream TestPolicyWrapper",
+    "acceptance": "No early termination, finite state, and maximum tracking error below the upstream 0.3 cm termination distance. Repeat trajectory must be identical.",
+    "limitation": "A controller command test. No brain output, sound, or poem supplies these trajectories. No browser controller qualification."
+  },
+  "runs": [
+    {
+      "name": "stand",
+      "command_cm_per_second": 0,
+      "command_yaw_radians_per_second": 0,
+      "steps": 600,
+      "wall_seconds": 7.923843040829524,
+      "end_position_cm": [
+        0.03106261266542696,
+        -0.0015992340246836474,
+        0.12945536109779343
+      ],
+      "maximum_tracking_error_cm": 0.03170019430541698,
+      "mean_tracking_error_cm": 0.029553264480728897,
+      "finite": true,
+      "trajectory_sha256": "0e45d9871e315757789f9fe2ddc7c38a6d537632f62395bc467fabb9579449f0",
+      "passed": true
+    },
+    {
+      "name": "forward",
+      "command_cm_per_second": 2,
+      "command_yaw_radians_per_second": 0,
+      "steps": 600,
+      "wall_seconds": 6.550400166073814,
+      "end_position_cm": [
+        2.4181277527850282,
+        -0.020821862141387978,
+        0.1371922085584053
+      ],
+      "maximum_tracking_error_cm": 0.03571931013766844,
+      "mean_tracking_error_cm": 0.01847596908564623,
+      "finite": true,
+      "trajectory_sha256": "1a122e0e99531a2f98a00f8552fc6b74378f86f6f326be406464f34eddfd937a",
+      "passed": true
+    },
+    {
+      "name": "turn",
+      "command_cm_per_second": 2,
+      "command_yaw_radians_per_second": 2,
+      "steps": 600,
+      "wall_seconds": 7.0019667078740895,
+      "end_position_cm": [
+        0.677024725608312,
+        1.7604710441971583,
+        0.1313133633853502
+      ],
+      "maximum_tracking_error_cm": 0.03027493528042428,
+      "mean_tracking_error_cm": 0.016004978682813017,
+      "finite": true,
+      "trajectory_sha256": "3e05f4419bd237e23dba8c8f428235276146e5d9b36b6925c62cb6c90a7747f2",
+      "passed": true
+    },
+    {
+      "name": "forward_repeat",
+      "command_cm_per_second": 2,
+      "command_yaw_radians_per_second": 0,
+      "steps": 600,
+      "wall_seconds": 7.103635583072901,
+      "end_position_cm": [
+        2.4181277527850282,
+        -0.020821862141387978,
+        0.1371922085584053
+      ],
+      "maximum_tracking_error_cm": 0.03571931013766844,
+      "mean_tracking_error_cm": 0.01847596908564623,
+      "finite": true,
+      "trajectory_sha256": "1a122e0e99531a2f98a00f8552fc6b74378f86f6f326be406464f34eddfd937a",
+      "passed": true
+    }
+  ],
+  "repeat_exact": true,
+  "passed": true
+}

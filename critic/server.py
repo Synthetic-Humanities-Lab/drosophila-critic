@@ -367,7 +367,7 @@ def artifact(identifier: str, artifact: str):
 
 @app.get("/api/method")
 def method():
-    return FileResponse(ROOT / "METHOD.md", media_type="text/plain")
+    return FileResponse(ROOT / "docs/PROTOTYPE-METHOD.md", media_type="text/plain")
 
 
 @app.get("/RECEIVER-V2.md")
@@ -432,5 +432,10 @@ app.mount(
     "/experiments/encounter-v1",
     StaticFiles(directory=ROOT / "experiments/encounter-v1", check_dir=False),
     name="encounter-evidence",
+)
+app.mount(
+    "/experiments/encounter-v2",
+    StaticFiles(directory=ROOT / "experiments/encounter-v2", check_dir=False),
+    name="encounter-playback",
 )
 app.mount("/", StaticFiles(directory=ROOT / "static", html=True), name="interface")

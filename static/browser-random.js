@@ -25,7 +25,9 @@ export class PCG64 {
     for (let k = 0; k < 8; k++) {
       let sum = carry + this.increment[k];
       for (let j = 0; j <= k; j++) sum += a[j] * b[k - j];
-      out[k] = sum % BASE;
+      // Sums are exact integers below 2^36. The mask retains their low 16 bits
+      // like modulo BASE, without a floating-point remainder in this hot loop.
+      out[k] = sum & 65535;
       carry = Math.floor(sum / BASE);
     }
     this.state = out;

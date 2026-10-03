@@ -105,25 +105,46 @@ def test_encounter_dom_and_static_only_boundary():
     ids = re.findall(r'id="([^"]+)"', html)
     assert len(ids) == len(set(ids))
     code = (ROOT / "static/encounter.js").read_text()
-    for name in re.findall(r"\$\('([^']+)'\)", code):
+    for name in re.findall(r"\$\([\"']([^\"']+)[\"']\)", code):
         assert name in ids, name
     assert "/api/" not in code
     assert "weights" not in code
     assert 'id="poem"' in html and "<textarea" not in html
     assert "archive.html" in html
-    assert "Recorded simulation" in code
+    assert "Recorded full-connectome simulation" in code
 
 
 def test_local_listening_dom_and_privacy_boundary():
-    html = (ROOT / "static/listen.html").read_text()
+    html = (ROOT / "static/index.html").read_text()
     ids = re.findall(r'id="([^"]+)"', html)
     assert len(ids) == len(set(ids))
-    code = (ROOT / "static/local-listening.js").read_text()
-    for name in re.findall(r"\$\('([^']+)'\)", code):
+    code = (ROOT / "static/recording-panel.js").read_text()
+    for name in re.findall(r"\$\([\"']([^\"']+)[\"']\)", code):
         assert name in ids, name
     assert "/api/" not in code
     assert "POST" not in code
     assert "sendBeacon" not in code
     assert "getUserMedia" in code
-    assert 'id="load-local"' in html
+    assert 'id="process-voice"' in html
     assert "60 seconds" in html
+    assert "?voice=1" in (ROOT / "static/listen.html").read_text()
+
+
+def test_python_server_exposes_the_same_curated_playback_contract():
+    from fastapi.testclient import TestClient
+
+    from critic.server import app
+
+    response = TestClient(app).get("/experiments/encounter-v2/manifest.json")
+    assert response.status_code == 200
+    assert response.json()["schema_version"] == "encounter-manifest-v2"
+
+
+def test_legacy_api_keeps_its_amplitude_method_snapshot():
+    from fastapi.testclient import TestClient
+
+    from critic.server import app
+
+    response = TestClient(app).get("/api/method")
+    assert response.status_code == 200
+    assert response.text == (ROOT / "docs/PROTOTYPE-METHOD.md").read_text()

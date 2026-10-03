@@ -1,0 +1,103 @@
+{
+  "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
+  "hardware_threads": 14,
+  "device_memory_gb": 32,
+  "results": [
+    {
+      "type": "result",
+      "weights_sha256": "6af1f922b600721a0da1974293ec6c1b0b507c8ea6af844f9fe21e0f404e7053",
+      "label": "Robot",
+      "seconds": 39.836099999904604,
+      "simulated_seconds": 30.78,
+      "seed": 1101,
+      "group_names": [
+        "JO-A/B input",
+        "direct JON postsynaptic partners",
+        "descending_neuron",
+        "wing motor (flytalk WING_MN)",
+        "DNa02",
+        "DNp01",
+        "DNg100",
+        "MDN",
+        "pIP10",
+        "dPR1"
+      ],
+      "group_sizes": [
+        138,
+        1017,
+        1314,
+        58,
+        2,
+        2,
+        2,
+        4,
+        2,
+        2
+      ],
+      "spoken_seconds": 26.165333333333333,
+      "recorded_steps": 1539,
+      "captured_population_steps": 1539,
+      "displayed_neurons": 12000,
+      "captured_spatial_bins": 308
+    },
+    {
+      "type": "result",
+      "weights_sha256": "6af1f922b600721a0da1974293ec6c1b0b507c8ea6af844f9fe21e0f404e7053",
+      "label": "Human",
+      "seconds": 62.69749999999999,
+      "simulated_seconds": 49.7,
+      "seed": 1101,
+      "group_names": [
+        "JO-A/B input",
+        "direct JON postsynaptic partners",
+        "descending_neuron",
+        "wing motor (flytalk WING_MN)",
+        "DNa02",
+        "DNp01",
+        "DNg100",
+        "MDN",
+        "pIP10",
+        "dPR1"
+      ],
+      "group_sizes": [
+        138,
+        1017,
+        1314,
+        58,
+        2,
+        2,
+        2,
+        4,
+        2,
+        2
+      ],
+      "spoken_seconds": 45.1,
+      "recorded_steps": 2485,
+      "captured_population_steps": 2485,
+      "displayed_neurons": 12000,
+      "captured_spatial_bins": 497
+    }
+  ],
+  "visitor_recording_enabled": false,
+  "initialized": {
+    "type": "initialized",
+    "milliseconds": 1887.7999999523163,
+    "transfer_bytes": 138576365,
+    "connectivity_memory_bytes": 205330308,
+    "working_array_bytes": 208664308
+  },
+  "validation": {
+    "type": "validated",
+    "exact": true,
+    "generated_noise_mismatches": [],
+    "mismatches": [],
+    "noise": {
+      "generator": "PCG64, exact NumPy SeedSequence initial state",
+      "repeatable": true,
+      "observed_probability": 0.023992,
+      "target_probability": 0.024
+    },
+    "visitor_gate": "Numerical gate checked; performance and device qualification still required"
+  },
+  "within_twice_duration": true
+}

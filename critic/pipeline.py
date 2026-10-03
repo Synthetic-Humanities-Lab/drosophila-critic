@@ -112,7 +112,9 @@ def run_audio_reading(
         "reading": reading,
         "provenance": {
             "application_source_sha256": source_hashes,
-            "method_sha256": hashlib.sha256((ROOT / "METHOD.md").read_bytes()).hexdigest(),
+            "method_sha256": hashlib.sha256(
+                (ROOT / "docs/PROTOTYPE-METHOD.md").read_bytes()
+            ).hexdigest(),
             "simulation_input": "normalized PCM-derived RMS frames only",
             "interpretation_input": "reading-input.json only",
             "raw_spikes": "spikes.npz",
@@ -130,6 +132,6 @@ def run_audio_reading(
             "note": "Display-only text. Never passed to simulator or interpreter.",
         },
     }
-    (directory / "METHOD.md").write_text((ROOT / "METHOD.md").read_text())
+    (directory / "METHOD.md").write_text((ROOT / "docs/PROTOTYPE-METHOD.md").read_text())
     save_json(directory / "result.json", result)
     return result

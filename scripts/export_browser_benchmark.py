@@ -67,6 +67,9 @@ def main():
         ),
         upstream_commit=runner.inventory()["upstream_commit"],
         weight_quantization=False,
+        display_neurons=json.loads((ROOT / "experiments/encounter-v1/spatial-a.json").read_text())[
+            "neuron_indices"
+        ],
         random_states={
             str(seed): {
                 k: str(v)

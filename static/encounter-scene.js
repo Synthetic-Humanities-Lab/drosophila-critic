@@ -1,30 +1,31 @@
-import * as THREE from './vendor/three.module.js';
-import { GLTFLoader } from './vendor/GLTFLoader.js';
+import * as THREE from "./vendor/three.module.js";
+import { GLTFLoader } from "./vendor/GLTFLoader.js";
 
 // Stage animation is separate from recorded neural state. No behavioral decoder.
 export class EncounterScene {
   constructor(container) {
     this.container = container;
-    this.reader = 'a';
-    this.reduced = matchMedia('(prefers-reduced-motion: reduce)');
+    this.reader = "a";
+    this.close = false;
+    this.reduced = matchMedia("(prefers-reduced-motion: reduce)");
     try {
       this.renderer = new THREE.WebGLRenderer({ antialias: true });
       this.renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
       this.renderer.shadowMap.enabled = true;
       this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-      this.renderer.setClearColor(0x48574a);
+      this.renderer.setClearColor(0x404b40);
       this.renderer.outputColorSpace = THREE.SRGBColorSpace;
-      this.renderer.domElement.setAttribute('role', 'img');
+      this.renderer.domElement.setAttribute("role", "img");
       this.renderer.domElement.setAttribute(
-        'aria-label',
-        'A staged reader addresses an anatomical fly across a wooden reading desk. Reader gestures are theatrical.',
+        "aria-label",
+        "A staged reader addresses an anatomical fly across a wooden reading desk. Reader gestures are theatrical.",
       );
       container.append(this.renderer.domElement);
       this.scene = new THREE.Scene();
-      this.scene.fog = new THREE.Fog(0x48574a, 15, 33);
+      this.scene.fog = new THREE.Fog(0x404b40, 15, 33);
       this.camera = new THREE.PerspectiveCamera(36, 1, 0.1, 60);
-      this.scene.add(new THREE.HemisphereLight(0xe5eed3, 0x403b29, 2.1));
-      const sun = new THREE.DirectionalLight(0xffe0a5, 3.8);
+      this.scene.add(new THREE.HemisphereLight(0xe5eed3, 0x403b29, 1.5));
+      const sun = new THREE.DirectionalLight(0xffe0bd, 3.2);
       sun.position.set(-4, 10, 5);
       sun.castShadow = true;
       sun.shadow.mapSize.set(2048, 2048);
@@ -50,7 +51,7 @@ export class EncounterScene {
       const plinth = this.box(0, 1.52, 0, 3.2, 0.18, 2.5, 0x333d30);
       this.scene.add(plinth);
       new GLTFLoader().load(
-        new URL('./assets/fly/fly.glb', import.meta.url).href,
+        new URL("./assets/fly/fly.glb", import.meta.url).href,
         (gltf) => {
           this.fly = gltf.scene;
           // Asset uses Z-up; theatre uses Y-up. Fit it from actual bounds.
@@ -69,25 +70,27 @@ export class EncounterScene {
             if (!node.isMesh) return;
             node.castShadow = true;
             node.receiveShadow = true;
-            if (/pedicel|funiculus/.test(node.name)) {
+            if (/funiculus|arista/.test(node.name)) {
               node.material = node.material.clone();
               this.antennae.push(node);
             }
           });
           this.scene.add(this.fly);
           this.render();
-          this.container.dataset.ready = 'true';
+          this.container.dataset.ready = "true";
         },
         undefined,
         () => this.fallback(),
       );
-      this.renderer.domElement.addEventListener('webglcontextlost', (event) => {
+      this.renderer.domElement.addEventListener("webglcontextlost", (event) => {
         event.preventDefault();
         this.fallback();
       });
-      this.renderer.domElement.addEventListener('webglcontextrestored', () =>
-        location.reload(),
-      );
+      this.renderer.domElement.addEventListener("webglcontextrestored", () => {
+        document.getElementById("scene-fallback").hidden = true;
+        document.getElementById("camera").disabled = false;
+        this.render();
+      });
       this.observer = new ResizeObserver(() => this.resize());
       this.observer.observe(container);
       this.resize();
@@ -245,13 +248,18 @@ export class EncounterScene {
   }
   setReader(reader) {
     this.reader = reader;
+    if (this.actor) this.actor.visible = reader !== "silence";
     if (this.humanHead) {
-      this.humanHead.visible = reader === 'b';
-      this.robotHead.visible = reader === 'a';
+      this.humanHead.visible = reader === "b" || reader === "visitor";
+      this.robotHead.visible = reader === "a";
     }
     this.render();
   }
-  update(time, playing) {
+  setClose(close) {
+    this.close = close;
+    this.resize();
+  }
+  update(time, playing, displacement = 0, displacementScale = 1) {
     if (!this.renderer) return;
     const moving = playing && !this.reduced.matches;
     if (this.head) {
@@ -261,9 +269,17 @@ export class EncounterScene {
         arm.rotation.x =
           -0.55 +
           (moving
-            ? (this.reader === 'b' ? 0.22 : 0.055) * Math.sin(time * 2 + i)
+            ? (this.reader === "b" ? 0.22 : 0.055) * Math.sin(time * 2 + i)
             : 0);
       });
+    }
+    // Envelope intensity marks modeled vibration; it is not a fabricated oscillation.
+    for (const antenna of this.antennae || []) {
+      antenna.material.emissive.setHex(0xbb7027);
+      antenna.material.emissiveIntensity = Math.min(
+        0.65,
+        this.reduced.matches ? 0 : (displacement / displacementScale) * 0.65,
+      );
     }
     this.render();
   }
@@ -273,10 +289,15 @@ export class EncounterScene {
     if (!width || !height) return;
     this.renderer.setSize(width, height);
     this.camera.aspect = width / height;
-    this.camera.position
-      .set(6.0, 5.2, 8.2)
-      .multiplyScalar(width < 600 ? 1.18 : 1);
-    this.camera.lookAt(-0.6, 1.35, 0);
+    if (this.close) {
+      this.camera.position.set(3.1, 3.05, 4.3);
+      this.camera.lookAt(-0.25, 2.05, 0);
+    } else {
+      this.camera.position
+        .set(5.0, 4.25, 6.8)
+        .multiplyScalar(width < 500 ? 1.1 : 1);
+      this.camera.lookAt(-0.6, 1.75, 0);
+    }
     this.camera.updateProjectionMatrix();
     this.render();
   }
@@ -285,6 +306,7 @@ export class EncounterScene {
       this.renderer.render(this.scene, this.camera);
   }
   fallback() {
-    document.getElementById('scene-fallback').hidden = false;
+    document.getElementById("scene-fallback").hidden = false;
+    document.getElementById("camera").disabled = true;
   }
 }

@@ -3,97 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Read to the fly yourself</title>
-    <link rel="stylesheet" href="./encounter.css" />
-    <script type="module" src="./local-listening.js"></script>
+    <title>Read to the fly</title>
+    <meta http-equiv="refresh" content="0;url=./?voice=1#your-voice" />
   </head>
   <body>
-    <header>
-      <a href="./">← The Drosophila Critic</a><span>LOCAL / EXPERIMENTAL</span>
-    </header>
-    <main>
-      <div class="intro">
-        <div>
-          <p class="eyebrow">YOUR VOICE, THE SAME RECEIVER</p>
-          <h1>Read to the fly<span>.</span></h1>
-        </div>
-      </div>
-      <p>
-        Desktop experiment. Audio stays on your device. The model downloads only
-        when you choose to load it: <strong>139 MB</strong>, cached where your
-        browser permits. Processing several controlled runs can take a few
-        minutes. Phones have not been qualified.
-      </p>
-      <button id="load-local" class="primary">LOAD THE FLY · 139 MB</button
-      ><button id="cancel-local" hidden>CANCEL</button>
-      <p id="local-status" role="status">
-        Or return to the instant recorded encounter above.
-      </p>
-      <p id="local-error" role="alert" hidden></p>
-      <section id="record-controls" hidden>
-        <button id="record-local">RECORD MY VOICE</button
-        ><button id="stop-local" disabled>STOP</button
-        ><label
-          >Or choose a recording
-          <input id="local-file" type="file" accept="audio/*" /></label
-        ><button id="example-local">TRY THE EXISTING HUMAN RECORDING</button>
-        <p>
-          Read Blake’s “The Fly” below. Maximum 60 seconds. Both recordings
-          receive the same achievable RMS level, with pauses and dynamics
-          preserved. No transcription or meaning analysis is performed.
-        </p>
-      </section>
-      <section class="poem-and-reading">
-        <div
-          id="local-poem"
-          class="poem"
-          style="
-            white-space: pre-line;
-            font:
-              21px/1.6 Georgia,
-              serif;
-          "
-        ></div>
-        <section id="local-result" hidden>
-          <h2>RESPONSE</h2>
-          <p id="local-measurement"></p>
-          <svg
-            id="local-trace"
-            viewBox="0 0 540 180"
-            role="img"
-            aria-label="Single-run silence-corrected downstream response"
-          ></svg>
-          <p>Your recording’s native clock; dashed line = matched silence.</p>
-          <button id="play-local">PLAY MY RESPONSE</button>
-          <p id="local-clock"></p>
-          <h2>READING</h2>
-          <p id="local-reading"></p>
-          <button id="save-local">SAVE RESPONSE JSON</button>
-        </section>
-      </section>
-      <details>
-        <summary>METHOD / A browser simulation</summary>
-        <p>
-          Original MaleCNS weights, original fly.ai update, 20 ms timestep,
-          PCG64 noise and seed 1101. Four controlled runs: synthetic reference,
-          your recording and their matched silence controls. This is one paired
-          repetition, not the four-seed published experiment. Human recordings
-          are not transcribed or automatically aligned by line.
-        </p>
-        <p>
-          The published antennal displacement filter feeds the same 138 JO-A/B
-          targets. Its neural coupling is an engineering assumption. Audio is
-          decoded at 48 kHz, linearly level matched without compression, and
-          then converted into acoustic input. Browser decoding may differ
-          slightly from the Python resampler.
-        </p>
-        <p>
-          No feelings, preference, understanding or physical movement are
-          inferred. Browser execution was qualified on the development desktop
-          only. Reduced performance, memory limits, cache eviction and
-          background throttling remain possible on other devices.
-        </p>
-      </details>
-    </main>
+    <p>
+      <a href="./?voice=1#your-voice"
+        >Record your voice in the Drosophila Critic encounter →</a
+      >
+    </p>
   </body>
 </html>
