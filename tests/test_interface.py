@@ -110,7 +110,8 @@ def test_encounter_dom_and_static_only_boundary():
     assert "/api/" not in code
     assert "weights" not in code
     assert 'id="poem"' in html and "<textarea" not in html
-    assert "archive.html" in html
+    assert "archive.html" not in html
+    assert "archive.html" not in code
     assert "Recorded full-connectome simulation" in code
 
 

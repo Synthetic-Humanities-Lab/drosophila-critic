@@ -59,8 +59,9 @@ python3 -m http.server 8777 --bind 127.0.0.1 --directory dist
 Open **http://127.0.0.1:8777/**. Microphone support requires a secure context;
 localhost and HTTPS qualify. The main page does not fetch connectivity until
 the visitor explicitly starts processing. `listen.html` redirects into this
-shared interface. Historical `?mode=...` and `?reading=...` links go to the
-research archive. GitHub Actions rebuilds `dist/` and publishes it on pushes to
+shared interface. Historical query links open the current encounter. Research and benchmark
+pages are excluded from the published site; their code and data remain in this
+repository for local development. GitHub Actions rebuilds `dist/` and publishes it on pushes to
 `main`; do not commit the generated directory or private recordings.
 
 ## What is being simulated?
@@ -86,7 +87,8 @@ A seed varies simulated noise, not the biological fly.
 
 The main app’s plain explanations use only measured rates, changes, and repeat
 counts. The older separate **RESPONSE / READING** literary layer remains in
-the archive. It has not been recast as biological evidence.
+the repository for local research, outside the public app. It has not been
+recast as biological evidence.
 
 ## Development and reproduction
 
@@ -146,7 +148,8 @@ node --test tests/*.test.mjs
 - [Neural playback contract](docs/ENCOUNTER-V2.md) and [current body/audio manifest](experiments/encounter-v3/manifest.json).
 - [Curated receiver protocol](docs/ENCOUNTER.md), [source audit](experiments/receiver-v2/CALIBRATION.md), and [strength checks](experiments/encounter-v1/sensitivity.json).
 - [Movement checks](docs/MOVING-ARENA-QA.md), [adapter](docs/NEURAL-BODY-ADAPTER.md), and [measured comparisons](experiments/encounter-v3/movement-summary.json).
-- [Current status](docs/MOVING-ARENA-STATUS.md) and [research archive](https://synthetic-humanities-lab.github.io/drosophila-critic/archive.html).
+- [Current status](docs/MOVING-ARENA-STATUS.md). Historical research remains in
+  the repository; the research archive is no longer published as an app.
 
 Blake’s poem is public domain. Human audio: Denny Sayers, LibriVox, 2006. Robot:
 Kokoro `af_sarah`, fixed settings. Current anatomy: flybody;
@@ -156,7 +159,7 @@ Kokoro `af_sarah`, fixed settings. Current anatomy: flybody;
 flybody source and MuJoCo are Apache 2.0; the separately published policies and
 wingbeat dataset are GPL 3.0+. The body inference/export components are supplied
 under GPL 3.0+ with corresponding source and original dataset files. The earlier
-NeuroMechFly asset remains credited in the historical archive. Reader gestures
+NeuroMechFly asset remains credited in the historical source. Reader gestures
 are theatre; the fly's trajectory is simulated.
 
 ## Reproduce the moving body
@@ -209,6 +212,7 @@ source is `scripts/body_dense.wat`. Rebuild with WABT's `wat2wasm` (SIMD enabled
 `wat2wasm scripts/body_dense.wat -o static/body-dense.wasm`. MuJoCo's official
 single-threaded 3.14.0 distribution is vendored separately.
 
-Open `/body-proof.html` for the controlled movement demonstration and
-`/body-benchmark.html` to measure the full local 60-second workflow. Neither page
-calls a processing server.
+With the local Python development server described above, open `/body-proof.html`
+for the controlled movement demonstration, or `/body-benchmark.html` to measure
+the full local 60-second workflow.
+These pages are excluded from the public export. Neither calls a processing server.

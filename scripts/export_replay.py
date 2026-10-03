@@ -1,50 +1,43 @@
-"""Export an explicitly labeled static edition from a completed real reading."""
+"""Publish the listening app and its evidence; keep development pages offline."""
 
 import argparse
 import hashlib
-import json
 import re
 import shutil
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-ARTIFACTS = [
-    "result.json",
-    "audio.wav",
-    "encoding.json",
-    "reading-input.json",
-    "spikes.npz",
-    "populations.npz",
-    "population_metrics.json",
-    "METHOD.md",
-]
-
-
-def copy_record(source: Path, output: Path):
-    result = json.loads((source / "result.json").read_text())
-    if not result["fly"]["weights_unchanged"] or not result["timeline"]:
-        raise ValueError("Only a completed frozen-connectome record can be published")
-    if (
-        result["display"]["poem"]
-        != json.loads((ROOT / "examples/example.json").read_text())["poem"]
-    ):
-        raise ValueError("Only the designated public-domain opening poem may be exported")
-    target = output / "recordings" / result["id"]
-    target.mkdir(parents=True, exist_ok=True)
-    for name in ARTIFACTS:
-        shutil.copy2(source / name, target / name)
-    for name in (
-        "recording-source.json",
-        "original.mp3",
-        "silence-spikes.npz",
-        "silence-populations.npz",
-        "benchmark.json",
-        "neural-display.json",
-    ):
-        if (source / name).exists():
-            shutil.copy2(source / name, target / name)
-    (target / "status.json").write_text(json.dumps({"status": "complete", "id": result["id"]}))
-    return result
+PUBLIC_FILES = (
+    "index.html",
+    "listen.html",
+    "encounter.css",
+    "encounter.js",
+    "encounter-data.js",
+    "arena-scene.js",
+    "follow-camera.js",
+    "body-view.js",
+    "neural-scene.js",
+    "audio-player.js",
+    "playback-data.js",
+    "recording-panel.js",
+    "local-audio.js",
+    "local-session.js",
+    "worker-session.js",
+    "browser-benchmark.worker.js",
+    "browser-brain.js",
+    "browser-random.js",
+    "neural-capture.js",
+    "body-session.js",
+    "body.worker.js",
+    "body-policy.js",
+    "body-adapter.js",
+    "body-runtime.js",
+    "body-processing.js",
+    "body-dense.wasm",
+)
+PUBLIC_DIRECTORIES = ("assets", "vendor", "browser-model-v1")
+PLAYBACK_DIRECTORIES = ("encounter-v1", "encounter-v2", "encounter-v3")
 
 
 def version_interface(output: Path):
@@ -69,85 +62,37 @@ def version_interface(output: Path):
     return version
 
 
-def export(source: Path, output: Path):
-    shutil.copytree(ROOT / "static", output, dirs_exist_ok=True)
-    primary = copy_record(source, output)
-    performances = [
-        {
-            "id": primary["id"],
-            "label": "01 / Synthetic reference",
-            "description": "Kokoro af_sarah: the fixed synthetic reference. Each performance has its own response, silence control and interpretation.",
-        }
-    ]
-    human = ROOT / "examples/blake-sayers"
-    if (
-        source.resolve() == (ROOT / "examples/blake-the-fly").resolve()
-        and (human / "result.json").exists()
+def export(output: Path):
+    output = output.resolve()
+    if output == ROOT or ROOT.is_relative_to(output) or output.is_relative_to(ROOT / "static"):
+        raise ValueError("Export requires a separate generated output directory")
+    if output.exists() and not (
+        (output / ".nojekyll").is_file()
+        and (output / "index.html").is_file()
+        and "The Drosophila Critic" in (output / "index.html").read_text()
     ):
-        result = copy_record(human, output)
-        performances.append(
-            {
-                "id": result["id"],
-                "label": "02 / Denny Sayers · human performance",
-                "description": "Denny Sayers / LibriVox (2006). Poem-only excerpt, original pacing; normalized with the same RMS/peak rule. Approximate line timing is display-only. This compares performances, not semantic understanding.",
-            }
-        )
-    (output / "site-config.json").write_text(
-        json.dumps(
-            {
-                "mode": "recorded",
-                "reading": primary["id"],
-                "performances": performances,
-                "example": json.loads((ROOT / "examples/example.json").read_text()),
-            }
-        )
-    )
-    shutil.copy2(ROOT / "docs/CRITICAL-DIRECTIONS.md", output / "CRITICAL-DIRECTIONS.md")
-    bench = ROOT / "experiments/delivery-v1"
-    if (bench / "comparison.json").exists():
-        shutil.copytree(bench, output / "experiments/delivery-v1", dirs_exist_ok=True)
-    temporal = ROOT / "experiments/temporal-v2"
-    if (temporal / "confirmation.json").exists():
-        shutil.copytree(temporal, output / "experiments/temporal-v2", dirs_exist_ok=True)
-    history = ROOT / "experiments/history-v3"
-    if (history / "comparison.json").exists():
-        shutil.copytree(history, output / "experiments/history-v3", dirs_exist_ok=True)
-    emphasis = ROOT / "experiments/emphasis-v4"
-    if (emphasis / "comparison.json").exists():
-        shutil.copytree(emphasis, output / "experiments/emphasis-v4", dirs_exist_ok=True)
-    passages = ROOT / "experiments/passages-v5"
-    if (passages / "comparison.json").exists():
-        shutil.copytree(passages, output / "experiments/passages-v5", dirs_exist_ok=True)
-    populations = ROOT / "experiments/populations-v6"
-    if (populations / "comparison.json").exists():
-        shutil.copytree(populations, output / "experiments/populations-v6", dirs_exist_ok=True)
-    receiver = ROOT / "experiments/receiver-v2"
-    if (receiver / "report.json").exists():
-        shutil.copytree(receiver, output / "experiments/receiver-v2", dirs_exist_ok=True)
-        shutil.copy2(ROOT / "docs/RECEIVER-V2.md", output / "RECEIVER-V2.md")
-    performance = ROOT / "experiments/performance-v1"
-    if (performance / "result.json").exists():
-        # Only this curated public-domain example, never uploaded results.
-        shutil.copytree(performance, output / "experiments/performance-v1", dirs_exist_ok=True)
-    encounter = ROOT / "experiments/encounter-v1"
-    if (encounter / "manifest.json").exists():
-        shutil.copytree(encounter, output / "experiments/encounter-v1", dirs_exist_ok=True)
-    encounter_v2 = ROOT / "experiments/encounter-v2"
-    if (encounter_v2 / "manifest.json").exists():
-        shutil.copytree(encounter_v2, output / "experiments/encounter-v2", dirs_exist_ok=True)
-    encounter_v3 = ROOT / "experiments/encounter-v3"
-    if (encounter_v3 / "manifest.json").exists():
-        shutil.copytree(encounter_v3, output / "experiments/encounter-v3", dirs_exist_ok=True)
-    body_checks = ROOT / "experiments/body-controller-v2"
-    if body_checks.exists():
-        shutil.copytree(body_checks, output / "experiments/body-controller-v2", dirs_exist_ok=True)
-    version_interface(output)
-    (output / ".nojekyll").touch()
+        raise ValueError("Refusing to replace a directory that is not a generated replay export")
+    output.parent.mkdir(parents=True, exist_ok=True)
+    # Finish the new edition before replacing the old generated bundle. Rebuilding
+    # removes retired pages and stale hashed modules, including on local exports.
+    with tempfile.TemporaryDirectory(prefix=".replay-export-", dir=output.parent) as temporary:
+        staged = Path(temporary) / "site"
+        staged.mkdir()
+        for name in PUBLIC_FILES:
+            shutil.copy2(ROOT / "static" / name, staged / name)
+        for name in PUBLIC_DIRECTORIES:
+            shutil.copytree(ROOT / "static" / name, staged / name)
+        for name in PLAYBACK_DIRECTORIES:
+            shutil.copytree(ROOT / "experiments" / name, staged / "experiments" / name)
+        version_interface(staged)
+        (staged / ".nojekyll").touch()
+        if output.exists():
+            shutil.rmtree(output)
+        staged.rename(output)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--source", type=Path, default=ROOT / "examples/blake-the-fly")
     parser.add_argument("--output", type=Path, default=ROOT / "dist")
     args = parser.parse_args()
-    export(args.source, args.output)
+    export(args.output)

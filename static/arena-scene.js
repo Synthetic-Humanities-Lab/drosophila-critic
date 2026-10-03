@@ -1,5 +1,6 @@
 import * as THREE from "./vendor/three.module.js";
 import { ArticulatedFly } from "./body-view.js";
+import { FollowCameraTrack } from "./follow-camera.js";
 
 export class EncounterScene {
   constructor(container) {
@@ -231,6 +232,7 @@ export class EncounterScene {
     this.rootIndex = recording?.body_names.indexOf("walker/thorax") ?? -1;
     if (this.rootIndex < 0)
       throw new Error("The body recording has no thorax transform.");
+    this.cameraTrack = new FollowCameraTrack(recording, this.rootIndex);
     const points = recording.positions
       .filter((_, i) => i % 5 === 0)
       .map(
@@ -246,16 +248,15 @@ export class EncounterScene {
   locate(time) {
     const r = this.recording;
     if (!r) return null;
-    let lo = 0,
-      hi = r.time.length - 1;
-    while (lo + 1 < hi) {
-      const mid = (lo + hi) >> 1;
-      if (r.time[mid] <= time) lo = mid;
-      else hi = mid;
-    }
+    const {
+      frame: { lo },
+      position,
+      target,
+    } = this.cameraTrack.sample(time);
     return {
       index: lo,
-      position: r.positions[lo][this.rootIndex],
+      position,
+      cameraTarget: target,
       state: r.states[lo],
       airborne: r.airborne?.[lo] ?? r.states[lo] === "flight",
       command: r.commands[lo],
@@ -315,26 +316,11 @@ export class EncounterScene {
     this.camera.updateProjectionMatrix();
     let target = new THREE.Vector3(0, 0.14, 0);
     if (state) {
-      const p = state.position;
+      const p = state.cameraTarget;
       target.set(p[0], p[2], -p[1]);
     }
     if (following) {
-      let yaw = 0;
-      if (state) {
-        const q = this.recording.quaternions[state.index][this.rootIndex];
-        yaw = Math.atan2(
-          2 * (q[0] * q[3] + q[1] * q[2]),
-          1 - 2 * (q[2] * q[2] + q[3] * q[3]),
-        );
-      }
-      this.camera.position
-        .copy(target)
-        .add(
-          new THREE.Vector3(0.3, 0.32, 0.7).applyAxisAngle(
-            new THREE.Vector3(0, 1, 0),
-            -yaw,
-          ),
-        );
+      this.camera.position.copy(target).add(new THREE.Vector3(0.3, 0.32, 0.7));
       this.camera.lookAt(target);
     } else {
       this.camera.position.set(16, 18, 23);

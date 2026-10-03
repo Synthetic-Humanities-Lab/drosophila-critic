@@ -6,8 +6,6 @@ import { binAt, responseExplanation, timeLabel } from "./playback-data.js";
 import { RecordingPanel } from "./recording-panel.js";
 
 const query = new URLSearchParams(location.search);
-if (query.has("mode") || query.has("reading"))
-  location.replace(`./archive.html${location.search}`);
 const $ = (id) => document.getElementById(id),
   base = "./experiments/encounter-v3/";
 const audio = new RecordedAudio(),

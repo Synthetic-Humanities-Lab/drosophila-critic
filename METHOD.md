@@ -8,7 +8,8 @@ comprehension or a reconstruction of subjective experience.
 **RESPONSE** means measurements of simulated activity. **READING** means an
 interpretation of those measurements. The current main page uses plain
 measurement explanations; the older literary reading layer remains in the
-research archive. Its response-only boundary remains intact.
+repository for local research, outside the public app. Its response-only
+boundary remains intact.
 
 ## From MaleCNS and fly.ai
 
@@ -138,3 +139,14 @@ Earlier amplitude-only and text-to-TTS results remain unchanged with their own
 method snapshots. The [prototype method](docs/PROTOTYPE-METHOD.md) documents
 those settings, including its shorter baseline/tail and its separate literary
 interpreter. The current page does not silently upgrade or relabel those runs.
+
+## Playback camera
+
+The close camera keeps a fixed viewing direction rather than rotating with the
+fly's heading. Its centre follows a Gaussian-smoothed thorax path (60 ms standard
+deviation, 180 ms each side), interpolated on the playback clock. The centre
+may differ from the recorded thorax by at most 0.12 cm, to retain the animal
+inside the close frame during fast turns. This is display stabilization only:
+body transforms, commands, audio, neural activity and movement measurements are
+unchanged. The same playback time gives the same framing after seeking or at
+different rendering rates. Reduced-motion mode retains the fixed wide view.
