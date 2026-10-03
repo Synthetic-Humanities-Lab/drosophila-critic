@@ -1,5 +1,5 @@
 import { RecordedAudio } from "./audio-player.js";
-import { EncounterScene } from "./encounter-scene.js";
+import { EncounterScene } from "./arena-scene.js";
 import { NeuralScene } from "./neural-scene.js";
 import { selection, stanzaAtTime } from "./encounter-data.js";
 import { binAt, responseExplanation, timeLabel } from "./playback-data.js";
@@ -9,7 +9,7 @@ const query = new URLSearchParams(location.search);
 if (query.has("mode") || query.has("reading"))
   location.replace(`./archive.html${location.search}`);
 const $ = (id) => document.getElementById(id),
-  base = "./experiments/encounter-v2/";
+  base = "./experiments/encounter-v3/";
 const audio = new RecordedAudio(),
   stage = new EncounterScene($("stage")),
   neural = new NeuralScene($("neural-scene"));
@@ -24,6 +24,7 @@ let manifest,
   group = 2,
   lastBin = -1,
   lastFrame = -1;
+let movementSummary;
 const cache = new Map();
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
 function setFlashes(enabled) {
@@ -32,19 +33,36 @@ function setFlashes(enabled) {
   $("flashes").textContent = enabled ? "Flashes on" : "Flashes off";
 }
 setFlashes(!reducedMotion.matches);
+$("reduce-motion").checked = reducedMotion.matches;
+stage.setReducedMotion(reducedMotion.matches);
+$("reduce-motion").onchange = () => {
+  const reduced = $("reduce-motion").checked;
+  stage.setReducedMotion(reduced);
+  setFlashes(!reduced);
+};
 $("flashes").disabled = !neural.renderer;
-reducedMotion.addEventListener("change", (e) => setFlashes(!e.matches));
+reducedMotion.addEventListener("change", (e) => {
+  $("reduce-motion").checked = e.matches;
+  setFlashes(!e.matches);
+});
 $("flashes").onclick = () => setFlashes(!neural.flashes);
+$("map-view").href = query.get("view") === "map" ? "./" : "./?view=map";
+$("map-view").textContent =
+  query.get("view") === "map" ? "Use the 3D view" : "Use the 2D map instead";
 async function json(path) {
   if (!cache.has(path))
     cache.set(
       path,
       fetch(base + path)
-        .then((r) => {
+        .then(async (r) => {
           if (!r.ok)
             throw new Error(
               `The recorded response could not load (${r.status}). Select the recording to retry.`,
             );
+          if (path.endsWith(".gz"))
+            return new Response(
+              r.body.pipeThrough(new DecompressionStream("gzip")),
+            ).json();
           return r.json();
         })
         .catch((e) => {
@@ -58,10 +76,55 @@ function fail(error) {
   $("error").hidden = false;
   $("error").textContent = error.message || String(error);
 }
+function showMovement() {
+  const fields = [
+    ["distance_walked_cm", "Walked", "cm"],
+    ["flight_seconds", "Time flying", "s"],
+    ["turns_revolutions", "Turning", "rotations"],
+    ["after_voice_distance_cm", "After the voice", "cm"],
+  ];
+  const holder = $("movement-measurements");
+  holder.replaceChildren();
+  const single = reader === "visitor",
+    report = single ? null : movementSummary.performances[reader];
+  for (const [key, label, unit] of fields) {
+    const a = single
+      ? visitor.body.sound.metrics[key]
+      : report.summary[key].sound.mean;
+    const b = single
+      ? visitor.body.silence.metrics[key]
+      : report.summary[key].silence.mean;
+    const box = document.createElement("div"),
+      name = document.createElement("span"),
+      value = document.createElement("strong"),
+      baseline = document.createElement("span");
+    name.textContent = label;
+    value.textContent = `${(silent ? b : a).toFixed(1)} ${unit}`;
+    baseline.textContent = silent
+      ? "With no sound"
+      : `Silence: ${b.toFixed(1)} ${unit}`;
+    box.append(name, value, baseline);
+    if (!single && !silent) {
+      const change = report.summary[key].change;
+      const repeat = document.createElement("span");
+      repeat.textContent =
+        change.minimum > 0
+          ? "More in all four runs"
+          : change.maximum < 0
+            ? "Less in all four runs"
+            : "The difference varies between runs";
+      box.append(repeat);
+    }
+    holder.append(box);
+  }
+  $("movement-caption").textContent =
+    `Movement from the added body model. ${single ? "One recording and its silence control." : `Figures average ${report.paired_seeds.length} runs; the fly and neural display show seed 1101.`} Totals include the quiet lead-in and three seconds afterward. Turning adds up every change in heading. ${!single && !movementSummary.qualified ? "Development preview: full controller qualification is still in progress." : "The arena also steers the fly away from its edges."}`;
+}
 function locationForSelection() {
   const url = new URL(location.href);
   url.search = "";
   url.hash = "";
+  if (query.get("view") === "map") url.searchParams.set("view", "map");
   if (reader === "visitor") {
     url.searchParams.set("voice", "1");
     return url;
@@ -215,10 +278,11 @@ async function choose(nextReader, options = {}) {
   $("status").textContent = "Loading this recording’s measured response…";
   history.replaceState(null, "", locationForSelection());
   try {
-    let spatial;
+    let spatial, body;
     if (reader === "visitor") {
       record = visitor.playback;
       spatial = visitor.spatial[silent ? "silence" : "sound"];
+      body = visitor.body[silent ? "silence" : "sound"];
       audio.setRecording({
         samples: visitor.samples,
         duration: record.playback_duration,
@@ -229,13 +293,17 @@ async function choose(nextReader, options = {}) {
         : "Your recording · processed locally · no automatic line timing";
     } else {
       const performance = manifest.performances[reader];
-      const [nextRecord, nextSpatial] = await Promise.all([
+      const [nextRecord, nextSpatial, nextBody, summary] = await Promise.all([
         json(performance.playback),
         json(silent ? performance.silence_spatial : performance.spatial),
+        json(silent ? performance.silence_body : performance.sound_body),
+        json(manifest.body.summary),
       ]);
       if (token !== generation) return;
       record = nextRecord;
       spatial = nextSpatial;
+      body = nextBody;
+      movementSummary = summary;
       if (silent)
         audio.setRecording({
           duration: record.playback_duration,
@@ -254,6 +322,8 @@ async function choose(nextReader, options = {}) {
         ? 0
         : manifest.performances[reader].passages[stanza].start);
     neural.load(spatial);
+    stage.load(body);
+    showMovement();
     $("seek").max = record.playback_duration;
     $("seek").disabled = false;
     $("play").disabled = false;
@@ -473,7 +543,7 @@ $("population").onchange = (e) => {
 $("camera").onclick = () => {
   const close = $("camera").getAttribute("aria-pressed") !== "true";
   $("camera").setAttribute("aria-pressed", String(close));
-  $("camera").textContent = close ? "Show the reader ↙" : "Closer to the fly ↗";
+  $("camera").textContent = close ? "Follow fly ↙" : "Whole arena ↗";
   stage.setClose(close);
 };
 $("share").onclick = async () => {

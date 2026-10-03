@@ -1,0 +1,20 @@
+Frozen walking/flight controller networks and wingbeat data:
+Vaxenburg, Roman et al. (2025), MuJoCo fruit fly body model datasets supporting
+"Whole-body physics simulation of fruit fly locomotion".
+https://doi.org/10.25378/janelia.25309105
+https://api.figshare.com/v2/articles/25309105
+License recorded by Figshare: GPL 3.0+ (GNU GPL version 3 or any later version).
+See COPYING.txt. Provided without warranty.
+
+Original unmodified policy archive and wing-pattern array: source/.
+Modified representations: original mean-policy float32 arrays exported losslessly
+and gzip-compressed; wingbeat array resampled with upstream flybody's generator.
+No policy training or fitting occurred in this project.
+
+Corresponding export and inference source:
+https://github.com/Synthetic-Humanities-Lab/drosophila-critic
+scripts/export_body_policies.py, scripts/export_body_browser.py,
+scripts/body_dense.wat, critic/body_policy.py, static/body-policy.js.
+These new body export/inference components are distributed under GPL 3.0+.
+The original flybody body model is Apache 2.0; MuJoCo is Apache 2.0.
+Their licenses and provenance are supplied separately.

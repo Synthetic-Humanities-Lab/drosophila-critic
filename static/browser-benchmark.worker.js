@@ -8,6 +8,7 @@ let brain,
   cache = null,
   controller = null,
   loadedBytes = 0;
+let captureGroups = {};
 const hash = async (bytes) =>
   Array.from(
     new Uint8Array(await crypto.subtle.digest("SHA-256", bytes)),
@@ -88,6 +89,16 @@ self.onmessage = async ({ data }) => {
       const r = await fetch(base, { signal: controller.signal });
       if (!r.ok) throw new Error("Benchmark model export is unavailable");
       manifest = await r.json();
+      captureGroups = data.captureGroups || {};
+      for (const ids of Object.values(captureGroups))
+        if (
+          !Array.isArray(ids) ||
+          !ids.length ||
+          ids.some(
+            (id) => !Number.isInteger(id) || id < 0 || id >= manifest.neurons,
+          )
+        )
+          throw new Error("Invalid motor capture population.");
       if (data.cache) {
         try {
           cache = await caches.open(manifest.version);
@@ -181,7 +192,12 @@ self.onmessage = async ({ data }) => {
       brain.reset(data.seed ?? 1101);
       const start = performance.now(),
         counts = [];
-      const capture = data.capture ? new NeuralCapture(manifest) : null;
+      const capture = data.capture
+        ? new NeuralCapture({
+            ...manifest,
+            groups: { ...manifest.groups, ...captureGroups },
+          })
+        : null;
       for (let i = 0; i < data.input.length; i++) {
         if (cancelled) throw new Error("Cancelled");
         const fired = brain.step(data.input[i]);

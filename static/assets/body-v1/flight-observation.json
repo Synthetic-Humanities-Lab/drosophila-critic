@@ -1,0 +1,110 @@
+{
+  "observations": {
+    "walker/accelerometer": [
+      3
+    ],
+    "walker/actuator_activation": [
+      0
+    ],
+    "walker/gyro": [
+      3
+    ],
+    "walker/joints_pos": [
+      25
+    ],
+    "walker/joints_vel": [
+      25
+    ],
+    "walker/velocimeter": [
+      3
+    ],
+    "walker/world_zaxis": [
+      3
+    ],
+    "walker/ref_displacement": [
+      6,
+      3
+    ],
+    "walker/ref_root_quat": [
+      6,
+      4
+    ]
+  },
+  "joints": [
+    "walker/head_abduct",
+    "walker/head_twist",
+    "walker/head",
+    "walker/wing_yaw_left",
+    "walker/wing_roll_left",
+    "walker/wing_pitch_left",
+    "walker/wing_yaw_right",
+    "walker/wing_roll_right",
+    "walker/wing_pitch_right",
+    "walker/abdomen_abduct",
+    "walker/abdomen",
+    "walker/abdomen_abduct_2",
+    "walker/abdomen_2",
+    "walker/abdomen_abduct_3",
+    "walker/abdomen_3",
+    "walker/abdomen_abduct_4",
+    "walker/abdomen_4",
+    "walker/abdomen_abduct_5",
+    "walker/abdomen_5",
+    "walker/abdomen_abduct_6",
+    "walker/abdomen_6",
+    "walker/abdomen_abduct_7",
+    "walker/abdomen_7",
+    "walker/haltere_left",
+    "walker/haltere_right"
+  ],
+  "actuators": [
+    "walker/head_abduct",
+    "walker/head_twist",
+    "walker/head",
+    "walker/wing_yaw_left",
+    "walker/wing_roll_left",
+    "walker/wing_pitch_left",
+    "walker/wing_yaw_right",
+    "walker/wing_roll_right",
+    "walker/wing_pitch_right",
+    "walker/abdomen_abduct",
+    "walker/abdomen"
+  ],
+  "action_names": [
+    "head_abduct",
+    "head_twist",
+    "head",
+    "wing_yaw_left",
+    "wing_roll_left",
+    "wing_pitch_left",
+    "wing_yaw_right",
+    "wing_roll_right",
+    "wing_pitch_right",
+    "abdomen_abduct",
+    "abdomen",
+    "user_0"
+  ],
+  "appendages": [
+    "walker/claw_T1_left",
+    "walker/claw_T1_right",
+    "walker/claw_T2_left",
+    "walker/claw_T2_right",
+    "walker/claw_T3_left",
+    "walker/claw_T3_right",
+    "walker/head"
+  ],
+  "root": "walker/thorax",
+  "sensors": {
+    "force": [],
+    "touch": [],
+    "accelerometer": [
+      "walker/accelerometer"
+    ],
+    "gyro": [
+      "walker/gyro"
+    ],
+    "velocimeter": [
+      "walker/velocimeter"
+    ]
+  }
+}

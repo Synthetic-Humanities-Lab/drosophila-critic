@@ -1,0 +1,148 @@
+{
+  "source": "TuragaLab/flybody d015e9bfe441bd90ae431bac24c55cb74bdbce26",
+  "wing_pattern_sha256": "f97b975ef1b5adbe42c208ea9665f3c37fa432914f56f3943f1697cdb090d1ce",
+  "seed": 1101,
+  "neural_coupling": false,
+  "runs": [
+    {
+      "name": "straight",
+      "steps": 2000,
+      "seconds": 0.3999999999999641,
+      "wall_seconds": 10.146916541969404,
+      "finite": true,
+      "max_error_cm": 0.07615780743448745,
+      "final_position_cm": [
+        11.68116511745108,
+        0.007503207086404013,
+        2.0274458289867923
+      ],
+      "state_sha256": "535b5727cf2fdb1ffab08c7bf08cf70773865e799a2265b26b910e1a79701dc8",
+      "passed": true,
+      "observations": {
+        "walker/accelerometer": [
+          3
+        ],
+        "walker/actuator_activation": [
+          0
+        ],
+        "walker/gyro": [
+          3
+        ],
+        "walker/joints_pos": [
+          25
+        ],
+        "walker/joints_vel": [
+          25
+        ],
+        "walker/velocimeter": [
+          3
+        ],
+        "walker/world_zaxis": [
+          3
+        ],
+        "walker/ref_displacement": [
+          6,
+          3
+        ],
+        "walker/ref_root_quat": [
+          6,
+          4
+        ]
+      }
+    },
+    {
+      "name": "turn",
+      "steps": 2000,
+      "seconds": 0.3999999999999641,
+      "wall_seconds": 8.268155624857172,
+      "finite": true,
+      "max_error_cm": 0.0718170801081992,
+      "final_position_cm": [
+        9.205958347035054,
+        6.0933561198301955,
+        2.020656815615198
+      ],
+      "state_sha256": "e9e1bf1d0da557a6fcbede2e651a333928f84732c2959a2da65d1b8364b36856",
+      "passed": true,
+      "observations": {
+        "walker/accelerometer": [
+          3
+        ],
+        "walker/actuator_activation": [
+          0
+        ],
+        "walker/gyro": [
+          3
+        ],
+        "walker/joints_pos": [
+          25
+        ],
+        "walker/joints_vel": [
+          25
+        ],
+        "walker/velocimeter": [
+          3
+        ],
+        "walker/world_zaxis": [
+          3
+        ],
+        "walker/ref_displacement": [
+          6,
+          3
+        ],
+        "walker/ref_root_quat": [
+          6,
+          4
+        ]
+      }
+    },
+    {
+      "name": "repeat",
+      "steps": 2000,
+      "seconds": 0.3999999999999641,
+      "wall_seconds": 8.167624459136277,
+      "finite": true,
+      "max_error_cm": 0.07615780743448745,
+      "final_position_cm": [
+        11.68116511745108,
+        0.007503207086404013,
+        2.0274458289867923
+      ],
+      "state_sha256": "535b5727cf2fdb1ffab08c7bf08cf70773865e799a2265b26b910e1a79701dc8",
+      "passed": true,
+      "observations": {
+        "walker/accelerometer": [
+          3
+        ],
+        "walker/actuator_activation": [
+          0
+        ],
+        "walker/gyro": [
+          3
+        ],
+        "walker/joints_pos": [
+          25
+        ],
+        "walker/joints_vel": [
+          25
+        ],
+        "walker/velocimeter": [
+          3
+        ],
+        "walker/world_zaxis": [
+          3
+        ],
+        "walker/ref_displacement": [
+          6,
+          3
+        ],
+        "walker/ref_root_quat": [
+          6,
+          4
+        ]
+      }
+    }
+  ],
+  "repeat_exact": true,
+  "passed": true
+}

@@ -91,26 +91,43 @@ prediction or new receptor model. The trace and neural-input trace use separate
 scales, common across recordings. Reduced-motion mode disables gestures and
 antennal flashes; neural flashes can also be switched off while traces continue.
 
-The fly body is posed. The [flybody audit](docs/BODY-CONTROLLER.md) successfully
-loaded the published walking policy and tested its commands. We have not
-qualified a conversion from this model’s neural rates to that controller’s
-speed and orientation commands, or a browser runtime for it. No general firing
-threshold, audio amplitude or poem-quality score supplies walking or flight.
-The visible NeuroMechFly anatomy comes from a female micro-CT exemplar; it is
-an illustrative surface, separate from the MaleCNS nervous-system coordinates.
+The articulated flybody anatomy follows recorded MuJoCo trajectories. All
+spikes in DNg100, left/right DNa02, DNp01, DLM motor cells and left/right b1/b2
+motor cells feed an isolated, versioned adapter. It maps absolute smoothed rates
+to commands for the original frozen walking and flight policies. The body can
+therefore move during silence. Our gains, minimum gait speed, takeoff/landing
+supervisor and arena corrections are engineering choices, described in the
+[adapter method](docs/NEURAL-BODY-ADAPTER.md). No overall activity threshold,
+poem-quality score or text controls the body.
+
+The body and neural displays show the same designated seed, 1101. Movement
+figures average four paired runs for each curated recording; visitor figures
+use one pair. Seeking restores saved body and joint transforms on the same
+audio clock. Wing blur uses a small set of poses from the published wingbeat
+pattern; the renderer does not show slow, invented flapping. Follow view changes
+camera framing, not physical dimensions. Reduced-motion mode uses the fixed
+arena camera and stable wing exposure.
+
+This is modeled movement influenced by simulated neural activity. Body sensors
+feed only the body policies. Motion does not change the imposed sound field or
+feed visual/proprioceptive signals into the nervous system. The female anatomy
+and MaleCNS male nervous system are separate models. Their coupling has not
+been physiologically validated.
 
 ## Browser recording and privacy
 
-After deliberate activation, a worker loads a 138,576,365-byte compressed model
-and processes the recording and matched silence locally. It uses the same
+After deliberate activation, workers load the 138,576,365-byte compressed neural
+model and about 17 MB of body-processing assets. Independent sound and silence
+workers process the recording locally; each MuJoCo worker is single-threaded. It uses the same
 neural arithmetic and receiver as the curated experiment. Model chunks are
-checksum-verified before caching. Cancelling terminates the worker; replacing
+checksum-verified before caching. Cancelling terminates every simulation worker; replacing
 input cannot reuse old spatial firing as a substitute result.
 
 No audio, transcript or response is uploaded. The page restricts fetches to its
 own origin, and the deployed site has no compute endpoint. The original audio,
 processed WAV, normalization, injected frames, rates, spatial sample, raw group
-counts, seed and model hashes can be saved locally. Private results are held
+counts, seed, body transforms, movement commands, confinement events, and model
+hashes can be saved locally. Private results are held
 in memory, not cached. Browser codec/resampling, microphone gain and room noise
 are uncontrolled; requested microphone processing settings are not guaranteed
 by hardware. A silent file is a valid zero-input experiment, not an error.

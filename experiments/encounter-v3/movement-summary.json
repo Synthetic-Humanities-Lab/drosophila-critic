@@ -1,0 +1,444 @@
+{
+  "seed": 1101,
+  "seeds": [
+    1101,
+    1102,
+    1103,
+    1104
+  ],
+  "performances": {
+    "a": {
+      "summary": {
+        "distance_walked_cm": {
+          "sound": {
+            "mean": 28.44572639465332,
+            "minimum": 22.715316772460938,
+            "maximum": 35.0394287109375,
+            "n": 4
+          },
+          "silence": {
+            "mean": 27.36220121383667,
+            "minimum": 22.075088500976562,
+            "maximum": 38.98597717285156,
+            "n": 4
+          },
+          "change": {
+            "mean": 1.0835251808166504,
+            "minimum": -3.9465484619140625,
+            "maximum": 10.444416046142578,
+            "n": 4
+          }
+        },
+        "flight_seconds": {
+          "sound": {
+            "mean": 6.640000000000001,
+            "minimum": 3.62,
+            "maximum": 9.540000000000001,
+            "n": 4
+          },
+          "silence": {
+            "mean": 7.28,
+            "minimum": 2.82,
+            "maximum": 9.58,
+            "n": 4
+          },
+          "change": {
+            "mean": -0.6399999999999999,
+            "minimum": -5.94,
+            "maximum": 4.24,
+            "n": 4
+          }
+        },
+        "turns_revolutions": {
+          "sound": {
+            "mean": 7.689447458167865,
+            "minimum": 6.248134412886568,
+            "maximum": 9.886691538058342,
+            "n": 4
+          },
+          "silence": {
+            "mean": 8.185294299665816,
+            "minimum": 6.592862256524115,
+            "maximum": 10.314501195632,
+            "n": 4
+          },
+          "change": {
+            "mean": -0.4958468414979509,
+            "minimum": -4.0663667827454315,
+            "maximum": 3.2938292815342267,
+            "n": 4
+          }
+        },
+        "after_voice_distance_cm": {
+          "sound": {
+            "mean": 15.287121772766113,
+            "minimum": 6.016103744506836,
+            "maximum": 24.131988525390625,
+            "n": 4
+          },
+          "silence": {
+            "mean": 7.816880583763123,
+            "minimum": 5.552606105804443,
+            "maximum": 9.949506759643555,
+            "n": 4
+          },
+          "change": {
+            "mean": 7.470241189002991,
+            "minimum": -2.313535690307617,
+            "maximum": 18.57938241958618,
+            "n": 4
+          }
+        }
+      },
+      "paired_seeds": [
+        1101,
+        1102,
+        1103,
+        1104
+      ],
+      "runs": {
+        "sound": [
+          {
+            "seed": 1101,
+            "metrics": {
+              "distance_walked_cm": 22.715316772460938,
+              "flight_seconds": 9.540000000000001,
+              "turns_revolutions": 9.886691538058342,
+              "after_voice_distance_cm": 20.824655532836914,
+              "boundary_seconds": 12.08,
+              "minimum_upright": -0.4989108341494628,
+              "wall_seconds": 91.15043358295225,
+              "inverted_seconds": 0.02,
+              "failures": [],
+              "complete": true
+            }
+          },
+          {
+            "seed": 1102,
+            "metrics": {
+              "distance_walked_cm": 35.0394287109375,
+              "flight_seconds": 7.0600000000000005,
+              "turns_revolutions": 6.593252639780677,
+              "after_voice_distance_cm": 24.131988525390625,
+              "boundary_seconds": 13.0,
+              "minimum_upright": 0.20114125947772887,
+              "wall_seconds": 92.63182770786807,
+              "inverted_seconds": 0.0,
+              "failures": [],
+              "complete": true
+            }
+          },
+          {
+            "seed": 1103,
+            "metrics": {
+              "distance_walked_cm": 32.51950454711914,
+              "flight_seconds": 3.62,
+              "turns_revolutions": 6.248134412886568,
+              "after_voice_distance_cm": 6.016103744506836,
+              "boundary_seconds": 10.02,
+              "minimum_upright": -0.07830935855636767,
+              "wall_seconds": 90.73648929200135,
+              "inverted_seconds": 0.02,
+              "failures": [],
+              "complete": true
+            }
+          },
+          {
+            "seed": 1104,
+            "metrics": {
+              "distance_walked_cm": 23.508655548095703,
+              "flight_seconds": 6.34,
+              "turns_revolutions": 8.029711241945874,
+              "after_voice_distance_cm": 10.175739288330078,
+              "boundary_seconds": 12.74,
+              "minimum_upright": 0.2008857838498681,
+              "wall_seconds": 88.00168541702442,
+              "inverted_seconds": 0.0,
+              "failures": [],
+              "complete": true
+            }
+          }
+        ],
+        "silence": [
+          {
+            "seed": 1101,
+            "metrics": {
+              "distance_walked_cm": 24.558807373046875,
+              "flight_seconds": 9.58,
+              "turns_revolutions": 6.592862256524115,
+              "after_voice_distance_cm": 9.949506759643555,
+              "boundary_seconds": 12.74,
+              "minimum_upright": 0.4176054919482759,
+              "wall_seconds": 87.54573995899409,
+              "inverted_seconds": 0.0,
+              "failures": [],
+              "complete": true
+            }
+          },
+          {
+            "seed": 1102,
+            "metrics": {
+              "distance_walked_cm": 38.98597717285156,
+              "flight_seconds": 2.82,
+              "turns_revolutions": 6.859976080329122,
+              "after_voice_distance_cm": 5.552606105804443,
+              "boundary_seconds": 7.640000000000001,
+              "minimum_upright": -0.14806430578462404,
+              "wall_seconds": 86.93931116606109,
+              "inverted_seconds": 0.02,
+              "failures": [],
+              "complete": true
+            }
+          },
+          {
+            "seed": 1103,
+            "metrics": {
+              "distance_walked_cm": 22.075088500976562,
+              "flight_seconds": 9.56,
+              "turns_revolutions": 10.314501195632,
+              "after_voice_distance_cm": 8.329639434814453,
+              "boundary_seconds": 10.120000000000001,
+              "minimum_upright": -0.18503313892069606,
+              "wall_seconds": 89.62417254108004,
+              "inverted_seconds": 0.06,
+              "failures": [],
+              "complete": true
+            }
+          },
+          {
+            "seed": 1104,
+            "metrics": {
+              "distance_walked_cm": 23.82893180847168,
+              "flight_seconds": 7.16,
+              "turns_revolutions": 8.973837666178028,
+              "after_voice_distance_cm": 7.435770034790039,
+              "boundary_seconds": 11.36,
+              "minimum_upright": -0.4736033148465211,
+              "wall_seconds": 87.65913099981844,
+              "inverted_seconds": 0.06,
+              "failures": [],
+              "complete": true
+            }
+          }
+        ]
+      }
+    },
+    "b": {
+      "summary": {
+        "distance_walked_cm": {
+          "sound": {
+            "mean": 36.385239601135254,
+            "minimum": 29.085376739501953,
+            "maximum": 43.49302673339844,
+            "n": 4
+          },
+          "silence": {
+            "mean": 42.42429161071777,
+            "minimum": 39.77101135253906,
+            "maximum": 44.154510498046875,
+            "n": 4
+          },
+          "change": {
+            "mean": -6.0390520095825195,
+            "minimum": -15.069133758544922,
+            "maximum": 2.2761573791503906,
+            "n": 4
+          }
+        },
+        "flight_seconds": {
+          "sound": {
+            "mean": 18.7,
+            "minimum": 8.44,
+            "maximum": 25.54,
+            "n": 4
+          },
+          "silence": {
+            "mean": 11.795,
+            "minimum": 9.44,
+            "maximum": 16.46,
+            "n": 4
+          },
+          "change": {
+            "mean": 6.904999999999999,
+            "minimum": -1.0,
+            "maximum": 15.959999999999999,
+            "n": 4
+          }
+        },
+        "turns_revolutions": {
+          "sound": {
+            "mean": 12.873330329595579,
+            "minimum": 9.954202949198526,
+            "maximum": 14.456775968737285,
+            "n": 4
+          },
+          "silence": {
+            "mean": 11.555023527114875,
+            "minimum": 8.285533093451052,
+            "maximum": 13.508346221764059,
+            "n": 4
+          },
+          "change": {
+            "mean": 1.3183068024807043,
+            "minimum": -1.633979780298926,
+            "maximum": 6.171242875286232,
+            "n": 4
+          }
+        },
+        "after_voice_distance_cm": {
+          "sound": {
+            "mean": 13.91418445110321,
+            "minimum": 4.192656993865967,
+            "maximum": 22.791749954223633,
+            "n": 4
+          },
+          "silence": {
+            "mean": 8.093579649925232,
+            "minimum": 1.4637117385864258,
+            "maximum": 20.726730346679688,
+            "n": 4
+          },
+          "change": {
+            "mean": 5.8206048011779785,
+            "minimum": 2.0650196075439453,
+            "maximum": 13.317824363708496,
+            "n": 4
+          }
+        }
+      },
+      "paired_seeds": [
+        1101,
+        1102,
+        1103,
+        1104
+      ],
+      "runs": {
+        "sound": [
+          {
+            "seed": 1101,
+            "metrics": {
+              "distance_walked_cm": 29.085376739501953,
+              "flight_seconds": 25.54,
+              "turns_revolutions": 14.456775968737285,
+              "after_voice_distance_cm": 4.192656993865967,
+              "boundary_seconds": 17.52,
+              "minimum_upright": -0.2963709677582429,
+              "wall_seconds": 153.61737970798276,
+              "inverted_seconds": 0.02,
+              "failures": [],
+              "complete": true
+            }
+          },
+          {
+            "seed": 1102,
+            "metrics": {
+              "distance_walked_cm": 43.49302673339844,
+              "flight_seconds": 20.86,
+              "turns_revolutions": 12.938022390428364,
+              "after_voice_distance_cm": 22.791749954223633,
+              "boundary_seconds": 18.14,
+              "minimum_upright": 0.23131616717978076,
+              "wall_seconds": 149.87748212483712,
+              "inverted_seconds": 0.0,
+              "failures": [],
+              "complete": true
+            }
+          },
+          {
+            "seed": 1103,
+            "metrics": {
+              "distance_walked_cm": 30.915386199951172,
+              "flight_seconds": 19.96,
+              "turns_revolutions": 14.14432001001814,
+              "after_voice_distance_cm": 17.517805099487305,
+              "boundary_seconds": 13.120000000000001,
+              "minimum_upright": 0.022543323872367793,
+              "wall_seconds": 148.29394787480123,
+              "inverted_seconds": 0.0,
+              "failures": [],
+              "complete": true
+            }
+          },
+          {
+            "seed": 1104,
+            "metrics": {
+              "distance_walked_cm": 42.04716873168945,
+              "flight_seconds": 8.44,
+              "turns_revolutions": 9.954202949198526,
+              "after_voice_distance_cm": 11.154525756835938,
+              "boundary_seconds": 18.18,
+              "minimum_upright": -0.4899402980924794,
+              "wall_seconds": 138.81522391713224,
+              "inverted_seconds": 0.02,
+              "failures": [],
+              "complete": true
+            }
+          }
+        ],
+        "silence": [
+          {
+            "seed": 1101,
+            "metrics": {
+              "distance_walked_cm": 44.154510498046875,
+              "flight_seconds": 9.58,
+              "turns_revolutions": 8.285533093451052,
+              "after_voice_distance_cm": 1.4637117385864258,
+              "boundary_seconds": 15.1,
+              "minimum_upright": 0.4176054919482759,
+              "wall_seconds": 137.1420526248403,
+              "inverted_seconds": 0.0,
+              "failures": [],
+              "complete": true
+            }
+          },
+          {
+            "seed": 1102,
+            "metrics": {
+              "distance_walked_cm": 42.67828369140625,
+              "flight_seconds": 16.46,
+              "turns_revolutions": 12.838032063746933,
+              "after_voice_distance_cm": 20.726730346679688,
+              "boundary_seconds": 13.02,
+              "minimum_upright": -0.14806430578462404,
+              "wall_seconds": 148.44306449987926,
+              "inverted_seconds": 0.02,
+              "failures": [],
+              "complete": true
+            }
+          },
+          {
+            "seed": 1103,
+            "metrics": {
+              "distance_walked_cm": 43.093360900878906,
+              "flight_seconds": 11.700000000000001,
+              "turns_revolutions": 13.508346221764059,
+              "after_voice_distance_cm": 4.199980735778809,
+              "boundary_seconds": 17.36,
+              "minimum_upright": -0.18503313892069606,
+              "wall_seconds": 143.03844416700304,
+              "inverted_seconds": 0.06,
+              "failures": [],
+              "complete": true
+            }
+          },
+          {
+            "seed": 1104,
+            "metrics": {
+              "distance_walked_cm": 39.77101135253906,
+              "flight_seconds": 9.44,
+              "turns_revolutions": 11.588182729497452,
+              "after_voice_distance_cm": 5.983895778656006,
+              "boundary_seconds": 16.32,
+              "minimum_upright": -0.4736033148465211,
+              "wall_seconds": 140.46064470801502,
+              "inverted_seconds": 0.06,
+              "failures": [],
+              "complete": true
+            }
+          }
+        ]
+      }
+    }
+  },
+  "qualified": true
+}

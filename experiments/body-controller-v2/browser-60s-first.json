@@ -1,0 +1,206 @@
+{
+  "schema_version": "local-body-benchmark-v1",
+  "audio": "Public robot fixture repeated to 60 seconds; no new performance",
+  "duration": 60,
+  "environment": {
+    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
+    "hardware_concurrency": 14,
+    "device_memory_gb": 32
+  },
+  "processing": {
+    "model_load_seconds": 2.165100000143051,
+    "neural_pair_seconds": 55.257700000047684,
+    "body_pair_seconds": 219.2325,
+    "total_seconds": 276.9062999999523
+  },
+  "body_assets": {
+    "type": "initialized",
+    "download_bytes": 16934399,
+    "physics_heap_bytes": 17563648,
+    "policy_memory_bytes": 33554432
+  },
+  "body": {
+    "sound": {
+      "metrics": {
+        "distance_walked_cm": 49.438583983874324,
+        "flight_seconds": 22.319999999999613,
+        "turns_revolutions": 17.58096907173426,
+        "after_voice_distance_cm": 3.015720796996983,
+        "boundary_seconds": 16.6,
+        "wall_seconds": 218.73520000004768,
+        "inverted_seconds": 0.04,
+        "complete": true,
+        "failures": []
+      },
+      "pose_sha256": "eec0bb6979b26f5484e229adfa56e9782368a7b766d91d7a5c34167061a6c153"
+    },
+    "silence": {
+      "metrics": {
+        "distance_walked_cm": 59.04974249600828,
+        "flight_seconds": 13.259999999999806,
+        "turns_revolutions": 13.07711973766289,
+        "after_voice_distance_cm": 5.49290935360295,
+        "boundary_seconds": 21.2,
+        "wall_seconds": 215.70090000009537,
+        "inverted_seconds": 0.02,
+        "complete": true,
+        "failures": []
+      },
+      "pose_sha256": "a0ea4288234fe0087167083acbfbef137650b164f7cd1b24b6e8f52c77f1f780"
+    }
+  },
+  "download_entries": [
+    {
+      "name": "http://127.0.0.1:8781/body-benchmark.8c32579d988c92f5.js",
+      "bytes": 3112,
+      "duration_ms": 13.900000095367432
+    },
+    {
+      "name": "http://127.0.0.1:8781/local-session.8c32579d988c92f5.js",
+      "bytes": 7588,
+      "duration_ms": 4.200000047683716
+    },
+    {
+      "name": "http://127.0.0.1:8781/local-audio.8c32579d988c92f5.js",
+      "bytes": 5596,
+      "duration_ms": 4.599999904632568
+    },
+    {
+      "name": "http://127.0.0.1:8781/playback-data.8c32579d988c92f5.js",
+      "bytes": 3946,
+      "duration_ms": 4
+    },
+    {
+      "name": "http://127.0.0.1:8781/body-session.8c32579d988c92f5.js",
+      "bytes": 819,
+      "duration_ms": 4.6000001430511475
+    },
+    {
+      "name": "http://127.0.0.1:8781/worker-session.8c32579d988c92f5.js",
+      "bytes": 1640,
+      "duration_ms": 5
+    },
+    {
+      "name": "http://127.0.0.1:8781/experiments/encounter-v1/a.wav",
+      "bytes": 0,
+      "duration_ms": 10.099999904632568
+    },
+    {
+      "name": "http://127.0.0.1:8781/experiments/encounter-v2/display-neurons.json",
+      "bytes": 0,
+      "duration_ms": 5.400000095367432
+    },
+    {
+      "name": "http://127.0.0.1:8781/assets/body-v1/capture.json",
+      "bytes": 300,
+      "duration_ms": 6.6000001430511475
+    },
+    {
+      "name": "http://127.0.0.1:8781/browser-model-v1/manifest.json",
+      "bytes": 0,
+      "duration_ms": 6.700000047683716
+    },
+    {
+      "name": "http://127.0.0.1:8781/browser-benchmark.worker.8c32579d988c92f5.js",
+      "bytes": 8442,
+      "duration_ms": -3.0999999046325684
+    },
+    {
+      "name": "http://127.0.0.1:8781/browser-brain.8c32579d988c92f5.js",
+      "bytes": 2366,
+      "duration_ms": 3.8999998569488525
+    },
+    {
+      "name": "http://127.0.0.1:8781/browser-random.8c32579d988c92f5.js",
+      "bytes": 1947,
+      "duration_ms": 4.200000047683716
+    },
+    {
+      "name": "http://127.0.0.1:8781/neural-capture.8c32579d988c92f5.js",
+      "bytes": 1937,
+      "duration_ms": 4.299999952316284
+    },
+    {
+      "name": "http://127.0.0.1:8781/browser-benchmark.worker.8c32579d988c92f5.js",
+      "bytes": 300,
+      "duration_ms": -1.7000000476837158
+    },
+    {
+      "name": "http://127.0.0.1:8781/browser-brain.8c32579d988c92f5.js",
+      "bytes": 300,
+      "duration_ms": 12.899999856948853
+    },
+    {
+      "name": "http://127.0.0.1:8781/browser-random.8c32579d988c92f5.js",
+      "bytes": 300,
+      "duration_ms": 14
+    },
+    {
+      "name": "http://127.0.0.1:8781/neural-capture.8c32579d988c92f5.js",
+      "bytes": 300,
+      "duration_ms": 13.799999952316284
+    },
+    {
+      "name": "http://127.0.0.1:8781/body.worker.8c32579d988c92f5.js",
+      "bytes": 4126,
+      "duration_ms": -1.7000000476837158
+    },
+    {
+      "name": "http://127.0.0.1:8781/body-policy.8c32579d988c92f5.js",
+      "bytes": 3383,
+      "duration_ms": 8.400000095367432
+    },
+    {
+      "name": "http://127.0.0.1:8781/body-processing.8c32579d988c92f5.js",
+      "bytes": 4153,
+      "duration_ms": 8.5
+    },
+    {
+      "name": "http://127.0.0.1:8781/vendor/mujoco/mujoco.js",
+      "bytes": 300,
+      "duration_ms": 11
+    },
+    {
+      "name": "http://127.0.0.1:8781/body-adapter.8c32579d988c92f5.js",
+      "bytes": 4929,
+      "duration_ms": 2.700000047683716
+    },
+    {
+      "name": "http://127.0.0.1:8781/body-runtime.8c32579d988c92f5.js",
+      "bytes": 7525,
+      "duration_ms": 2.3999998569488525
+    },
+    {
+      "name": "http://127.0.0.1:8781/body.worker.8c32579d988c92f5.js",
+      "bytes": 0,
+      "duration_ms": -1.5
+    },
+    {
+      "name": "http://127.0.0.1:8781/vendor/mujoco/mujoco.js",
+      "bytes": 0,
+      "duration_ms": 1.5
+    },
+    {
+      "name": "http://127.0.0.1:8781/body-processing.8c32579d988c92f5.js",
+      "bytes": 0,
+      "duration_ms": 1.5
+    },
+    {
+      "name": "http://127.0.0.1:8781/body-policy.8c32579d988c92f5.js",
+      "bytes": 0,
+      "duration_ms": 1.3999998569488525
+    },
+    {
+      "name": "http://127.0.0.1:8781/body-adapter.8c32579d988c92f5.js",
+      "bytes": 0,
+      "duration_ms": 1.2000000476837158
+    },
+    {
+      "name": "http://127.0.0.1:8781/body-runtime.8c32579d988c92f5.js",
+      "bytes": 0,
+      "duration_ms": 1.2999999523162842
+    }
+  ],
+  "memory_note": "Body linear memory and policy buffers are measured; browser-wide peak memory is not exposed consistently by this API.",
+  "passed": true
+}

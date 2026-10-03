@@ -1,0 +1,102 @@
+{
+  "description": "Repeat full native body runs with identical neural inputs and initial states. Compare float32 positions and quaternions byte for byte.",
+  "runs": [
+    {
+      "run": "a-silence-1101",
+      "before_sha256": "5cfb2568acecc5aff6d5b403a121ede39030a8d1b712f44ea38da71494aae35c",
+      "after_sha256": "5cfb2568acecc5aff6d5b403a121ede39030a8d1b712f44ea38da71494aae35c",
+      "identical": true
+    },
+    {
+      "run": "a-silence-1102",
+      "before_sha256": "9ded4efdf746107b3c364c4cdd56d52f235ac668db14149a601c94e1ea8c593e",
+      "after_sha256": "9ded4efdf746107b3c364c4cdd56d52f235ac668db14149a601c94e1ea8c593e",
+      "identical": true
+    },
+    {
+      "run": "a-silence-1103",
+      "before_sha256": "f52a902200ba91b6daa0b7d7b100640dc499276a66a9276612c04731f2a914cb",
+      "after_sha256": "f52a902200ba91b6daa0b7d7b100640dc499276a66a9276612c04731f2a914cb",
+      "identical": true
+    },
+    {
+      "run": "a-silence-1104",
+      "before_sha256": "6a16b5bc8fac6f93bf94f94f9b284dfba41ccafe685174db76e3acf9883393aa",
+      "after_sha256": "6a16b5bc8fac6f93bf94f94f9b284dfba41ccafe685174db76e3acf9883393aa",
+      "identical": true
+    },
+    {
+      "run": "a-sound-1101",
+      "before_sha256": "174a86b3d69448624c3f29abe25ef1fe5d73531fdbf4c2da63bd34bb4b3a7947",
+      "after_sha256": "174a86b3d69448624c3f29abe25ef1fe5d73531fdbf4c2da63bd34bb4b3a7947",
+      "identical": true
+    },
+    {
+      "run": "a-sound-1102",
+      "before_sha256": "64876204dc2d68b50fa0d4893d3159493e2def32a091e66df670dd19de02e95e",
+      "after_sha256": "64876204dc2d68b50fa0d4893d3159493e2def32a091e66df670dd19de02e95e",
+      "identical": true
+    },
+    {
+      "run": "a-sound-1103",
+      "before_sha256": "054226056686af386758dedc8489123fb3525fed2571f8f670a61f5c42a81fb4",
+      "after_sha256": "054226056686af386758dedc8489123fb3525fed2571f8f670a61f5c42a81fb4",
+      "identical": true
+    },
+    {
+      "run": "a-sound-1104",
+      "before_sha256": "8f9da36f8a0df8a50720c851f676b5d4ff23e84c78a9254279a2fbc2f4a181bd",
+      "after_sha256": "8f9da36f8a0df8a50720c851f676b5d4ff23e84c78a9254279a2fbc2f4a181bd",
+      "identical": true
+    },
+    {
+      "run": "b-silence-1101",
+      "before_sha256": "011753efc92d78e3c5dae1a6b283ab2d8031410b5914e6b96e907b469b0dfefd",
+      "after_sha256": "011753efc92d78e3c5dae1a6b283ab2d8031410b5914e6b96e907b469b0dfefd",
+      "identical": true
+    },
+    {
+      "run": "b-silence-1102",
+      "before_sha256": "d227738573c41a15873a490d8d28e4994a9b86d2f2d4c95732ab081e16c4d5a4",
+      "after_sha256": "d227738573c41a15873a490d8d28e4994a9b86d2f2d4c95732ab081e16c4d5a4",
+      "identical": true
+    },
+    {
+      "run": "b-silence-1103",
+      "before_sha256": "5c1fa3e4305da413b8fbde711f843665c1761a4f0a5ded2353107c6033af9aca",
+      "after_sha256": "5c1fa3e4305da413b8fbde711f843665c1761a4f0a5ded2353107c6033af9aca",
+      "identical": true
+    },
+    {
+      "run": "b-silence-1104",
+      "before_sha256": "0ac52e901534493739bc34f44a76698a5c2418bb2613d7c0686eb85f58971c1e",
+      "after_sha256": "0ac52e901534493739bc34f44a76698a5c2418bb2613d7c0686eb85f58971c1e",
+      "identical": true
+    },
+    {
+      "run": "b-sound-1101",
+      "before_sha256": "c6aeda3f92acd7292e1d5f88d246e57ee56ce9afa0258b65adb1ceb3787871b2",
+      "after_sha256": "c6aeda3f92acd7292e1d5f88d246e57ee56ce9afa0258b65adb1ceb3787871b2",
+      "identical": true
+    },
+    {
+      "run": "b-sound-1102",
+      "before_sha256": "4b042f33cbf63769434171e06dbf374fd01e00b932761baaa61740cf1ac0b8b0",
+      "after_sha256": "4b042f33cbf63769434171e06dbf374fd01e00b932761baaa61740cf1ac0b8b0",
+      "identical": true
+    },
+    {
+      "run": "b-sound-1103",
+      "before_sha256": "219748e6bb9a74de1b05d2840edb9a53ffb41b094188064383f10edbd051c796",
+      "after_sha256": "219748e6bb9a74de1b05d2840edb9a53ffb41b094188064383f10edbd051c796",
+      "identical": true
+    },
+    {
+      "run": "b-sound-1104",
+      "before_sha256": "62c6c20072b611619761783b97c4f4e15aec6a76268ddf3435a6504f53664219",
+      "after_sha256": "62c6c20072b611619761783b97c4f4e15aec6a76268ddf3435a6504f53664219",
+      "identical": true
+    }
+  ],
+  "passed": true
+}

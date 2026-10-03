@@ -1,0 +1,16 @@
+[
+  {
+    "kind": "walking",
+    "fixtures": 20,
+    "max_absolute": 0.00439453125,
+    "relative_infinity": 0.000003972023288869451,
+    "max_clipped": 0.000043272972106933594
+  },
+  {
+    "kind": "flight",
+    "fixtures": 20,
+    "max_absolute": 7.748603820800781e-7,
+    "relative_infinity": 7.748603820800781e-7,
+    "max_clipped": 7.748603820800781e-7
+  }
+]

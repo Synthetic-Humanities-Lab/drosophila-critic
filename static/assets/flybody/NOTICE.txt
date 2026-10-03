@@ -1,0 +1,16 @@
+Anatomy: flybody, TuragaLab / Google DeepMind / HHMI Janelia.
+Apache License 2.0; see LICENSE.txt alongside this notice.
+Pinned source: https://github.com/TuragaLab/flybody/tree/d015e9bfe441bd90ae431bac24c55cb74bdbce26
+Publication: Vaxenburg et al. (2025), Whole-body physics simulation of fruit fly locomotion.
+https://doi.org/10.1038/s41586-025-09029-4
+
+Modified for The Drosophila Critic: original body/joint hierarchy exported to GLB;
+coincident mesh vertices welded, smooth normals regenerated, display materials
+adapted. Physical dimensions are retained in centimetres; camera framing changes
+apparent size. Motion is a separate MuJoCo simulation, not baked animation.
+
+This female anatomical exemplar and the MaleCNS male nervous system are separate
+models. There is no claim of sex-specific anatomical registration.
+
+Frozen policies and published wingbeat data have a separate GPL 3.0+ license;
+see ../body-v1/NOTICE.txt. MuJoCo uses Apache 2.0; see ../../vendor/mujoco/LICENSE.txt.

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><title>Local brain and body benchmark</title
+  ><style>
+    body {
+      max-width: 850px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f0eee6;
+      color: #23352b;
+      font: 16px system-ui;
+    }
+    button {
+      padding: 12px;
+      margin: 8px;
+      font: inherit;
+    }
+    pre {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      font-size: 12px;
+    }
+    progress {
+      width: 100%;
+    }
+  </style>
+  <h1>Local brain and body benchmark</h1>
+  <p>
+    Uses the public robot recording, repeated to 60 seconds. Runs the complete
+    neural and body pipelines with a matched silence control. Nothing is
+    uploaded. The first run loads about 156 MB of model data.
+  </p>
+  <button id="start">Run 60-second benchmark</button
+  ><button id="cancel" disabled>Cancel</button
+  ><button id="save" disabled>Save report</button>
+  <p id="status">Ready</p>
+  <progress id="progress" max="1" value="0"></progress>
+  <pre id="report"></pre>
+  <p><a href="./">Back to the encounter</a></p>
+  <script type="module" src="./body-benchmark.js"></script>
+</html>

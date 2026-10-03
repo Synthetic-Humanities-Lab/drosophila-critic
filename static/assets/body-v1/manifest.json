@@ -1,0 +1,71 @@
+{
+  "version": "listening-body-v1",
+  "mujoco": "3.14.0",
+  "files": {
+    "wingbeat.json.gz": {
+      "bytes": 1006457,
+      "sha256": "3ff18df72df05f4c447e56a43d9abbc0f7affbf92af26e02ec290efd1ec2c397"
+    },
+    "COPYING.txt": {
+      "bytes": 35149,
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    "model.json": {
+      "bytes": 5263,
+      "sha256": "46e8162ad27925e3cacf0988c268ff2db2e5a05211b063ce24bb14538f62a793"
+    },
+    "views.json": {
+      "bytes": 10857,
+      "sha256": "c1874a35af0b0b15bf41f6967f9fff2464f3bd1bb80e3966fdc2a2cf54b462c3"
+    },
+    "walking.json": {
+      "bytes": 743,
+      "sha256": "0087cbe789c06d478827d33b910cf4294dc5caa1feed215315e0df4e5963155f"
+    },
+    "walking-observation.json": {
+      "bytes": 7260,
+      "sha256": "518fa5eccbacd4a456e865bd97ccaa9bee552b4d744e2669c81b73e7f47cfa69"
+    },
+    "flight.json": {
+      "bytes": 599,
+      "sha256": "86ca75a50976ebc54b3fbb0ece03e8c9f600e1b501ae9429d262e1d5e35f463e"
+    },
+    "body.xml": {
+      "bytes": 132089,
+      "sha256": "34fa0e0545ed41254857b7924ebbd77d448242fdcb3642b85b515ac6c33bf761"
+    },
+    "adapter.json": {
+      "bytes": 617,
+      "sha256": "d188364bee54de2ce3825c27bc9894e6e32fe3c0b7c3a84406e6668bf9bf3bb9"
+    },
+    "flight-observation.json": {
+      "bytes": 2161,
+      "sha256": "9d3552a7c51ea68d4f9a40420a40aec6472e1919070a5c353365bd9968c1c03c"
+    },
+    "capture.json": {
+      "bytes": 650,
+      "sha256": "7b43371fa2cc22a750e0f422a058e8f93c392d00780002953bbe1f376ca73083"
+    },
+    "walking.f32.gz": {
+      "bytes": 4514624,
+      "sha256": "8f850a5e819bb2944fe82225e256d821c37e35dd7001176bc2bc03df43cc9b74"
+    },
+    "NOTICE.txt": {
+      "bytes": 1139,
+      "sha256": "e78b397940413a6ec21be2958676b73856f07a61633bc3096e51611688167036"
+    },
+    "flight.f32.gz": {
+      "bytes": 609943,
+      "sha256": "9b08cdcb07599a94d019be1c966129c78cc4a17c67c4e308d8f5465254526dce"
+    }
+  },
+  "kernel": {
+    "bytes": 281,
+    "sha256": "2e9c1cd76187d191b8b63ae7be10a74de36c188f058be97720019b132bd1d543"
+  },
+  "physics": {
+    "bytes": 10313475,
+    "sha256": "2d380f1070a556c3003b4a7c7c10c98a5f61db4e91815de1075ec478e9487e76"
+  },
+  "download_bytes": 16934399
+}

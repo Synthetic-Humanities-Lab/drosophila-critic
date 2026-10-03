@@ -4,7 +4,7 @@
 Synthetic Humanities Lab.
 
 [Open the app](https://synthetic-humanities-lab.github.io/drosophila-critic/) ·
-[Method](METHOD.md) · [Release checks](docs/FINALIZATION-QA.md)
+[Method](METHOD.md) · [Release checks](docs/MOVING-ARENA-QA.md)
 
 A human and a robot read William Blake’s *The Fly* to the same simulated nervous
 system. Choose either voice, compare it with silence, or process your own
@@ -12,23 +12,25 @@ recording on a supported desktop. Sound and recorded neural activity replay
 together. The poem appears once; five stanza buttons select starting points,
 not excerpts that stop automatically.
 
-![The published listening scene and measured neural response](docs/images/encounter.jpg)
+![The published listening scene and measured neural response](docs/images/arena-after-desktop.jpg)
 
 Silence is the control. Neither reader is a standard to beat. The app reports
 what changed in the simulation; it does not score poetry or describe a fly’s
-feelings. The fly body remains posed. Antennal colour marks modeled vibration
-strength, and the nervous-system display shows actual sampled spikes. An
-existing research walking controller was tested successfully, but a defensible
-connection from this connectome to that controller is not yet qualified. See
-[the body-controller audit](docs/BODY-CONTROLLER.md).
+feelings. An articulated fly walks, turns, takes off, flies and lands in a
+20 × 16 × 10 cm listening arena. Recorded neural activity supplies commands;
+separate frozen flybody policies coordinate the legs and wings in MuJoCo.
+The [neural-to-body adapter](docs/NEURAL-BODY-ADAPTER.md) and its engineering
+transitions are explicit assumptions, not a validated prediction of a living fly.
+Use **Whole arena** for context or **Follow fly** for a close view.
+The nervous-system display continues to show actual sampled spikes.
 
 ## Use your own voice
 
 Choose **YOUR VOICE**, then record or select audio between 1 and 60 seconds.
-Listen back before choosing **READ TO THE FLY**. That explicit action loads a
-139 MB losslessly compressed model, cached where possible. The browser runs
-your sound and an equal-duration silence control, then replays your recording
-in the main scene with its own neural activity. Cancel stops processing without
+Listen back before choosing **READ TO THE FLY**. That explicit action loads
+roughly 156 MB of brain and body models, cached where possible. The browser runs
+your sound and an equal-duration silence control, computes a separate body for
+each, then replays your recording with its own neural activity and movement. Cancel stops processing without
 submitting anything. A public robot example lets you try local processing
 without microphone or file access.
 
@@ -39,12 +41,10 @@ link. Model files alone are cached. Clear this site’s browser storage to remov
 them. Microphone hardware and browser decoding are uncontrolled variables;
 visitor results are a single simulation pair, not the four-repeat example result.
 
-Desktop qualification currently covers Chromium 154 on the development Mac.
-The complete robot/human simulations with spatial capture took 46.38/40.37 s
-for 26.17/45.10 s of audio. Processing also runs silence, so the complete visitor
-workflow takes longer. Other browser engines and smaller devices have not been
-benchmarked. Earlier timing runs were slower; this is not a speed guarantee.
-Phones retain recorded playback; local processing is disabled.
+The complete local workflow has a five-minute acceptance limit for 60 seconds
+of audio on the tested desktop. See [moving-arena checks](docs/MOVING-ARENA-QA.md)
+for measured timings, numerical tolerances, and devices actually tested. Phones
+retain recorded playback; local processing is disabled until measured there.
 
 ## Run the public app locally
 
@@ -90,12 +90,12 @@ the archive. It has not been recast as biological evidence.
 
 ## Development and reproduction
 
-The app uses plain JavaScript, vendored Three.js, Web Audio, and a dedicated
-worker. It has no npm build or framework dependency. Main boundaries:
+The app uses plain JavaScript, vendored Three.js, Web Audio, and dedicated
+workers. It has no npm build or framework dependency. Main boundaries:
 
 | Code | Responsibility |
 | --- | --- |
-| `static/encounter.js`, `encounter-scene.js`, `neural-scene.js` | One playback clock, staging, recorded neuron display |
+| `static/encounter.js`, `arena-scene.js / body-view.js`, `neural-scene.js` | One playback clock, staging, recorded neuron display |
 | `static/recording-panel.js`, `local-session.js` | Recording lifecycle, privacy, worker progress/cancellation |
 | `static/local-audio.js` | Mono conversion, fixed linear level policy, mechanical receiver |
 | `static/browser-brain.js`, `browser-benchmark.worker.js` | Original numerical update and PCG64 noise |
@@ -143,14 +143,72 @@ node --test tests/*.test.mjs
 
 ## Evidence and credits
 
-- [Current playback contract](docs/ENCOUNTER-V2.md) and [manifest](experiments/encounter-v2/manifest.json).
+- [Neural playback contract](docs/ENCOUNTER-V2.md) and [current body/audio manifest](experiments/encounter-v3/manifest.json).
 - [Curated receiver protocol](docs/ENCOUNTER.md), [source audit](experiments/receiver-v2/CALIBRATION.md), and [strength checks](experiments/encounter-v1/sensitivity.json).
-- [Body-controller test](experiments/body-controller-v1/command-test.json) and [poem output audit](experiments/body-controller-v1/poem-output-audit.json).
-- [Current status](docs/GOAL-STATUS.md) and [research archive](https://synthetic-humanities-lab.github.io/drosophila-critic/archive.html).
+- [Movement checks](docs/MOVING-ARENA-QA.md), [adapter](docs/NEURAL-BODY-ADAPTER.md), and [measured comparisons](experiments/encounter-v3/movement-summary.json).
+- [Current status](docs/MOVING-ARENA-STATUS.md) and [research archive](https://synthetic-humanities-lab.github.io/drosophila-critic/archive.html).
 
 Blake’s poem is public domain. Human audio: Denny Sayers, LibriVox, 2006. Robot:
-Kokoro `af_sarah`, fixed settings. Fly asset: NeuroMechFly/FlyGym;
-[asset notices](static/assets/fly/NOTICE.txt) retain the license and attribution.
-fly.ai is MIT-licensed. The optional flybody audit uses its Apache-2.0 source
-and public pretrained checkpoint; that controller and its dependencies are not
-shipped with the website. Reader gestures are theatre, not simulation output.
+Kokoro `af_sarah`, fixed settings. Current anatomy: flybody;
+[anatomy notice](static/assets/flybody/NOTICE.txt),
+[policy/data notice](static/assets/body-v1/NOTICE.txt), and
+[MuJoCo license](static/vendor/mujoco/LICENSE.txt) retain attribution.
+flybody source and MuJoCo are Apache 2.0; the separately published policies and
+wingbeat dataset are GPL 3.0+. The body inference/export components are supplied
+under GPL 3.0+ with corresponding source and original dataset files. The earlier
+NeuroMechFly asset remains credited in the historical archive. Reader gestures
+are theatre; the fly's trajectory is simulated.
+
+## Reproduce the moving body
+
+Playback needs only the committed artifacts. Rebuilding physics uses a separate
+Python 3.12 environment, not the lightweight API environment:
+
+```sh
+python3.12 -m venv vendor/flybody/.venv
+vendor/flybody/.venv/bin/pip install 'numpy==1.26.4' 'mujoco==3.14.0' \
+  'dm-control==1.0.47' 'tensorflow==2.16.2' 'tensorflow-probability==0.24.0' \
+  'tf-keras==2.16.0'
+vendor/flybody/.venv/bin/pip install -e vendor/flybody
+```
+
+Clone `TuragaLab/flybody` into `vendor/flybody` first and check out
+`d015e9bfe441bd90ae431bac24c55cb74bdbce26`. Unpack the supplied
+`static/assets/body-v1/source/trained-fly-policies.zip` so the two SavedModel
+directories are `results/body-controller/policies/walking` and `flight`. Copy
+the supplied `wing_pattern_fmech.npy` into
+`results/body-controller/flight-data/`. Then, from the repository root:
+
+```sh
+export MUJOCO_GL=disable MPLBACKEND=Agg MPLCONFIGDIR=/tmp/drosophila-mpl
+export TF_CPP_MIN_LOG_LEVEL=2 OPENBLAS_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1
+export PYTHONPATH=.
+BODY_PY=vendor/flybody/.venv/bin/python
+$BODY_PY scripts/qualify_flight_controller.py
+$BODY_PY scripts/export_body_policies.py
+$BODY_PY scripts/build_body_model.py
+$BODY_PY scripts/export_body_browser.py
+$BODY_PY scripts/export_body_validation.py
+node scripts/check_body_browser.mjs
+node scripts/check_body_runtime.mjs
+node scripts/check_body_causality.mjs
+$BODY_PY scripts/run_body_trajectories.py --diagnostic
+$BODY_PY scripts/run_body_batch.py
+python3 scripts/export_moving_encounter.py
+python3 scripts/export_replay.py
+```
+
+The full batch additionally needs `data/brain.npz` and the existing complete
+`results/encounter-v1/*/spikes.npz` recordings. It reads all spikes in selected
+motor populations. It never reruns or changes the neural model. The new
+`encounter-v3` manifest preserves the older neural/audio artifacts and names the
+body trajectories for all four paired seeds.
+
+The small SIMD dense-layer kernel is committed as `static/body-dense.wasm`; its
+source is `scripts/body_dense.wat`. Rebuild with WABT's `wat2wasm` (SIMD enabled):
+`wat2wasm scripts/body_dense.wat -o static/body-dense.wasm`. MuJoCo's official
+single-threaded 3.14.0 distribution is vendored separately.
+
+Open `/body-proof.html` for the controlled movement demonstration and
+`/body-benchmark.html` to measure the full local 60-second workflow. Neither page
+calls a processing server.

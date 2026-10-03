@@ -5,8 +5,19 @@ export class NeuralScene {
   constructor(container) {
     this.container = container;
     this.flashes = true;
+    if (new URLSearchParams(location.search).get("view") === "map") {
+      container.textContent =
+        "Map view. Recorded neural measurements remain below.";
+      return;
+    }
     try {
-      this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      this.renderer = new THREE.WebGLRenderer({
+        antialias: true,
+        alpha: true,
+        preserveDrawingBuffer: new URLSearchParams(location.search).has(
+          "capture",
+        ),
+      });
       this.renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
       this.renderer.domElement.setAttribute("role", "img");
       this.renderer.domElement.setAttribute(

@@ -1,0 +1,1533 @@
+<mujoco model="floor">
+  <compiler angle="radian" inertiafromgeom="false" />
+
+  <option timestep="0.0002" noslip_tolerance="0" gravity="0 0 -981" density="0.00128" viscosity="0.000185" cone="elliptic" noslip_iterations="5" />
+
+  <size njmax="300" nconmax="100" nkey="1" nuser_geom="1" />
+
+  <statistic meansize="0.02" extent="4.01" />
+
+  <visual>
+    <global offwidth="3840" offheight="2160" />
+    <quality shadowsize="8192" offsamples="24" />
+    <headlight ambient="0.4 0.4 0.4" diffuse="0.8 0.8 0.8" specular="0.1 0.1 0.1" />
+    <map stiffness="10000" stiffnessrot="50000" force="1e-05" znear="0.001" />
+    <scale forcewidth="0.06" jointwidth="0.06" framelength="0.3" framewidth="0.06" />
+  </visual>
+
+  <default>
+    <default class="/" />
+    <default class="walker/">
+      <mesh scale="0.1 0.1 0.1" />
+      <geom friction="0.5" solref="0.0002" solimp="0.95 0.99 0.01" />
+      <general ctrllimited="true" />
+      <default class="walker/body">
+        <joint solreflimit="0.001" armature="1e-06" limited="true" />
+        <geom type="mesh" contype="0" conaffinity="0" group="1" density="0.478" material="walker/body" />
+        <site size="0.01 0.005 0.005" group="3" />
+        <default class="walker/collision">
+          <geom type="capsule" contype="1" conaffinity="1" condim="1" group="4" density="0" material="walker/blue" />
+          <default class="walker/adhesion-collision">
+            <geom friction="1" margin="0.0005" gap="0.0005" material="walker/pink" />
+            <site type="capsule" />
+          </default>
+          <default class="walker/collision-membrane">
+            <geom group="5" />
+          </default>
+        </default>
+        <default class="walker/adhesion">
+          <general dyntype="filter" dynprm="0.007" />
+          <default class="walker/adhesion_claw">
+            <general group="3" ctrlrange="0 1" gainprm="0.985" />
+          </default>
+          <default class="walker/adhesion_labrum">
+            <general group="3" ctrlrange="0 1" />
+          </default>
+        </default>
+        <default class="walker/head">
+          <joint stiffness="0.03" damping="0.001" />
+          <geom density="0.713" />
+          <general forcerange="-0.1 0.1" biastype="affine" gainprm="0.1" biasprm="0 -0.1" />
+          <default class="walker/labrum">
+            <general forcerange="-0.01 0.01" gainprm="0.01" biasprm="0 -0.01" />
+          </default>
+        </default>
+        <default class="walker/antenna">
+          <joint damping="0.0003" />
+          <general forcerange="-0.01 0.01" biastype="affine" gainprm="0.01" biasprm="0 -0.01" />
+          <default class="walker/antenna_extend">
+            <joint range="-0.2 0.5" axis="1 0 0" />
+          </default>
+          <default class="walker/antenna_twist">
+            <joint range="-0.1 0.09" axis="0 1 0" />
+          </default>
+          <default class="walker/antenna_abduct">
+            <joint range="-0.4 0.8" />
+          </default>
+        </default>
+        <default class="walker/wing">
+          <joint stiffness="0.01" damping="0.00776923" />
+          <general ctrlrange="-1 1" />
+          <default class="walker/yaw">
+            <joint range="-1.5 1.5" springref="1.5" />
+            <general gainprm="18" />
+          </default>
+          <default class="walker/roll">
+            <joint range="-1 1.5" springref="0.7" axis="1 0 0" />
+            <general gainprm="18" />
+          </default>
+          <default class="walker/pitch">
+            <joint range="-1.27 2.92" springref="-1" axis="0 1 0" />
+            <general gainprm="18" />
+          </default>
+          <default class="walker/wing-inertial">
+            <geom type="box" rgba="0 0 0 0" />
+          </default>
+          <default class="walker/wing-fluid">
+            <geom type="ellipsoid" group="3" />
+          </default>
+        </default>
+        <default class="walker/abdomen">
+          <joint group="3" stiffness="0.05" damping="0.01" />
+          <geom density="0.555" />
+          <general biastype="affine" gainprm="0.1" biasprm="0 -0.1" />
+          <default class="walker/abduct_abdomen">
+            <joint range="-0.1 0.1" />
+          </default>
+          <default class="walker/extend_abdomen">
+            <joint range="-0.15 0.1" axis="1 0 0" />
+          </default>
+        </default>
+        <default class="walker/haltere">
+          <joint range="-0.2 0.2" axis="1 0 0" />
+        </default>
+        <default class="walker/leg">
+          <joint stiffness="0.01" damping="0.01" />
+          <geom density="1.18" />
+          <default class="walker/coxa">
+            <general biastype="affine" gainprm="0.8" biasprm="0 -0.8" />
+            <default class="walker/twist_coxa_T1">
+              <joint range="-0.8 0.8" axis="0 1 0" />
+              <general ctrlrange="-0.8 0.8" />
+            </default>
+            <default class="walker/abduct_coxa_T1">
+              <joint range="-1 0.7" />
+              <general ctrlrange="-1 0.7" />
+            </default>
+            <default class="walker/extend_coxa_T1">
+              <joint range="-0.2 1.7" springref="0.0584" axis="1 0 0" />
+              <general ctrlrange="-0.2 1.7" />
+            </default>
+            <default class="walker/twist_coxa_T2">
+              <joint range="-0.75 0.8" springref="-0.742" axis="0 1 0" />
+              <general ctrlrange="-0.75 0.8" />
+            </default>
+            <default class="walker/abduct_coxa_T2">
+              <joint range="-0.5 0.3" springref="-0.292" />
+              <general ctrlrange="-0.5 0.3" />
+            </default>
+            <default class="walker/extend_coxa_T2">
+              <joint range="-0.2 0.9" springref="0.408" axis="1 0 0" />
+              <general ctrlrange="-0.2 0.9" />
+            </default>
+            <default class="walker/twist_coxa_T3">
+              <joint range="-0.15 0.8" springref="0.00841" axis="0 1 0" />
+              <general ctrlrange="-0.15 0.8" />
+            </default>
+            <default class="walker/abduct_coxa_T3">
+              <joint range="-0.9 0.25" />
+              <general ctrlrange="-0.9 0.25" />
+            </default>
+            <default class="walker/extend_coxa_T3">
+              <joint range="-0.3 1.3" springref="0.158" axis="1 0 0" />
+              <general ctrlrange="-0.3 1.3" />
+            </default>
+          </default>
+          <default class="walker/femur">
+            <general biastype="affine" gainprm="0.8" biasprm="0 -0.8" />
+            <default class="walker/twist_femur">
+              <joint range="-1 1" axis="0 1 0" />
+              <general ctrlrange="-1 1" />
+              <default class="walker/twist_femur_T2">
+                <joint springref="0.608" />
+              </default>
+              <default class="walker/twist_femur_T3">
+                <joint springref="0.558" />
+              </default>
+            </default>
+            <default class="walker/extend_femur">
+              <joint range="-0.15 2" axis="1 0 0" />
+              <general ctrlrange="-0.15 2" />
+              <default class="walker/extend_femur_T1">
+                <joint springref="-0.142" />
+              </default>
+              <default class="walker/extend_femur_T2">
+                <joint springref="0.208" />
+              </default>
+            </default>
+            <default class="walker/extend_femur_T3">
+              <joint range="-0.7 1.5" springref="0.258" axis="1 0 0" />
+              <general ctrlrange="-0.7 1.5" />
+            </default>
+          </default>
+          <default class="walker/tibia">
+            <joint damping="0.004" />
+            <general biastype="affine" gainprm="0.4" biasprm="0 -0.4" />
+            <default class="walker/extend_tibia">
+              <joint range="-1.35 1.3" springref="-1.29" axis="1 0 0" />
+              <general ctrlrange="-1.35 1.3" />
+              <default class="walker/extend_tibia_T2">
+                <joint springref="-1.34" />
+              </default>
+              <default class="walker/extend_tibia_T3">
+                <joint springref="-0.292" />
+              </default>
+            </default>
+          </default>
+          <default class="walker/tarsus">
+            <joint axis="1 0 0" />
+            <general biastype="affine" gainprm="0.4" biasprm="0 -0.4" />
+            <default class="walker/extend_tarsus_T1">
+              <joint range="-0.7 1.2" springref="-0.242" />
+              <general ctrlrange="-0.7 1.2" />
+            </default>
+            <default class="walker/extend_tarsus_T2">
+              <joint range="-1 1.8" springref="0.608" />
+              <general ctrlrange="-1 1.8" />
+            </default>
+            <default class="walker/extend_tarsus_T3">
+              <joint range="-0.8 1.2" springref="0.258" />
+              <general ctrlrange="-0.8 1.2" />
+            </default>
+            <default class="walker/extend_tarsus">
+              <joint group="3" stiffness="0.1" range="-0.36 0.36" damping="0.002" />
+              <general ctrlrange="-0.36 0.36" />
+            </default>
+          </default>
+        </default>
+      </default>
+    </default>
+    <default class="ghost/">
+      <mesh scale="0.1 0.1 0.1" />
+      <geom friction="0.5" solref="0.0002" solimp="0.95 0.99 0.01" />
+      <general ctrllimited="true" />
+      <default class="ghost/body">
+        <joint solreflimit="0.001" armature="1e-06" limited="true" />
+        <geom type="mesh" contype="0" conaffinity="0" group="1" density="0.478" material="ghost/body" />
+        <site size="0.01 0.005 0.005" group="3" />
+        <default class="ghost/collision">
+          <geom type="capsule" contype="1" conaffinity="1" condim="1" group="4" density="0" material="ghost/blue" />
+          <default class="ghost/adhesion-collision">
+            <geom friction="0.6" margin="0.0005" gap="0.0005" material="ghost/pink" />
+            <site type="capsule" />
+          </default>
+          <default class="ghost/collision-membrane">
+            <geom group="5" />
+          </default>
+        </default>
+        <default class="ghost/adhesion">
+          <default class="ghost/adhesion_claw">
+            <general group="3" ctrlrange="0 1" gainprm="0.985" />
+          </default>
+          <default class="ghost/adhesion_labrum">
+            <general group="3" ctrlrange="0 1" />
+          </default>
+        </default>
+        <default class="ghost/head">
+          <joint stiffness="0.03" damping="0.001" />
+          <geom density="0.713" />
+          <general forcerange="-0.1 0.1" biastype="affine" gainprm="0.1" biasprm="0 -0.1" />
+          <default class="ghost/labrum">
+            <general forcerange="-0.01 0.01" gainprm="0.01" biasprm="0 -0.01" />
+          </default>
+        </default>
+        <default class="ghost/antenna">
+          <joint damping="0.0003" />
+          <general forcerange="-0.01 0.01" biastype="affine" gainprm="0.01" biasprm="0 -0.01" />
+          <default class="ghost/antenna_extend">
+            <joint range="-0.2 0.5" axis="1 0 0" />
+          </default>
+          <default class="ghost/antenna_twist">
+            <joint range="-0.1 0.09" axis="0 1 0" />
+          </default>
+          <default class="ghost/antenna_abduct">
+            <joint range="-0.4 0.8" />
+          </default>
+        </default>
+        <default class="ghost/wing">
+          <joint stiffness="0.01" damping="0.0005" />
+          <general ctrlrange="-1 1" />
+          <default class="ghost/yaw">
+            <joint range="-1.5 1.5" springref="1.5" />
+            <general gainprm="3" />
+          </default>
+          <default class="ghost/roll">
+            <joint range="-1 1.5" springref="0.7" axis="1 0 0" />
+            <general gainprm="2" />
+          </default>
+          <default class="ghost/pitch">
+            <joint range="-1.27 2.92" springref="-1" axis="0 1 0" />
+          </default>
+          <default class="ghost/wing-inertial">
+            <geom type="box" rgba="0 0 0 0" />
+          </default>
+          <default class="ghost/wing-fluid">
+            <geom type="ellipsoid" group="3" />
+          </default>
+        </default>
+        <default class="ghost/abdomen">
+          <joint group="3" stiffness="0.05" damping="0.01" />
+          <geom density="0.555" />
+          <general biastype="affine" gainprm="0.1" biasprm="0 -0.1" />
+          <default class="ghost/abduct_abdomen">
+            <joint range="-0.1 0.1" />
+          </default>
+          <default class="ghost/extend_abdomen">
+            <joint range="-0.15 0.1" axis="1 0 0" />
+          </default>
+        </default>
+        <default class="ghost/haltere">
+          <joint range="-0.2 0.2" axis="1 0 0" />
+        </default>
+        <default class="ghost/leg">
+          <joint stiffness="0.01" damping="0.01" />
+          <geom density="1.18" />
+          <default class="ghost/coxa">
+            <general biastype="affine" gainprm="0.8" biasprm="0 -0.8" />
+            <default class="ghost/twist_coxa_T1">
+              <joint range="-0.8 0.8" axis="0 1 0" />
+              <general ctrlrange="-0.8 0.8" />
+            </default>
+            <default class="ghost/abduct_coxa_T1">
+              <joint range="-1 0.7" />
+              <general ctrlrange="-1 0.7" />
+            </default>
+            <default class="ghost/extend_coxa_T1">
+              <joint range="-0.2 1.7" springref="0.0584" axis="1 0 0" />
+              <general ctrlrange="-0.2 1.7" />
+            </default>
+            <default class="ghost/twist_coxa_T2">
+              <joint range="-0.75 0.8" springref="-0.742" axis="0 1 0" />
+              <general ctrlrange="-0.75 0.8" />
+            </default>
+            <default class="ghost/abduct_coxa_T2">
+              <joint range="-0.5 0.3" springref="-0.292" />
+              <general ctrlrange="-0.5 0.3" />
+            </default>
+            <default class="ghost/extend_coxa_T2">
+              <joint range="-0.2 0.9" springref="0.408" axis="1 0 0" />
+              <general ctrlrange="-0.2 0.9" />
+            </default>
+            <default class="ghost/twist_coxa_T3">
+              <joint range="-0.15 0.8" springref="0.00841" axis="0 1 0" />
+              <general ctrlrange="-0.15 0.8" />
+            </default>
+            <default class="ghost/abduct_coxa_T3">
+              <joint range="-0.9 0.25" />
+              <general ctrlrange="-0.9 0.25" />
+            </default>
+            <default class="ghost/extend_coxa_T3">
+              <joint range="-0.3 1.3" springref="0.158" axis="1 0 0" />
+              <general ctrlrange="-0.3 1.3" />
+            </default>
+          </default>
+          <default class="ghost/femur">
+            <general biastype="affine" gainprm="0.8" biasprm="0 -0.8" />
+            <default class="ghost/twist_femur">
+              <joint range="-1 1" axis="0 1 0" />
+              <general ctrlrange="-1 1" />
+              <default class="ghost/twist_femur_T2">
+                <joint springref="0.608" />
+              </default>
+              <default class="ghost/twist_femur_T3">
+                <joint springref="0.558" />
+              </default>
+            </default>
+            <default class="ghost/extend_femur">
+              <joint range="-0.15 2" axis="1 0 0" />
+              <general ctrlrange="-0.15 2" />
+              <default class="ghost/extend_femur_T1">
+                <joint springref="-0.142" />
+              </default>
+              <default class="ghost/extend_femur_T2">
+                <joint springref="0.208" />
+              </default>
+            </default>
+            <default class="ghost/extend_femur_T3">
+              <joint range="-0.7 1.5" springref="0.258" axis="1 0 0" />
+              <general ctrlrange="-0.7 1.5" />
+            </default>
+          </default>
+          <default class="ghost/tibia">
+            <joint damping="0.004" />
+            <general biastype="affine" gainprm="0.4" biasprm="0 -0.4" />
+            <default class="ghost/extend_tibia">
+              <joint range="-1.35 1.3" springref="-1.29" axis="1 0 0" />
+              <general ctrlrange="-1.35 1.3" />
+              <default class="ghost/extend_tibia_T2">
+                <joint springref="-1.34" />
+              </default>
+              <default class="ghost/extend_tibia_T3">
+                <joint springref="-0.292" />
+              </default>
+            </default>
+          </default>
+          <default class="ghost/tarsus">
+            <joint axis="1 0 0" />
+            <general biastype="affine" gainprm="0.4" biasprm="0 -0.4" />
+            <default class="ghost/extend_tarsus_T1">
+              <joint range="-0.7 1.2" springref="-0.242" />
+              <general ctrlrange="-0.7 1.2" />
+            </default>
+            <default class="ghost/extend_tarsus_T2">
+              <joint range="-1 1.8" springref="0.608" />
+              <general ctrlrange="-1 1.8" />
+            </default>
+            <default class="ghost/extend_tarsus_T3">
+              <joint range="-0.8 1.2" springref="0.258" />
+              <general ctrlrange="-0.8 1.2" />
+            </default>
+            <default class="ghost/extend_tarsus">
+              <joint group="3" stiffness="0.1" range="-0.36 0.36" damping="0.002" />
+              <general ctrlrange="-0.36 0.36" />
+            </default>
+          </default>
+        </default>
+      </default>
+    </default>
+  </default>
+
+  <asset>
+    <texture type="2d" colorspace="auto" name="groundplane" builtin="checker" mark="edge" rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3" markrgb="0.8 0.8 0.8" width="200" height="200" />
+    <material name="groundplane" class="/" texture="groundplane" texrepeat="2 2" texuniform="true" reflectance="0.2" />
+    <material name="walker/body" class="walker/" shininess="0.6" rgba="0.674 0.35 0.143 1" />
+    <material name="walker/red" class="walker/" shininess="0.692" rgba="0.8 0.0279 0.00154 1" />
+    <material name="walker/ocelli" class="walker/" shininess="1" rgba="0.128 0.0488 0.0154 1" />
+    <material name="walker/black" class="walker/" shininess="0.727" rgba="0 0 0 1" />
+    <material name="walker/bristle-brown" class="walker/" shininess="0.907" rgba="0 0 0 1" />
+    <material name="walker/lower" class="walker/" shininess="0.6" rgba="0.799 0.61 0.386 1" />
+    <material name="walker/brown" class="walker/" shininess="0.6" rgba="0.202 0.0782 0.0262 1" />
+    <material name="walker/membrane" class="walker/" specular="0.62" shininess="0.907" rgba="0.539 0.686 0.8 0.4" />
+    <material name="walker/blue" class="walker/" shininess="0.6" rgba="0.2 0.3 1 1" />
+    <material name="walker/pink" class="walker/" rgba="0.6 0.3 1 1" />
+    </asset>
+
+  <worldbody>
+    <geom name="groundplane" class="/" size="8 8 0.25" type="plane" friction="0.5" solref="0.001" solimp="0.95 0.99 0.01" material="groundplane" />
+    <site name="traj_0" class="/" pos="0 0 0.1278" group="1" rgba="0 1 1 0.5" />
+    <site name="traj_1" class="/" pos="0.04 0 0.1278" group="1" rgba="0 1 1 0.5" />
+    <site name="traj_2" class="/" pos="0.08 0 0.1278" group="1" rgba="0 1 1 0.5" />
+    <site name="traj_3" class="/" pos="0.12 0 0.1278" group="1" rgba="0 1 1 0.5" />
+    <site name="traj_4" class="/" pos="0.16 0 0.1278" group="1" rgba="0 1 1 0.5" />
+    <site name="traj_5" class="/" pos="0.2 0 0.1278" group="1" rgba="0 1 1 0.5" />
+    <site name="traj_6" class="/" pos="0.24 0 0.1278" group="1" rgba="0 1 1 0.5" />
+    <site name="traj_7" class="/" pos="0.28 0 0.1278" group="1" rgba="0 1 1 0.5" />
+    <site name="traj_8" class="/" pos="0.32 0 0.1278" group="1" rgba="0 1 1 0.5" />
+    <site name="traj_9" class="/" pos="0.36 0 0.1278" group="1" rgba="0 1 1 0.5" />
+    <site name="traj_10" class="/" pos="0.4 0 0.1278" group="1" rgba="0 1 1 0.5" />
+    <site name="traj_11" class="/" pos="0.44 0 0.1278" group="1" rgba="0 1 1 0.5" />
+    <site name="traj_12" class="/" pos="0.48 0 0.1278" group="1" rgba="0 1 1 0.5" />
+    <site name="traj_13" class="/" pos="0.52 0 0.1278" group="1" rgba="0 1 1 0.5" />
+    <site name="traj_14" class="/" pos="0.56 0 0.1278" group="1" rgba="0 1 1 0.5" />
+    <site name="traj_15" class="/" pos="0.6 0 0.1278" group="1" rgba="0 1 1 0.5" />
+    <site name="traj_16" class="/" pos="0.64 0 0.1278" group="1" rgba="0 1 1 0.5" />
+    <site name="traj_17" class="/" pos="0.68 0 0.1278" group="1" rgba="0 1 1 0.5" />
+    <site name="traj_18" class="/" pos="0.72 0 0.1278" group="1" rgba="0 1 1 0.5" />
+    <site name="traj_19" class="/" pos="0.76 0 0.1278" group="1" rgba="0 1 1 0.5" />
+    <site name="traj_20" class="/" pos="0.8 0 0.1278" group="1" rgba="0 1 1 0.5" />
+    <site name="traj_21" class="/" pos="0.84 0 0.1278" group="1" rgba="0 1 1 0.5" />
+    <site name="traj_22" class="/" pos="0.88 0 0.1278" group="1" rgba="0 1 1 0.5" />
+    <site name="traj_23" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_24" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_25" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_26" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_27" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_28" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_29" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_30" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_31" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_32" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_33" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_34" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_35" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_36" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_37" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_38" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_39" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_40" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_41" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_42" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_43" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_44" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_45" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_46" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_47" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_48" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_49" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_50" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_51" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_52" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_53" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_54" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_55" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_56" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_57" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_58" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_59" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_60" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_61" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_62" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_63" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_64" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_65" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_66" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_67" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_68" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_69" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_70" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_71" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_72" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_73" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_74" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_75" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_76" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_77" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_78" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_79" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_80" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_81" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_82" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_83" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_84" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_85" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_86" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_87" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_88" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_89" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_90" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_91" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_92" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_93" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_94" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_95" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_96" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_97" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_98" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_99" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_100" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_101" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_102" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_103" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_104" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_105" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_106" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_107" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_108" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_109" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_110" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_111" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_112" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_113" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_114" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_115" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_116" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_117" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_118" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_119" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_120" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_121" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_122" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_123" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_124" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_125" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_126" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_127" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_128" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_129" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_130" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_131" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_132" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_133" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_134" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_135" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_136" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_137" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_138" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_139" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_140" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_141" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_142" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_143" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_144" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_145" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_146" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_147" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_148" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_149" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_150" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_151" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_152" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_153" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_154" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_155" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_156" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_157" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_158" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_159" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_160" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_161" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_162" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_163" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_164" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_165" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_166" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_167" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_168" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_169" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_170" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_171" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_172" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_173" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_174" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_175" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_176" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_177" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_178" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_179" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_180" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_181" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_182" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_183" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_184" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_185" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_186" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_187" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_188" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_189" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_190" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_191" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_192" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_193" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_194" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_195" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_196" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_197" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_198" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_199" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_200" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_201" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_202" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_203" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_204" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_205" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_206" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_207" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_208" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_209" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_210" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_211" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_212" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_213" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_214" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_215" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_216" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_217" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_218" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_219" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_220" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_221" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_222" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_223" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_224" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_225" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_226" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_227" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_228" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_229" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_230" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_231" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_232" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_233" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_234" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_235" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_236" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_237" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_238" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_239" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_240" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_241" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_242" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_243" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_244" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_245" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_246" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_247" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_248" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_249" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_250" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_251" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_252" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_253" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_254" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_255" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_256" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_257" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_258" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_259" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_260" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_261" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_262" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_263" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_264" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_265" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_266" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_267" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_268" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_269" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_270" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_271" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_272" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_273" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_274" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_275" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_276" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_277" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_278" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_279" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_280" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_281" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_282" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_283" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_284" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_285" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_286" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_287" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_288" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_289" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_290" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_291" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_292" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_293" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_294" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_295" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_296" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_297" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_298" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_299" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_300" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_301" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_302" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_303" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_304" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_305" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_306" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_307" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_308" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_309" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_310" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_311" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_312" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_313" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_314" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_315" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_316" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_317" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_318" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_319" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_320" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_321" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_322" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_323" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_324" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_325" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_326" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_327" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_328" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_329" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_330" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_331" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_332" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_333" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_334" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_335" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_336" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_337" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_338" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_339" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_340" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_341" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_342" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_343" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_344" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_345" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_346" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_347" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_348" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_349" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_350" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_351" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_352" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_353" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_354" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_355" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_356" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_357" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_358" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_359" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_360" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_361" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_362" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_363" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_364" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_365" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_366" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_367" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_368" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_369" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_370" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_371" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_372" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_373" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_374" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_375" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_376" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_377" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_378" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_379" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_380" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_381" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_382" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_383" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_384" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_385" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_386" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_387" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_388" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_389" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_390" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_391" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_392" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_393" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_394" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_395" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_396" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_397" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_398" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_399" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_400" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_401" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_402" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_403" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_404" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_405" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_406" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_407" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_408" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_409" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_410" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_411" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_412" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_413" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_414" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_415" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_416" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_417" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_418" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_419" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_420" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_421" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_422" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_423" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_424" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_425" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_426" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_427" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_428" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_429" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_430" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_431" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_432" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_433" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_434" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_435" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_436" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_437" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_438" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_439" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_440" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_441" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_442" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_443" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_444" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_445" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_446" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_447" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_448" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_449" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_450" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_451" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_452" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_453" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_454" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_455" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_456" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_457" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_458" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_459" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_460" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_461" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_462" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_463" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_464" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_465" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_466" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_467" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_468" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_469" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_470" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_471" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_472" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_473" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_474" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_475" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_476" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_477" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_478" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_479" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_480" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_481" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_482" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_483" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_484" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_485" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_486" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_487" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_488" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_489" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_490" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_491" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_492" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_493" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_494" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_495" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_496" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_497" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_498" class="/" group="1" rgba="0 1 1 0" />
+    <site name="traj_499" class="/" group="1" rgba="0 1 1 0" />
+    <camera name="top_camera" class="/" pos="0 0 100" fovy="10.0581" />
+    <body name="walker/" pos="0 0 0.1278">
+      <joint name="walker/" type="free" />
+      <body name="walker/thorax" childclass="walker/body">
+        <geom name="walker/thorax_collision" class="walker/collision" size="0.0437 0.0437 0.0551" pos="0.00168 0 -0.00262" quat="0 -0.478922 0 -0.877857" type="ellipsoid" />
+        <geom name="walker/thorax_collision2" class="walker/collision" size="0.0499 0.028 0.0114" pos="-0.00445 0 0.0219" quat="0 -0.199 0 -0.98" type="ellipsoid" />
+        <site name="walker/thorax" />
+        <site name="walker/hover_up_dir" pos="0.0262 0 0.0262" quat="0.915479 0 0.402366 0" />
+        <camera name="walker/track1" quat="0.312189 0.221134 0.533323 0.754457" pos="0.6 0.6 0.22" mode="trackcom" />
+        <camera name="walker/track2" quat="0.707107 0.707107 0 0" pos="0 -1.1 0.1" mode="trackcom" />
+        <camera name="walker/track3" quat="0.820164 0.425085 -0.176035 -0.340068" pos="-0.9 -0.9 0.9" mode="trackcom" />
+        <camera name="walker/back" quat="0.653281 0.270598 -0.270598 -0.653281" pos="-0.462 0 0.297" mode="track" />
+        <camera name="walker/side" quat="0 0 0.707107 0.707107" pos="-0.045 0.424 -0.035" mode="track" />
+        <camera name="walker/bottom" quat="0.0481814 0.705463 0.705463 0.0481814" pos="0.01 0 -0.516" mode="track" />
+        <camera name="walker/hero" quat="0.308074 0.290615 0.621616 0.658959" pos="0.271 0.27 -0.044" mode="track" />
+        <light name="walker/right" pos="0 -1 1" dir="0 0.707107 -0.707107" diffuse="0.3 0.3 0.3" mode="trackcom" />
+        <light name="walker/left" pos="0 1 1" dir="0 -0.707107 -0.707107" diffuse="0.3 0.3 0.3" mode="trackcom" />
+        <light name="walker/tracking" pos="0 0 1" mode="trackcom" />
+        <body name="walker/head" childclass="walker/head" pos="0.0567 3.81e-07 -0.00305" quat="0.701738 -0.0869676 0.0869676 -0.701738">
+          <joint name="walker/head_abduct" range="-0.2 0.2" />
+          <joint name="walker/head_twist" range="-3 3" axis="0 1 0" />
+          <joint name="walker/head" range="-0.5 0.3" axis="1 0 0" />
+          <geom name="walker/head_collision" class="walker/collision" size="0.0455 0.0262 0.0324" pos="0 0.0149 0.000875" quat="0.988771 0.149438 0 0" type="ellipsoid" />
+          <site name="walker/head" pos="0 0.015 0" quat="0 0 0 1" />
+          <camera name="walker/eye_right" quat="0.473906 0.687863 -0.343932 -0.428915" pos="0.0219 0.0131 0" fovy="150" />
+          <camera name="walker/eye_left" quat="0.473906 0.687863 0.343932 0.428915" pos="-0.0219 0.0131 0" fovy="150" />
+          <body name="walker/rostrum" pos="0 0.0368 -0.0235" quat="2.20085e-07 -1.21047e-07 0.192074 -0.98138">
+            <joint name="walker/rostrum" range="-1.24 0.183" springref="0.8" axis="1 0 0" />
+            <geom name="walker/rostrum_collision_right" class="walker/collision" size="0.0035 0.0127195" pos="0.008765 0.02845 -0.0118" quat="0.981761 -0.158158 -0.105505 0" />
+            <geom name="walker/rostrum_collision_left" class="walker/collision" size="0.0035 0.0127195" pos="-0.008765 0.02845 -0.0118" quat="0.981761 -0.158158 0.105505 0" />
+            <geom name="walker/rostrum_collision" class="walker/collision" size="0.0131 0.0219 0.0131" pos="0 0.0175 0.00263" quat="0.99875 0.0499792 0 0" type="ellipsoid" />
+            <body name="walker/haustellum" pos="0 0.0377 0" quat="2.32971e-07 -1.5598e-07 -0.346956 0.937881">
+              <joint name="walker/haustellum_abduct" range="-0.0873 0.0873" />
+              <joint name="walker/haustellum" range="-1.59 0.7" springref="0.8" axis="1 0 0" />
+              <geom name="walker/haustellum_collision" class="walker/collision" size="0.00788 0.00788" pos="0 0.0123 -0.000948" quat="0.633074 0.774091 0 0" />
+              <body name="walker/labrum_left" childclass="walker/labrum" pos="-0.00263 0.0182 0" quat="0.74088 -0.0141977 -0.590904 0.318948">
+                <joint name="walker/labrum_left" range="-0.00524 1.05" axis="1 0 0" />
+                <geom name="walker/labrum_left_lower_collision" class="walker/adhesion-collision" size="0.0035 0.00875 0.0131" pos="-0.000603 0.0106 -0.00438" quat="-0.173934 -0.714729 0.0875668 0.671745" type="ellipsoid" />
+              <inertial pos="-0.00027752775640396687 0.0087314860923328325 -0.0040824939779322278" quat="-0.17447184803815016 -0.71455070204257631 0.088406912111603841 0.67168525839377191" mass="2.0858507093135301e-06" diaginertia="1.1723574774161468e-10 8.8723779468838613e-11 5.2721904238525472e-11" /></body>
+              <body name="walker/labrum_right" childclass="walker/labrum" pos="0.00263 0.0182 0" quat="0.69878 0.00273914 0.641798 -0.315901">
+                <joint name="walker/labrum_right" range="-0.00524 1.05" axis="1 0 0" />
+                <geom name="walker/labrum_right_lower_collision" class="walker/adhesion-collision" size="0.0035 0.00875 0.0131" pos="0.00116 0.0106 -0.00414" quat="-0.175083 -0.668317 -0.0724344 -0.719341" type="ellipsoid" />
+              <inertial pos="0.00067420705191711949 0.0089192074435707151 -0.0039935412426453038" quat="-0.17574395355250264 -0.66838663635281781 -0.072658983288627702 -0.71909251093455806" mass="2.085851221637398e-06" diaginertia="1.1723575136874723e-10 8.8723805973618242e-11 5.2721911140552208e-11" /></body>
+            <inertial pos="4.6089892571260662e-08 0.0123668828375727 -0.0012227799122985911" quat="0.63295552271297417 0.77418815947232655 -1.4359983960161128e-17 -1.0628411803648643e-17" mass="3.1839274856261909e-06" diaginertia="1.8262455331014472e-10 1.8055525897911605e-10 1.0058179605163028e-10" /></body>
+          <inertial pos="-2.0886342261255903e-08 0.019582994357398544 -0.00061772693503180586" quat="0.80754185205667539 0.58981027218661253 -1.5013797831055054e-07 8.5483011727806799e-08" mass="1.4341904203538517e-05" diaginertia="2.4360010802005703e-09 1.9571537147303202e-09 1.7075923606355099e-09" /></body>
+          <body name="walker/antenna_left" pos="-0.00795 0.0378 0.0129" quat="0.78447 -0.589601 -0.0127914 0.19187">
+            <joint name="walker/antenna_abduct_left" class="walker/antenna_abduct" />
+            <joint name="walker/antenna_twist_left" class="walker/antenna_twist" />
+            <joint name="walker/antenna_left" class="walker/antenna_extend" />
+            <geom name="walker/antenna_left_collision" class="walker/collision" size="0.00481 0.00875" pos="0 0.0114 0.00263" quat="0.634163 -0.773199 0 0" />
+            <inertial pos="-0.0033311751622732873 0.011952353721236833 0.0024279448400325587" quat="-0.19638278805265294 0.61632998548574269 -0.38797382271383113 -0.65654204925246729" mass="1.4407579138438792e-06" diaginertia="1.3237831032085341e-10 9.3481840419473795e-11 5.0842066529571729e-11" /></body>
+          <body name="walker/antenna_right" pos="0.00861 0.038 0.0129" quat="0.589601 0.78447 -0.19187 -0.0127914">
+            <joint name="walker/antenna_abduct_right" class="walker/antenna_abduct" />
+            <joint name="walker/antenna_twist_right" class="walker/antenna_twist" />
+            <joint name="walker/antenna_right" class="walker/antenna_extend" />
+            <geom name="walker/antenna_right_collision" class="walker/collision" size="0.00481 0.00875" pos="-0.000616 -0.0114 -0.00231" quat="0.78177 0.622817 -0.0257924 -0.0163952" />
+            <inertial pos="0.0028304997999250552 -0.011952136890566192 -0.0024277987119602634" quat="-0.6565412265147279 0.38797420542675448 0.61633033935324666 0.19638367193514003" mass="1.4407618832232005e-06" diaginertia="1.3237916333134692e-10 9.3482667546867344e-11 5.0842151449846107e-11" /></body>
+        <inertial pos="3.1200498124275974e-08 0.016750815325854353 0.0012510150064862248" quat="0.46514375965280602 0.53257988809398582 0.46514389011818702 0.53257967210509771" mass="0.00012532986996108747" diaginertia="8.2222909361314604e-08 7.1000805311008299e-08 3.8270386306173051e-08" /></body>
+        <body name="walker/wing_left" childclass="walker/wing" pos="-0.00694 0.0432 0.0091" quat="0 0.402366 0 0.915479">
+          <joint name="walker/wing_yaw_left" class="walker/yaw" />
+          <joint name="walker/wing_roll_left" class="walker/roll" />
+          <joint name="walker/wing_pitch_left" class="walker/pitch" />
+          <geom name="walker/wing_left_brown_collision" class="walker/collision" size="0.00219 0.0175 0.114" pos="0.00185939 -0.109839 -0.00165573" quat="-0.672583 -0.646601 0.260436 -0.24842" type="ellipsoid" />
+          <geom name="walker/wing_left_membrane_collision" class="walker/collision-membrane" size="0.00306 0.0551 0.114" pos="0.0262968 -0.147783 -0.0288383" quat="-0.684639 -0.633668 0.265469 -0.243434" type="ellipsoid" />
+          <geom name="walker/wing_left_fluid" class="walker/wing-fluid" size="0.0005 0.0551 0.114" pos="0.0262968 -0.147783 -0.0288383" quat="-0.684639 -0.633668 0.265469 -0.243434" fluidcoef="1 0.5 1.5 1.7" fluidshape="ellipsoid" mass="0" />
+          <geom name="walker/wing_left_inertial" class="walker/wing-inertial" size="0.0005 0.0551 0.114" pos="0.0262968 -0.147783 -0.0288383" quat="-0.684639 -0.633668 0.265469 -0.243434" mass="8e-06" />
+        <inertial pos="0.026296761260053508 -0.14778340730195202 -0.028838303567497774" quat="-0.68463928997511725 -0.63366789946417357 0.26546883903993812 -0.24343444971863976" mass="7.9999999999999996e-06" diaginertia="4.2752026666666658e-08 3.4656666666666668e-08 8.0966933333333334e-09" /></body>
+        <body name="walker/wing_right" childclass="walker/wing" pos="-0.00694 -0.0432 0.0091" quat="0 -0.915479 0 0.402366">
+          <joint name="walker/wing_yaw_right" class="walker/yaw" />
+          <joint name="walker/wing_roll_right" class="walker/roll" />
+          <joint name="walker/wing_pitch_right" class="walker/pitch" />
+          <geom name="walker/wing_right_brown_collision" class="walker/collision" size="0.00219 0.0175 0.114" pos="-0.00186302 0.109839 0.00165609" quat="0.24842 0.260436 0.646601 -0.672583" type="ellipsoid" />
+          <geom name="walker/wing_right_membrane_collision" class="walker/collision-membrane" size="0.00306 0.0551 0.114" pos="-0.0263539 0.147783 0.0288381" quat="0.243434 0.265469 0.633668 -0.684639" type="ellipsoid" />
+          <geom name="walker/wing_right_fluid" class="walker/wing-fluid" size="0.0005 0.0551 0.114" pos="-0.0263539 0.147783 0.0288381" quat="0.243434 0.265469 0.633668 -0.684639" fluidcoef="1 0.5 1.5 1.7" fluidshape="ellipsoid" mass="0" />
+          <geom name="walker/wing_right_inertial" class="walker/wing-inertial" size="0.0005 0.0551 0.114" pos="-0.0263539 0.147783 0.0288381" quat="0.243434 0.265469 0.633668 -0.684639" mass="8e-06" />
+        <inertial pos="-0.026353946588091426 0.14778340730195202 0.028838103909819661" quat="0.24343444971863973 0.26546883903993806 0.63366789946417346 -0.68463928997511725" mass="7.9999999999999996e-06" diaginertia="4.2752026666666658e-08 3.4656666666666668e-08 8.0966933333333334e-09" /></body>
+        <body name="walker/abdomen" childclass="walker/abdomen" pos="-0.0447 -0.000555 0.00428" quat="-0.703905 -0.0858884 -0.0852884 -0.699905">
+          <joint name="walker/abdomen_abduct" class="walker/abduct_abdomen" />
+          <joint name="walker/abdomen" class="walker/extend_abdomen" />
+          <geom name="walker/abdomen_collision" class="walker/collision" size="0.0281 0.0102" pos="-0.000187 0.00646 -0.0146" quat="0.0104007 -0.0205014 0.824058 0.56604" type="cylinder" />
+          <body name="walker/abdomen_2" pos="0 0.0119 0" quat="0.981379 -0.192074 -0.000269104 0.00144056">
+            <joint name="walker/abdomen_abduct_2" class="walker/abduct_abdomen" />
+            <joint name="walker/abdomen_2" class="walker/extend_abdomen" />
+            <geom name="walker/abdomen_2_collision" class="walker/collision" size="0.0367 0.0142" pos="-0.000182 0.0166 -0.0177" quat="-0.0110988 0.0102989 0.694925 0.718923" type="cylinder" />
+            <body name="walker/abdomen_3" pos="0 0.0212 0" quat="0.995861 -0.0908873 6.68907e-05 0.000524927">
+              <joint name="walker/abdomen_abduct_3" class="walker/abduct_abdomen" />
+              <joint name="walker/abdomen_3" class="walker/extend_abdomen" />
+              <geom name="walker/abdomen_3_collision" class="walker/collision" size="0.0389 0.0194" pos="3.29e-05 0.0198 -0.0174" quat="0.709822 -0.590852 0.23894 0.299925" type="cylinder" />
+              <body name="walker/abdomen_4" pos="0 0.0313 0" quat="0.999448 -0.0332149 0.000147066 -0.000229103">
+                <joint name="walker/abdomen_abduct_4" class="walker/abduct_abdomen" />
+                <joint name="walker/abdomen_4" class="walker/extend_abdomen" />
+                <geom name="walker/abdomen_4_collision" class="walker/collision" size="0.0396 0.0176" pos="9.67e-05 0.015 -0.0192" quat="0.018604 -0.0235051 0.637138 0.770167" type="cylinder" />
+                <body name="walker/abdomen_5" pos="0 0.0262 0" quat="0.999322 -0.0368119 -4.72152e-05 -0.000327105">
+                  <joint name="walker/abdomen_abduct_5" class="walker/abduct_abdomen" />
+                  <joint name="walker/abdomen_5" class="walker/extend_abdomen" />
+                  <geom name="walker/abdomen_5_collision" class="walker/collision" size="0.0371 0.016" pos="0.000282 0.0105 -0.0187" quat="0.0261941 -0.0205954 0.62386 0.780825" type="cylinder" />
+                  <body name="walker/abdomen_6" pos="0 0.0213 0" quat="0.997807 -0.0661872 0.00015597 -0.000350932">
+                    <joint name="walker/abdomen_abduct_6" class="walker/abduct_abdomen" />
+                    <joint name="walker/abdomen_6" class="walker/extend_abdomen" />
+                    <geom name="walker/abdomen_6_collision" class="walker/collision" size="0.0334 0.0141" pos="-0.000157 0.00942 -0.017" quat="-0.00291984 0.00200989 0.591967 0.805955" type="cylinder" />
+                    <body name="walker/abdomen_7" pos="0 0.0182 0" quat="0.994787 -0.101978 -1.78962e-06 -0.00018696">
+                      <joint name="walker/abdomen_abduct_7" class="walker/abduct_abdomen" />
+                      <joint name="walker/abdomen_7" class="walker/extend_abdomen" />
+                      <geom name="walker/abdomen_7_collision" class="walker/collision" size="0.0262" pos="-3.83e-05 0.0134 -0.0108" type="sphere" />
+                      <inertial pos="-9.3432320426340879e-05 0.013495588013666064 -0.01099499069749935" quat="0.67810201239153489 0.16117706181481142 -0.13743026286015922 0.70378444028373077" mass="3.12857153785067e-05" diaginertia="9.1980471795558052e-09 7.3222080972312804e-09 7.0938630125685485e-09" /></body>
+                  <inertial pos="-0.00012016725414263633 0.0093934554567716814 -0.013264881373023179" quat="0.41647777703877542 0.57128286524005123 0.42092429699977152 0.56833518746529166" mass="4.2752834966058655e-05" diaginertia="2.3801574423962559e-08 1.5901388397974935e-08 1.3570328330684454e-08" /></body>
+                <inertial pos="0.00034562761200531122 0.01047296132882858 -0.014066789640106795" quat="0.45957012540372327 0.53794139903742588 0.42225599105278638 0.56666941778968005" mass="6.4413991326163093e-05" diaginertia="4.7070869385510959e-08 2.980359701172023e-08 2.8252139263984596e-08" /></body>
+              <inertial pos="-5.2758134177469833e-05 0.014915607924619063 -0.014138635935857669" quat="0.46378146435550144 0.5278441432139398 0.43686785132525374 0.56163492971276918" mass="8.2115197903846857e-05" diaginertia="7.011967629495663e-08 4.375147665016707e-08 4.3355783333718767e-08" /></body>
+            <inertial pos="-1.6207016759275245e-05 0.01989731072405114 -0.014479012686215625" quat="0.67039611550490519 -0.20569073119531991 -0.33259844645274178 0.63058595356500935" mass="8.8294891157716555e-05" diaginertia="7.2424362416813085e-08 4.7752997544408867e-08 4.6776629170503385e-08" /></body>
+          <inertial pos="-0.00016311616039237737 0.016574785941691105 -0.013897979248207896" quat="0.48371001438044653 0.5156672356277664 0.49919304107161266 0.50091739022893289" mass="5.5575764557409146e-05" diaginertia="3.9945547918318966e-08 2.4315134099140259e-08 2.3127072161402468e-08" /></body>
+        <inertial pos="-0.00017167625118794349 0.0064354375792720015 -0.0095513719049073204" quat="0.5898537531438578 0.38623837819539575 0.57496177888697608 0.41510410493058514" mass="1.5766698128040611e-05" diaginertia="6.8940532704220826e-09 4.3891004888189064e-09 2.9903903278562461e-09" /></body>
+        <body name="walker/haltere_left" childclass="walker/haltere" pos="-0.0386 0.0247 -0.00866" quat="0.290812 -0.203868 0.825466 0.438716">
+          <joint name="walker/haltere_left" stiffness="4.00119" damping="0.000400119" />
+          <inertial pos="0.00050091668396975986 0.017188874245579272 0.00112267434163206" quat="-0.6710698069977451 0.70080939235130657 -0.1601606613545121 -0.18132863062044799" mass="8.2170426442012751e-07" diaginertia="5.4918726858725485e-11 5.1373876476986353e-11 9.2782990196432369e-12" /></body>
+        <body name="walker/haltere_right" childclass="walker/haltere" pos="-0.0386 -0.0247 -0.00866" quat="-0.438017 -0.829033 0.206008 -0.280011">
+          <joint name="walker/haltere_right" stiffness="4.00123" damping="0.000400123" />
+          <inertial pos="-0.00044717603080131341 0.017512736241926424 0.0011318951153424864" quat="0.15959765837635045 -0.14461472350784788 0.7041445216088531 0.67660598716961795" mass="8.2170354821309693e-07" diaginertia="5.4918644596105164e-11 5.1373799684321088e-11 9.2782844199714043e-12" /></body>
+        <body name="walker/coxa_T1_left" childclass="walker/leg" pos="0.0317 0.0209 -0.0272" quat="-0.532096 0.787142 -0.311056 -0.0229041">
+          <joint name="walker/coxa_abduct_T1_left" class="walker/abduct_coxa_T1" />
+          <joint name="walker/coxa_twist_T1_left" class="walker/twist_coxa_T1" />
+          <joint name="walker/coxa_T1_left" class="walker/extend_coxa_T1" />
+          <geom name="walker/coxa_T1_left_collision" class="walker/collision" size="0.00679 0.00752 0.0208" pos="-2.04e-05 0.0261 -0.000454" quat="-0.416895 -0.382904 -0.531867 0.629842" type="ellipsoid" />
+          <body name="walker/femur_T1_left" pos="0 0.0437 0" quat="0 0 0.251933 0.967745">
+            <joint name="walker/femur_twist_T1_left" class="walker/twist_femur" />
+            <joint name="walker/femur_T1_left" class="walker/extend_femur_T1" />
+            <geom name="walker/femur_T1_left_collision" class="walker/collision" size="0.005 0.0318875" pos="0.001315 0.034415 0.00219" quat="0.730985 0.68181 0.0282076 0" />
+            <body name="walker/tibia_T1_left" pos="0 0.0697 0" quat="0.185925 0.161935 0.676728 -0.693721">
+              <joint name="walker/tibia_T1_left" class="walker/extend_tibia" />
+              <geom name="walker/tibia_T1_left_collision" class="walker/collision" size="0.00362 0.025515" pos="0 -0.0255 0.000875" quat="0.694876 -0.719129 0 0" />
+              <body name="walker/tarsus_T1_left" pos="0 -0.051 0.00175" quat="0.0390036 0.998091 0.00674062 0.0474043">
+                <joint name="walker/tarsus_T1_left" class="walker/extend_tarsus_T1" />
+                <geom name="walker/tarsus_T1_left_collision" class="walker/collision" size="0.00204 0.0117825" pos="-8.25e-05 0.01175 0.00087" quat="0.6805 0.73273 0.0051447 0" />
+                <site name="walker/tarsus_T1_left" />
+                <body name="walker/tarsus2_T1_left" pos="-0.000165 0.0235 0.00174">
+                  <joint name="walker/tarsus2_T1_left" class="walker/extend_tarsus" />
+                  <geom name="walker/tarsus2_T1_left_collision" class="walker/collision" size="0.00159 0.00680591" pos="5.65e-05 0.0068 0.000278" quat="0.692515 0.721379 -0.00599381 0" />
+                  <body name="walker/tarsus3_T1_left" pos="0.000113 0.0136 0.000556">
+                    <joint name="walker/tarsus3_T1_left" class="walker/extend_tarsus" />
+                    <geom name="walker/tarsus3_T1_left_collision" class="walker/collision" size="0.00149 0.00454789" pos="-0.0001275 0.004545 0.0001" quat="0.69929 0.714557 0.0200453 0" />
+                    <body name="walker/tarsus4_T1_left" pos="-0.000255 0.00909 0.0002">
+                      <joint name="walker/tarsus4_T1_left" class="walker/extend_tarsus" />
+                      <geom name="walker/tarsus4_T1_left_collision" class="walker/collision" size="0.00148 0.00454821" pos="-3.56e-05 0.00453 -0.000405" quat="0.737918 0.674869 0.00530361 0" />
+                      <body name="walker/claw_T1_left" pos="-7.12e-05 0.00906 -0.00081">
+                        <joint name="walker/tarsus5_T1_left" class="walker/extend_tarsus" />
+                        <geom name="walker/tarsal_claw_T1_left_collision" class="walker/adhesion-collision" size="0.00199 0.00454821" pos="-3.56e-05 0.00453 -0.000405" quat="0.737918 0.674869 0.00530361 0" />
+                        <site name="walker/claw_T1_left" class="walker/adhesion-collision" size="0.00219 0.00500502" pos="-3.92e-05 0.004985 -0.0004455" quat="0.737906 0.674883 0.005307 0" />
+                      <inertial pos="-0.00054573295228139453 0.0049731077075629779 1.0991275453398064e-06" quat="-0.45864121162186394 -0.41868867057589099 -0.55524912006154192 0.55321465165368244" mass="9.3294243462686807e-08" diaginertia="9.1333170025393241e-13 8.5698333649525349e-13 1.6961475336664485e-13" /></body>
+                    <inertial pos="-0.00020806992776341467 0.0047920966526682485 -0.00071455062184229423" quat="0.52078656964027437 0.42965977259762855 0.49864901652584376 -0.54362025993470786" mass="4.9773574201933187e-08" diaginertia="2.4852680806482954e-13 2.472546484821681e-13 4.8186287835608595e-14" /></body>
+                  <inertial pos="-0.00023223239177918437 0.0055558805712508721 -0.00067665386661892868" quat="-0.53115535385659185 -0.50301099287134643 -0.48045321065560848 0.48375473485101783" mass="6.3719774265550168e-08" diaginertia="4.8692358848977871e-13 4.8575919024259293e-13 6.2710335415895132e-14" /></body>
+                <inertial pos="-6.6997390159806436e-05 0.0079863470531263241 -0.00020914342294321708" quat="0.49230747424030497 0.4995701947114356 0.50895648129408921 -0.49902532151369761" mass="1.0449381858099854e-07" diaginertia="1.7383332101397619e-12 1.7357112438256131e-12 1.1761964537169822e-13" /></body>
+              <inertial pos="-0.0004833566248915299 0.013096278013732501 0.0011179996662386282" quat="-0.52996044320106994 -0.54677459198602529 -0.45481114789843802 0.46187259493062088" mass="2.6682787838755923e-07" diaginertia="1.129036506516817e-11 1.1280450547114966e-11 4.9439925317764418e-13" /></body>
+            <inertial pos="-0.00053401885336597276 -0.028791343331796612 -0.00058505426079182021" quat="-0.68652063639979888 0.7264170316680495 -0.015565209944282326 -0.027666516571233438" mass="1.9768359268232948e-06" diaginertia="4.296201852640922e-10 4.2798603317913079e-10 1.1565524375695928e-11" /></body>
+          <inertial pos="0.0021492072176334705 0.033346185373163605 0.0027763612000164736" quat="0.66668057034172479 -0.67602849640674068 0.22597657083721145 0.21784645649523784" mass="7.8696578649998621e-06" diaginertia="2.86666279443477e-09 2.8528997356150618e-09 1.1917956281912298e-10" /></body>
+        <inertial pos="4.9156914136445212e-06 0.02569612879310311 -0.00040364310571690439" quat="-0.41744377325925935 -0.38321831070184986 -0.53148113685329212 0.62961275692208241" mass="5.7563382424720674e-06" diaginertia="6.2692990884391225e-10 6.135830758898561e-10 1.3124499290638855e-10" /></body>
+        <body name="walker/coxa_T1_right" childclass="walker/leg" pos="0.0317 -0.0209 -0.0272" quat="0.318927 0.0109975 -0.542875 -0.776821">
+          <joint name="walker/coxa_abduct_T1_right" class="walker/abduct_coxa_T1" />
+          <joint name="walker/coxa_twist_T1_right" class="walker/twist_coxa_T1" />
+          <joint name="walker/coxa_T1_right" class="walker/extend_coxa_T1" />
+          <geom name="walker/coxa_T1_right_collision" class="walker/collision" size="0.00679 0.00752 0.0208" pos="0.00061 -0.026 0.00153" quat="-0.507878 0.627849 0.446892 0.384907" type="ellipsoid" />
+          <body name="walker/femur_T1_right" pos="0 -0.0436 0" quat="0 0 0.261085 0.965316">
+            <joint name="walker/femur_twist_T1_right" class="walker/twist_femur" />
+            <joint name="walker/femur_T1_right" class="walker/extend_femur_T1" />
+            <geom name="walker/femur_T1_right_collision" class="walker/collision" size="0.005 0.0319373" pos="-0.001315 -0.034465 -0.00219" quat="0.682432 -0.730326 -0.0301674 0" />
+            <body name="walker/tibia_T1_right" pos="0 -0.0698 0" quat="0.162945 0.14795 0.687766 -0.691764">
+              <joint name="walker/tibia_T1_right" class="walker/extend_tibia" />
+              <geom name="walker/tibia_T1_right_collision" class="walker/collision" size="0.00362 0.0257649" pos="0 0.02575 -0.000875" quat="0.719014 0.694996 0 0" />
+              <body name="walker/tarsus_T1_right" pos="0 0.0515 -0.00175" quat="-0.0744736 -0.994648 0.0132953 0.0703751">
+                <joint name="walker/tarsus_T1_right" class="walker/extend_tarsus_T1" />
+                <geom name="walker/tarsus_T1_right_collision" class="walker/collision" size="0.00204 0.0113887" pos="-0.0004825 -0.01135 -0.000805" quat="0.731671 -0.681043 0.0289518 0" />
+                <site name="walker/tarsus_T1_right" />
+                <body name="walker/tarsus2_T1_right" pos="-0.000965 -0.0227 -0.00161">
+                  <joint name="walker/tarsus2_T1_right" class="walker/extend_tarsus" />
+                  <geom name="walker/tarsus2_T1_right_collision" class="walker/collision" size="0.00159 0.00685206" pos="7.15e-05 -0.0068 -0.00084" quat="0.749197 -0.662311 -0.00696401 0" />
+                  <body name="walker/tarsus3_T1_right" pos="0.000143 -0.0136 -0.00168">
+                    <joint name="walker/tarsus3_T1_right" class="walker/extend_tarsus" />
+                    <geom name="walker/tarsus3_T1_right_collision" class="walker/collision" size="0.00149 0.00451132" pos="0.0002185 -0.004495 -0.000315" quat="0.731377 -0.681169 -0.0331113 0" />
+                    <body name="walker/tarsus4_T1_right" pos="0.000437 -0.00899 -0.00063">
+                      <joint name="walker/tarsus4_T1_right" class="walker/extend_tarsus" />
+                      <geom name="walker/tarsus4_T1_right_collision" class="walker/collision" size="0.00148 0.00451174" pos="0.0003825 -0.004495 6.7e-05" quat="0.701837 -0.709773 -0.0603978 0" />
+                      <body name="walker/claw_T1_right" pos="0.000765 -0.00899 0.000134">
+                        <joint name="walker/tarsus5_T1_right" class="walker/extend_tarsus" />
+                        <geom name="walker/tarsal_claw_T1_right_collision" class="walker/adhesion-collision" size="0.00199 0.00451174" pos="0.0003825 -0.004495 6.7e-05" quat="0.701837 -0.709773 -0.0603978 0" />
+                        <site name="walker/claw_T1_right" class="walker/adhesion-collision" size="0.00219 0.00495842" pos="0.0004205 -0.00494 7.4e-05" quat="0.70181 -0.709797 -0.0604189 0" />
+                      <inertial pos="0.00056204003006173758 -0.0050302852542937135 -0.00048006061054456373" quat="-0.63438157060286648 0.57389062586727446 0.38639053174072024 0.3448360906318137" mass="9.3294634194782345e-08" diaginertia="9.1333483305148837e-13 8.5698663048117272e-13 1.6961548966918006e-13" /></body>
+                    <inertial pos="0.00050370768410299208 -0.0048845720420964481 -7.2124864000600031e-05" quat="0.58607422955410349 -0.56582403964422967 -0.45460426346306892 -0.3601320830673807" mass="4.9773326130081652e-08" diaginertia="2.4852631563963823e-13 2.4725405765286616e-13 4.8185739495334501e-14" /></body>
+                  <inertial pos="0.00035547792547341306 -0.0054825830481538898 0.00047159572840332897" quat="-0.56756921157924511 0.51785652546031635 0.46168657942897967 0.44332303287856828" mass="6.3719814787988376e-08" diaginertia="4.8692367398378561e-13 4.857593077400498e-13 6.271040562025066e-14" /></body>
+                <inertial pos="0.00034993968477390475 -0.008065596213288076 -0.0003164142574472173" quat="0.58734195090487584 -0.53701052227696655 -0.41585302591202367 -0.44013110831988178" mass="1.0449368601016074e-07" diaginertia="1.7383322409507905e-12 1.7357098838756629e-12 1.1761903040414845e-13" /></body>
+              <inertial pos="-0.00027570131629123598 -0.012473717533745793 -0.0006912814940119999" quat="-0.5303936663045784 0.51589433740742696 0.45193414162848122 0.49828819272130837" mass="2.6682830538712472e-07" diaginertia="1.1290417037171431e-11 1.1280501591434297e-11 4.9439984072894203e-13" /></body>
+            <inertial pos="-7.3089226116452091e-05 0.028558173050548898 0.00026539177325043961" quat="-0.73237519587998634 -0.68042144625318013 -0.024668371871850139 0.0066857585714935963" mass="1.9754592649204038e-06" diaginertia="4.2901295085965139e-10 4.273914800093143e-10 1.1553255600393472e-11" /></body>
+          <inertial pos="-0.0021911887191155797 -0.033235149559641984 -0.0026461592347805721" quat="0.231669554397614 -0.23905815944836994 -0.67153843764579979 -0.66197926004566765" mass="7.8745948016401884e-06" diaginertia="2.8692088994326475e-09 2.8552867064328361e-09 1.1933192338129259e-10" /></body>
+        <inertial pos="0.00071263690047236941 -0.025952692346030343 0.0014655471013240882" quat="-0.50756061796589846 0.62812676238118537 0.44670360924185992 0.38509073601023142" mass="5.756348975866323e-06" diaginertia="6.2693153893910877e-10 6.1358458358997523e-10 1.3124545496071805e-10" /></body>
+        <body name="walker/coxa_T2_left" childclass="walker/leg" pos="-0.0144 0.0241 -0.0425" quat="-0.371071 0.917175 -0.126024 -0.0722138">
+          <joint name="walker/coxa_abduct_T2_left" class="walker/abduct_coxa_T2" />
+          <joint name="walker/coxa_twist_T2_left" class="walker/twist_coxa_T2" />
+          <joint name="walker/coxa_T2_left" class="walker/extend_coxa_T2" />
+          <geom name="walker/coxa_T2_left_collision" class="walker/collision" size="0.00788 0.007 0.0149" pos="0.000349 0.0143 -0.00216" quat="0.707107 -0.707107 0 0" type="ellipsoid" />
+          <body name="walker/femur_T2_left" pos="0 0.0281 0" quat="0 0 0.127971 0.991778">
+            <joint name="walker/femur_twist_T2_left" class="walker/twist_femur_T2" />
+            <joint name="walker/femur_T2_left" class="walker/extend_femur_T2" />
+            <geom name="walker/femur_T2_left_collision" class="walker/collision" size="0.00469 0.0381978" pos="0 0.040765 0.00219" quat="0.727095 0.686537 0 0" />
+            <body name="walker/tibia_T2_left" pos="0 0.083 0" quat="0.107037 0.083429 0.656228 -0.742258">
+              <joint name="walker/tibia_T2_left" class="walker/extend_tibia_T2" />
+              <geom name="walker/tibia_T2_left_collision" class="walker/collision" size="0.00352 0.0334115" pos="0 -0.0334 0.000875" quat="0.697786 -0.716306 0 0" />
+              <body name="walker/tarsus_T2_left" pos="0 -0.0668 0.00175" quat="-0.148052 0.978341 -0.0216075 -0.14305">
+                <joint name="walker/tarsus_T2_left" class="walker/extend_tarsus_T2" />
+                <geom name="walker/tarsus_T2_left_collision" class="walker/collision" size="0.00208 0.0171151" pos="0.0002355 0.0171 0.00068" quat="0.692917 0.720949 -0.00992885 0" />
+                <site name="walker/tarsus_T2_left" />
+                <body name="walker/tarsus2_T2_left" pos="0.000471 0.0342 0.00136">
+                  <joint name="walker/tarsus2_T2_left" class="walker/extend_tarsus" />
+                  <geom name="walker/tarsus2_T2_left_collision" class="walker/collision" size="0.00162 0.00890059" pos="1.21e-05 0.0089 0.0001015" quat="0.703063 0.711127 -0.000966812 0" />
+                  <body name="walker/tarsus3_T2_left" pos="2.42e-05 0.0178 0.000203">
+                    <joint name="walker/tarsus3_T2_left" class="walker/extend_tarsus" />
+                    <geom name="walker/tarsus3_T2_left_collision" class="walker/collision" size="0.00149 0.00495717" pos="-1.555e-05 0.004955 0.000146" quat="0.696616 0.717441 0.0022515 0" />
+                    <body name="walker/tarsus4_T2_left" pos="-3.11e-05 0.00991 0.000292">
+                      <joint name="walker/tarsus4_T2_left" class="walker/extend_tarsus" />
+                      <geom name="walker/tarsus4_T2_left_collision" class="walker/collision" size="0.00146 0.00495666" pos="1.8e-05 0.004955 -0.000127" quat="0.716108 0.697985 -0.00253556 0" />
+                      <body name="walker/claw_T2_left" pos="3.6e-05 0.00991 -0.000254">
+                        <joint name="walker/tarsus5_T2_left" class="walker/extend_tarsus" />
+                        <geom name="walker/tarsal_claw_T2_left_collision" class="walker/adhesion-collision" size="0.002 0.00495666" pos="1.8e-05 0.004955 -0.000127" quat="0.716108 0.697985 -0.00253556 0" />
+                        <site name="walker/claw_T2_left" class="walker/adhesion-collision" size="0.0022 0.00545183" pos="1.98e-05 0.00545 -0.00014" quat="0.716128 0.697964 -0.00253572 0" />
+                      <inertial pos="1.6065335951670132e-05 0.0051041668523883199 0.00059070569439402532" quat="-0.58319465223773137 0.52811658180674947 0.40848146652363287 0.4627307695936943" mass="9.9460969995167098e-08" diaginertia="1.0458570471032871e-12 9.8781819571173424e-13 1.8182161086333594e-13" /></body>
+                    <inertial pos="2.6320159582770425e-06 0.0052132915603659846 -0.00042653848131492256" quat="0.51873173069199852 -0.55442442605970244 -0.48068717572747144 -0.43871492617963631" mass="5.5094793970062102e-08" diaginertia="3.1909052122945097e-13 3.159524819009351e-13 5.2142826356313838e-14" /></body>
+                  <inertial pos="-0.00013197207934463433 0.0058330569962635331 -0.0005454365732769223" quat="-0.49586688240615584 0.5039034125879841 0.50260943520207879 0.4975752620064966" mass="6.8068188450772913e-08" diaginertia="6.0345247813034409e-13 6.0176094618084299e-13 6.6730807374615601e-14" /></body>
+                <inertial pos="-0.0001554285335281947 0.010042487873546155 -3.0726249306306519e-05" quat="0.520368737928247 -0.51206048428281237 -0.47581343754563038 -0.49052218061370945" mass="1.3623078338452123e-07" diaginertia="3.3770751913227276e-12 3.3730017324919901e-12 1.5825600581958791e-13" /></body>
+              <inertial pos="-6.4553794834276701e-05 0.016665601560337293 2.3372803439600243e-05" quat="-0.35753887307346821 0.3496566568037599 0.59980595742529064 0.62461107101243885" mass="4.870658311894134e-07" diaginertia="5.0697191177677805e-11 5.067837811275869e-11 9.3749229796693363e-13" /></body>
+            <inertial pos="3.4135870074912533e-05 -0.033643479283454458 -0.00086301577651617944" quat="-0.028485339176323177 0.018244984906630797 0.72289666872527314 0.69012760582639299" mass="2.6215351392104033e-06" diaginertia="1.0964117951878349e-09 1.0948831439039401e-09 1.4509360647881713e-11" /></body>
+          <inertial pos="-0.0013424348192292261 0.040544583035264106 0.0022867287547588475" quat="0.66823094191044485 -0.6906831752901319 -0.20180430970534269 -0.18894226692027336" mass="8.0023307224002195e-06" diaginertia="4.168942922065865e-09 4.1543417262405291e-09 1.0685287352276148e-10" /></body>
+        <inertial pos="0.00045196652068692916 0.018079895773854944 -0.0027485210881670608" quat="-0.64143763573886059 -0.46031341567776235 -0.46402555087560737 0.40168346610161065" mass="2.3600891489255979e-06" diaginertia="1.2741858722598841e-10 1.1362390181795577e-10 5.1910904247131701e-11" /></body>
+        <body name="walker/coxa_T2_right" childclass="walker/leg" pos="-0.0144 -0.0241 -0.0425" quat="0.12601 -0.0709059 -0.374031 -0.916076">
+          <joint name="walker/coxa_abduct_T2_right" class="walker/abduct_coxa_T2" />
+          <joint name="walker/coxa_twist_T2_right" class="walker/twist_coxa_T2" />
+          <joint name="walker/coxa_T2_right" class="walker/extend_coxa_T2" />
+          <geom name="walker/coxa_T2_right_collision" class="walker/collision" size="0.00788 0.007 0.0149" pos="-0.000335 -0.0143 0.00206" quat="0.707107 0.707107 0 0" type="ellipsoid" />
+          <body name="walker/femur_T2_right" pos="0 -0.0282 0" quat="0 0 0.133998 0.990982">
+            <joint name="walker/femur_twist_T2_right" class="walker/twist_femur_T2" />
+            <joint name="walker/femur_T2_right" class="walker/extend_femur_T2" />
+            <geom name="walker/femur_T2_right_collision" class="walker/collision" size="0.00469 0.0386471" pos="0 -0.041215 -0.00219" quat="0.68678 -0.726865 0 0" />
+            <body name="walker/tibia_T2_right" pos="0 -0.084 0" quat="0.0902385 0.103044 0.659281 -0.739315">
+              <joint name="walker/tibia_T2_right" class="walker/extend_tibia_T2" />
+              <geom name="walker/tibia_T2_right_collision" class="walker/collision" size="0.00353 0.0332615" pos="0 0.03325 -0.000875" quat="0.716347 0.697744 0 0" />
+              <body name="walker/tarsus_T2_right" pos="0 0.0665 -0.00175" quat="0.150008 -0.982055 0.017201 0.113006">
+                <joint name="walker/tarsus_T2_right" class="walker/extend_tarsus_T2" />
+                <geom name="walker/tarsus_T2_right_collision" class="walker/collision" size="0.00208 0.0169588" pos="-0.0001835 -0.01695 -0.000515" quat="0.717763 -0.696247 0.00753754 0" />
+                <site name="walker/tarsus_T2_right" />
+                <body name="walker/tarsus2_T2_right" pos="-0.000367 -0.0339 -0.00103">
+                  <joint name="walker/tarsus2_T2_right" class="walker/extend_tarsus" />
+                  <geom name="walker/tarsus2_T2_right_collision" class="walker/collision" size="0.00162 0.00885432" pos="8.6e-06 -0.00885 -0.0002765" quat="0.718063 -0.695978 -0.000676318 0" />
+                  <body name="walker/tarsus3_T2_right" pos="1.72e-05 -0.0177 -0.000553">
+                    <joint name="walker/tarsus3_T2_right" class="walker/extend_tarsus" />
+                    <geom name="walker/tarsus3_T2_right_collision" class="walker/collision" size="0.00149 0.00494224" pos="2.535e-05 -0.00494 -0.0001465" quat="0.71751 -0.696539 -0.00357434 0" />
+                    <body name="walker/tarsus4_T2_right" pos="5.07e-05 -0.00988 -0.000293">
+                      <joint name="walker/tarsus4_T2_right" class="walker/extend_tarsus" />
+                      <geom name="walker/tarsus4_T2_right_collision" class="walker/collision" size="0.00146 0.00494184" pos="-4.83e-05 -0.00494 0.000126" quat="0.698034 -0.71603 0.00700086 0" />
+                      <body name="walker/claw_T2_right" pos="-9.66e-05 -0.00988 0.000252">
+                        <joint name="walker/tarsus5_T2_right" class="walker/extend_tarsus" />
+                        <geom name="walker/tarsal_claw_T2_right_collision" class="walker/adhesion-collision" size="0.002 0.00494184" pos="-4.83e-05 -0.00494 0.000126" quat="0.698034 -0.71603 0.00700086 0" />
+                        <site name="walker/claw_T2_right" class="walker/adhesion-collision" size="0.0022 0.00545202" pos="-5.3e-05 -0.00545 0.0001385" quat="0.698068 -0.715998 0.00696292 0" />
+                      <inertial pos="3.1575438379382106e-05 -0.0055961721694742228 -0.0013192872814332679" quat="-0.46474353973825122 0.40899035324832256 -0.5253373486994477 -0.58374737967960921" mass="9.9461790037227561e-08" diaginertia="1.0458689772142562e-12 9.878282767321516e-13 1.818247209268289e-13" /></body>
+                    <inertial pos="3.0317733960236529e-05 -0.0057103617671479812 0.00074801744579244822" quat="0.44100366819755826 -0.48111470958923436 0.55182652063028426 0.51916460971665102" mass="5.5095179502932654e-08" diaginertia="3.1909340354717983e-13 3.1595515730452733e-13 5.2143520277281172e-14" /></body>
+                  <inertial pos="5.5429151676314806e-05 -0.0063309528528139453 -8.6300766030708576e-05" quat="-0.49979004693687817 0.50280140660186257 -0.50122521333301673 -0.49615918818590488" mass="6.8068691533312567e-08" diaginertia="6.0345729433660766e-13 6.017653704935976e-13 6.6731759215840108e-14" /></body>
+                <inertial pos="0.00016292171896437925 -0.010142547907742064 0.00046647257818713261" quat="0.49267402120663067 -0.47610523122952852 0.50934914642201956 0.52072983846052934" mass="1.3623218859411975e-07" diaginertia="3.3771078517056475e-12 3.3730338293663367e-12 1.5825936951272857e-13" /></body>
+              <inertial pos="6.035209894124198e-05 -0.016471627097396017 0.00054757200807863116" quat="-0.62669369067400837 0.59933218689950507 -0.34692928154744473 -0.35734580089966705" mass="4.8706988378535315e-07" diaginertia="5.0697782125396338e-11 5.0678965952126099e-11 9.3750774646382977e-13" /></body>
+            <inertial pos="-0.00031825237630851363 0.033081339267839453 -0.00025817857799884103" quat="-0.7203457204853061 -0.69358104598254655 -0.0065523529955324403 -0.002107677035060249" mass="2.6223281396998385e-06" diaginertia="1.0969429283370873e-09 1.095406900591481e-09 1.4518611000884107e-11" /></body>
+          <inertial pos="0.001371136891915755 -0.040524500419326148 -0.0019678685511506158" quat="-0.18683651112452479 0.20253658703474073 -0.69340596865458715 -0.66577714864459714" mass="8.0058415898995308e-06" diaginertia="4.1737798046900512e-09 4.1591900774099849e-09 1.068741670840732e-10" /></body>
+        <inertial pos="-0.00037357354008352509 -0.0180654098774111 0.0025603715159337112" quat="-0.40249789095919958 -0.4624887434880654 0.45823538783222156 -0.64352151421571191" mass="2.3600899335951104e-06" diaginertia="1.2741867739173755e-10 1.1362412417554989e-10 5.1910853214936962e-11" /></body>
+        <body name="walker/coxa_T3_left" childclass="walker/leg" pos="-0.0377 0.0192 -0.0402" quat="0.681209 -0.529163 -0.0882271 0.498153">
+          <joint name="walker/coxa_abduct_T3_left" class="walker/abduct_coxa_T3" />
+          <joint name="walker/coxa_twist_T3_left" class="walker/twist_coxa_T3" />
+          <joint name="walker/coxa_T3_left" class="walker/extend_coxa_T3" />
+          <geom name="walker/coxa_T3_left_collision" class="walker/collision" size="0.007 0.00875 0.0166" pos="-0.00348 0.0116 -0.00687" quat="0.603112 -0.786145 -0.135025 0" type="ellipsoid" />
+          <body name="walker/femur_T3_left" pos="-0.00398 0.0232 -0.00668" quat="0 0 -0.66808 -0.744089">
+            <joint name="walker/femur_twist_T3_left" class="walker/twist_femur_T3" />
+            <joint name="walker/femur_T3_left" class="walker/extend_femur_T3" />
+            <geom name="walker/femur_T3_left_collision" class="walker/collision" size="0.00544 0.0370498" pos="-0.00263 0.039615 0.00219008" quat="0.727704 0.685891 0 0" />
+            <body name="walker/tibia_T3_left" pos="0 0.0779 1.6e-07" quat="-0.117044 -0.104039 -0.711266 0.685257">
+              <joint name="walker/tibia_T3_left" class="walker/extend_tibia_T3" />
+              <geom name="walker/tibia_T3_left_collision" class="walker/collision" size="0.00365 0.0344159" pos="0 -0.03725 -0.001625" quat="0.671541 -0.740967 0 0" />
+              <body name="walker/tarsus_T3_left" pos="0 -0.0715 0.00175" quat="-0.229954 0.962806 -0.0329934 -0.137972">
+                <joint name="walker/tarsus_T3_left" class="walker/extend_tarsus_T3" />
+                <geom name="walker/tarsus_T3_left_collision" class="walker/collision" size="0.00234 0.0168583" pos="0.000135 0.01685 0.00051" quat="0.696329 0.7177 -0.00575012 0" />
+                <site name="walker/tarsus_T3_left" />
+                <body name="walker/tarsus2_T3_left" pos="0.00027 0.0337 0.00102">
+                  <joint name="walker/tarsus2_T3_left" class="walker/extend_tarsus" />
+                  <geom name="walker/tarsus2_T3_left_collision" class="walker/collision" size="0.00168 0.00988171" pos="-3.985e-05 0.00985 0.00079" quat="0.678253 0.734822 0.00297286 0" />
+                  <body name="walker/tarsus3_T3_left" pos="-7.97e-05 0.0197 0.00158">
+                    <joint name="walker/tarsus3_T3_left" class="walker/extend_tarsus" />
+                    <geom name="walker/tarsus3_T3_left_collision" class="walker/collision" size="0.00145 0.00555016" pos="4e-05 0.00555 -1.39e-05" quat="0.707992 0.706202 -0.00508975 0" />
+                    <body name="walker/tarsus4_T3_left" pos="8e-05 0.0111 -2.78e-05">
+                      <joint name="walker/tarsus4_T3_left" class="walker/extend_tarsus" />
+                      <geom name="walker/tarsus4_T3_left_collision" class="walker/collision" size="0.00145 0.00557731" pos="0.000111 0.00555 -0.00054" quat="0.740547 0.67187 -0.0134374 0" />
+                      <body name="walker/claw_T3_left" pos="0.000222 0.0111 -0.00108">
+                        <joint name="walker/tarsus5_T3_left" class="walker/extend_tarsus" />
+                        <geom name="walker/tarsal_claw_T3_left_collision" class="walker/adhesion-collision" size="0.0019 0.00557731" pos="0.000111 0.00555 -0.00054" quat="0.740547 0.67187 -0.0134374 0" />
+                        <site name="walker/claw_T3_left" class="walker/adhesion-collision" size="0.00209 0.00612968" pos="0.000122 0.0061 -0.00059" quat="0.740356 0.672081 -0.0134416 0" />
+                      <inertial pos="-0.00041666887217823093 0.0054870306684488834 2.2788464923567675e-05" quat="0.49918963963651819 -0.51514828433775262 -0.50307380373057353 -0.48202561843069014" mass="9.6984180279941141e-08" diaginertia="1.2886267403256537e-12 1.2308536751707159e-12 1.6052371169449636e-13" /></body>
+                    <inertial pos="-0.0001427782254897602 0.005092615929957689 -0.00066703916421358145" quat="-0.45411651152664334 0.51999463633898158 0.54266655381460394 0.4784315870723298" mass="5.942883197889836e-08" diaginertia="4.0771652459976885e-13 4.0218152049579324e-13 5.5730882970560265e-14" /></body>
+                  <inertial pos="-8.1235452446070874e-05 0.0057390872490161449 -0.00017257870907268213" quat="0.43644764878270526 -0.46009148114396847 -0.55784123969582433 -0.53538997949665446" mass="7.2539239565268118e-08" diaginertia="7.7366093327534092e-13 7.716907572370527e-13 6.7908050388351549e-14" /></body>
+                <inertial pos="-0.00018023736423494752 0.010134315915769659 0.001386962571042108" quat="-0.46070483836990161 0.43821262008679751 0.53138979495202454 0.5597728443932205" mass="1.7409397431184665e-07" diaginertia="5.6850207936728923e-12 5.6807334501481156e-12 2.1833747664434298e-13" /></body>
+              <inertial pos="3.1341145463954084e-05 0.015347038476086747 0.00046067698046314831" quat="0.0087787894821070352 -0.007998721598172262 -0.69214451939412491 -0.72166122078209438" mass="6.3407695687695094e-07" diaginertia="6.7552712183516472e-11 6.7221605690537384e-11 1.5590086447118284e-12" /></body>
+            <inertial pos="0.00016220359096084241 -0.036761317144250689 -0.0018299915735418559" quat="0.12769257869251066 -0.11144297464224484 -0.71271340492009927 -0.68067222008610395" mass="3.6400078487797721e-06" diaginertia="1.5684317237419456e-09 1.5623599859224991e-09 2.9628887321563874e-11" /></body>
+          <inertial pos="-0.0024758545308787086 0.033188360252862911 0.001156056509308185" quat="0.67050729243571827 -0.70453438112533717 -0.17803314079918106 -0.14951748185426358" mass="1.0745586048610761e-05" diaginertia="5.3475658933017965e-09 5.3251922963746053e-09 1.9263272956057619e-10" /></body>
+        <inertial pos="-0.0034683722518361326 0.013337380265120422 -0.006870516590692835" quat="0.38375050143757394 0.05736104050090586 0.51341258436501669 -0.76541020498468604" mass="2.9934674433911526e-06" diaginertia="1.4648696489814724e-10 1.295682404781184e-10 7.1470455585607268e-11" /></body>
+        <body name="walker/coxa_T3_right" childclass="walker/leg" pos="-0.0377 -0.0192 -0.0402" quat="-0.0853828 -0.504898 -0.672864 -0.533892">
+          <joint name="walker/coxa_abduct_T3_right" class="walker/abduct_coxa_T3" />
+          <joint name="walker/coxa_twist_T3_right" class="walker/twist_coxa_T3" />
+          <joint name="walker/coxa_T3_right" class="walker/extend_coxa_T3" />
+          <geom name="walker/coxa_T3_right_collision" class="walker/collision" size="0.007 0.00875 0.0166" pos="0.00338 -0.0117 0.00678" quat="0.796965 0.595974 0.0982957 0" type="ellipsoid" />
+          <body name="walker/femur_T3_right" pos="0.00383 -0.0232 0.0066" quat="0 0 0.660695 0.750654">
+            <joint name="walker/femur_twist_T3_right" class="walker/twist_femur_T3" />
+            <joint name="walker/femur_T3_right" class="walker/extend_femur_T3" />
+            <geom name="walker/femur_T3_right_collision" class="walker/collision" size="0.00544 0.0366505" pos="0.00263 -0.039215 -0.00218991" quat="0.685654 -0.727927 0 0" />
+            <body name="walker/tibia_T3_right" pos="0 -0.077 1.96e-07" quat="-0.121071 -0.111065 -0.708417 0.686404">
+              <joint name="walker/tibia_T3_right" class="walker/extend_tibia_T3" />
+              <geom name="walker/tibia_T3_right_collision" class="walker/collision" size="0.00365 0.0347145" pos="0 0.03755 0.001625" quat="0.740683 0.671855 0 0" />
+              <body name="walker/tarsus_T3_right" pos="0 0.0721 -0.00175" quat="0.222952 -0.964793 0.0312933 0.135971">
+                <joint name="walker/tarsus_T3_right" class="walker/extend_tarsus_T3" />
+                <geom name="walker/tarsus_T3_right_collision" class="walker/collision" size="0.00234 0.0169149" pos="-0.000365 -0.0169 -0.00061" quat="0.719744 -0.694078 0.0149904 0" />
+                <site name="walker/tarsus_T3_right" />
+                <body name="walker/tarsus2_T3_right" pos="-0.00073 -0.0338 -0.00122">
+                  <joint name="walker/tarsus2_T3_right" class="walker/extend_tarsus" />
+                  <geom name="walker/tarsus2_T3_right_collision" class="walker/collision" size="0.00168 0.00988166" pos="9.25e-05 -0.00985 -0.000785" quat="0.734656 -0.678409 -0.00637085 0" />
+                  <body name="walker/tarsus3_T3_right" pos="0.000185 -0.0197 -0.00157">
+                    <joint name="walker/tarsus3_T3_right" class="walker/extend_tarsus" />
+                    <geom name="walker/tarsus3_T3_right_collision" class="walker/collision" size="0.00145 0.00550002" pos="9.9e-06 -0.0055 9.75e-06" quat="0.70648 -0.707732 -0.00127392 0" />
+                    <body name="walker/tarsus4_T3_right" pos="1.98e-05 -0.011 1.95e-05">
+                      <joint name="walker/tarsus4_T3_right" class="walker/extend_tarsus" />
+                      <geom name="walker/tarsus4_T3_right_collision" class="walker/collision" size="0.00145 0.00553544" pos="2.15e-05 -0.0055 0.000625" quat="0.665992 -0.745953 -0.002916 0" />
+                      <body name="walker/claw_T3_right" pos="4.3e-05 -0.011 0.00125">
+                        <joint name="walker/tarsus5_T3_right" class="walker/extend_tarsus" />
+                        <geom name="walker/tarsal_claw_T3_right_collision" class="walker/adhesion-collision" size="0.0019 0.00553544" pos="2.15e-05 -0.0055 0.000625" quat="0.665992 -0.745953 -0.002916 0" />
+                        <site name="walker/claw_T3_right" class="walker/adhesion-collision" size="0.00209 0.00608927" pos="2.365e-05 -0.00605 0.00069" quat="0.66584 -0.746089 -0.00291653 0" />
+                      <inertial pos="-0.0002556682218435892 -0.0055101509136047944 -1.1706215926027275e-05" quat="-0.50361621845536497 -0.48363577400380076 -0.4978211065266005 0.51443297766482543" mass="9.6984347320926402e-08" diaginertia="1.2886351917358462e-12 1.2308611504075766e-12 1.6052507846901013e-13" /></body>
+                    <inertial pos="-0.00024957400904338824 -0.0051154357784294613 0.00068270033781543671" quat="0.54309830464482611 0.48001365224890924 0.45267865175744199 -0.51933916026971072" mass="5.9429005914632576e-08" diaginertia="4.0771813967386876e-13 4.0218320795791621e-13 5.5731181320674427e-14" /></body>
+                  <inertial pos="-0.00019228344346419908 -0.0057618496223736104 0.00019138071883417762" quat="-0.55835130027368451 -0.53677205204297718 -0.43488105366677643 0.45934525010054833" mass="7.2538992173929212e-08" diaginertia="7.7365838563230578e-13 7.7168828416234081e-13 6.7907634763031537e-14" /></body>
+                <inertial pos="3.8329834509185853e-05 -0.01015679239690051 -0.00036788909728496799" quat="0.53209411336282852 0.56099693338407919 0.45914287034379098 -0.43743127445434576" mass="1.7409444278899029e-07" diaginertia="5.6850638866793862e-12 5.6807773226611489e-12 2.1833846306153222e-13" /></body>
+              <inertial pos="-0.00059350424327577617 -0.015369035826276703 -0.00043225803178750799" quat="0.0068901868015093662 0.0068664052936957326 -0.72150836918832739 0.69233738234720921" mass="6.3407954492546323e-07" diaginertia="6.7553094718396931e-11 6.7221989168854633e-11 1.5590162029655828e-12" /></body>
+            <inertial pos="-0.00016882822742546669 0.03745900979646976 0.002819612585944542" quat="-0.1103142816505632 -0.12886944895105149 0.67535729872780803 -0.71771578180088269" mass="3.6384557741057773e-06" diaginertia="1.5669575892444989e-09 1.56091723794217e-09 2.9596280369642521e-11" /></body>
+          <inertial pos="0.002677742574187035 -0.03330442329853732 -0.0012428474430339308" quat="0.15750117914892112 -0.1835078284455402 0.7006971665574262 0.67122405815368291" mass="1.0749289577834701e-05" diaginertia="5.3533439894486186e-09 5.3310300047186712e-09 1.9265480836236693e-10" /></body>
+        <inertial pos="0.0033639114933165098 -0.013465432490172492 0.0067897575417415063" quat="0.06498697628699085 -0.37522344029321997 0.76656314422557992 0.5170735041390041" mass="2.9934712085109349e-06" diaginertia="1.464872990570301e-10 1.2956852147588e-10 7.1470627311232593e-11" /></body>
+      <inertial pos="1.7749687005463866e-06 3.780967347267487e-07 9.6020040122421491e-05" quat="0.39257642831074696 0.58811882127234993 -0.58811882127234993 -0.39257642831074696" mass="0.00034000000000000002" diaginertia="3.7198918313821914e-07 3.5362563357454018e-07 2.7739046201359303e-07" /></body>
+    </body>
+    </worldbody>
+
+  <contact>
+    <exclude name="walker/rostrum_labrum_left" body1="walker/rostrum" body2="walker/labrum_left" />
+    <exclude name="walker/rostrum_labrum_right" body1="walker/rostrum" body2="walker/labrum_right" />
+    <exclude name="walker/wing_left_wing_right" body1="walker/wing_left" body2="walker/wing_right" />
+    <exclude name="walker/wing_left_abdomen" body1="walker/wing_left" body2="walker/abdomen" />
+    <exclude name="walker/wing_left_abdomen_2" body1="walker/wing_left" body2="walker/abdomen_2" />
+    <exclude name="walker/wing_left_abdomen_3" body1="walker/wing_left" body2="walker/abdomen_3" />
+    <exclude name="walker/coxa_T1_left_wing_left" body1="walker/wing_left" body2="walker/coxa_T1_left" />
+    <exclude name="walker/femur_T1_left_wing_left" body1="walker/wing_left" body2="walker/femur_T1_left" />
+    <exclude name="walker/tibia_T1_left_wing_left" body1="walker/wing_left" body2="walker/tibia_T1_left" />
+    <exclude name="walker/tarsus_T1_left_wing_left" body1="walker/wing_left" body2="walker/tarsus_T1_left" />
+    <exclude name="walker/tarsus2_T1_left_wing_left" body1="walker/wing_left" body2="walker/tarsus2_T1_left" />
+    <exclude name="walker/tarsus3_T1_left_wing_left" body1="walker/wing_left" body2="walker/tarsus3_T1_left" />
+    <exclude name="walker/tarsus4_T1_left_wing_left" body1="walker/wing_left" body2="walker/tarsus4_T1_left" />
+    <exclude name="walker/claw_T1_left_wing_left" body1="walker/wing_left" body2="walker/claw_T1_left" />
+    <exclude name="walker/coxa_T1_right_wing_left" body1="walker/wing_left" body2="walker/coxa_T1_right" />
+    <exclude name="walker/femur_T1_right_wing_left" body1="walker/wing_left" body2="walker/femur_T1_right" />
+    <exclude name="walker/tibia_T1_right_wing_left" body1="walker/wing_left" body2="walker/tibia_T1_right" />
+    <exclude name="walker/tarsus_T1_right_wing_left" body1="walker/wing_left" body2="walker/tarsus_T1_right" />
+    <exclude name="walker/tarsus2_T1_right_wing_left" body1="walker/wing_left" body2="walker/tarsus2_T1_right" />
+    <exclude name="walker/tarsus3_T1_right_wing_left" body1="walker/wing_left" body2="walker/tarsus3_T1_right" />
+    <exclude name="walker/tarsus4_T1_right_wing_left" body1="walker/wing_left" body2="walker/tarsus4_T1_right" />
+    <exclude name="walker/claw_T1_right_wing_left" body1="walker/wing_left" body2="walker/claw_T1_right" />
+    <exclude name="walker/coxa_T2_left_wing_left" body1="walker/wing_left" body2="walker/coxa_T2_left" />
+    <exclude name="walker/femur_T2_left_wing_left" body1="walker/wing_left" body2="walker/femur_T2_left" />
+    <exclude name="walker/tibia_T2_left_wing_left" body1="walker/wing_left" body2="walker/tibia_T2_left" />
+    <exclude name="walker/tarsus_T2_left_wing_left" body1="walker/wing_left" body2="walker/tarsus_T2_left" />
+    <exclude name="walker/tarsus2_T2_left_wing_left" body1="walker/wing_left" body2="walker/tarsus2_T2_left" />
+    <exclude name="walker/tarsus3_T2_left_wing_left" body1="walker/wing_left" body2="walker/tarsus3_T2_left" />
+    <exclude name="walker/tarsus4_T2_left_wing_left" body1="walker/wing_left" body2="walker/tarsus4_T2_left" />
+    <exclude name="walker/claw_T2_left_wing_left" body1="walker/wing_left" body2="walker/claw_T2_left" />
+    <exclude name="walker/coxa_T2_right_wing_left" body1="walker/wing_left" body2="walker/coxa_T2_right" />
+    <exclude name="walker/femur_T2_right_wing_left" body1="walker/wing_left" body2="walker/femur_T2_right" />
+    <exclude name="walker/tibia_T2_right_wing_left" body1="walker/wing_left" body2="walker/tibia_T2_right" />
+    <exclude name="walker/tarsus_T2_right_wing_left" body1="walker/wing_left" body2="walker/tarsus_T2_right" />
+    <exclude name="walker/tarsus2_T2_right_wing_left" body1="walker/wing_left" body2="walker/tarsus2_T2_right" />
+    <exclude name="walker/tarsus3_T2_right_wing_left" body1="walker/wing_left" body2="walker/tarsus3_T2_right" />
+    <exclude name="walker/tarsus4_T2_right_wing_left" body1="walker/wing_left" body2="walker/tarsus4_T2_right" />
+    <exclude name="walker/claw_T2_right_wing_left" body1="walker/wing_left" body2="walker/claw_T2_right" />
+    <exclude name="walker/coxa_T3_left_wing_left" body1="walker/wing_left" body2="walker/coxa_T3_left" />
+    <exclude name="walker/femur_T3_left_wing_left" body1="walker/wing_left" body2="walker/femur_T3_left" />
+    <exclude name="walker/tibia_T3_left_wing_left" body1="walker/wing_left" body2="walker/tibia_T3_left" />
+    <exclude name="walker/tarsus_T3_left_wing_left" body1="walker/wing_left" body2="walker/tarsus_T3_left" />
+    <exclude name="walker/tarsus2_T3_left_wing_left" body1="walker/wing_left" body2="walker/tarsus2_T3_left" />
+    <exclude name="walker/tarsus3_T3_left_wing_left" body1="walker/wing_left" body2="walker/tarsus3_T3_left" />
+    <exclude name="walker/tarsus4_T3_left_wing_left" body1="walker/wing_left" body2="walker/tarsus4_T3_left" />
+    <exclude name="walker/claw_T3_left_wing_left" body1="walker/wing_left" body2="walker/claw_T3_left" />
+    <exclude name="walker/coxa_T3_right_wing_left" body1="walker/wing_left" body2="walker/coxa_T3_right" />
+    <exclude name="walker/femur_T3_right_wing_left" body1="walker/wing_left" body2="walker/femur_T3_right" />
+    <exclude name="walker/tibia_T3_right_wing_left" body1="walker/wing_left" body2="walker/tibia_T3_right" />
+    <exclude name="walker/tarsus_T3_right_wing_left" body1="walker/wing_left" body2="walker/tarsus_T3_right" />
+    <exclude name="walker/tarsus2_T3_right_wing_left" body1="walker/wing_left" body2="walker/tarsus2_T3_right" />
+    <exclude name="walker/tarsus3_T3_right_wing_left" body1="walker/wing_left" body2="walker/tarsus3_T3_right" />
+    <exclude name="walker/tarsus4_T3_right_wing_left" body1="walker/wing_left" body2="walker/tarsus4_T3_right" />
+    <exclude name="walker/claw_T3_right_wing_left" body1="walker/wing_left" body2="walker/claw_T3_right" />
+    <exclude name="walker/wing_right_abdomen" body1="walker/wing_right" body2="walker/abdomen" />
+    <exclude name="walker/wing_right_abdomen_2" body1="walker/wing_right" body2="walker/abdomen_2" />
+    <exclude name="walker/wing_right_abdomen_3" body1="walker/wing_right" body2="walker/abdomen_3" />
+    <exclude name="walker/coxa_T1_left_wing_right" body1="walker/wing_right" body2="walker/coxa_T1_left" />
+    <exclude name="walker/femur_T1_left_wing_right" body1="walker/wing_right" body2="walker/femur_T1_left" />
+    <exclude name="walker/tibia_T1_left_wing_right" body1="walker/wing_right" body2="walker/tibia_T1_left" />
+    <exclude name="walker/tarsus_T1_left_wing_right" body1="walker/wing_right" body2="walker/tarsus_T1_left" />
+    <exclude name="walker/tarsus2_T1_left_wing_right" body1="walker/wing_right" body2="walker/tarsus2_T1_left" />
+    <exclude name="walker/tarsus3_T1_left_wing_right" body1="walker/wing_right" body2="walker/tarsus3_T1_left" />
+    <exclude name="walker/tarsus4_T1_left_wing_right" body1="walker/wing_right" body2="walker/tarsus4_T1_left" />
+    <exclude name="walker/claw_T1_left_wing_right" body1="walker/wing_right" body2="walker/claw_T1_left" />
+    <exclude name="walker/coxa_T1_right_wing_right" body1="walker/wing_right" body2="walker/coxa_T1_right" />
+    <exclude name="walker/femur_T1_right_wing_right" body1="walker/wing_right" body2="walker/femur_T1_right" />
+    <exclude name="walker/tibia_T1_right_wing_right" body1="walker/wing_right" body2="walker/tibia_T1_right" />
+    <exclude name="walker/tarsus_T1_right_wing_right" body1="walker/wing_right" body2="walker/tarsus_T1_right" />
+    <exclude name="walker/tarsus2_T1_right_wing_right" body1="walker/wing_right" body2="walker/tarsus2_T1_right" />
+    <exclude name="walker/tarsus3_T1_right_wing_right" body1="walker/wing_right" body2="walker/tarsus3_T1_right" />
+    <exclude name="walker/tarsus4_T1_right_wing_right" body1="walker/wing_right" body2="walker/tarsus4_T1_right" />
+    <exclude name="walker/claw_T1_right_wing_right" body1="walker/wing_right" body2="walker/claw_T1_right" />
+    <exclude name="walker/coxa_T2_left_wing_right" body1="walker/wing_right" body2="walker/coxa_T2_left" />
+    <exclude name="walker/femur_T2_left_wing_right" body1="walker/wing_right" body2="walker/femur_T2_left" />
+    <exclude name="walker/tibia_T2_left_wing_right" body1="walker/wing_right" body2="walker/tibia_T2_left" />
+    <exclude name="walker/tarsus_T2_left_wing_right" body1="walker/wing_right" body2="walker/tarsus_T2_left" />
+    <exclude name="walker/tarsus2_T2_left_wing_right" body1="walker/wing_right" body2="walker/tarsus2_T2_left" />
+    <exclude name="walker/tarsus3_T2_left_wing_right" body1="walker/wing_right" body2="walker/tarsus3_T2_left" />
+    <exclude name="walker/tarsus4_T2_left_wing_right" body1="walker/wing_right" body2="walker/tarsus4_T2_left" />
+    <exclude name="walker/claw_T2_left_wing_right" body1="walker/wing_right" body2="walker/claw_T2_left" />
+    <exclude name="walker/coxa_T2_right_wing_right" body1="walker/wing_right" body2="walker/coxa_T2_right" />
+    <exclude name="walker/femur_T2_right_wing_right" body1="walker/wing_right" body2="walker/femur_T2_right" />
+    <exclude name="walker/tibia_T2_right_wing_right" body1="walker/wing_right" body2="walker/tibia_T2_right" />
+    <exclude name="walker/tarsus_T2_right_wing_right" body1="walker/wing_right" body2="walker/tarsus_T2_right" />
+    <exclude name="walker/tarsus2_T2_right_wing_right" body1="walker/wing_right" body2="walker/tarsus2_T2_right" />
+    <exclude name="walker/tarsus3_T2_right_wing_right" body1="walker/wing_right" body2="walker/tarsus3_T2_right" />
+    <exclude name="walker/tarsus4_T2_right_wing_right" body1="walker/wing_right" body2="walker/tarsus4_T2_right" />
+    <exclude name="walker/claw_T2_right_wing_right" body1="walker/wing_right" body2="walker/claw_T2_right" />
+    <exclude name="walker/coxa_T3_left_wing_right" body1="walker/wing_right" body2="walker/coxa_T3_left" />
+    <exclude name="walker/femur_T3_left_wing_right" body1="walker/wing_right" body2="walker/femur_T3_left" />
+    <exclude name="walker/tibia_T3_left_wing_right" body1="walker/wing_right" body2="walker/tibia_T3_left" />
+    <exclude name="walker/tarsus_T3_left_wing_right" body1="walker/wing_right" body2="walker/tarsus_T3_left" />
+    <exclude name="walker/tarsus2_T3_left_wing_right" body1="walker/wing_right" body2="walker/tarsus2_T3_left" />
+    <exclude name="walker/tarsus3_T3_left_wing_right" body1="walker/wing_right" body2="walker/tarsus3_T3_left" />
+    <exclude name="walker/tarsus4_T3_left_wing_right" body1="walker/wing_right" body2="walker/tarsus4_T3_left" />
+    <exclude name="walker/claw_T3_left_wing_right" body1="walker/wing_right" body2="walker/claw_T3_left" />
+    <exclude name="walker/coxa_T3_right_wing_right" body1="walker/wing_right" body2="walker/coxa_T3_right" />
+    <exclude name="walker/femur_T3_right_wing_right" body1="walker/wing_right" body2="walker/femur_T3_right" />
+    <exclude name="walker/tibia_T3_right_wing_right" body1="walker/wing_right" body2="walker/tibia_T3_right" />
+    <exclude name="walker/tarsus_T3_right_wing_right" body1="walker/wing_right" body2="walker/tarsus_T3_right" />
+    <exclude name="walker/tarsus2_T3_right_wing_right" body1="walker/wing_right" body2="walker/tarsus2_T3_right" />
+    <exclude name="walker/tarsus3_T3_right_wing_right" body1="walker/wing_right" body2="walker/tarsus3_T3_right" />
+    <exclude name="walker/tarsus4_T3_right_wing_right" body1="walker/wing_right" body2="walker/tarsus4_T3_right" />
+    <exclude name="walker/claw_T3_right_wing_right" body1="walker/wing_right" body2="walker/claw_T3_right" />
+    <exclude name="walker/abdomen_abdomen_3" body1="walker/abdomen" body2="walker/abdomen_3" />
+    <exclude name="walker/abdomen_2_abdomen_4" body1="walker/abdomen_2" body2="walker/abdomen_4" />
+    <exclude name="walker/abdomen_3_abdomen_5" body1="walker/abdomen_3" body2="walker/abdomen_5" />
+    <exclude name="walker/abdomen_4_abdomen_6" body1="walker/abdomen_4" body2="walker/abdomen_6" />
+    <exclude name="walker/abdomen_5_abdomen_7" body1="walker/abdomen_5" body2="walker/abdomen_7" />
+    <exclude name="walker/coxa_T1_left_coxa_T1_right" body1="walker/coxa_T1_left" body2="walker/coxa_T1_right" />
+    <exclude name="walker/coxa_T1_left_femur_T1_right" body1="walker/coxa_T1_left" body2="walker/femur_T1_right" />
+    <exclude name="walker/femur_T1_left_coxa_T1_right" body1="walker/femur_T1_left" body2="walker/coxa_T1_right" />
+    <exclude name="walker/femur_T1_left_femur_T1_right" body1="walker/femur_T1_left" body2="walker/femur_T1_right" />
+    <exclude name="walker/coxa_T2_left_coxa_T2_right" body1="walker/coxa_T2_left" body2="walker/coxa_T2_right" />
+    <exclude name="walker/coxa_T2_left_femur_T2_right" body1="walker/coxa_T2_left" body2="walker/femur_T2_right" />
+    <exclude name="walker/femur_T2_left_coxa_T2_right" body1="walker/femur_T2_left" body2="walker/coxa_T2_right" />
+    <exclude name="walker/femur_T2_left_femur_T2_right" body1="walker/femur_T2_left" body2="walker/femur_T2_right" />
+    <exclude name="walker/coxa_T3_left_coxa_T3_right" body1="walker/coxa_T3_left" body2="walker/coxa_T3_right" />
+    <exclude name="walker/coxa_T3_left_femur_T3_right" body1="walker/coxa_T3_left" body2="walker/femur_T3_right" />
+    <exclude name="walker/femur_T3_left_coxa_T3_right" body1="walker/femur_T3_left" body2="walker/coxa_T3_right" />
+    <exclude name="walker/femur_T3_left_femur_T3_right" body1="walker/femur_T3_left" body2="walker/femur_T3_right" />
+  </contact>
+
+  <tendon>
+    <fixed name="walker/abduct_abdomen" class="walker/">
+      <joint joint="walker/abdomen_abduct" coef="1" />
+      <joint joint="walker/abdomen_abduct_2" coef="1" />
+      <joint joint="walker/abdomen_abduct_3" coef="1" />
+      <joint joint="walker/abdomen_abduct_4" coef="1" />
+      <joint joint="walker/abdomen_abduct_5" coef="1" />
+      <joint joint="walker/abdomen_abduct_6" coef="1" />
+      <joint joint="walker/abdomen_abduct_7" coef="1" />
+    </fixed>
+    <fixed name="walker/abdomen" class="walker/">
+      <joint joint="walker/abdomen" coef="1" />
+      <joint joint="walker/abdomen_2" coef="1" />
+      <joint joint="walker/abdomen_3" coef="1" />
+      <joint joint="walker/abdomen_4" coef="1" />
+      <joint joint="walker/abdomen_5" coef="1" />
+      <joint joint="walker/abdomen_6" coef="1" />
+      <joint joint="walker/abdomen_7" coef="1" />
+    </fixed>
+    <fixed name="walker/tarsus2_T1_left" class="walker/extend_tarsus">
+      <joint joint="walker/tarsus2_T1_left" coef="1" />
+      <joint joint="walker/tarsus3_T1_left" coef="0.5" />
+      <joint joint="walker/tarsus4_T1_left" coef="0.5" />
+      <joint joint="walker/tarsus5_T1_left" coef="0.5" />
+    </fixed>
+    <fixed name="walker/tarsus2_T1_right" class="walker/extend_tarsus">
+      <joint joint="walker/tarsus2_T1_right" coef="1" />
+      <joint joint="walker/tarsus3_T1_right" coef="0.5" />
+      <joint joint="walker/tarsus4_T1_right" coef="0.5" />
+      <joint joint="walker/tarsus5_T1_right" coef="0.5" />
+    </fixed>
+    <fixed name="walker/tarsus2_T2_left" class="walker/extend_tarsus">
+      <joint joint="walker/tarsus2_T2_left" coef="1" />
+      <joint joint="walker/tarsus3_T2_left" coef="0.5" />
+      <joint joint="walker/tarsus4_T2_left" coef="0.5" />
+      <joint joint="walker/tarsus5_T2_left" coef="0.5" />
+    </fixed>
+    <fixed name="walker/tarsus2_T2_right" class="walker/extend_tarsus">
+      <joint joint="walker/tarsus2_T2_right" coef="1" />
+      <joint joint="walker/tarsus3_T2_right" coef="0.5" />
+      <joint joint="walker/tarsus4_T2_right" coef="0.5" />
+      <joint joint="walker/tarsus5_T2_right" coef="0.5" />
+    </fixed>
+    <fixed name="walker/tarsus2_T3_left" class="walker/extend_tarsus">
+      <joint joint="walker/tarsus2_T3_left" coef="1" />
+      <joint joint="walker/tarsus3_T3_left" coef="0.5" />
+      <joint joint="walker/tarsus4_T3_left" coef="0.5" />
+      <joint joint="walker/tarsus5_T3_left" coef="0.5" />
+    </fixed>
+    <fixed name="walker/tarsus2_T3_right" class="walker/extend_tarsus">
+      <joint joint="walker/tarsus2_T3_right" coef="1" />
+      <joint joint="walker/tarsus3_T3_right" coef="0.5" />
+      <joint joint="walker/tarsus4_T3_right" coef="0.5" />
+      <joint joint="walker/tarsus5_T3_right" coef="0.5" />
+    </fixed>
+  </tendon>
+
+  <actuator>
+    <general name="walker/head_abduct" class="walker/head" joint="walker/head_abduct" ctrlrange="-0.2 0.2" dyntype="filter" dynprm="0.01" />
+    <general name="walker/head_twist" class="walker/head" joint="walker/head_twist" ctrlrange="-3 3" dyntype="filter" dynprm="0.01" />
+    <general name="walker/head" class="walker/head" joint="walker/head" ctrlrange="-0.5 0.3" dyntype="filter" dynprm="0.01" />
+    <general name="walker/wing_yaw_left" class="walker/yaw" joint="walker/wing_yaw_left" dynprm="0.01" />
+    <general name="walker/wing_roll_left" class="walker/roll" joint="walker/wing_roll_left" dynprm="0.01" />
+    <general name="walker/wing_pitch_left" class="walker/pitch" joint="walker/wing_pitch_left" dynprm="0.01" />
+    <general name="walker/wing_yaw_right" class="walker/yaw" joint="walker/wing_yaw_right" dynprm="0.01" />
+    <general name="walker/wing_roll_right" class="walker/roll" joint="walker/wing_roll_right" dynprm="0.01" />
+    <general name="walker/wing_pitch_right" class="walker/pitch" joint="walker/wing_pitch_right" dynprm="0.01" />
+    <general name="walker/abdomen_abduct" class="walker/abduct_abdomen" tendon="walker/abduct_abdomen" ctrlrange="-0.7 0.7" dyntype="filter" dynprm="0.01" />
+    <general name="walker/abdomen" class="walker/extend_abdomen" tendon="walker/abdomen" ctrlrange="-1.05 0.7" dyntype="filter" dynprm="0.01" />
+    <general name="walker/coxa_abduct_T1_left" class="walker/abduct_coxa_T1" joint="walker/coxa_abduct_T1_left" dyntype="filter" dynprm="0.01" />
+    <general name="walker/coxa_twist_T1_left" class="walker/twist_coxa_T1" joint="walker/coxa_twist_T1_left" dyntype="filter" dynprm="0.01" />
+    <general name="walker/coxa_T1_left" class="walker/extend_coxa_T1" joint="walker/coxa_T1_left" dyntype="filter" dynprm="0.01" />
+    <general name="walker/femur_twist_T1_left" class="walker/twist_femur" joint="walker/femur_twist_T1_left" dyntype="filter" dynprm="0.01" />
+    <general name="walker/femur_T1_left" class="walker/extend_femur_T1" joint="walker/femur_T1_left" dyntype="filter" dynprm="0.01" />
+    <general name="walker/tibia_T1_left" class="walker/extend_tibia" joint="walker/tibia_T1_left" dyntype="filter" dynprm="0.01" />
+    <general name="walker/tarsus_T1_left" class="walker/extend_tarsus_T1" joint="walker/tarsus_T1_left" dyntype="filter" dynprm="0.01" />
+    <general name="walker/tarsus2_T1_left" class="walker/extend_tarsus" tendon="walker/tarsus2_T1_left" ctrlrange="-0.9 0.9" dyntype="filter" dynprm="0.01" />
+    <general name="walker/coxa_abduct_T1_right" class="walker/abduct_coxa_T1" joint="walker/coxa_abduct_T1_right" dyntype="filter" dynprm="0.01" />
+    <general name="walker/coxa_twist_T1_right" class="walker/twist_coxa_T1" joint="walker/coxa_twist_T1_right" dyntype="filter" dynprm="0.01" />
+    <general name="walker/coxa_T1_right" class="walker/extend_coxa_T1" joint="walker/coxa_T1_right" dyntype="filter" dynprm="0.01" />
+    <general name="walker/femur_twist_T1_right" class="walker/twist_femur" joint="walker/femur_twist_T1_right" dyntype="filter" dynprm="0.01" />
+    <general name="walker/femur_T1_right" class="walker/extend_femur_T1" joint="walker/femur_T1_right" dyntype="filter" dynprm="0.01" />
+    <general name="walker/tibia_T1_right" class="walker/extend_tibia" joint="walker/tibia_T1_right" dyntype="filter" dynprm="0.01" />
+    <general name="walker/tarsus_T1_right" class="walker/extend_tarsus_T1" joint="walker/tarsus_T1_right" dyntype="filter" dynprm="0.01" />
+    <general name="walker/tarsus2_T1_right" class="walker/extend_tarsus" tendon="walker/tarsus2_T1_right" ctrlrange="-0.9 0.9" dyntype="filter" dynprm="0.01" />
+    <general name="walker/coxa_abduct_T2_left" class="walker/abduct_coxa_T2" joint="walker/coxa_abduct_T2_left" dyntype="filter" dynprm="0.01" />
+    <general name="walker/coxa_twist_T2_left" class="walker/twist_coxa_T2" joint="walker/coxa_twist_T2_left" dyntype="filter" dynprm="0.01" />
+    <general name="walker/coxa_T2_left" class="walker/extend_coxa_T2" joint="walker/coxa_T2_left" dyntype="filter" dynprm="0.01" />
+    <general name="walker/femur_twist_T2_left" class="walker/twist_femur_T2" joint="walker/femur_twist_T2_left" dyntype="filter" dynprm="0.01" />
+    <general name="walker/femur_T2_left" class="walker/extend_femur_T2" joint="walker/femur_T2_left" dyntype="filter" dynprm="0.01" />
+    <general name="walker/tibia_T2_left" class="walker/extend_tibia_T2" joint="walker/tibia_T2_left" dyntype="filter" dynprm="0.01" />
+    <general name="walker/tarsus_T2_left" class="walker/extend_tarsus_T2" joint="walker/tarsus_T2_left" dyntype="filter" dynprm="0.01" />
+    <general name="walker/tarsus2_T2_left" class="walker/extend_tarsus" tendon="walker/tarsus2_T2_left" ctrlrange="-0.9 0.9" dyntype="filter" dynprm="0.01" />
+    <general name="walker/coxa_abduct_T2_right" class="walker/abduct_coxa_T2" joint="walker/coxa_abduct_T2_right" dyntype="filter" dynprm="0.01" />
+    <general name="walker/coxa_twist_T2_right" class="walker/twist_coxa_T2" joint="walker/coxa_twist_T2_right" dyntype="filter" dynprm="0.01" />
+    <general name="walker/coxa_T2_right" class="walker/extend_coxa_T2" joint="walker/coxa_T2_right" dyntype="filter" dynprm="0.01" />
+    <general name="walker/femur_twist_T2_right" class="walker/twist_femur_T2" joint="walker/femur_twist_T2_right" dyntype="filter" dynprm="0.01" />
+    <general name="walker/femur_T2_right" class="walker/extend_femur_T2" joint="walker/femur_T2_right" dyntype="filter" dynprm="0.01" />
+    <general name="walker/tibia_T2_right" class="walker/extend_tibia_T2" joint="walker/tibia_T2_right" dyntype="filter" dynprm="0.01" />
+    <general name="walker/tarsus_T2_right" class="walker/extend_tarsus_T2" joint="walker/tarsus_T2_right" dyntype="filter" dynprm="0.01" />
+    <general name="walker/tarsus2_T2_right" class="walker/extend_tarsus" tendon="walker/tarsus2_T2_right" ctrlrange="-0.9 0.9" dyntype="filter" dynprm="0.01" />
+    <general name="walker/coxa_abduct_T3_left" class="walker/abduct_coxa_T3" joint="walker/coxa_abduct_T3_left" dyntype="filter" dynprm="0.01" />
+    <general name="walker/coxa_twist_T3_left" class="walker/twist_coxa_T3" joint="walker/coxa_twist_T3_left" dyntype="filter" dynprm="0.01" />
+    <general name="walker/coxa_T3_left" class="walker/extend_coxa_T3" joint="walker/coxa_T3_left" dyntype="filter" dynprm="0.01" />
+    <general name="walker/femur_twist_T3_left" class="walker/twist_femur_T3" joint="walker/femur_twist_T3_left" dyntype="filter" dynprm="0.01" />
+    <general name="walker/femur_T3_left" class="walker/extend_femur_T3" joint="walker/femur_T3_left" dyntype="filter" dynprm="0.01" />
+    <general name="walker/tibia_T3_left" class="walker/extend_tibia_T3" joint="walker/tibia_T3_left" dyntype="filter" dynprm="0.01" />
+    <general name="walker/tarsus_T3_left" class="walker/extend_tarsus_T3" joint="walker/tarsus_T3_left" dyntype="filter" dynprm="0.01" />
+    <general name="walker/tarsus2_T3_left" class="walker/extend_tarsus" tendon="walker/tarsus2_T3_left" ctrlrange="-0.9 0.9" dyntype="filter" dynprm="0.01" />
+    <general name="walker/coxa_abduct_T3_right" class="walker/abduct_coxa_T3" joint="walker/coxa_abduct_T3_right" dyntype="filter" dynprm="0.01" />
+    <general name="walker/coxa_twist_T3_right" class="walker/twist_coxa_T3" joint="walker/coxa_twist_T3_right" dyntype="filter" dynprm="0.01" />
+    <general name="walker/coxa_T3_right" class="walker/extend_coxa_T3" joint="walker/coxa_T3_right" dyntype="filter" dynprm="0.01" />
+    <general name="walker/femur_twist_T3_right" class="walker/twist_femur_T3" joint="walker/femur_twist_T3_right" dyntype="filter" dynprm="0.01" />
+    <general name="walker/femur_T3_right" class="walker/extend_femur_T3" joint="walker/femur_T3_right" dyntype="filter" dynprm="0.01" />
+    <general name="walker/tibia_T3_right" class="walker/extend_tibia_T3" joint="walker/tibia_T3_right" dyntype="filter" dynprm="0.01" />
+    <general name="walker/tarsus_T3_right" class="walker/extend_tarsus_T3" joint="walker/tarsus_T3_right" dyntype="filter" dynprm="0.01" />
+    <general name="walker/tarsus2_T3_right" class="walker/extend_tarsus" tendon="walker/tarsus2_T3_right" ctrlrange="-0.9 0.9" dyntype="filter" dynprm="0.01" />
+    <general name="walker/adhere_claw_T1_left" class="walker/adhesion_claw" body="walker/claw_T1_left" />
+    <general name="walker/adhere_claw_T1_right" class="walker/adhesion_claw" body="walker/claw_T1_right" />
+    <general name="walker/adhere_claw_T2_left" class="walker/adhesion_claw" body="walker/claw_T2_left" />
+    <general name="walker/adhere_claw_T2_right" class="walker/adhesion_claw" body="walker/claw_T2_right" />
+    <general name="walker/adhere_claw_T3_left" class="walker/adhesion_claw" body="walker/claw_T3_left" />
+    <general name="walker/adhere_claw_T3_right" class="walker/adhesion_claw" body="walker/claw_T3_right" />
+  </actuator>
+
+  <sensor>
+    <accelerometer site="walker/thorax" name="walker/accelerometer" />
+    <gyro site="walker/thorax" name="walker/gyro" />
+    <velocimeter site="walker/thorax" name="walker/velocimeter" />
+    <force site="walker/tarsus_T1_left" name="walker/force_tarsus_T1_left" />
+    <force site="walker/tarsus_T1_right" name="walker/force_tarsus_T1_right" />
+    <force site="walker/tarsus_T2_left" name="walker/force_tarsus_T2_left" />
+    <force site="walker/tarsus_T2_right" name="walker/force_tarsus_T2_right" />
+    <force site="walker/tarsus_T3_left" name="walker/force_tarsus_T3_left" />
+    <force site="walker/tarsus_T3_right" name="walker/force_tarsus_T3_right" />
+    <touch site="walker/claw_T1_left" name="walker/touch_claw_T1_left" />
+    <touch site="walker/claw_T1_right" name="walker/touch_claw_T1_right" />
+    <touch site="walker/claw_T2_left" name="walker/touch_claw_T2_left" />
+    <touch site="walker/claw_T2_right" name="walker/touch_claw_T2_right" />
+    <touch site="walker/claw_T3_left" name="walker/touch_claw_T3_left" />
+    <touch site="walker/claw_T3_right" name="walker/touch_claw_T3_right" />
+    <framepos objtype="site" objname="walker/claw_T1_left" reftype="xbody" refname="walker/thorax" name="walker/claw_T1_left_end_effector" />
+    <framepos objtype="site" objname="walker/claw_T1_right" reftype="xbody" refname="walker/thorax" name="walker/claw_T1_right_end_effector" />
+    <framepos objtype="site" objname="walker/claw_T2_left" reftype="xbody" refname="walker/thorax" name="walker/claw_T2_left_end_effector" />
+    <framepos objtype="site" objname="walker/claw_T2_right" reftype="xbody" refname="walker/thorax" name="walker/claw_T2_right_end_effector" />
+    <framepos objtype="site" objname="walker/claw_T3_left" reftype="xbody" refname="walker/thorax" name="walker/claw_T3_left_end_effector" />
+    <framepos objtype="site" objname="walker/claw_T3_right" reftype="xbody" refname="walker/thorax" name="walker/claw_T3_right_end_effector" />
+    </sensor>
+</mujoco>

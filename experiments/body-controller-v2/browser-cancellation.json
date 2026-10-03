@@ -1,0 +1,9 @@
+{
+  "phase": "body calculation",
+  "result": {
+    "passed": false,
+    "error": "Processing cancelled.",
+    "seconds": 102.13659999990463,
+    "cancellation_latency_ms": 0.7999999523162842
+  }
+}

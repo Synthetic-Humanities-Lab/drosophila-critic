@@ -1,0 +1,22 @@
+{
+  "version": "neural-body-adapter-v1",
+  "dt": 0.02,
+  "smoothing_seconds": 0.2,
+  "walking_gain_cm_s_per_hz": 0.4,
+  "maximum_walking_cm_s": 4,
+  "walking_turn_gain_rad_s_per_hz": 0.3,
+  "maximum_walking_turn_rad_s": 3,
+  "takeoff_threshold_hz": 2,
+  "takeoff_rearm_hz": 0.5,
+  "flight_base_cm_s": 6,
+  "flight_gain_cm_s_per_hz": 2,
+  "maximum_flight_cm_s": 20,
+  "flight_turn_gain_rad_s_per_hz": 0.15,
+  "maximum_flight_turn_rad_s": 3,
+  "flight_end_hz": 0.35,
+  "flight_resume_hz": 0.75,
+  "minimum_flight_seconds": 1,
+  "landing_delay_seconds": 0.4,
+  "takeoff_refractory_seconds": 4,
+  "flight_height_cm": 2
+}

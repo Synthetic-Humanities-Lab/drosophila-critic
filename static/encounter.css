@@ -61,7 +61,7 @@ header nav {
 }
 .intro h1 {
   font:
-    normal clamp(32px, 4vw, 58px)/1.04 Georgia,
+    normal clamp(32px, 4vw, 58px) / 1.04 Georgia,
     serif;
   letter-spacing: -1.8px;
   margin: 0;
@@ -145,6 +145,78 @@ header nav {
   font: 10px/1.5 monospace;
   letter-spacing: 0.7px;
   pointer-events: none;
+}
+.arena-locator {
+  position: absolute;
+  left: 18px;
+  bottom: 46px;
+  width: 114px;
+  padding: 9px;
+  background: #15251ddb;
+  color: #c6d0ba;
+  border: 1px solid #81907766;
+  pointer-events: none;
+}
+.arena-locator > span {
+  display: block;
+  font: 8px monospace;
+  letter-spacing: 0.6px;
+  margin-bottom: 5px;
+}
+.arena-locator svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.body-state {
+  position: absolute;
+  right: 20px;
+  bottom: 48px;
+  padding: 6px 9px;
+  background: #19291edd;
+  color: #e5d2a0;
+  font: 10px monospace;
+  letter-spacing: 0.7px;
+}
+.body-explanation {
+  margin: 0;
+  padding: 11px 20px;
+  border-top: 1px solid #3c473c;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #b3bfa8;
+}
+.arena-fallback .arena-locator {
+  width: min(65%, 280px);
+  left: 50%;
+  top: 75px;
+  bottom: auto;
+  transform: translateX(-50%);
+}
+.arena-fallback #scene-fallback {
+  font-size: 11px;
+  bottom: 30px;
+  top: auto;
+}
+.movement-measurements {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin: 20px 0;
+}
+.movement-measurements strong {
+  display: block;
+  font:
+    24px Georgia,
+    serif;
+  margin: 5px 0;
+  color: var(--ink);
+}
+.movement-measurements span {
+  font-size: 10px;
+  line-height: 1.5;
+  display: block;
+  color: var(--muted);
 }
 .stage-caption {
   top: 17px;
@@ -864,5 +936,22 @@ footer {
     scroll-behavior: auto !important;
     transition: none !important;
     animation: none !important;
+  }
+}
+@media (max-width: 640px) {
+  .movement-measurements {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .arena-locator {
+    width: 82px;
+    padding: 6px;
+    left: 12px;
+  }
+  .arena-locator > span {
+    font-size: 6px;
+  }
+  .body-state {
+    right: 12px;
+    font-size: 8px;
   }
 }

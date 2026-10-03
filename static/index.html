@@ -74,14 +74,22 @@
             ></div>
             <div class="stage-caption">
               <span id="speaker-tag">ROBOT / SYNTHETIC VOICE</span
-              ><button id="camera" aria-pressed="false">
-                Closer to the fly ↗
-              </button>
+              ><button id="camera" aria-pressed="false">Whole arena ↗</button>
             </div>
             <p id="scene-fallback" hidden>
-              The 3D view is unavailable.<br />Audio and measured activity still
-              work.
+              The 3D view is unavailable. The map shows the recorded path. Audio
+              and neural activity still work.
             </p>
+            <div class="arena-locator">
+              <span>POSITION IN ARENA</span
+              ><svg
+                id="arena-map"
+                viewBox="0 0 20 16"
+                role="img"
+                aria-label="Overhead position and recorded path inside the listening arena"
+              ></svg>
+            </div>
+            <span id="body-state" class="body-state">LOADING BODY</span>
             <div class="stage-foot">
               <span>WILLIAM BLAKE · THE FLY</span
               ><span id="stage-state">READY</span>
@@ -105,6 +113,10 @@
             </p>
           </aside>
         </div>
+        <p class="body-explanation">
+          The neural simulation supplies movement commands. A separate body
+          controller coordinates the legs and wings.
+        </p>
         <div class="controls" id="controls">
           <button id="play" class="primary" disabled>LOADING</button
           ><button
@@ -189,6 +201,8 @@
             <h2 id="response-title">Listen, then look closer.</h2>
             <p id="response-text"></p>
             <p id="population-description"></p>
+            <div id="movement-measurements" class="movement-measurements"></div>
+            <p id="movement-caption" class="movement-caption"></p>
             <details class="measurement-detail">
               <summary>Show the measurements</summary>
               <div id="measurements"></div>
@@ -239,9 +253,10 @@
                   ><button id="clear-voice">Remove</button>
                 </div>
                 <p class="download-note">
-                  Processing loads a <strong>139 MB fly model</strong>, cached
-                  for later visits where possible. It runs here and can take a
-                  few minutes. Nothing is uploaded.
+                  Processing loads
+                  <strong>about 156 MB of brain and body models</strong>, cached
+                  for later visits where possible. Allow up to five minutes on a
+                  supported desktop. Nothing is uploaded.
                 </p>
                 <button id="process-voice" class="primary">
                   READ TO THE FLY →
@@ -285,10 +300,12 @@
               to speech.
             </p>
             <p id="body-method">
-              The body is an anatomical model in a fixed pose. Neural activity
-              is measured; walking and flight are not currently inferred. The
-              question “can you move a fly?” motivates this experiment, rather
-              than supplying a score.
+              Selected nerve cells supply walking, turning, and flight commands.
+              Separate, pretrained flybody controllers coordinate the legs and
+              wings in MuJoCo physics. Our adapter, takeoff and landing rules,
+              and arena steering are additional modeling choices. The fly can
+              move in silence too. These movements are model outputs, not a
+              score for the poem or a prediction of a living fly’s behaviour.
             </p>
             <p>
               RESPONSE means what the simulation did. Any interpretation is an
@@ -298,6 +315,13 @@
           </div>
           <div>
             <h3>Reading the display</h3>
+            <p>
+              <label
+                ><input id="reduce-motion" type="checkbox" /> Reduce visual
+                motion</label
+              ><br />
+              <a id="map-view" href="./?view=map">Use the 2D map instead</a>
+            </p>
             <p>
               Amber points mark recorded spikes in a fixed sample of 12,000
               neurons, at their supplied coordinates. For the examples, that
@@ -321,7 +345,8 @@
             </p>
             <h3>Credits & privacy</h3>
             <p>
-              Fly body: NeuroMechFly / FlyGym. Robot voice: Kokoro af_sarah.
+              Articulated anatomy and pretrained locomotion controllers: flybody
+              (Vaxenburg and colleagues, 2025). Robot voice: Kokoro af_sarah.
               Human: Denny Sayers, LibriVox, 2006. William Blake’s poem is in
               the public domain. The staged human is not a likeness of the
               reader.
@@ -336,15 +361,19 @@
                 href="https://github.com/Synthetic-Humanities-Lab/drosophila-critic/blob/main/METHOD.md"
                 >Full method ↗</a
               ><a
-                href="https://github.com/Synthetic-Humanities-Lab/drosophila-critic/blob/main/docs/BODY-CONTROLLER.md"
-                >Why the body stays still ↗</a
+                href="https://github.com/Synthetic-Humanities-Lab/drosophila-critic/blob/main/docs/NEURAL-BODY-ADAPTER.md"
+                >How neural activity moves the body ↗</a
               ><a href="./experiments/encounter-v1/METHOD.md"
                 >Receiver method ↗</a
-              ><a href="./experiments/encounter-v2/manifest.json"
+              ><a href="./experiments/encounter-v3/manifest.json"
                 >Playback manifest ↗</a
               ><a href="./experiments/encounter-v1/sensitivity.json"
                 >Repeated-run checks ↗</a
-              ><a href="./assets/fly/NOTICE.txt">Asset credits ↗</a
+              ><a href="./body-proof.html">Watch the controller test ↗</a
+              ><a
+                href="https://github.com/Synthetic-Humanities-Lab/drosophila-critic/blob/main/docs/MOVING-ARENA-QA.md"
+                >Movement release checks ↗</a
+              ><a href="./assets/flybody/NOTICE.txt">Asset credits ↗</a
               ><a href="./archive.html">Research archive ↗</a>
             </nav>
           </div>

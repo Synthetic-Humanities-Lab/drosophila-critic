@@ -1,0 +1,48 @@
+{
+  "description": "Controlled one-second motor capture: walking stimulation, zero input, and the same stimulation clamped to zero before the adapter. No poem input.",
+  "runs": {
+    "zero": {
+      "metrics": {
+        "distance_walked_cm": 0.00016544792764570262,
+        "flight_seconds": 0,
+        "turns_revolutions": 0.0001779453480639351,
+        "after_voice_distance_cm": 0,
+        "boundary_seconds": 0,
+        "wall_seconds": 3.187942084,
+        "inverted_seconds": 0,
+        "complete": true,
+        "failures": []
+      },
+      "pose_sha256": "ba7ba8ec65f950da6664c8f014a69ccbe7f3e8c77bbd87331755794b74de2dc0"
+    },
+    "stimulated": {
+      "metrics": {
+        "distance_walked_cm": 1.7308302793757793,
+        "flight_seconds": 0,
+        "turns_revolutions": 0.1952977493476571,
+        "after_voice_distance_cm": 0,
+        "boundary_seconds": 0,
+        "wall_seconds": 4.129242917000001,
+        "inverted_seconds": 0,
+        "complete": true,
+        "failures": []
+      },
+      "pose_sha256": "3fc1fad8ab72e3304d166ef8e38f805fcf984e276ea7f881a8392f5b1b66a5d4"
+    },
+    "clamped": {
+      "metrics": {
+        "distance_walked_cm": 0.00016544792764570262,
+        "flight_seconds": 0,
+        "turns_revolutions": 0.0001779453480639351,
+        "after_voice_distance_cm": 0,
+        "boundary_seconds": 0,
+        "wall_seconds": 3.152938625,
+        "inverted_seconds": 0,
+        "complete": true,
+        "failures": []
+      },
+      "pose_sha256": "ba7ba8ec65f950da6664c8f014a69ccbe7f3e8c77bbd87331755794b74de2dc0"
+    }
+  },
+  "passed": true
+}

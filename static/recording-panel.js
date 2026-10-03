@@ -323,7 +323,10 @@ export class RecordingPanel {
       this.$("process-voice").textContent = "Process again";
       await this.onResult(result);
     } catch (e) {
-      if (token === this.generation && e.name !== "AbortError") this.fail(e);
+      if (token === this.generation) {
+        this.session.cancel();
+        if (e.name !== "AbortError") this.fail(e);
+      }
     } finally {
       if (token === this.generation) this.setBusy(false);
     }

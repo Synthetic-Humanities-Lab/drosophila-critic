@@ -156,29 +156,41 @@ test("audio validation rejects oversized duration, incompatible rates and invali
 
 test("cancel stops a worker, rejects its request, and leaves no reusable stale model", async () => {
   const session = new LocalSession(() => {});
-  let terminated = false,
+  let terminated = 0,
     aborted = false;
-  session.worker = {
-    postMessage() {},
-    terminate() {
-      terminated = true;
-    },
-  };
+  const workers = [
+    ...Object.values(session.neural),
+    ...Object.values(session.bodies),
+  ];
+  for (const worker of workers)
+    worker.worker = {
+      postMessage() {},
+      terminate() {
+        terminated++;
+      },
+    };
   session.abort = {
     abort() {
       aborted = true;
     },
   };
   session.model = {};
-  const rejection = assert.rejects(session.request({ type: "simulate" }), {
-    name: "AbortError",
-  });
+  const rejection = Promise.all(
+    workers.map((worker) =>
+      assert.rejects(worker.request({ type: "simulate" }), {
+        name: "AbortError",
+      }),
+    ),
+  );
   session.cancel();
   await rejection;
-  assert.ok(terminated && aborted);
+  assert.equal(terminated, 4);
+  assert.ok(aborted);
   assert.equal(session.model, null);
-  assert.equal(session.worker, null);
-  assert.equal(session.pending, null);
+  for (const worker of workers) {
+    assert.equal(worker.worker, null);
+    assert.equal(worker.pending, null);
+  }
 });
 
 test("a model initialization error terminates the failed worker before a retry", async () => {
@@ -208,7 +220,7 @@ test("a model initialization error terminates the failed worker before a retry",
     const session = new LocalSession(() => {});
     await assert.rejects(session.initialize(0), /Checksum mismatch/);
     assert.ok(workers[0].terminated);
-    assert.equal(session.worker, null);
+    assert.equal(session.neural.sound.worker, null);
     await assert.rejects(session.initialize(0), /Checksum mismatch/);
     assert.equal(workers.length, 2);
     assert.ok(workers[1].terminated);

@@ -1,0 +1,20 @@
+{
+  "walking": {
+    "maximum_absolute_error": 0.00341796875,
+    "fixtures": 20,
+    "maximum_relative_infinity_norm_error": 4.1428630002186745e-06,
+    "maximum_applied_action_error": 6.365776062011719e-05,
+    "tolerance": "1e-5 relative infinity norm and 1e-4 absolute after the model's actuator limits; random out-of-domain observations can produce unbounded policy means",
+    "passed": true,
+    "saved_model_sha256": "49cdb0874021609c1aa5634a3073a394ef55b7ce54b6487c020c8ed2ec37d5d4"
+  },
+  "flight": {
+    "maximum_absolute_error": 5.960464477539062e-07,
+    "fixtures": 20,
+    "maximum_relative_infinity_norm_error": 5.960464477539062e-07,
+    "maximum_applied_action_error": 5.960464477539062e-07,
+    "tolerance": "1e-5 relative infinity norm and 1e-4 absolute after the model's actuator limits; random out-of-domain observations can produce unbounded policy means",
+    "passed": true,
+    "saved_model_sha256": "3183f73654e8d0406caaf377e710c8073cafc7e9908d9927ab413e44edf859c8"
+  }
+}

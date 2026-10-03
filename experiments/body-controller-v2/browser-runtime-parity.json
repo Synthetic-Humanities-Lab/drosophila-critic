@@ -1,0 +1,29 @@
+{
+  "observation_fixtures": 25,
+  "observation_max_absolute_error": 3.191891195797325e-16,
+  "physics_40_steps_max_absolute_error": 7.466636964747683e-10,
+  "actuated_80_steps_max_absolute_error": 2.2509607244813878e-7,
+  "actuated_fields": {
+    "qpos": {
+      "absolute": 1.1613851547132015e-10,
+      "normalized": 1.0146036735382418e-10
+    },
+    "qvel": {
+      "absolute": 2.2509607244813878e-7,
+      "normalized": 7.479150678736373e-8
+    },
+    "act": {
+      "absolute": 1.734723475976807e-17,
+      "normalized": 1.7249565374798606e-17
+    }
+  },
+  "tolerance": "Absolute tolerances: observations 1e-8; zero controls 1e-7; actuated qpos 1e-8 cm/rad, qvel 1e-6 cm/s or rad/s, act 1e-12. Native and WASM solvers are not bit-identical.",
+  "passed": true,
+  "one_second_walk_wall_seconds": 3.585019875,
+  "repeatable": true,
+  "position": [
+    1.945799612647348,
+    0.27442164127666085,
+    0.1300640485906865
+  ]
+}

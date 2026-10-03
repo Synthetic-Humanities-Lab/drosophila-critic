@@ -1,5 +1,7 @@
 import { normalizeRecording, mechanicalEncoding } from "./local-audio.js";
 import { visitorPlayback } from "./playback-data.js";
+import { BodySession } from "./body-session.js";
+import { WorkerSession } from "./worker-session.js";
 
 export async function sha256(bytes) {
   return Array.from(
@@ -34,34 +36,39 @@ export class LocalSession {
   constructor(onProgress) {
     this.onProgress = onProgress;
     this.generation = 0;
-  }
-  request(data) {
-    if (this.pending) throw new Error("A simulation is already running.");
-    return new Promise((resolve, reject) => {
-      this.pending = { resolve, reject };
-      this.worker.postMessage(data);
-    });
+    this.bodies = Object.fromEntries(
+      ["sound", "silence"].map((key) => [key, new BodySession(onProgress)]),
+    );
+    this.neural = Object.fromEntries(
+      ["sound", "silence"].map((key) => [
+        key,
+        new WorkerSession(
+          new URL("./browser-benchmark.worker.js", import.meta.url),
+          onProgress,
+        ),
+      ]),
+    );
   }
   cancel() {
     this.generation++;
     this.abort?.abort();
-    this.worker?.terminate();
-    this.worker = null;
+    for (const worker of [
+      ...Object.values(this.neural),
+      ...Object.values(this.bodies),
+    ])
+      worker.cancel();
     this.model = null;
-    this.pending?.reject(
-      new DOMException("Processing cancelled.", "AbortError"),
-    );
-    this.pending = null;
   }
   async initialize(token) {
     if (this.model) return;
     this.abort = new AbortController();
-    const [model, display] = await Promise.all([
+    const [model, display, motor] = await Promise.all([
       json("./browser-model-v1/manifest.json", this.abort.signal),
       json(
         "./experiments/encounter-v2/display-neurons.json",
         this.abort.signal,
       ),
+      json("./assets/body-v1/capture.json", this.abort.signal),
     ]);
     if (token !== this.generation)
       throw new DOMException("Cancelled", "AbortError");
@@ -72,52 +79,27 @@ export class LocalSession {
       throw new Error(
         "Neuron coordinates do not match this model. Reload the page.",
       );
-    const worker = new Worker(
-      new URL("./browser-benchmark.worker.js", import.meta.url),
-      { type: "module" },
-    );
-    this.worker = worker;
-    worker.onmessage = ({ data }) => {
-      if (this.worker !== worker) return;
-      if (data.type === "progress") {
-        this.onProgress(data);
-        return;
-      }
-      const pending = this.pending;
-      this.pending = null;
-      if (data.type === "error" || data.type === "cancelled")
-        pending?.reject(new Error(data.message));
-      else pending?.resolve(data);
-    };
-    worker.onerror = () => {
-      if (this.worker !== worker) return;
-      this.pending?.reject(
-        new Error(
-          "The browser could not run the model. Close other tabs and try again, or play an example.",
-        ),
-      );
-      this.pending = null;
-      worker.terminate();
-      this.worker = null;
-      this.model = null;
-    };
-    try {
-      await this.request({
+    // Load once from the network, then initialize the independent control from cache.
+    // Each worker is single-threaded and retains its own RNG and state.
+    for (const worker of Object.values(this.neural)) {
+      if (token !== this.generation)
+        throw new DOMException("Cancelled", "AbortError");
+      await worker.request({
         type: "initialize",
         url: "./browser-model-v1/manifest.json",
         cache: true,
+        captureGroups: motor.groups,
       });
-    } catch (error) {
-      worker.terminate();
-      if (this.worker === worker) this.worker = null;
-      throw error;
     }
     if (token !== this.generation)
       throw new DOMException("Cancelled", "AbortError");
     this.model = model;
     this.display = display;
+    this.motor = motor;
   }
   async process(samples, recordingHash) {
+    const started = performance.now();
+    const timing = {};
     const token = ++this.generation;
     const check = () => {
       if (token !== this.generation)
@@ -125,6 +107,7 @@ export class LocalSession {
     };
     await this.initialize(token);
     check();
+    timing.model_load_seconds = (performance.now() - started) / 1000;
     this.onProgress({
       stage: "Translating sound into hearing input",
       fraction: 0,
@@ -132,27 +115,31 @@ export class LocalSession {
     const normalized = normalizeRecording(samples);
     const input = mechanicalEncoding(normalized.samples, this.model.receiver);
     const runs = {};
-    for (const condition of ["sound", "silence"]) {
-      check();
-      const frames = [
-        ...Array(75).fill(0),
-        ...(condition === "sound"
-          ? input.injection
-          : Array(input.injection.length).fill(0)),
-        ...Array(150).fill(0),
-      ];
-      runs[condition] = await this.request({
-        type: "simulate",
-        input: frames,
-        capture: true,
-        seed: 1101,
-        label:
-          condition === "sound"
-            ? "Listening to your recording · 1 of 2"
-            : "Running its silence control · 2 of 2",
-      });
-    }
+    const neuralStarted = performance.now();
+    await Promise.all(
+      ["sound", "silence"].map(async (condition) => {
+        check();
+        const frames = [
+          ...Array(75).fill(0),
+          ...(condition === "sound"
+            ? input.injection
+            : Array(input.injection.length).fill(0)),
+          ...Array(150).fill(0),
+        ];
+        runs[condition] = await this.neural[condition].request({
+          type: "simulate",
+          input: frames,
+          capture: true,
+          seed: 1101,
+          label:
+            condition === "sound"
+              ? "Listening to your recording"
+              : "Running its silence control",
+        });
+      }),
+    );
     check();
+    timing.neural_pair_seconds = (performance.now() - neuralStarted) / 1000;
     const playback = visitorPlayback(
       runs.sound,
       runs.silence,
@@ -161,6 +148,31 @@ export class LocalSession {
       input,
       normalized.metadata,
     );
+    const body = {};
+    const bodyStarted = performance.now();
+    await this.bodies.sound.initialize();
+    check();
+    await this.bodies.silence.initialize();
+    check();
+    await Promise.all(
+      ["sound", "silence"].map(async (condition) => {
+        body[condition] = await this.bodies[condition].simulate(
+          runs[condition],
+          samples.length / 48000,
+          condition === "sound"
+            ? "Calculating movement · your voice"
+            : "Calculating movement · silence",
+        );
+      }),
+    );
+    check();
+    playback.body = {
+      available: true,
+      version: "listening-body-v1",
+      seed: 1101,
+    };
+    timing.body_pair_seconds = (performance.now() - bodyStarted) / 1000;
+    timing.total_seconds = (performance.now() - started) / 1000;
     const spatial = Object.fromEntries(
       Object.entries(runs).map(([condition, run]) => [
         condition,
@@ -174,7 +186,7 @@ export class LocalSession {
       ]),
     );
     const evidence = {
-      schema_version: "local-listening-v2",
+      schema_version: "local-listening-v3",
       recording_sha256: recordingHash,
       audio: {
         sample_rate: 48000,
@@ -199,15 +211,21 @@ export class LocalSession {
       },
       playback,
       spatial,
+      body,
+      motor_capture: this.motor,
+      body_assets: this.bodies.sound.info,
+      processing: timing,
       raw_runs: runs,
       limitations: [
         "One sound/silence pair, not a repeated result",
         "No transcription or line alignment",
         "Provisional mechanical-to-neural coupling",
-        "No qualified neural-to-body coupling",
+        "Movement uses a declared engineering adapter and separate frozen body policies, not a validated biological prediction",
         "Browser decoding may differ from Python",
       ],
     };
-    return { playback, spatial, samples: normalized.samples, evidence };
+    // Keep the versioned network cache, release all four simulation heaps.
+    this.cancel();
+    return { playback, spatial, body, samples: normalized.samples, evidence };
   }
 }
