@@ -1,7 +1,7 @@
 # Finalization verification — 2 October 2026
 
 This record distinguishes automated checks, browser observations and unverified
-hardware/platform paths. Publication verification is recorded below after deploy.
+hardware/platform paths. Publication verification is recorded below.
 The accepted brief is [FINALIZATION-GOAL.md](FINALIZATION-GOAL.md).
 
 ## Data and numerical checks
@@ -56,7 +56,8 @@ The accepted brief is [FINALIZATION-GOAL.md](FINALIZATION-GOAL.md).
 
 ## Privacy and remaining test limits
 
-Curated playback has no worker/model request. Only deliberate local processing
+The clean local release's server log recorded 21 curated-playback requests and
+zero connectivity, worker or API requests. Only deliberate local processing
 loads model chunks. The page restricts fetches to its own origin. Source review
 found no audio/result upload, telemetry or external processing endpoint. File
 names are rendered as text, not HTML. Private recordings/results are kept in
@@ -89,5 +90,33 @@ candidate motor outputs were recorded without magnification or a movement score.
 Checks passed: `ruff check critic scripts tests`, `ruff format --check critic
 scripts tests`, **145 Python tests**, and **31 JavaScript tests**. Python reports
 two existing FastAPI/Starlette/anyio deprecation warnings. Static export succeeds.
-Deployed verification is recorded after publication; local success is not a
-claim of public deployment.
+
+### Published verification
+
+Functional commit: `95dd76c483a50679200c8e8b139351c9ed826566`.
+Interface module: `encounter.0182f4235edf0d89.js`.
+[Pages deployment](https://github.com/Synthetic-Humanities-Lab/drosophila-critic/actions/runs/37092990425)
+and [CI/container check](https://github.com/Synthetic-Humanities-Lab/drosophila-critic/actions/runs/37092990420)
+both succeeded. CI also reports upstream Node-action and runner deprecation
+notices; these did not fail the build.
+
+The live index, interface module, playback/model manifests, asset notice,
+archive and recording redirect match the clean local export byte for byte.
+Checksums are in `experiments/browser-v2/deployed-assets.json`.
+
+At the public URL, human playback reached 0:48/0:48 and robot playback reached
+0:29/0:29 with the completion state. Robot-length silence played its own neural
+record. The public-example draft then completed both local worker runs on the
+deployed site, entered YOUR VOICE with newly captured spikes, and replayed to
+0:29/0:29. Its share button was hidden and its single-run qualification visible.
+The measured direct-partner rates were 2.3975 during sound and 2.1253 during
+silence, a +0.2722 spikes/s/cell difference. No console error/warning appeared.
+
+The actual deployed page was also inspected in a 390 × 844 iframe. Body width
+and scroll width were both 390 pixels; playback controls remained in the
+viewport. Its human recording and neural display played. This remains a
+responsive-layout observation, not a phone simulation benchmark.
+
+Screenshots are retained locally in `output/qa/finalization/`; the public
+README includes the deployed encounter. Neither failure harness nor private
+recording files were committed or published.

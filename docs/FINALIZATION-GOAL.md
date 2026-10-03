@@ -1,7 +1,7 @@
 # The Drosophila Critic — public app finalization goal
 
-Status: accepted execution brief, 2 October 2026. The active implementation goal
-uses this file; current outcomes and remaining checks are in `GOAL-STATUS.md`.
+Status: executed release brief, 2 October 2026. Implemented outcomes, the body
+controller's limit and remaining platform checks are in `GOAL-STATUS.md`.
 
 ## Objective
 

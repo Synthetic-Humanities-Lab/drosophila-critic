@@ -12,6 +12,8 @@ recording on a supported desktop. Sound and recorded neural activity replay
 together. The poem appears once; five stanza buttons select starting points,
 not excerpts that stop automatically.
 
+![The published listening scene and measured neural response](docs/images/encounter.jpg)
+
 Silence is the control. Neither reader is a standard to beat. The app reports
 what changed in the simulation; it does not score poetry or describe a fly’s
 feelings. The fly body remains posed. Antennal colour marks modeled vibration

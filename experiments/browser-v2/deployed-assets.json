@@ -1,0 +1,31 @@
+{
+  "release": "95dd76c483a50679200c8e8b139351c9ed826566",
+  "module": "encounter.0182f4235edf0d89.js",
+  "index_matches_build": true,
+  "assets": {
+    "encounter.0182f4235edf0d89.js": {
+      "matches_build": true,
+      "sha256": "a2556b14ad42d1644462b7c6e01b1938c7536f05522a7092af3fb2b5a11c802a"
+    },
+    "experiments/encounter-v2/manifest.json": {
+      "matches_build": true,
+      "sha256": "83df9896e9df7bb485efd69e42d54ea7f3be5e9936014641a1cab27cee296478"
+    },
+    "browser-model-v1/manifest.json": {
+      "matches_build": true,
+      "sha256": "791e7677ed76645a19436e3ba4f38ae58ac2540074dacb31f8f819b611610a66"
+    },
+    "assets/fly/NOTICE.txt": {
+      "matches_build": true,
+      "sha256": "ee187f3999da1c3aeadd631c8d3d0735002d9ad8e0774446560490bd7bc85b23"
+    },
+    "archive.html": {
+      "matches_build": true,
+      "sha256": "40b387f0e8e064ba8263b26fc384183b8fc26af4f375a6cb9cd060f5f2a30ba8"
+    },
+    "listen.html": {
+      "matches_build": true,
+      "sha256": "269c23277d18ae2afa04d39049313e68aae0e2267230f403fddb917f4ae8737d"
+    }
+  }
+}
