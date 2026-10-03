@@ -156,4 +156,19 @@ The scene recordings capture the rendered animal and neural canvases with time
 and state captions; they are not browser-chrome recordings. Screenshots document
 the surrounding interface.
 
-Deployment verification is recorded in [release status](MOVING-ARENA-STATUS.md).
+The published visitor flow also passed using the complete public robot example:
+2.68 seconds loading, 26.78 seconds for the neural pair and 107.81 seconds for the
+body pair; **137.38 seconds total**. Its fresh body trajectories replayed through
+the post-sound interval. [Deployed visitor evidence](../experiments/body-controller-v2/deployed-visitor.json).
+
+The deployed curated page's [resource inventory](../experiments/body-controller-v2/deployed-replay-assets.json)
+contains saved poses and anatomy but no processing models. Full human, robot,
+silence and visitor playback, passage switching, the controller proof and
+reduced-motion controls were checked on the published site.
+Deployment details are in [release status](MOVING-ARENA-STATUS.md).
+
+An additional live-site file-picker test with the public human WAV was blocked
+by browser approval review, which reported declined permission. It was stopped,
+without an alternate upload route. The built-in public robot-example visitor
+flow passed on the deployed site; the local processing benchmarks and file/codec
+unit checks do not substitute for this uncompleted live-site file-picker test.
