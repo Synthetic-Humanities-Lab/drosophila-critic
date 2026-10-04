@@ -1,7 +1,7 @@
 import * as THREE from "./vendor/three.module.js";
 import { ArticulatedFly } from "./body-view.js";
 import { FollowCameraTrack, closeView } from "./follow-camera.js";
-import { ListeningRoom } from "./listening-room.js";
+import { ListeningRoom, tableView } from "./listening-room.js";
 import { RecordedPath } from "./recorded-path.js";
 
 export class EncounterScene {
@@ -48,10 +48,13 @@ export class EncounterScene {
       container.append(this.renderer.domElement);
       this.scene = new THREE.Scene();
       this.scene.fog = new THREE.Fog(0x3b4439, 180, 550);
-      this.camera = new THREE.PerspectiveCamera(62, 1, 0.1, 1000);
+      this.camera = new THREE.PerspectiveCamera(28.4176, 1, 0.1, 1000);
       this.closeCamera = new THREE.PerspectiveCamera(38, 1, 0.005, 200);
-      this.scene.add(new THREE.HemisphereLight(0xf9eed2, 0x38483b, 1.8));
-      this.sun = new THREE.DirectionalLight(0xffdcad, 2.7);
+      this.insetCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.005, 10);
+      this.insetBounds = new THREE.Box3();
+      this.meshBounds = new THREE.Box3();
+      this.scene.add(new THREE.HemisphereLight(0xf4eddd, 0x596451, 1.8));
+      this.sun = new THREE.DirectionalLight(0xfff0d5, 2.1);
       this.sun.castShadow = true;
       this.sun.shadow.mapSize.set(2048, 2048);
       this.sun.shadow.bias = -0.000015;
@@ -227,8 +230,7 @@ export class EncounterScene {
     this.closeCamera.position.fromArray(view.position);
     this.closeCamera.fov = view.fov;
     this.closeCamera.lookAt(this.target);
-    this.camera.position.set(-9, 22, 42);
-    this.camera.lookAt(-18, 7, -18);
+
     this.render();
   }
   resize() {
@@ -239,14 +241,10 @@ export class EncounterScene {
     this.height = height;
     this.renderer.setSize(width, height);
     this.camera.aspect = width / height;
-    // Keep the reader and entire box in frame on a narrow phone screen.
-    this.camera.fov = THREE.MathUtils.radToDeg(
-      2 *
-        Math.atan(
-          Math.tan(THREE.MathUtils.degToRad(62 / 2)) *
-            Math.max(1, 2 / this.camera.aspect),
-        ),
-    );
+    const wide = tableView(this.camera.aspect);
+    this.camera.position.fromArray(wide.position);
+    this.camera.lookAt(new THREE.Vector3(...wide.lookAt));
+    this.camera.fov = wide.fov;
     this.camera.updateProjectionMatrix();
     const inset = this.insetViewport.getBoundingClientRect();
     const stage = this.container.getBoundingClientRect();
@@ -261,6 +259,50 @@ export class EncounterScene {
       : inset.width / inset.height || 1;
     this.closeCamera.updateProjectionMatrix();
     this.update(this.time, this.playing);
+  }
+  frameInset() {
+    // Magnify the same posed anatomy against a quiet background. Hidden wing
+    // exposures do not affect the fit; the whole-table body is never rescaled.
+    this.fly.updateMatrixWorld(true);
+    this.insetBounds.makeEmpty();
+    this.fly.traverseVisible((node) => {
+      if (!node.isMesh) return;
+      if (!node.geometry.boundingBox) node.geometry.computeBoundingBox();
+      this.meshBounds
+        .copy(node.geometry.boundingBox)
+        .applyMatrix4(node.matrixWorld);
+      this.insetBounds.union(this.meshBounds);
+    });
+    const centre = this.insetBounds.getCenter(new THREE.Vector3());
+    const camera = this.insetCamera;
+    camera.position.copy(centre).add(new THREE.Vector3(-0.9, 0.7, 1.25));
+    camera.lookAt(centre);
+    camera.updateMatrixWorld();
+    let halfWidth = 0,
+      halfHeight = 0;
+    const transform = new THREE.Matrix4();
+    const point = new THREE.Vector3();
+    this.fly.traverseVisible((node) => {
+      if (!node.isMesh) return;
+      const { min, max } = node.geometry.boundingBox;
+      transform.multiplyMatrices(camera.matrixWorldInverse, node.matrixWorld);
+      for (const x of [min.x, max.x])
+        for (const y of [min.y, max.y])
+          for (const z of [min.z, max.z]) {
+            point.set(x, y, z).applyMatrix4(transform);
+            halfWidth = Math.max(halfWidth, Math.abs(point.x));
+            halfHeight = Math.max(halfHeight, Math.abs(point.y));
+          }
+    });
+    const aspect = this.insetRect.width / this.insetRect.height;
+    const height = Math.max(halfHeight, halfWidth / aspect, 0.1) * 1.08;
+    Object.assign(camera, {
+      left: -height * aspect,
+      right: height * aspect,
+      top: height,
+      bottom: -height,
+    });
+    camera.updateProjectionMatrix();
   }
   setReducedMotion(value) {
     this.reduceMotion = value;
@@ -301,7 +343,14 @@ export class EncounterScene {
       this.renderer.setScissor(x, y, width, height);
       this.renderer.setViewport(x, y, width, height);
       this.lighting(true);
-      this.renderer.render(this.scene, this.closeCamera);
+      this.room.visible = false;
+      this.trail.visible = this.trailTip.visible = false;
+      this.renderer.setClearColor(0x1b281f);
+      this.frameInset();
+      this.renderer.render(this.scene, this.insetCamera);
+      this.renderer.setClearColor(0x3b4439);
+      this.room.visible = true;
+      this.trail.visible = this.trailTip.visible = true;
       this.renderer.setScissorTest(false);
     }
   }

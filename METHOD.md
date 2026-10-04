@@ -147,14 +147,20 @@ to a speaker on a glass enclosure. The enclosure represents the existing
 20 × 16 × 10 cm movement volume. The fly, its joint transforms, and its path
 remain at their original centimetre scale; the furniture and theatrical reader
 are sized around them. Glass and framing sit outside those bounds. The speaker
-is mounted outside the rear wall. These props add no new physics colliders or
+is mounted outside the left wall. These props add no new physics colliders or
 acoustics. Confinement still comes from the documented body supervisor. The
 sound field remains imposed and uniform, with no distance attenuation or glass
 reflections. The cable is staging, not an additional signal-processing step.
 
-The wide view includes a live close-up rendered from the same body pose. The
-floor line and overhead map show the recorded thorax path projected onto the
-floor, up to the playback time. The line uses every saved body frame (50 Hz);
+The wide camera and staged reader follow the approved tabletop composition.
+The wide view includes a live close-up of the same anatomical meshes and body
+pose, isolated against a dark background. That inset uses a fixed viewing
+direction and fits the visible meshes into its frame; it does not rescale the
+fly in the box. The main follow camera retains its separate smoothed tracking.
+The floor line shows the recorded thorax path projected onto the floor, up to
+the playback time. The overhead map appears in the follow, reduced-motion and
+2D views; the wide view keeps the floor line. The line uses every saved body
+frame (50 Hz);
 the small map samples every fifth frame and adds the current interpolated
 position. Neither displays future travel. Seeking and reader changes reconstruct
 the appropriate trace. The display does not replace or smooth the body movement.
@@ -165,7 +171,8 @@ Its centre follows a Gaussian-smoothed thorax path (100 ms standard deviation,
 radial limit bounds the centre's displacement from the thorax to 0.24 cm. A wider
 fixed camera offset leaves room for the legs during fast turns; the framing is
 checked against every recorded body joint throughout both curated performances.
-Glass is hidden in the close view to keep the animal visible at the box edges.
+The close view retains the chamber floor and hides the surrounding scenery,
+including glass, so props and their shadows cannot obstruct the animal.
 This is a cutaway view, not removal of the simulation's confinement.
 
 Camera filtering and framing are display choices only. Body transforms,

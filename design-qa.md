@@ -1,112 +1,80 @@
-# Listening box release: design and playback checks
+# Reference scene: layout and playback verification
 
-## Comparison target
+## Authority and comparison
 
-Selected visual: `output/listening-box-concepts-v2/option-3.png` (1672 × 941).
-The user selected the third **current-build-style** concept, not the earlier
-photorealistic set. It retains the existing olive block characters, cream
-interface, black neural display, a tabletop glass enclosure, microphone and
-wired speaker, and a live fly close-up.
+The user's attached render is the layout target: the third concept at
+`output/listening-box-concepts-v2/option-3.png`, 1672 × 941 pixels. The previous
+release did not reproduce its composition closely enough. This revision fits
+the scene to the supplied image rather than treating it as a general theme.
 
-Implementation: `docs/images/listening-box-desktop.jpg` (1280 × 720).
-Robot, paused at stanza 2 (5.3 seconds); the mock illustrates approximately
-5 seconds. The recorded walking pose and neural counts are used as saved.
-CSS viewport: 1280 × 720. Screenshot density: one output pixel per CSS pixel.
-The source was normalized to the same width/aspect in a comparison page; no
-viewport or density difference is treated as a design defect.
+The running app is captured at 1280 × 720, robot, stanza 2, paused at 5.3 seconds.
+The reference and application have the same scene aspect ratio. Their full
+pages and scene crops are compared together at a common display scale in
+`docs/images/reference-scene-comparison.jpg`. The actual application capture is
+`docs/images/reference-scene-desktop.jpg`.
 
-Full-view **and scene-detail** side-by-side evidence:
-`docs/images/listening-box-comparison.jpg`. The comparison page includes both
-source and rendered screenshot together. Detail views normalize each full page
-to 800 pixels wide and select its 515 × 215 scene region.
+## Changes visible in the comparison
 
-## Comparison history and fixes
+- A long-lens oblique view places the seated reader and open book on the left,
+  with a distinct tabletop microphone. A continuous cable reaches the speaker
+  on the left wall of the foreground-right glass box.
+- The box's size and location follow measured image landmarks. A regression
+  check projects seven corners of the unscaled movement volume within 11 pixels
+  of their reference positions in the 1073 × 445 scene crop. The book and
+  microphone centres are within three pixels of their reference positions.
+- The reader's cube head, antenna, bent arms and hands are resized and posed
+  around the book. The table edge and legs remain visible. Warm olive materials
+  retain the existing scene's visual language.
+- The smaller lower-left inset magnifies the same articulated fly against a
+  dark background. It fits visible anatomy, including the flight exposure,
+  rather than showing a distant fly against a bright floor.
+- The wide view retains the actual floor path. The extra overhead map and status
+  overlays appear in close, reduced-motion and fallback views, keeping the wide
+  scene's layout consistent with the supplied render.
+- The full follow view keeps the previously tested camera smoothing and fixed
+  viewing direction. Its cutaway now hides surrounding props as well as glass,
+  removing stray scenery shadows that crossed the floor during tracking.
+- At 390 pixels the inset moves below the hands and book. Scene, neural display
+  and sticky playback controls remain available without horizontal overflow.
 
-1. **P1: Initial framing clipped the robot and centred it above the box.**
-   Evidence: `output/listening-box-qa/iteration-1.jpg`. Changed the table camera,
-   reader placement and head proportions while retaining the existing character
-   design. The fly and its physical trajectory are unchanged.
-2. **P2: The first working composition concealed the table edge and microphone.**
-   Evidence: `output/listening-box-qa/comparison.jpg`. Gave the staged reader a
-   seated pose, exposed the table edge and legs, and made the microphone stem
-   readable. Moved the small path map into unused space at the upper right;
-   the lower-left close-up no longer masks the book.
-3. **P2: A rear leg could leave the close view during a fast turn.**
-   Widened the fixed close camera. A test now projects every articulated joint
-   throughout both complete displayed recordings into the narrowest close
-   viewport and checks a 10% frame margin.
-4. **P2: Camera-button hover lost contrast over the pale floor.**
-   Added an opaque hover/focus background. Keyboard focus remains visible.
-5. **P2: The enlarged 2D fallback map overlapped its explanatory sentence.**
-   Bounded the map vertically, moved the movement state into the unused camera
-   control position, and gave the explanation its own space below the map.
-   Forced map mode and an intentionally missing GLB both remain usable.
-
-The final comparison and subsequent phone/fallback inspections find no remaining
-P0/P1/P2 issue. The reader and speaker are stage props. Their exact pose and
-perspective differ from the illustrative mock; the fly's pose is never invented
-to match it. The overhead map is retained in addition to the floor path, as
-requested. Glass is omitted in the close view so it cannot obstruct the fly at
-an enclosure edge.
-
-## Required fidelity surfaces
-
-- **Typography:** existing Georgia heading, Arial body and monospace controls
-  preserved; no replacement fonts or new typographic system. Mobile wrapping
-  and keyboard focus were inspected.
-- **Spacing and layout:** desktop scene/neural split and surrounding interface
-  preserved. On mobile the scene remains above the neural display. The box,
-  reader, camera control, inset and path map remain in frame.
-- **Colours:** existing cream, olive, amber and black interface palette retained;
-  warm directional light and readable contact shadows in the scene.
-- **Assets:** existing anatomical flybody meshes and articulated transforms;
-  existing procedural character design, with a seated reading pose. Live 3D
-  geometry is used for the physical scene. No raster mockup or random animation
-  replaces measured movement. The actual fly is not enlarged.
-- **Copy:** existing poem, voice controls, measurements and recording flow
-  retained. Method now explains uniform sound, the staged microphone/speaker,
-  cutaway close view and the floor-projected path. No research archive is exported.
+No simulation result was altered to match the picture. In particular, the fly's
+location, articulated pose, wing exposure and floor path at 5.3 seconds come from
+the saved recording. They differ from the fly drawn in the illustrative render.
+The runtime remains live Three.js geometry, not the mockup used as a backdrop.
 
 ## Verification
 
-- Both full curated recordings reach their end (robot 29 s; human 48 s, including
-  the quiet tail). The trail remains after playback. Stanza switching uses
-  each recording's own clock: stanza 2 is 5.3 s for robot and 7.92 s for human.
-- Silence uses its own body trajectory and has zero acoustic input. Pausing,
-  replaying and seeking retain synchronized body and path data.
-- Fresh browser-local processing of the 26.2-second public robot recording
-  completes, produces its own sound and silence body runs, and replays in the
-  new scene. This is the public fixture, not a private recording or microphone
-  test. Existing upload/record controls and workers are unchanged.
-- Reduced motion uses a fixed table view, removes the moving inset and reader
-  gestures, and retains the map. 2D mode and a deliberately missing anatomical
-  mesh show the recorded path and retain playback controls.
-- Desktop and 390-pixel phone layouts inspected in the Codex in-app browser on
-  macOS. A phone-sized browser viewport is not a physical phone/GPU test.
-- Saved 15-second scene recordings: `output/listening-box-qa/wide.webm`,
-  `follow.webm`, `mobile.webm`. Final captures observed an 8.3 ms median animation
-  frame interval and approximately 10.1–10.2 ms at the 95th percentile on this
-  desktop. These are UI capture timings, not a portable performance guarantee.
-- Node checks cover deterministic seeking/frame-rate independence, smooth camera
-  tracking, all-joint framing, complete path endpoints and rewind without future
-  travel. Existing neural, receiver, audio, body and privacy tests remain in place.
-- No neural, receiver, policy, audio or body-recording artifact was changed.
-  New runtime modules are included in the public export dependency check.
+- The actual reference and running scene were inspected together, including
+  separate enlarged scene crops. Desktop and 390 × 844 phone-layout captures
+  were inspected in the Codex in-app browser on macOS. This is a responsive
+  browser check, not a physical phone/GPU benchmark.
+- Robot playback reached 29/29 seconds, and human playback reached 48/48 seconds,
+  including the quiet tail. Reader changes use each performance's own stanza
+  time: stanza 2 is around 5 seconds for robot and 7 seconds for human.
+- End and Home seeking restore the recorded pose and grow/rewind the path.
+  Returning to the wide camera restores the table and staged reader. Silence
+  has its own trajectory and keeps the reader absent after camera changes.
+- Reduced motion disables follow tracking and flashes, removes the inset, and
+  keeps the fixed view and path map. Explicit 2D mode retains the recorded path
+  and audio controls. Missing-mesh fallback is also checked before publication.
+- Automated checks: 173 Python tests, 46 JavaScript tests; Python lint/format,
+  modified-file Prettier, public export and whitespace checks. Camera tests
+  cover continuous tracking, deterministic seeking, and every recorded joint
+  throughout both curated performances. New checks protect the reference
+  composition and responsive camera framing.
+- Audio, receiver, neural data, body trajectories, local visitor workers and
+  upload/recording controls are unchanged. Existing audio, equivalence,
+  cancellation and privacy checks remain in the suite. No private recording was
+  selected or transmitted for this scene revision.
+- Local 15-second recordings of both camera views are saved under
+  `output/reference-scene-qa/`. Both measured an 8.3 ms median animation-frame
+  interval on this desktop; the 95th percentiles were 9.4 ms (wide) and 9.3 ms
+  (follow). These capture timings are not a device-independent guarantee. QA
+  pages and experimental archive pages are not part of the public export.
 
-Saved phone and visitor evidence: `docs/images/listening-box-mobile.jpg`
-(390 × 844), `docs/images/listening-box-visitor.jpg`. Test results: **173 Python
-and 42 JavaScript tests passed**; Ruff, Python format checks, Prettier and
-`git diff --check` passed. Browser console checks found no unexpected errors;
-the deliberately missing mesh produces the expected 404 and falls back cleanly.
-Capture harnesses and videos under `output/` are local QA artifacts, not part of
-the published app. The comparison image preserves the selected visual beside
-the implementation without exporting a research/archive page.
-
-## Follow-up polish / limits
-
-The wide scene deliberately shows a small animal; the live inset and enlarged
-follow view provide anatomical detail. The box does not add sound attenuation,
-reflection, or new physical wall collisions. It depicts the existing bounded
-body simulation. Mobile hardware and other browsers need separate device testing.
+The microphone, cable, speaker, table and reader are theatrical scenery. The
+box still represents the same 20 × 16 × 10 cm movement volume and imposed sound
+field. The close-up is an optical enlargement; the animal and recorded movement
+in the box keep their original scale.
 
 final result: passed
