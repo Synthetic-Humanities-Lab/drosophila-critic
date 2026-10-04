@@ -216,6 +216,7 @@ async function choose(nextReader, options = {}) {
   recording.preview.pause();
   ready = false;
   neural.clear();
+  stage.clear();
   record = null;
   $("trace").replaceChildren();
   $("input-trace").replaceChildren();
@@ -538,12 +539,7 @@ $("population").onchange = (e) => {
     render();
   }
 };
-$("camera").onclick = () => {
-  const close = $("camera").getAttribute("aria-pressed") !== "true";
-  $("camera").setAttribute("aria-pressed", String(close));
-  $("camera").textContent = close ? "Follow fly ↙" : "Whole arena ↗";
-  stage.setClose(close);
-};
+$("camera").onclick = () => stage.toggleView();
 $("share").onclick = async () => {
   if (reader === "visitor") return;
   try {

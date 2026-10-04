@@ -148,14 +148,54 @@ header nav {
 }
 .arena-locator {
   position: absolute;
-  left: 18px;
-  bottom: 46px;
-  width: 114px;
+  right: 18px;
+  top: 55px;
+  width: 86px;
   padding: 9px;
   background: #15251ddb;
   color: #c6d0ba;
   border: 1px solid #81907766;
   pointer-events: none;
+}
+#fly-closeup {
+  position: absolute;
+  left: 18px;
+  bottom: 46px;
+  width: 150px;
+  padding: 8px;
+  border: 1px solid #81907788;
+  background: transparent;
+  box-shadow: inset 0 24px #15251dee;
+  color: #e1e5d1;
+  text-align: left;
+}
+#fly-closeup > span:first-child {
+  display: block;
+  height: 16px;
+  font: 8px/12px monospace;
+  letter-spacing: 0.6px;
+}
+#fly-closeup-view {
+  display: block;
+  height: 105px;
+}
+.stage-wrap[data-body="loading"] #fly-closeup {
+  visibility: hidden;
+}
+.stage-wrap[data-view="fly"] #fly-closeup,
+.stage-wrap[data-view="fixed"] #fly-closeup,
+.arena-fallback #fly-closeup {
+  display: none;
+}
+.stage-wrap[data-view="fly"] .arena-locator,
+.stage-wrap[data-view="fixed"] .arena-locator {
+  left: 18px;
+  right: auto;
+  top: auto;
+  bottom: 46px;
+}
+.arena-fallback #stage canvas {
+  display: none;
 }
 .arena-locator > span {
   display: block;
@@ -187,16 +227,37 @@ header nav {
   color: #b3bfa8;
 }
 .arena-fallback .arena-locator {
-  width: min(65%, 280px);
+  display: flex;
+  flex-direction: column;
+  width: min(60%, 240px);
   left: 50%;
-  top: 75px;
-  bottom: auto;
+  right: auto;
+  top: 60px;
+  bottom: 85px;
   transform: translateX(-50%);
 }
+.arena-fallback .arena-locator svg {
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+}
+.arena-fallback #camera {
+  display: none;
+}
+.arena-fallback .body-state {
+  top: 17px;
+  bottom: auto;
+}
 .arena-fallback #scene-fallback {
-  font-size: 11px;
-  bottom: 30px;
+  font:
+    11px/1.5 Arial,
+    sans-serif;
+  left: 20px;
+  right: 20px;
+  bottom: 39px;
   top: auto;
+  margin: 0;
+  text-align: center;
 }
 .movement-measurements {
   display: grid;
@@ -232,6 +293,10 @@ header nav {
   border: 0;
   padding: 7px 10px;
   font-size: 10px;
+}
+.stage-caption button:hover,
+.stage-caption button:focus-visible {
+  background: #243b2ff5;
 }
 .stage-foot {
   bottom: 14px;
@@ -808,8 +873,25 @@ footer {
     height: auto;
   }
   .stage-wrap {
-    height: 265px;
+    height: 290px;
   }
+  #fly-closeup {
+    left: 12px;
+    width: 112px;
+    padding: 6px;
+  }
+  #fly-closeup-view {
+    height: 78px;
+  }
+  .arena-locator {
+    right: 12px;
+    width: 68px;
+  }
+  .stage-wrap[data-view="fly"] .arena-locator,
+  .stage-wrap[data-view="fixed"] .arena-locator {
+    left: 12px;
+  }
+
   .stage-caption,
   .stage-foot {
     left: 12px;
@@ -943,9 +1025,9 @@ footer {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .arena-locator {
-    width: 82px;
+    width: 68px;
     padding: 6px;
-    left: 12px;
+    right: 12px;
   }
   .arena-locator > span {
     font-size: 6px;

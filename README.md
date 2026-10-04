@@ -4,7 +4,7 @@
 Synthetic Humanities Lab.
 
 [Open the app](https://synthetic-humanities-lab.github.io/drosophila-critic/) ·
-[Method](METHOD.md) · [Release checks](docs/MOVING-ARENA-QA.md)
+[Method](METHOD.md) · [Scene checks](design-qa.md) · [Body-model checks](docs/MOVING-ARENA-QA.md)
 
 A human and a robot read William Blake’s *The Fly* to the same simulated nervous
 system. Choose either voice, compare it with silence, or process your own
@@ -12,17 +12,21 @@ recording on a supported desktop. Sound and recorded neural activity replay
 together. The poem appears once; five stanza buttons select starting points,
 not excerpts that stop automatically.
 
-![The published listening scene and measured neural response](docs/images/arena-after-desktop.jpg)
+![The published listening scene and measured neural response](docs/images/listening-box-desktop.jpg)
 
 Silence is the control. Neither reader is a standard to beat. The app reports
 what changed in the simulation; it does not score poetry or describe a fly’s
 feelings. An articulated fly walks, turns, takes off, flies and lands in a
-20 × 16 × 10 cm listening arena. Recorded neural activity supplies commands;
+20 × 16 × 10 cm glass listening box on a table. Recorded neural activity supplies commands;
 separate frozen flybody policies coordinate the legs and wings in MuJoCo.
 The [neural-to-body adapter](docs/NEURAL-BODY-ADAPTER.md) and its engineering
 transitions are explicit assumptions, not a validated prediction of a living fly.
-Use **Whole arena** for context or **Follow fly** for a close view.
-The nervous-system display continues to show actual sampled spikes.
+The reader speaks into a microphone wired to the box's speaker. The default
+wide view includes a live close-up; **Follow fly** enlarges it, and **Whole table**
+returns to the scene. The recorded path stays visible on the floor and in the
+map. The nervous-system display continues to show actual sampled spikes.
+The box stages the existing uniform sound field; it adds no distance or glass
+acoustics to the model.
 
 ## Use your own voice
 

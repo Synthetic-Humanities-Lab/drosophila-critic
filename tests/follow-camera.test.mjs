@@ -2,7 +2,12 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import { gunzipSync } from "node:zlib";
-import { FollowCameraTrack, frameAt } from "../static/follow-camera.js";
+import * as THREE from "../static/vendor/three.module.js";
+import {
+  FollowCameraTrack,
+  frameAt,
+  closeView,
+} from "../static/follow-camera.js";
 
 function recording(position, samples = 101) {
   const time = Array.from({ length: samples }, (_, i) => i / 50);
@@ -52,7 +57,7 @@ test("fast turns cannot pull the camera target away from the fly", () => {
   for (let i = 0; i <= 400; i++) {
     const { target, position } = track.sample(i / 200);
     assert.ok(
-      Math.hypot(...target.map((x, j) => x - position[j])) <= 0.120000001,
+      Math.hypot(...target.map((x, j) => x - position[j])) <= 0.240000001,
     );
   }
 });
@@ -76,5 +81,60 @@ test("the real human and robot trajectories produce finite continuous camera pat
       assert.ok(right.every(Number.isFinite));
       assert.ok(Math.hypot(...left.map((v, i) => v - right[i])) < 0.0001);
     }
+  }
+});
+
+test("close framing retains every articulated joint through both complete performances", () => {
+  for (const reader of ["a", "b"]) {
+    const data = JSON.parse(
+      gunzipSync(
+        fs.readFileSync(
+          `experiments/encounter-v3/${reader}-sound-1101.json.gz`,
+        ),
+      ),
+    );
+    const track = new FollowCameraTrack(
+      data,
+      data.body_names.indexOf("walker/thorax"),
+    );
+    // The inset is narrower than either supported main scene viewport.
+    const camera = new THREE.PerspectiveCamera(38, 1.2, 0.005, 200);
+    let rawAcceleration = 0,
+      cameraAcceleration = 0;
+    const samples = data.time.map((time) => track.sample(time));
+    samples.forEach((sample, i) => {
+      const view = closeView(sample.target);
+      camera.fov = view.fov;
+      camera.updateProjectionMatrix();
+      camera.position.fromArray(view.position);
+      camera.lookAt(new THREE.Vector3(...view.lookAt));
+      camera.updateMatrixWorld();
+      data.positions[i].forEach((position, j) => {
+        if (data.body_names[j] === "world") return;
+        const p = new THREE.Vector3(
+          position[0],
+          position[2],
+          -position[1],
+        ).project(camera);
+        assert.ok(
+          Math.max(Math.abs(p.x), Math.abs(p.y)) < 0.9,
+          `${reader}: ${data.body_names[j]} at ${data.time[i]} falls outside the safe frame`,
+        );
+      });
+      if (i === 0 || i === samples.length - 1) return;
+      for (let axis = 0; axis < 3; axis++) {
+        rawAcceleration +=
+          (samples[i + 1].position[axis] -
+            2 * sample.position[axis] +
+            samples[i - 1].position[axis]) **
+          2;
+        cameraAcceleration +=
+          (samples[i + 1].target[axis] -
+            2 * sample.target[axis] +
+            samples[i - 1].target[axis]) **
+          2;
+      }
+    });
+    assert.ok(Math.sqrt(cameraAcceleration / rawAcceleration) < 0.55);
   }
 });

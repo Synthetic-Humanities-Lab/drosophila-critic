@@ -16,6 +16,8 @@ PUBLIC_FILES = (
     "encounter-data.js",
     "arena-scene.js",
     "follow-camera.js",
+    "listening-room.js",
+    "recorded-path.js",
     "body-view.js",
     "neural-scene.js",
     "audio-player.js",

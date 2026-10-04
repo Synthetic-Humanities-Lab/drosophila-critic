@@ -107,7 +107,7 @@ use one pair. Seeking restores saved body and joint transforms on the same
 audio clock. Wing blur uses a small set of poses from the published wingbeat
 pattern; the renderer does not show slow, invented flapping. Follow view changes
 camera framing, not physical dimensions. Reduced-motion mode uses the fixed
-arena camera and stable wing exposure.
+table camera and stable wing exposure.
 
 This is modeled movement influenced by simulated neural activity. Body sensors
 feed only the body policies. Motion does not change the imposed sound field or
@@ -140,13 +140,37 @@ method snapshots. The [prototype method](docs/PROTOTYPE-METHOD.md) documents
 those settings, including its shorter baseline/tail and its separate literary
 interpreter. The current page does not silently upgrade or relabel those runs.
 
-## Playback camera
+## Listening box and playback camera
 
-The close camera keeps a fixed viewing direction rather than rotating with the
-fly's heading. Its centre follows a Gaussian-smoothed thorax path (60 ms standard
-deviation, 180 ms each side), interpolated on the playback clock. The centre
-may differ from the recorded thorax by at most 0.12 cm, to retain the animal
-inside the close frame during fast turns. This is display stabilization only:
-body transforms, commands, audio, neural activity and movement measurements are
-unchanged. The same playback time gives the same framing after seeking or at
-different rendering rates. Reduced-motion mode retains the fixed wide view.
+The wide view stages a human or robot at a table, reading into a microphone wired
+to a speaker on a glass enclosure. The enclosure represents the existing
+20 × 16 × 10 cm movement volume. The fly, its joint transforms, and its path
+remain at their original centimetre scale; the furniture and theatrical reader
+are sized around them. Glass and framing sit outside those bounds. The speaker
+is mounted outside the rear wall. These props add no new physics colliders or
+acoustics. Confinement still comes from the documented body supervisor. The
+sound field remains imposed and uniform, with no distance attenuation or glass
+reflections. The cable is staging, not an additional signal-processing step.
+
+The wide view includes a live close-up rendered from the same body pose. The
+floor line and overhead map show the recorded thorax path projected onto the
+floor, up to the playback time. The line uses every saved body frame (50 Hz);
+the small map samples every fifth frame and adds the current interpolated
+position. Neither displays future travel. Seeking and reader changes reconstruct
+the appropriate trace. The display does not replace or smooth the body movement.
+
+The close camera keeps a fixed viewing direction, independent of body heading.
+Its centre follows a Gaussian-smoothed thorax path (100 ms standard deviation,
+300 ms each side), with cubic interpolation on the playback clock. A smooth
+radial limit bounds the centre's displacement from the thorax to 0.24 cm. A wider
+fixed camera offset leaves room for the legs during fast turns; the framing is
+checked against every recorded body joint throughout both curated performances.
+Glass is hidden in the close view to keep the animal visible at the box edges.
+This is a cutaway view, not removal of the simulation's confinement.
+
+Camera filtering and framing are display choices only. Body transforms,
+commands, audio, neural activity and movement measurements are unchanged. The
+same playback time gives the same framing after seeking or at different
+rendering rates. Reduced-motion mode retains a fixed wide view, disables the
+tracking inset and reader gestures, and keeps the path, audio and measurements.
+The map remains available when 3D rendering is unavailable.

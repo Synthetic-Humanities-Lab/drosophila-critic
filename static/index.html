@@ -73,20 +73,39 @@
             ></div>
             <div class="stage-caption">
               <span id="speaker-tag">ROBOT / SYNTHETIC VOICE</span
-              ><button id="camera" aria-pressed="false">Whole arena ↗</button>
+              ><button id="camera" aria-pressed="false">Follow fly ↗</button>
             </div>
             <p id="scene-fallback" hidden>
               The 3D view is unavailable. The map shows the recorded path. Audio
               and neural activity still work.
             </p>
+            <button id="fly-closeup" aria-label="Enlarge the fly close-up">
+              <span>FLY CLOSE-UP ↗</span>
+              <span id="fly-closeup-view"></span>
+            </button>
             <div class="arena-locator">
-              <span>POSITION IN ARENA</span
+              <span>RECORDED PATH</span
               ><svg
                 id="arena-map"
                 viewBox="0 0 20 16"
                 role="img"
-                aria-label="Overhead position and recorded path inside the listening arena"
-              ></svg>
+                aria-label="Overhead position and recorded path inside the listening box"
+              >
+                <rect
+                  x=".1"
+                  y=".1"
+                  width="19.8"
+                  height="15.8"
+                  fill="none"
+                  stroke="#8c9b7f"
+                  stroke-width=".1"
+                />
+                <path fill="none" stroke="#ddb273" stroke-width=".12" />
+                <circle cx="10" cy="8" r=".3" fill="#f0d29e" />
+                <text x="1" y="15" fill="#acb7a1" font-size="1">
+                  20 × 16 cm
+                </text>
+              </svg>
             </div>
             <span id="body-state" class="body-state">LOADING BODY</span>
             <div class="stage-foot">
@@ -305,6 +324,15 @@
               and arena steering are additional modeling choices. The fly can
               move in silence too. These movements are model outputs, not a
               score for the poem or a prediction of a living fly’s behaviour.
+            </p>
+            <p>
+              The microphone, cable and speaker stage the listening experiment.
+              The box shows the existing 20 × 16 × 10 cm movement bounds; the
+              fly keeps its body-model size. Sound is imposed equally wherever
+              it moves. Distance, glass reflections and body feedback are not
+              part of the hearing model. The line on the floor and the map show
+              its recorded path from above. Close views hide the glass for
+              visibility.
             </p>
             <p>
               RESPONSE means what the simulation did. Any interpretation is an
