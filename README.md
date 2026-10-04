@@ -8,7 +8,7 @@ Synthetic Humanities Lab.
 
 A human and a robot read William Blake’s *The Fly* to the same simulated nervous
 system. Choose either voice, compare it with silence, or process your own
-recording on a supported desktop. Sound and recorded neural activity replay
+recording locally, including experimental processing on phones. Sound and recorded neural activity replay
 together. The poem appears once; five stanza buttons select starting points,
 not excerpts that stop automatically.
 
@@ -41,14 +41,25 @@ without microphone or file access.
 Audio and results remain on the device. There is no upload, account, API key,
 LLM, or paid compute service. Save the original audio, processed audio, and
 response JSON before closing or reloading. A private result has no public share
-link. Model files alone are cached. Clear this site’s browser storage to remove
+link. **Save recording** is available before processing, so you can keep the
+original even if a phone cannot finish the calculation. Model files alone are
+cached. Clear this site’s browser storage to remove
 them. Microphone hardware and browser decoding are uncontrolled variables;
 visitor results are a single simulation pair, not the four-repeat example result.
 
 The complete local workflow has a five-minute acceptance limit for 60 seconds
 of audio on the tested desktop. See [moving-arena checks](docs/MOVING-ARENA-QA.md)
-for measured timings, numerical tolerances, and devices actually tested. Phones
-retain recorded playback; local processing is disabled until measured there.
+for measured timings, numerical tolerances, and devices actually tested.
+
+Up-to-date iPhone Safari can record or open a file using the same interface.
+Mobile processing is experimental: start with a short recording and keep the
+page open. Phones (and browsers reporting at most 4 GB of device memory) reuse
+one neural worker for sound and silence, then one body worker, with a fresh
+state for each condition. Connectivity is released before body calculation.
+Other desktops retain parallel processing. Both paths use the same complete
+model, receiver, seed, and controls. This trades speed for lower memory use;
+it does not qualify every phone or extend the desktop's five-minute claim to
+phones. See [mobile recording checks](docs/MOBILE-RECORDING.md).
 
 ## Run the public app locally
 

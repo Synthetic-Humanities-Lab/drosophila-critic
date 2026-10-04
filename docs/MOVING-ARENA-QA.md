@@ -109,7 +109,9 @@ Environment: available macOS desktop; browser-reported Chromium 154, 14 hardware
 threads, 32 GB device memory. The OS/processor model was not independently
 queried. Safari, Firefox, Windows, low-memory desktops and physical mobile
 devices are **not qualified** by these measurements. Mobile visitor processing
-remains disabled; recorded playback remains available.
+remained disabled in that build; recorded playback remained available. The later
+[experimental mobile release](MOBILE-RECORDING.md) adds sequential processing
+and iOS Simulator checks; it does not retroactively qualify physical phones.
 
 The body-processing download is 16,934,399 bytes, including its runtime and
 licenses. Combined with the existing 138,576,365-byte neural export, this is

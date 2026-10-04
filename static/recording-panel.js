@@ -3,6 +3,13 @@ import { mono } from "./local-audio.js";
 import { LocalSession, localSupport, sha256 } from "./local-session.js";
 import { timeLabel } from "./playback-data.js";
 
+export function recorderOptions(Recorder = globalThis.MediaRecorder) {
+  // Prefer Opus where supported; older Safari falls back to AAC in MP4.
+  for (const mimeType of ["audio/webm;codecs=opus", "audio/mp4"])
+    if (Recorder?.isTypeSupported?.(mimeType)) return { mimeType };
+  return {};
+}
+
 export function saveFile(blob, name) {
   const url = URL.createObjectURL(blob),
     link = document.createElement("a");
@@ -84,6 +91,8 @@ export class RecordingPanel {
       this.preview.buffer = null;
       this.$("voice-preview").hidden = true;
     };
+    this.$("save-recording").onclick = () =>
+      this.draft && saveFile(this.draft.blob, this.draft.name);
     this.$("download-result").onclick = () =>
       this.result &&
       saveFile(
@@ -100,16 +109,38 @@ export class RecordingPanel {
     if (unsupported) {
       this.$("support-note").textContent = unsupported;
       this.$("record-inputs").hidden = true;
+    } else if (this.session.sequential) {
+      this.$("device-note").textContent =
+        "Mobile processing is experimental. Try a short recording first. Keep this page open while it works; a full poem may take several minutes.";
+      this.$("device-note").hidden = false;
     }
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) this.releaseWakeLock();
+      else if (this.busy) this.keepAwake(this.generation);
+    });
     addEventListener("pagehide", () => {
       this.cancel();
-      this.context?.close();
-      this.context = null;
       this.preview.context?.close();
     });
   }
+  async keepAwake(token) {
+    if (this.wakeLock && !this.wakeLock.released) return;
+    try {
+      const lock = await navigator.wakeLock?.request("screen");
+      if (!lock) return;
+      if (token !== this.generation || !this.busy) await lock.release();
+      else this.wakeLock = lock;
+    } catch {
+      // Optional: recording and simulation still work without a screen wake lock.
+    }
+  }
+  releaseWakeLock() {
+    this.wakeLock?.release().catch(() => {});
+    this.wakeLock = null;
+  }
   setBusy(busy, recording = false) {
     this.busy = busy;
+    if (!busy) this.releaseWakeLock();
     for (const id of [
       "record-start",
       "try-example",
@@ -117,6 +148,7 @@ export class RecordingPanel {
       "process-voice",
       "clear-voice",
       "preview-voice",
+      "save-recording",
     ])
       this.$(id).disabled = busy;
     this.$("record-stop").hidden = !recording;
@@ -188,12 +220,13 @@ export class RecordingPanel {
         throw new Error("Choose a non-empty audio file smaller than 64 MB.");
       this.$("record-status").textContent =
         "Opening your recording on this device…";
-      this.context ||= new AudioContext({ sampleRate: 48000 });
-      await this.context.resume();
+      // Decoding does not need playback or a user gesture. In particular,
+      // MediaRecorder.onstop runs after Safari's transient activation expires.
+      const decoder = new OfflineAudioContext(1, 1, 48000);
       const bytes = await blob.arrayBuffer();
       let decoded;
       try {
-        decoded = await this.context.decodeAudioData(bytes.slice(0));
+        decoded = await decoder.decodeAudioData(bytes.slice(0));
       } catch {
         throw new Error(
           "This file could not be decoded as audio. Try WAV, MP3, M4A, or a browser recording.",
@@ -246,7 +279,7 @@ export class RecordingPanel {
         return;
       }
       this.stream = stream;
-      const recorder = new MediaRecorder(stream),
+      const recorder = new MediaRecorder(stream, recorderOptions()),
         chunks = [];
       this.recorder = recorder;
       recorder.ondataavailable = (e) => {
@@ -280,6 +313,7 @@ export class RecordingPanel {
         );
       };
       recorder.start();
+      this.keepAwake(token);
       const started = performance.now();
       this.$("record-status").textContent = "Recording · 0:00 / 0:59";
       this.timer = setInterval(() => {
@@ -307,6 +341,7 @@ export class RecordingPanel {
     this.$("record-error").hidden = true;
     this.$("record-status").textContent =
       "Loading the fly model. Your audio stays here.";
+    this.keepAwake(token);
     try {
       const result = await this.session.process(draft.samples, draft.hash);
       if (token !== this.generation) return;

@@ -18,29 +18,37 @@ async function json(url, signal) {
   return response.json();
 }
 export function localSupport(environment = globalThis) {
-  const nav = environment.navigator;
   if (
     !environment.isSecureContext ||
     !environment.Worker ||
-    !environment.DecompressionStream
+    !environment.DecompressionStream ||
+    !environment.WebAssembly ||
+    !environment.crypto?.subtle ||
+    !environment.AudioContext ||
+    !environment.OfflineAudioContext
   )
-    return "This browser cannot run the model locally. You can still play the human, robot, and silence examples.";
-  if (
-    /Android|iPhone|iPad|Mobile/i.test(nav.userAgent) ||
-    (nav.platform === "MacIntel" && nav.maxTouchPoints > 1)
-  )
-    return "Local processing has only been tested on a desktop computer. Please use a desktop for your recording; the examples play here.";
+    return "This browser is missing a feature needed for local processing. Try an up-to-date Safari or Chrome over HTTPS. The human, robot, and silence examples are still available.";
   return null;
 }
+export function conserveMemory(environment = globalThis) {
+  const nav = environment.navigator || {};
+  return (
+    /Android|iPhone|iPad|Mobile/i.test(nav.userAgent || "") ||
+    (nav.platform === "MacIntel" && nav.maxTouchPoints > 1) ||
+    (nav.deviceMemory > 0 && nav.deviceMemory <= 4)
+  );
+}
 export class LocalSession {
-  constructor(onProgress) {
+  constructor(onProgress, { sequential = conserveMemory() } = {}) {
     this.onProgress = onProgress;
+    this.sequential = sequential;
     this.generation = 0;
+    const conditions = sequential ? ["sound"] : ["sound", "silence"];
     this.bodies = Object.fromEntries(
-      ["sound", "silence"].map((key) => [key, new BodySession(onProgress)]),
+      conditions.map((key) => [key, new BodySession(onProgress)]),
     );
     this.neural = Object.fromEntries(
-      ["sound", "silence"].map((key) => [
+      conditions.map((key) => [
         key,
         new WorkerSession(
           new URL("./browser-benchmark.worker.js", import.meta.url),
@@ -48,14 +56,18 @@ export class LocalSession {
         ),
       ]),
     );
+    if (sequential) {
+      this.neural.silence = this.neural.sound;
+      this.bodies.silence = this.bodies.sound;
+    }
   }
   cancel() {
     this.generation++;
     this.abort?.abort();
-    for (const worker of [
+    for (const worker of new Set([
       ...Object.values(this.neural),
       ...Object.values(this.bodies),
-    ])
+    ]))
       worker.cancel();
     this.model = null;
   }
@@ -79,9 +91,9 @@ export class LocalSession {
       throw new Error(
         "Neuron coordinates do not match this model. Reload the page.",
       );
-    // Load once from the network, then initialize the independent control from cache.
-    // Each worker is single-threaded and retains its own RNG and state.
-    for (const worker of Object.values(this.neural)) {
+    // On phones, reuse one connectome. Each simulate request resets voltages,
+    // previous spikes and the seeded RNG before processing its condition.
+    for (const worker of new Set(Object.values(this.neural))) {
       if (token !== this.generation)
         throw new DOMException("Cancelled", "AbortError");
       await worker.request({
@@ -98,26 +110,28 @@ export class LocalSession {
     this.motor = motor;
   }
   async process(samples, recordingHash) {
+    if (this.busy) throw new Error("A recording is already being processed.");
+    this.busy = true;
     const started = performance.now();
-    const timing = {};
+    const timing = { execution: this.sequential ? "sequential" : "parallel" };
     const token = ++this.generation;
     const check = () => {
       if (token !== this.generation)
         throw new DOMException("Cancelled", "AbortError");
     };
-    await this.initialize(token);
-    check();
-    timing.model_load_seconds = (performance.now() - started) / 1000;
-    this.onProgress({
-      stage: "Translating sound into hearing input",
-      fraction: 0,
-    });
-    const normalized = normalizeRecording(samples);
-    const input = mechanicalEncoding(normalized.samples, this.model.receiver);
-    const runs = {};
-    const neuralStarted = performance.now();
-    await Promise.all(
-      ["sound", "silence"].map(async (condition) => {
+    try {
+      await this.initialize(token);
+      check();
+      timing.model_load_seconds = (performance.now() - started) / 1000;
+      this.onProgress({
+        stage: "Translating sound into hearing input",
+        fraction: 0,
+      });
+      const normalized = normalizeRecording(samples);
+      const input = mechanicalEncoding(normalized.samples, this.model.receiver);
+      const runs = {};
+      const neuralStarted = performance.now();
+      const simulateNeural = async (condition) => {
         check();
         const frames = [
           ...Array(75).fill(0),
@@ -136,26 +150,31 @@ export class LocalSession {
               ? "Listening to your recording"
               : "Running its silence control",
         });
-      }),
-    );
-    check();
-    timing.neural_pair_seconds = (performance.now() - neuralStarted) / 1000;
-    const playback = visitorPlayback(
-      runs.sound,
-      runs.silence,
-      this.model,
-      samples.length / 48000,
-      input,
-      normalized.metadata,
-    );
-    const body = {};
-    const bodyStarted = performance.now();
-    await this.bodies.sound.initialize();
-    check();
-    await this.bodies.silence.initialize();
-    check();
-    await Promise.all(
-      ["sound", "silence"].map(async (condition) => {
+      };
+      if (this.sequential) {
+        await simulateNeural("sound");
+        await simulateNeural("silence");
+      } else await Promise.all(["sound", "silence"].map(simulateNeural));
+      check();
+      timing.neural_pair_seconds = (performance.now() - neuralStarted) / 1000;
+      // The body uses captured spikes, so the connectivity heaps can be released now.
+      for (const worker of new Set(Object.values(this.neural))) worker.cancel();
+      const playback = visitorPlayback(
+        runs.sound,
+        runs.silence,
+        this.model,
+        samples.length / 48000,
+        input,
+        normalized.metadata,
+      );
+      const body = {};
+      const bodyStarted = performance.now();
+      await this.bodies.sound.initialize();
+      check();
+      await this.bodies.silence.initialize();
+      check();
+      const simulateBody = async (condition) => {
+        check();
         body[condition] = await this.bodies[condition].simulate(
           runs[condition],
           samples.length / 48000,
@@ -163,69 +182,77 @@ export class LocalSession {
             ? "Calculating movement · your voice"
             : "Calculating movement · silence",
         );
-      }),
-    );
-    check();
-    playback.body = {
-      available: true,
-      version: "listening-body-v1",
-      seed: 1101,
-    };
-    timing.body_pair_seconds = (performance.now() - bodyStarted) / 1000;
-    timing.total_seconds = (performance.now() - started) / 1000;
-    const spatial = Object.fromEntries(
-      Object.entries(runs).map(([condition, run]) => [
-        condition,
-        {
-          ...this.display,
-          ...run.spatial,
+      };
+      if (this.sequential) {
+        await simulateBody("sound");
+        await simulateBody("silence");
+      } else await Promise.all(["sound", "silence"].map(simulateBody));
+      check();
+      playback.body = {
+        available: true,
+        version: "listening-body-v1",
+        seed: 1101,
+      };
+      timing.body_pair_seconds = (performance.now() - bodyStarted) / 1000;
+      const processedHash = await sha256(normalized.samples.buffer);
+      check();
+      timing.total_seconds = (performance.now() - started) / 1000;
+      const spatial = Object.fromEntries(
+        Object.entries(runs).map(([condition, run]) => [
           condition,
-          seed: 1101,
-          start_time: -1.5,
+          {
+            ...this.display,
+            ...run.spatial,
+            condition,
+            seed: 1101,
+            start_time: -1.5,
+          },
+        ]),
+      );
+      const evidence = {
+        schema_version: "local-listening-v3",
+        recording_sha256: recordingHash,
+        audio: {
+          sample_rate: 48000,
+          duration: samples.length / 48000,
+          processed_float64_sha256: processedHash,
+          hash_format:
+            "Contiguous Float64 PCM samples in this device's byte order",
+          decoding:
+            "Web Audio mono at 48 kHz; browser codec and microphone settings may differ",
         },
-      ]),
-    );
-    const evidence = {
-      schema_version: "local-listening-v3",
-      recording_sha256: recordingHash,
-      audio: {
-        sample_rate: 48000,
-        duration: samples.length / 48000,
-        processed_float64_sha256: await sha256(normalized.samples.buffer),
-        hash_format:
-          "Contiguous Float64 PCM samples in this device's byte order",
-        decoding:
-          "Web Audio mono at 48 kHz; browser codec and microphone settings may differ",
-      },
-      model: this.model.version,
-      receiver: this.model.receiver,
-      seed: 1101,
-      fly: {
-        connectome: "MaleCNS v1.0",
-        upstream_commit: this.model.upstream_commit,
-        configuration: this.model.configuration,
-        rng: "PCG64",
-        array_sha256: Object.fromEntries(
-          Object.entries(this.model.arrays).map(([k, v]) => [k, v.sha256]),
-        ),
-      },
-      playback,
-      spatial,
-      body,
-      motor_capture: this.motor,
-      body_assets: this.bodies.sound.info,
-      processing: timing,
-      raw_runs: runs,
-      limitations: [
-        "One sound/silence pair, not a repeated result",
-        "No transcription or line alignment",
-        "Provisional mechanical-to-neural coupling",
-        "Movement uses a declared engineering adapter and separate frozen body policies, not a validated biological prediction",
-        "Browser decoding may differ from Python",
-      ],
-    };
-    // Keep the versioned network cache, release all four simulation heaps.
-    this.cancel();
-    return { playback, spatial, body, samples: normalized.samples, evidence };
+        model: this.model.version,
+        receiver: this.model.receiver,
+        seed: 1101,
+        fly: {
+          connectome: "MaleCNS v1.0",
+          upstream_commit: this.model.upstream_commit,
+          configuration: this.model.configuration,
+          rng: "PCG64",
+          array_sha256: Object.fromEntries(
+            Object.entries(this.model.arrays).map(([k, v]) => [k, v.sha256]),
+          ),
+        },
+        playback,
+        spatial,
+        body,
+        motor_capture: this.motor,
+        body_assets: this.bodies.sound.info,
+        processing: timing,
+        raw_runs: runs,
+        limitations: [
+          "One sound/silence pair, not a repeated result",
+          "No transcription or line alignment",
+          "Provisional mechanical-to-neural coupling",
+          "Movement uses a declared engineering adapter and separate frozen body policies, not a validated biological prediction",
+          "Browser decoding may differ from Python",
+        ],
+      };
+      return { playback, spatial, body, samples: normalized.samples, evidence };
+    } finally {
+      // Also release heaps after an error. Cached model assets contain no audio.
+      if (token === this.generation) this.cancel();
+      this.busy = false;
+    }
   }
 }

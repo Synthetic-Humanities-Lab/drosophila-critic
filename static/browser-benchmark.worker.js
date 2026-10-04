@@ -15,7 +15,7 @@ const hash = async (bytes) =>
     (b) => b.toString(16).padStart(2, "0"),
   ).join("");
 async function loadArray(spec, base) {
-  const chunks = [];
+  const result = new Uint8Array(spec.length * 4);
   let bytes = 0;
   for (const part of spec.parts) {
     if (cancelled) throw new Error("Cancelled");
@@ -47,7 +47,9 @@ async function loadArray(spec, base) {
     if (raw.byteLength !== part.raw_bytes)
       throw new Error("Model chunk length mismatch");
     loadedBytes += compressed.byteLength;
-    chunks.push(new Uint8Array(raw));
+    if (bytes + raw.byteLength > result.length)
+      throw new Error("Model array length mismatch");
+    result.set(new Uint8Array(raw), bytes);
     bytes += raw.byteLength;
     postMessage({
       type: "progress",
@@ -56,12 +58,7 @@ async function loadArray(spec, base) {
       bytes: loadedBytes,
     });
   }
-  const result = new Uint8Array(bytes);
-  let at = 0;
-  for (const chunk of chunks) {
-    result.set(chunk, at);
-    at += chunk.length;
-  }
+  if (bytes !== result.length) throw new Error("Model array length mismatch");
   if ((await hash(result)) !== spec.sha256)
     throw new Error("Lossless model checksum mismatch");
   return spec.dtype === "float32"

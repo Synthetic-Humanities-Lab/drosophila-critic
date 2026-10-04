@@ -134,6 +134,10 @@ test("audio validation rejects oversized duration, incompatible rates and invali
     isSecureContext: true,
     Worker: class {},
     DecompressionStream: class {},
+    AudioContext: class {},
+    OfflineAudioContext: class {},
+    WebAssembly: {},
+    crypto: { subtle: {} },
     navigator: {
       userAgent: "Desktop",
       platform: "MacIntel",
@@ -141,16 +145,16 @@ test("audio validation rejects oversized duration, incompatible rates and invali
     },
   };
   assert.equal(localSupport(supported), null);
-  assert.match(
+  assert.equal(
     localSupport({
       ...supported,
       navigator: { ...supported.navigator, maxTouchPoints: 5 },
     }),
-    /desktop/,
+    null,
   );
   assert.match(
     localSupport({ ...supported, isSecureContext: false }),
-    /cannot run/,
+    /missing a feature/,
   );
 });
 

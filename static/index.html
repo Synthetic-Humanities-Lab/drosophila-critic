@@ -252,12 +252,13 @@
                   >Choose audio file<input
                     id="voice-file"
                     type="file"
-                    accept="audio/*" /></label
+                    accept="audio/*,.m4a,.mp3,.wav,.webm,.ogg" /></label
                 ><button id="record-stop" hidden>■ Stop recording</button>
               </div>
               <p class="small-note">
                 Up to 60 seconds · audio stays on your device
               </p>
+              <p id="device-note" class="small-note" hidden></p>
               <button id="try-example">
                 Try local processing with the robot example ↗
               </button>
@@ -268,13 +269,15 @@
                 </div>
                 <div class="record-actions">
                   <button id="preview-voice">Listen back</button
+                  ><button id="save-recording">Save recording</button
                   ><button id="clear-voice">Remove</button>
                 </div>
                 <p class="download-note">
                   Processing loads
                   <strong>about 156 MB of brain and body models</strong>, cached
-                  for later visits where possible. Allow up to five minutes on a
-                  supported desktop. Nothing is uploaded.
+                  for later visits where possible. Allow several minutes; phones
+                  may take longer than a desktop. Keep this page open while it
+                  works. Nothing is uploaded.
                 </p>
                 <button id="process-voice" class="primary">
                   READ TO THE FLY →
