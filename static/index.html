@@ -274,10 +274,12 @@
                 </div>
                 <p class="download-note">
                   Processing loads
-                  <strong>about 156 MB of brain and body models</strong>, cached
-                  for later visits where possible. Allow several minutes; phones
-                  may take longer than a desktop. Keep this page open while it
-                  works. Nothing is uploaded.
+                  <strong>about 156 MB of brain and body models</strong> plus up
+                  to 17 MB for the saved silence comparison, cached for later
+                  visits where possible. Allow several minutes; phones may take
+                  longer than a desktop. Keep this page open while it works.
+                  Your latest completed recording and response are saved in this
+                  browser until you delete or replace them. Nothing is uploaded.
                 </p>
                 <button id="process-voice" class="primary">
                   READ TO THE FLY →
@@ -291,9 +293,19 @@
             </div>
             <p id="record-status" role="status"></p>
             <p id="record-error" role="alert" hidden></p>
+            <div id="saved-reading" hidden>
+              <p class="small-note">
+                Saved on this device: <span id="saved-reading-name"></span>
+              </p>
+              <div class="record-actions">
+                <button id="reopen-reading">Reopen saved reading</button>
+                <button id="delete-reading">Delete saved copy</button>
+              </div>
+            </div>
             <div id="voice-downloads" hidden>
-              <p>
-                Your result is kept here until you close or reload the page.
+              <p id="storage-note">
+                Your latest completed recording and response can be kept in this
+                browser.
               </p>
               <button id="download-result">Save response</button
               ><button id="download-processed">Save processed audio</button
@@ -356,8 +368,11 @@
               Amber points mark recorded spikes in a fixed sample of 12,000
               neurons, at their supplied coordinates. For the examples, that
               spatial view shows one run; the traces show the average and range
-              of four runs. Visitor results use one run and its own silence
-              control.
+              of four runs. Visitor results use one run and an equal-duration
+              silence control with the same starting state and random seed. That
+              silence is calculated in advance, then checked and shortened to
+              match your recording, so your device only needs to calculate the
+              response to your voice.
             </p>
             <p>
               The grey trace is the same model run with no sound, for the same

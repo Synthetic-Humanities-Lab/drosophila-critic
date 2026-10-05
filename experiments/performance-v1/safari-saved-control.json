@@ -1,0 +1,97 @@
+{
+  "fixture": "Public robot recording",
+  "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5 Mobile/15E148 Safari/604.1",
+  "execution": "sequential",
+  "microphone_format": {
+    "mimeType": "audio/webm;codecs=opus"
+  },
+  "started_at": "2026-10-05T02:58:12.002Z",
+  "validation": null,
+  "decoded": {
+    "duration": 26.165333333333333,
+    "hash": "07ba8d8eb49f13cf012ead96af746d78c1887b495aa894c58489632891a98a2f"
+  },
+  "duration": 26.165333333333333,
+  "processing": {
+    "execution": "sequential",
+    "saved_control_seconds": 0.686,
+    "silence_reused": true,
+    "model_load_seconds": 1.339,
+    "neural_pair_seconds": 29.787,
+    "body_pair_seconds": 98.292,
+    "total_seconds": 130.258
+  },
+  "silence_control": {
+    "kind": "precomputed-silence",
+    "version": "silence-cf82a0c4378054f2",
+    "contract_sha256": "cf82a0c4378054f2088792c51bf6d473ab3f9930a42b519d484f1a4afc1c567c",
+    "steps": 1539,
+    "duration": 26.165333333333333,
+    "generation": {
+      "neural_seconds": 53.94816470799999,
+      "body_seconds": 220.38963975000001,
+      "runtime": "v26.0.0",
+      "duration": 60
+    },
+    "note": "Exact prefix of the same zero-input simulation; interval measurements recomputed for this recording."
+  },
+  "processed_hash": "07ba8d8eb49f13cf012ead96af746d78c1887b495aa894c58489632891a98a2f",
+  "neural": {
+    "sound": {
+      "counts": "752a875f522c15c4616c4826dc2d21f1d4dcc94930a2072938b461b87ad78331",
+      "groups": "7775b12cff5d39a67fb762564ad5c9027f92f3e4ef8386f70792672c11660638",
+      "spatial": "1f03624221f77ce745a6ccc1da3fd5d4d7c3248e498c44645ed103be9a2b5ef3",
+      "steps": 1539
+    },
+    "silence": {
+      "counts": "0b275425775c099914a9af3ffcb73449790b009837d8f053f9d4d4ea2a94d2f8",
+      "groups": "ea13ba756d75b900df84844a9cde496bd5a4bb929ac7e4ca6a71d48633e1e442",
+      "spatial": "038d95dd85b035fe44dfbc3dad06d4c9d2a587c7bcd495186cd06b507e18515d",
+      "steps": 1539
+    }
+  },
+  "body": {
+    "sound": {
+      "positions": "403731c355d5d28f33cfa583eac84c6466b3a1055f87f50d21c5f795954c04de",
+      "quaternions": "358d0294348bb329f6e1c1589a1272b60755fb1b9ec57c2b3ab1cce9e90120f0",
+      "metrics": {
+        "distance_walked_cm": 26.19916502327312,
+        "flight_seconds": 8.039999999999917,
+        "turns_revolutions": 7.3604633930132195,
+        "after_voice_distance_cm": 20.797204952750565,
+        "boundary_seconds": 9.74,
+        "wall_seconds": 97.793,
+        "inverted_seconds": 0,
+        "complete": true,
+        "failures": []
+      }
+    },
+    "silence": {
+      "positions": "fa130043703e122ddfbfb6a1443fc5eaa4430932a6b1f2eca46e8476ef496635",
+      "quaternions": "f2c13e0cc93aa857e70a56570418e51c0f652afc12b41b5e04e0288caa708d69",
+      "metrics": {
+        "distance_walked_cm": 24.825609186556058,
+        "flight_seconds": 9.559999999999885,
+        "turns_revolutions": 7.389952775209002,
+        "after_voice_distance_cm": 9.576944317365582,
+        "boundary_seconds": 12.9,
+        "inverted_seconds": 0.02,
+        "complete": true,
+        "failures": [],
+        "wall_seconds": null
+      }
+    }
+  },
+  "body_memory": {
+    "physics": 17563648,
+    "policies": 33554432
+  },
+  "passed": true,
+  "storage": {
+    "saved": true,
+    "load_seconds": 0.119,
+    "samples": true,
+    "body": true
+  },
+  "finished_at": "2026-10-05T03:00:22.856Z"
+}

@@ -2,6 +2,7 @@ import { RecordedAudio } from "./audio-player.js";
 import { mono } from "./local-audio.js";
 import { LocalSession, localSupport, sha256 } from "./local-session.js";
 import { timeLabel } from "./playback-data.js";
+import { ResultStore } from "./result-store.js";
 
 export function recorderOptions(Recorder = globalThis.MediaRecorder) {
   // Prefer Opus where supported; older Safari falls back to AAC in MP4.
@@ -53,6 +54,10 @@ export class RecordingPanel {
     this.onStart = onStart;
     this.generation = 0;
     this.preview = new RecordedAudio();
+    this.store = new ResultStore();
+    this.$("reopen-reading").onclick = () => this.reopen();
+    this.$("delete-reading").onclick = () => this.deleteSaved();
+    this.refreshSaved();
     this.session = new LocalSession(({ stage, fraction }) => {
       this.$("record-status").textContent = stage;
       this.$("record-progress").value = fraction || 0;
@@ -149,6 +154,8 @@ export class RecordingPanel {
       "clear-voice",
       "preview-voice",
       "save-recording",
+      "reopen-reading",
+      "delete-reading",
     ])
       this.$(id).disabled = busy;
     this.$("record-stop").hidden = !recording;
@@ -165,6 +172,7 @@ export class RecordingPanel {
   cancel() {
     this.generation++;
     this.session.cancel();
+    this.saving?.abort();
     this.preview.pause();
     if (this.recorder?.state === "recording") this.recorder.stop();
     this.stopTracks();
@@ -357,11 +365,90 @@ export class RecordingPanel {
         "Ready. Play your recording and watch its response above.";
       this.$("process-voice").textContent = "Process again";
       await this.onResult(result);
+      if (token !== this.generation) return;
+      this.$("record-status").textContent =
+        "Ready. Keeping a copy in this browser…";
+      this.saving = new AbortController();
+      try {
+        await this.store.save(result, draft, this.saving.signal);
+        if (token !== this.generation) return;
+        this.$("record-status").textContent =
+          "Ready. Play your recording above. You can reopen it here on your next visit.";
+        this.$("storage-note").textContent =
+          "Your latest completed recording and response are saved in this browser. A new result replaces this copy. Use Delete saved copy to remove it.";
+        await this.refreshSaved();
+      } catch (error) {
+        if (token !== this.generation) return;
+        this.$("record-status").textContent =
+          "Ready. Play your recording and watch its response above.";
+        this.$("storage-note").textContent =
+          "This browser could not keep a copy for another visit. Use the download buttons to save your recording and response.";
+      }
     } catch (e) {
       if (token === this.generation) {
         this.session.cancel();
         if (e.name !== "AbortError") this.fail(e);
       }
+    } finally {
+      if (token === this.generation) this.setBusy(false);
+    }
+  }
+  async refreshSaved() {
+    try {
+      const info = await this.store.info();
+      this.$("saved-reading").hidden = !info;
+      if (info)
+        this.$("saved-reading-name").textContent =
+          `${info.name} · ${info.duration.toFixed(1)} seconds`;
+    } catch {
+      this.$("saved-reading").hidden = true;
+    }
+  }
+  async reopen() {
+    if (this.busy) return;
+    const token = ++this.generation;
+    this.setBusy(true);
+    this.preview.pause();
+    this.onStart();
+    this.$("record-error").hidden = true;
+    this.$("record-status").textContent =
+      "Opening your saved reading. No simulation needed.";
+    try {
+      const saved = await this.store.load();
+      if (token !== this.generation) return;
+      if (!saved)
+        throw new Error(
+          "The saved reading is no longer in this browser. Choose your recording again.",
+        );
+      this.result = saved.result;
+      this.original = saved.original;
+      this.$("voice-downloads").hidden = false;
+      this.$("storage-note").textContent =
+        "This is your saved result, calculated with the model version recorded in its response file.";
+      await this.onResult(saved.result);
+      if (token === this.generation)
+        this.$("record-status").textContent =
+          "Your saved reading is ready to play above.";
+    } catch (error) {
+      if (token === this.generation) this.fail(error);
+    } finally {
+      if (token === this.generation) this.setBusy(false);
+    }
+  }
+  async deleteSaved() {
+    if (this.busy) return;
+    const token = ++this.generation;
+    this.setBusy(true);
+    try {
+      await this.store.delete();
+      if (token !== this.generation) return;
+      this.$("saved-reading").hidden = true;
+      this.$("storage-note").textContent =
+        "The saved copy has been deleted from this browser.";
+      this.$("record-status").textContent =
+        "Saved copy deleted. Any result already open above remains available until you leave this page.";
+    } catch (error) {
+      if (token === this.generation) this.fail(error);
     } finally {
       if (token === this.generation) this.setBusy(false);
     }

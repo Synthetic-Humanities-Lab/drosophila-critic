@@ -1,5 +1,10 @@
 # Mobile visitor recordings — 4 October 2026
 
+The initial measurements below predate the [saved-silence optimization](LOCAL-PERFORMANCE.md).
+The current release normally calculates only the visitor's sound, reuses a
+verified silence interval, and can reopen the last completed reading from this
+browser's storage. The two-condition schedule below remains the fallback.
+
 Visitor recording and file selection are now available on capable mobile
 browsers. This is an **experimental mobile release**, not a qualification of
 every iPhone. It remains entirely local: microphone/audio files and calculated
@@ -88,8 +93,10 @@ Physical microphone permission/capture, Bluetooth inputs, screen lock or phone
 calls during capture, low-memory termination and battery/thermal behavior need
 testing on actual phones. The code tests recorder selection, stopped-recording
 decoding, late cancellation and delayed wake-lock acquisition, but those tests
-do not replace microphone hardware checks. A killed/reloaded page loses its
-in-memory audio and result; save the original before starting a long run.
+do not replace microphone hardware checks. A killed/reloaded page loses an
+unfinished recording or calculation; save the original before starting a long
+run. Completed readings now have a local save and reopen path, subject to
+available browser storage.
 
 To check a phone, open the HTTPS app, choose **YOUR VOICE**, record a short clip
 or select an M4A from Files, stop and listen back, then choose **READ TO THE FLY**.

@@ -1,0 +1,103 @@
+{
+  "fixture": "60-second exact zero-input control",
+  "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5 Mobile/15E148 Safari/604.1",
+  "execution": "sequential",
+  "microphone_format": {
+    "mimeType": "audio/webm;codecs=opus"
+  },
+  "started_at": "2026-10-05T03:09:29.425Z",
+  "validation": null,
+  "decoded": {
+    "duration": 60,
+    "hash": "e4532117d2f1b8f0fd4a1c6f48ec086c5df6b4829a235648b179d5c9135cce8e"
+  },
+  "duration": 60,
+  "processing": {
+    "execution": "sound-only-with-saved-control",
+    "saved_control_seconds": 0.36599999999999994,
+    "silence_reused": true,
+    "model_load_seconds": 1.055,
+    "neural_pair_seconds": 63.545,
+    "body_pair_seconds": 308.8570000000001,
+    "total_seconds": 374.011
+  },
+  "silence_control": {
+    "kind": "precomputed-silence",
+    "version": "silence-cf82a0c4378054f2",
+    "contract_sha256": "cf82a0c4378054f2088792c51bf6d473ab3f9930a42b519d484f1a4afc1c567c",
+    "steps": 3230,
+    "duration": 60,
+    "generation": {
+      "neural_seconds": 53.94816470799999,
+      "body_seconds": 220.38963975000001,
+      "runtime": "v26.0.0",
+      "duration": 60
+    },
+    "note": "Exact prefix of the same zero-input simulation; interval measurements recomputed for this recording."
+  },
+  "processed_hash": "e4532117d2f1b8f0fd4a1c6f48ec086c5df6b4829a235648b179d5c9135cce8e",
+  "neural": {
+    "sound": {
+      "counts": "44525a2c88b1f20e95e2cdf7dfc659a5cc9e491288b914328c5a58457f61819f",
+      "groups": "3b6bab59dedea9dd8224332988db1fe780002ecde5b6d56e1b30381a9adc1f38",
+      "spatial": "c09707aa5146aa793c01530b52fe98fc2ffbe0a99400f9a4135d937566fa26d2",
+      "steps": 3230
+    },
+    "silence": {
+      "counts": "44525a2c88b1f20e95e2cdf7dfc659a5cc9e491288b914328c5a58457f61819f",
+      "groups": "3b6bab59dedea9dd8224332988db1fe780002ecde5b6d56e1b30381a9adc1f38",
+      "spatial": "c09707aa5146aa793c01530b52fe98fc2ffbe0a99400f9a4135d937566fa26d2",
+      "steps": 3230
+    }
+  },
+  "body": {
+    "sound": {
+      "positions": "a0ea4288234fe0087167083acbfbef137650b164f7cd1b24b6e8f52c77f1f780",
+      "quaternions": "6fb06b4a099945d26f8804e0b82ea76b597ffc62d8f89896d415f175f4458853",
+      "metrics": {
+        "distance_walked_cm": 59.04974249600828,
+        "flight_seconds": 13.259999999999806,
+        "turns_revolutions": 13.07711973766289,
+        "after_voice_distance_cm": 5.49290935360295,
+        "boundary_seconds": 21.2,
+        "inverted_seconds": 0.02,
+        "complete": true,
+        "failures": [],
+        "wall_seconds": 308.449
+      }
+    },
+    "silence": {
+      "positions": "a0ea4288234fe0087167083acbfbef137650b164f7cd1b24b6e8f52c77f1f780",
+      "quaternions": "6fb06b4a099945d26f8804e0b82ea76b597ffc62d8f89896d415f175f4458853",
+      "metrics": {
+        "distance_walked_cm": 59.04974249600828,
+        "flight_seconds": 13.259999999999806,
+        "turns_revolutions": 13.07711973766289,
+        "after_voice_distance_cm": 5.49290935360295,
+        "boundary_seconds": 21.2,
+        "inverted_seconds": 0.02,
+        "complete": true,
+        "failures": [],
+        "wall_seconds": null
+      }
+    }
+  },
+  "body_memory": {
+    "physics": 17563648,
+    "policies": 33554432
+  },
+  "passed": true,
+  "storage": {
+    "saved": true,
+    "load_seconds": 0.219,
+    "samples": true,
+    "body": true
+  },
+  "silence_parity": {
+    "neural": true,
+    "positions": true,
+    "quaternions": true,
+    "metrics": true
+  },
+  "finished_at": "2026-10-05T03:15:45.264Z"
+}

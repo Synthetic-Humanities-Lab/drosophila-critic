@@ -1,0 +1,21 @@
+{
+  "same_simulator_sequential_trials": true,
+  "recording_duration": 26.165333333333333,
+  "saved_seconds": 130.258,
+  "fresh_seconds": 355.128,
+  "percent_reduction": 63.32083079903583,
+  "exact_neural": true,
+  "body_checks": {
+    "sound": {
+      "positions": true,
+      "quaternions": true,
+      "metrics": true
+    },
+    "silence": {
+      "positions": true,
+      "quaternions": true,
+      "metrics": true
+    }
+  },
+  "limitation": "Single trials in iOS Simulator on a Mac, not physical iPhone benchmarks. Sound-only body time also varied (97.793 vs 142.691 s); do not attribute all wall-time variation to this optimization."
+}

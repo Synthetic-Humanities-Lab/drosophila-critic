@@ -1,5 +1,6 @@
 import { NeuralBodyAdapter, BodySupervisor } from "./body-adapter.js";
 import { BodyRuntime } from "./body-runtime.js";
+import { bodyMetrics } from "./body-metrics.js";
 
 export async function simulateBody(
   runtime,
@@ -24,9 +25,9 @@ export async function simulateBody(
   });
   const frames = [],
     commands = [],
+    inverted = [],
     started = performance.now();
-  let invertedFor = 0,
-    invertedTotal = 0;
+  let invertedFor = 0;
   try {
     for (let frame = 0; frame < run.group_counts.length; frame++) {
       if (cancelled())
@@ -58,9 +59,9 @@ export async function simulateBody(
         throw new Error(
           "The body left the tested arena. This run cannot be replayed as a valid movement result.",
         );
-      if (body.d.xmat[body.root * 9 + 8] < 0) {
+      inverted.push(body.d.xmat[body.root * 9 + 8] < 0);
+      if (inverted.at(-1)) {
         invertedFor += 0.02;
-        invertedTotal += 0.02;
       } else invertedFor = 0;
       if (invertedFor > 0.25)
         throw new Error(
@@ -84,32 +85,9 @@ export async function simulateBody(
         await new Promise((resolve) => setTimeout(resolve, 0));
       }
     }
-    let distance = 0,
-      flying = 0,
-      turns = 0,
-      after = 0;
-    const root = body.root,
-      heading = (q) =>
-        Math.atan2(
-          2 * (q[0] * q[3] + q[1] * q[2]),
-          1 - 2 * (q[2] ** 2 + q[3] ** 2),
-        );
-    for (let i = 0; i < frames.length; i++) {
-      if (frames[i].airborne) flying += 0.02;
-      if (!i) continue;
-      const p = frames[i].positions[root],
-        old = frames[i - 1].positions[root],
-        d = Math.hypot(p[0] - old[0], p[1] - old[1]);
-      if (!frames[i].airborne) distance += d;
-      if (i * 0.02 >= baseline + duration) after += d;
-      const angle =
-        heading(frames[i].quaternions[root]) -
-        heading(frames[i - 1].quaternions[root]);
-      turns +=
-        Math.abs(Math.atan2(Math.sin(angle), Math.cos(angle))) / (2 * Math.PI);
-    }
-    return {
+    const result = {
       schema_version: "fly-body-playback-v1",
+      root_index: body.root,
       time: frames.map((f) => Math.round((f.time - baseline) * 1e6) / 1e6),
       body_names: assets.model.bodies,
       positions: frames.map((f) => f.positions),
@@ -117,23 +95,13 @@ export async function simulateBody(
       states: frames.map((f) => f.state),
       airborne: frames.map((f) => f.airborne),
       commands,
+      inverted,
       events: [...supervisor.events, ...body.events]
         .map((e) => ({
           ...e,
           time: Math.round((e.time - baseline) * 1e6) / 1e6,
         }))
         .sort((a, b) => a.time - b.time),
-      metrics: {
-        distance_walked_cm: distance,
-        flight_seconds: flying,
-        turns_revolutions: turns,
-        after_voice_distance_cm: after,
-        boundary_seconds: commands.filter((c) => c.boundary).length * 0.02,
-        wall_seconds: (performance.now() - started) / 1000,
-        inverted_seconds: invertedTotal,
-        complete: true,
-        failures: [],
-      },
       provenance: {
         adapter: config,
         body: assets.model,
@@ -144,6 +112,11 @@ export async function simulateBody(
           "Body sensors feed only the body policies; sound field is imposed.",
       },
     };
+    result.metrics = {
+      ...bodyMetrics(result, body.root, baseline, duration),
+      wall_seconds: (performance.now() - started) / 1000,
+    };
+    return result;
   } finally {
     body.dispose();
   }

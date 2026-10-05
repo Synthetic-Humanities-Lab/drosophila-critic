@@ -1,0 +1,37 @@
+{
+  "source": "Public robot example, processed locally",
+  "schema": "local-listening-v4",
+  "processing": {
+    "execution": "sound-only-with-saved-control",
+    "saved_control_seconds": 0.22470000004768373,
+    "silence_reused": true,
+    "model_load_seconds": 1.8015,
+    "neural_pair_seconds": 25.491799999952317,
+    "body_pair_seconds": 102.71390000009536,
+    "total_seconds": 130.35639999985696
+  },
+  "saved_control": {
+    "kind": "precomputed-silence",
+    "version": "silence-cf82a0c4378054f2",
+    "contract_sha256": "cf82a0c4378054f2088792c51bf6d473ab3f9930a42b519d484f1a4afc1c567c",
+    "steps": 1539,
+    "duration": 26.165333333333333,
+    "generation": {
+      "neural_seconds": 53.94816470799999,
+      "body_seconds": 220.38963975000001,
+      "runtime": "v26.0.0",
+      "duration": 60
+    },
+    "note": "Exact prefix of the same zero-input simulation; interval measurements recomputed for this recording."
+  },
+  "body_complete": true,
+  "metrics_match": true,
+  "interface_checks": {
+    "completed_playback": true,
+    "reload_shows_saved_entry": true,
+    "reopen_restores_replay": true,
+    "export_after_reopen": true,
+    "runtime_errors": []
+  },
+  "timing_note": "Desktop UI run overlapped the 60-second Safari parity test; not an isolated benchmark."
+}

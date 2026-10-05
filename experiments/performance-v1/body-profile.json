@@ -1,0 +1,91 @@
+{
+  "seconds": {
+    "physics": 208.87569300000368,
+    "dense": 6.390926000000005,
+    "js": 4.925056000000008,
+    "gc": 0.155333,
+    "idle": 0.12860100000000005
+  },
+  "js_hotspots": [
+    [
+      "step @ body-runtime.js:107",
+      1.0258969999999998
+    ],
+    [
+      "infer @ body-policy.js:23",
+      0.8515979999999999
+    ],
+    [
+      "observation @ body-runtime.js:64",
+      0.47429599999999966
+    ],
+    [
+      "validateThis @ mujoco.js:5422",
+      0.29703700000000016
+    ],
+    [
+      "decodeMemoryView @ mujoco.js:5744",
+      0.29222699999999996
+    ],
+    [
+      "makeClassHandle @ mujoco.js:4299",
+      0.25424600000000014
+    ],
+    [
+      "simulateBody @ body-processing.js:5",
+      0.19213600000000017
+    ],
+    [
+      " @ body-runtime.js:243",
+      0.12750199999999998
+    ],
+    [
+      "(program) @ :0",
+      0.10572199999999998
+    ],
+    [
+      "wasm-to-js @ :1",
+      0.09728200000000004
+    ],
+    [
+      "requireRegisteredType @ mujoco.js:5611",
+      0.096801
+    ],
+    [
+      "dense @ body-policy.js:34",
+      0.08088900000000003
+    ],
+    [
+      "toValue @ mujoco.js:5526",
+      0.07278699999999999
+    ],
+    [
+      "get @ mujoco.js:5475",
+      0.06879100000000002
+    ],
+    [
+      "gather @ body-runtime.js:20",
+      0.06861499999999998
+    ],
+    [
+      "command @ body-adapter.js:81",
+      0.06486299999999999
+    ],
+    [
+      "toHandle @ mujoco.js:5534",
+      0.06087200000000002
+    ],
+    [
+      "quatMultiply @ body-runtime.js:4",
+      0.050925000000000005
+    ],
+    [
+      "local @ body-runtime.js:69",
+      0.049361000000000016
+    ],
+    [
+      "get position @ body-runtime.js:55",
+      0.032584
+    ]
+  ]
+}

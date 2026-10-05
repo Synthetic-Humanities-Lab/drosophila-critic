@@ -32,19 +32,27 @@ acoustics to the model.
 
 Choose **YOUR VOICE**, then record or select audio between 1 and 60 seconds.
 Listen back before choosing **READ TO THE FLY**. That explicit action loads
-roughly 156 MB of brain and body models, cached where possible. The browser runs
-your sound and an equal-duration silence control, computes a separate body for
-each, then replays your recording with its own neural activity and movement. Cancel stops processing without
+roughly 156 MB of brain and body models and up to 17 MB of saved silence,
+cached where possible. The browser calculates your sound's neural response and
+body movement, then compares them with an equal-duration portion of a verified,
+precomputed silence run. The control uses the same model, starting state and
+seed; its measurements are recalculated for your recording's duration.
+Cancel stops processing without
 submitting anything. A public robot example lets you try local processing
 without microphone or file access.
 
 Audio and results remain on the device. There is no upload, account, API key,
 LLM, or paid compute service. Save the original audio, processed audio, and
-response JSON before closing or reloading. A private result has no public share
+response JSON if you want an independent copy. A private result has no public share
 link. **Save recording** is available before processing, so you can keep the
-original even if a phone cannot finish the calculation. Model files alone are
-cached. Clear this site’s browser storage to remove
-them. Microphone hardware and browser decoding are uncontrolled variables;
+original even if a phone cannot finish the calculation. The latest completed
+recording and result are saved in this browser using IndexedDB. **Reopen saved
+reading** restores it without running the models. **Delete saved copy** removes
+that stored recording/result; a new completed result replaces it atomically.
+If storage is unavailable or full, replay and downloads still work and the app
+says that the result was not saved. Browsers may evict local storage, so keep a
+download for anything important. Clear this site’s browser storage to remove
+cached model/control files too. Microphone hardware and browser decoding are uncontrolled variables;
 visitor results are a single simulation pair, not the four-repeat example result.
 
 The complete local workflow has a five-minute acceptance limit for 60 seconds
@@ -53,13 +61,14 @@ for measured timings, numerical tolerances, and devices actually tested.
 
 Up-to-date iPhone Safari can record or open a file using the same interface.
 Mobile processing is experimental: start with a short recording and keep the
-page open. Phones (and browsers reporting at most 4 GB of device memory) reuse
-one neural worker for sound and silence, then one body worker, with a fresh
-state for each condition. Connectivity is released before body calculation.
-Other desktops retain parallel processing. Both paths use the same complete
-model, receiver, seed, and controls. This trades speed for lower memory use;
-it does not qualify every phone or extend the desktop's five-minute claim to
-phones. See [mobile recording checks](docs/MOBILE-RECORDING.md).
+page open. The saved-control path uses one neural worker, releases connectivity,
+then uses one body worker. If the saved control is missing or incompatible,
+the app reports the fallback and calculates silence locally: sequentially on
+phones/low-memory devices, in parallel on other desktops. Every path uses the
+same complete model, receiver, seed and controls. This does not qualify every
+phone or extend the desktop's five-minute claim to phones. See
+[mobile recording checks](docs/MOBILE-RECORDING.md) and
+[the performance change](docs/LOCAL-PERFORMANCE.md).
 
 ## Run the public app locally
 

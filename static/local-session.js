@@ -2,13 +2,17 @@ import { normalizeRecording, mechanicalEncoding } from "./local-audio.js";
 import { visitorPlayback } from "./playback-data.js";
 import { BodySession } from "./body-session.js";
 import { WorkerSession } from "./worker-session.js";
+import { sha256 } from "./content-hash.js";
+import { loadSilenceControl } from "./silence-control.js";
+import {
+  simulationContract,
+  stableJSON,
+  BASELINE_STEPS,
+  POST_STEPS,
+  LOCAL_SEED,
+} from "./simulation-contract.js";
 
-export async function sha256(bytes) {
-  return Array.from(
-    new Uint8Array(await crypto.subtle.digest("SHA-256", bytes)),
-    (x) => x.toString(16).padStart(2, "0"),
-  ).join("");
-}
+export { sha256 } from "./content-hash.js";
 async function json(url, signal) {
   const response = await fetch(url, { signal });
   if (!response.ok)
@@ -39,9 +43,14 @@ export function conserveMemory(environment = globalThis) {
   );
 }
 export class LocalSession {
-  constructor(onProgress, { sequential = conserveMemory() } = {}) {
+  constructor(
+    onProgress,
+    { sequential = conserveMemory(), savedSilence = true } = {},
+  ) {
     this.onProgress = onProgress;
     this.sequential = sequential;
+    this.savedSilence = savedSilence;
+    this.neuralReady = new Set();
     this.generation = 0;
     const conditions = sequential ? ["sound"] : ["sound", "silence"];
     this.bodies = Object.fromEntries(
@@ -70,17 +79,19 @@ export class LocalSession {
     ]))
       worker.cancel();
     this.model = null;
+    this.neuralReady.clear();
   }
-  async initialize(token) {
+  async loadMetadata(token) {
     if (this.model) return;
     this.abort = new AbortController();
-    const [model, display, motor] = await Promise.all([
+    const [model, display, motor, bodyManifest] = await Promise.all([
       json("./browser-model-v1/manifest.json", this.abort.signal),
       json(
         "./experiments/encounter-v2/display-neurons.json",
         this.abort.signal,
       ),
       json("./assets/body-v1/capture.json", this.abort.signal),
+      json("./assets/body-v1/manifest.json", this.abort.signal),
     ]);
     if (token !== this.generation)
       throw new DOMException("Cancelled", "AbortError");
@@ -91,23 +102,31 @@ export class LocalSession {
       throw new Error(
         "Neuron coordinates do not match this model. Reload the page.",
       );
-    // On phones, reuse one connectome. Each simulate request resets voltages,
-    // previous spikes and the seeded RNG before processing its condition.
-    for (const worker of new Set(Object.values(this.neural))) {
+    this.model = model;
+    this.display = display;
+    this.motor = motor;
+    this.bodyManifest = bodyManifest;
+  }
+  async initialize(token, { soundOnly = false } = {}) {
+    await this.loadMetadata(token);
+    // Saved silence needs no second worker. Fresh fallback still resets both runs.
+    const workers = soundOnly
+      ? [this.neural.sound]
+      : Object.values(this.neural);
+    for (const worker of new Set(workers)) {
       if (token !== this.generation)
         throw new DOMException("Cancelled", "AbortError");
+      if (this.neuralReady.has(worker)) continue;
       await worker.request({
         type: "initialize",
         url: "./browser-model-v1/manifest.json",
         cache: true,
-        captureGroups: motor.groups,
+        captureGroups: this.motor.groups,
       });
+      this.neuralReady.add(worker);
     }
     if (token !== this.generation)
       throw new DOMException("Cancelled", "AbortError");
-    this.model = model;
-    this.display = display;
-    this.motor = motor;
   }
   async process(samples, recordingHash) {
     if (this.busy) throw new Error("A recording is already being processed.");
@@ -120,38 +139,79 @@ export class LocalSession {
         throw new DOMException("Cancelled", "AbortError");
     };
     try {
-      await this.initialize(token);
+      await this.loadMetadata(token);
       check();
-      timing.model_load_seconds = (performance.now() - started) / 1000;
       this.onProgress({
         stage: "Translating sound into hearing input",
         fraction: 0,
       });
       const normalized = normalizeRecording(samples);
       const input = mechanicalEncoding(normalized.samples, this.model.receiver);
+      const duration = samples.length / 48000;
+      const contract = simulationContract(
+        this.model,
+        this.motor,
+        this.bodyManifest,
+      );
+      const contractHash = await sha256(
+        new TextEncoder().encode(stableJSON(contract)),
+      );
+      check();
+      const steps = BASELINE_STEPS + input.injection.length + POST_STEPS;
+      let control = null,
+        controlError = null;
+      const controlStarted = performance.now();
+      if (this.savedSilence) {
+        try {
+          control = await loadSilenceControl(contract, steps, duration, {
+            signal: this.abort?.signal,
+            onProgress: this.onProgress,
+          });
+        } catch (error) {
+          check();
+          if (error.name === "AbortError") throw error;
+          controlError = error.message;
+          this.onProgress({
+            stage:
+              "Saved silence unavailable; calculating it on this device instead",
+            fraction: 0,
+          });
+        }
+      }
+      check();
+      timing.saved_control_seconds =
+        (performance.now() - controlStarted) / 1000;
+      timing.silence_reused = Boolean(control);
+      if (control) timing.execution = "sound-only-with-saved-control";
+      const loadStarted = performance.now();
+      await this.initialize(token, { soundOnly: Boolean(control) });
+      check();
+      timing.model_load_seconds = (performance.now() - loadStarted) / 1000;
       const runs = {};
+      if (control) runs.silence = control.run;
       const neuralStarted = performance.now();
       const simulateNeural = async (condition) => {
         check();
         const frames = [
-          ...Array(75).fill(0),
+          ...Array(BASELINE_STEPS).fill(0),
           ...(condition === "sound"
             ? input.injection
             : Array(input.injection.length).fill(0)),
-          ...Array(150).fill(0),
+          ...Array(POST_STEPS).fill(0),
         ];
         runs[condition] = await this.neural[condition].request({
           type: "simulate",
           input: frames,
           capture: true,
-          seed: 1101,
+          seed: LOCAL_SEED,
           label:
             condition === "sound"
               ? "Listening to your recording"
               : "Running its silence control",
         });
       };
-      if (this.sequential) {
+      if (control) await simulateNeural("sound");
+      else if (this.sequential) {
         await simulateNeural("sound");
         await simulateNeural("silence");
       } else await Promise.all(["sound", "silence"].map(simulateNeural));
@@ -168,10 +228,11 @@ export class LocalSession {
         normalized.metadata,
       );
       const body = {};
+      if (control) body.silence = control.body;
       const bodyStarted = performance.now();
       await this.bodies.sound.initialize();
       check();
-      await this.bodies.silence.initialize();
+      if (!control) await this.bodies.silence.initialize();
       check();
       const simulateBody = async (condition) => {
         check();
@@ -183,7 +244,8 @@ export class LocalSession {
             : "Calculating movement · silence",
         );
       };
-      if (this.sequential) {
+      if (control) await simulateBody("sound");
+      else if (this.sequential) {
         await simulateBody("sound");
         await simulateBody("silence");
       } else await Promise.all(["sound", "silence"].map(simulateBody));
@@ -210,7 +272,12 @@ export class LocalSession {
         ]),
       );
       const evidence = {
-        schema_version: "local-listening-v3",
+        schema_version: "local-listening-v4",
+        contract_sha256: contractHash,
+        silence_control: control?.provenance || {
+          kind: "calculated-on-device",
+          fallback_reason: controlError,
+        },
         recording_sha256: recordingHash,
         audio: {
           sample_rate: 48000,

@@ -25,6 +25,10 @@ PUBLIC_FILES = (
     "recording-panel.js",
     "local-audio.js",
     "local-session.js",
+    "content-hash.js",
+    "simulation-contract.js",
+    "silence-control.js",
+    "result-store.js",
     "worker-session.js",
     "browser-benchmark.worker.js",
     "browser-brain.js",
@@ -36,6 +40,7 @@ PUBLIC_FILES = (
     "body-adapter.js",
     "body-runtime.js",
     "body-processing.js",
+    "body-metrics.js",
     "body-dense.wasm",
 )
 PUBLIC_DIRECTORIES = ("assets", "vendor", "browser-model-v1")

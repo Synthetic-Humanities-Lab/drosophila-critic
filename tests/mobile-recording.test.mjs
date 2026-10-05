@@ -9,6 +9,11 @@ import {
 import { RecordingPanel, recorderOptions } from "../static/recording-panel.js";
 import { BrowserBrain } from "../static/browser-brain.js";
 import { GROUP_IDS } from "../static/playback-data.js";
+import {
+  simulationContract,
+  stableJSON,
+} from "../static/simulation-contract.js";
+import { sha256 } from "../static/content-hash.js";
 
 const model = JSON.parse(
   await readFile(
@@ -156,9 +161,13 @@ test("reusing a brain resets its voltages, spikes and noise to a fresh seeded ru
 
 function sessionFixture(
   sequential,
-  { cancelAfterSound = false, failBody = false } = {},
+  { cancelAfterSound = false, failBody = false, savedSilence = false } = {},
 ) {
-  const session = new LocalSession(() => {}, { sequential });
+  const session = new LocalSession(() => {}, {
+    sequential,
+    savedSilence,
+  });
+  session.initialize = async () => {};
   session.model = model;
   session.display = { neuron_indices: [] };
   session.motor = { groups: {} };
@@ -227,6 +236,68 @@ test("sequential scheduling retains both conditions and gives the parallel compa
   );
   assert.equal(a.session.model, null);
   assert.equal(a.session.busy, false);
+});
+
+test("saved control is bound to the current model and skips both silence calculations", async (t) => {
+  const originalFetch = globalThis.fetch;
+  t.after(() => {
+    globalThis.fetch = originalFetch;
+  });
+  globalThis.fetch = async (url) => new Response(await readFile(url));
+  const { session, events } = sessionFixture(true, { savedSilence: true });
+  session.motor = JSON.parse(
+    await readFile(
+      new URL("../static/assets/body-v1/capture.json", import.meta.url),
+    ),
+  );
+  session.bodyManifest = JSON.parse(
+    await readFile(
+      new URL("../static/assets/body-v1/manifest.json", import.meta.url),
+    ),
+  );
+  const manifest = JSON.parse(
+    await readFile(
+      new URL("../static/assets/silence-v1/manifest.json", import.meta.url),
+    ),
+  );
+  const contract = simulationContract(
+    model,
+    session.motor,
+    session.bodyManifest,
+  );
+  assert.equal(
+    manifest.contract_sha256,
+    await sha256(new TextEncoder().encode(stableJSON(contract))),
+  );
+  const result = await session.process(new Float64Array(48000), "source");
+  assert.equal(result.evidence.processing.silence_reused, true);
+  assert.equal(result.evidence.silence_control.kind, "precomputed-silence");
+  assert.deepEqual(
+    events.filter((e) => e.startsWith("neural-") || e.startsWith("body-")),
+    ["neural-sound", "body-sound"],
+  );
+  assert.equal(
+    result.evidence.raw_runs.silence.counts.length,
+    result.evidence.raw_runs.sound.counts.length,
+  );
+  assert.equal(
+    result.body.silence.positions.length,
+    result.evidence.raw_runs.sound.counts.length,
+  );
+});
+
+test("missing saved control falls back to real silence and records the reason", async (t) => {
+  const originalFetch = globalThis.fetch;
+  t.after(() => {
+    globalThis.fetch = originalFetch;
+  });
+  globalThis.fetch = async () => new Response("Missing", { status: 404 });
+  const { session, events } = sessionFixture(true, { savedSilence: true });
+  const result = await session.process(new Float64Array(48000), "source");
+  assert.equal(result.evidence.processing.silence_reused, false);
+  assert.match(result.evidence.silence_control.fallback_reason, /404/);
+  assert.ok(events.includes("neural-silence"));
+  assert.ok(events.includes("body-silence"));
 });
 
 test("cancellation between phone conditions does not start silence or body calculations", async () => {
