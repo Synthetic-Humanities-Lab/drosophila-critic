@@ -1,6 +1,7 @@
 import { bodyMetrics } from "./body-metrics.js";
 import { stableJSON } from "./simulation-contract.js";
 import { sha256 } from "./content-hash.js";
+import { forEachConcurrent } from "./parallel-load.js";
 
 export const BODY_FRAME_KEYS = [
   "time",
@@ -105,8 +106,9 @@ export async function loadSilenceControl(
     cache = null;
   }
   const parts = manifest.chunks.filter((part) => part.start < steps),
-    chunks = [];
-  for (const [index, part] of parts.entries()) {
+    chunks = new Array(parts.length);
+  let loaded = 0;
+  await forEachConcurrent(parts, async (part, index) => {
     signal?.throwIfAborted();
     const url = new URL(part.file, base);
     if (url.origin !== base.origin || !url.pathname.startsWith(base.pathname))
@@ -135,12 +137,12 @@ export async function loadSilenceControl(
     const chunk = JSON.parse(new TextDecoder().decode(raw));
     if (chunk.start !== part.start || chunk.counts.length !== part.steps)
       throw new Error("Invalid saved silence interval.");
-    chunks.push(chunk);
+    chunks[index] = chunk;
     onProgress({
       stage: "Loading the verified silence comparison",
-      fraction: (index + 1) / parts.length,
+      fraction: ++loaded / parts.length,
     });
-  }
+  });
   signal?.throwIfAborted();
   return silencePrefix(manifest, chunks, steps, duration);
 }

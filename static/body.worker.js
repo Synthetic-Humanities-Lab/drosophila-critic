@@ -1,6 +1,7 @@
 import loadMuJoCo from "./vendor/mujoco/mujoco.js";
 import { BodyPolicy } from "./body-policy.js";
 import { simulateBody } from "./body-processing.js";
+import { forEachConcurrent } from "./parallel-load.js";
 
 let runtime,
   controller,
@@ -56,8 +57,18 @@ async function initialize() {
     return bytes;
   };
   const files = {};
-  for (const [name, spec] of Object.entries(manifest.files))
-    files[name] = await file(name, spec);
+  const kernelName = "../../body-dense.wasm",
+    physicsName = "../../vendor/mujoco/mujoco.wasm";
+  await forEachConcurrent(
+    [
+      ...Object.entries(manifest.files),
+      [kernelName, manifest.kernel],
+      [physicsName, manifest.physics],
+    ],
+    async ([name, spec]) => {
+      files[name] = await file(name, spec);
+    },
+  );
   const text = (name) => new TextDecoder().decode(files[name]),
     json = (name) => JSON.parse(text(name));
   const assets = {
@@ -70,7 +81,7 @@ async function initialize() {
     ),
   };
   const policies = {};
-  const kernel = await file("../../body-dense.wasm", manifest.kernel);
+  const kernel = files[kernelName];
   for (const kind of ["walking", "flight"]) {
     const { instance } = await WebAssembly.instantiate(kernel);
     policies[kind] = new BodyPolicy(
@@ -79,7 +90,7 @@ async function initialize() {
       instance.exports,
     );
   }
-  const wasm = await file("../../vendor/mujoco/mujoco.wasm", manifest.physics);
+  const wasm = files[physicsName];
   const mj = await loadMuJoCo({ wasmBinary: wasm });
   runtime = { mj, assets, policies, manifest };
   // MuJoCo does not export Emscripten's HEAPU8 accessor. Its typed state views

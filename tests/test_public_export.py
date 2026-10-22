@@ -34,7 +34,7 @@ def test_reexport_removes_retired_pages_and_data_but_keeps_source(tmp_path, monk
     for name in export_replay.PLAYBACK_DIRECTORIES:
         folder = source / "experiments" / name
         folder.mkdir(parents=True)
-        (folder / "manifest.json").write_text("{}")
+        (folder / "manifest.json").write_text('{"performances": {}}')
     monkeypatch.setattr(export_replay, "ROOT", source)
     output = tmp_path / "published"
     export_replay.export(output)
@@ -57,3 +57,19 @@ def test_export_refuses_to_replace_source_or_unmarked_directory(tmp_path):
         export_replay.export(ROOT / "static")
     with pytest.raises(ValueError):
         export_replay.export(tmp_path)
+
+
+def test_preloads_follow_static_imports_without_downloading_processing_assets(tmp_path):
+    (tmp_path / "index.html").write_text('<script type="module" src="./encounter.js"></script>')
+    (tmp_path / "encounter.js").write_text(
+        "import {view} from './view.js';\nconst worker = new Worker('./brain.worker.js');"
+    )
+    (tmp_path / "view.js").write_text("export {camera} from './camera.js';")
+    (tmp_path / "camera.js").write_text("export const camera = {};")
+    export_replay.preload_interface(tmp_path)
+    page = (tmp_path / "index.html").read_text()
+    assert 'href="./view.js"' in page
+    assert 'href="./camera.js"' in page
+    assert "brain.worker" not in page
+    assert "browser-model" not in page
+    assert "mujoco" not in page

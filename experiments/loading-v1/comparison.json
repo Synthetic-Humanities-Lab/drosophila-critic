@@ -1,0 +1,29 @@
+{
+  "baseline_commit": "b41064d2f1f80f0a30250eebdb5dddd486219efc",
+  "date": "2026-10-22",
+  "method": "Two sequential cold loads per reader/build, Chromium 155 on this Mac; local HTTP1 server applies aggregate 10 Mbit/s and 80ms/request, gzip JSON/JS/CSS/GLB as observed on GitHub Pages. Browser cache disabled. Time is navigation to enabled PLAY with fly anatomy loaded. This is a controlled comparison, not a physical-phone or internet speed guarantee.",
+  "readers": {
+    "robot": {
+      "before_seconds": 13.49789999999944,
+      "after_seconds": 8.80075,
+      "wait_reduction_percent": 34.79911689966316,
+      "before_bytes": 14777191,
+      "after_bytes": 9627094
+    },
+    "human": {
+      "before_seconds": 19.254400000000373,
+      "after_seconds": 11.291400000000372,
+      "wait_reduction_percent": 41.35678078776719,
+      "before_bytes": 21298896,
+      "after_bytes": 13221423
+    }
+  },
+  "stanza_navigation": {
+    "before_ms": 2413.7000000000116,
+    "after_ms": 50.69999999999709,
+    "before_extra_waveform_bytes": 2511916,
+    "after_extra_waveform_bytes": 0,
+    "trials": 1,
+    "note": "Same already-loaded robot stanza; first audio decode included. The baseline re-fetches WAV. Subsequent recordings reuse decoded buffers."
+  }
+}

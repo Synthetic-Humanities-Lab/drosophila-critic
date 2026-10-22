@@ -1,6 +1,7 @@
 import { BrowserBrain } from "./browser-brain.js";
 import { PCG64 } from "./browser-random.js";
 import { NeuralCapture } from "./neural-capture.js";
+import { forEachConcurrent } from "./parallel-load.js";
 let brain,
   manifest,
   cancelled = false,
@@ -9,6 +10,7 @@ let brain,
   controller = null,
   loadedBytes = 0;
 let captureGroups = {};
+let downloadConcurrency = 2;
 const hash = async (bytes) =>
   Array.from(
     new Uint8Array(await crypto.subtle.digest("SHA-256", bytes)),
@@ -17,48 +19,56 @@ const hash = async (bytes) =>
 async function loadArray(spec, base) {
   const result = new Uint8Array(spec.length * 4);
   let bytes = 0;
-  for (const part of spec.parts) {
-    if (cancelled) throw new Error("Cancelled");
-    const url = new URL(part.file, base);
-    let response = cache ? await cache.match(url) : null;
-    const cached = Boolean(response);
-    if (!response) {
-      response = await fetch(url, { signal: controller?.signal });
-    }
-    if (!response.ok)
-      throw new Error(`Missing model chunk (${response.status})`);
-    const compressed = await response.arrayBuffer();
-    if ((await hash(compressed)) !== part.sha256) {
-      if (cache && cached) await cache.delete(url);
-      throw new Error("Model chunk checksum mismatch");
-    }
-    if (cache && !cached) {
-      try {
-        await cache.put(url, new Response(compressed));
-      } catch {
-        cache = null;
-      }
-    }
-    const raw = await new Response(
-      new Blob([compressed])
-        .stream()
-        .pipeThrough(new DecompressionStream("gzip")),
-    ).arrayBuffer();
-    if (raw.byteLength !== part.raw_bytes)
-      throw new Error("Model chunk length mismatch");
-    loadedBytes += compressed.byteLength;
-    if (bytes + raw.byteLength > result.length)
-      throw new Error("Model array length mismatch");
-    result.set(new Uint8Array(raw), bytes);
-    bytes += raw.byteLength;
-    postMessage({
-      type: "progress",
-      stage: "Loading and checking the fly model",
-      fraction: Math.min(1, loadedBytes / manifest.transfer_bytes),
-      bytes: loadedBytes,
-    });
-  }
+  const parts = spec.parts.map((part) => {
+    const offset = bytes;
+    if (!Number.isSafeInteger(part.raw_bytes) || part.raw_bytes < 0)
+      throw new Error("Invalid model chunk length");
+    bytes += part.raw_bytes;
+    return { ...part, offset };
+  });
   if (bytes !== result.length) throw new Error("Model array length mismatch");
+  await forEachConcurrent(
+    parts,
+    async (part) => {
+      if (cancelled) throw new Error("Cancelled");
+      const url = new URL(part.file, base);
+      let response = cache ? await cache.match(url) : null;
+      const cached = Boolean(response);
+      if (!response) {
+        response = await fetch(url, { signal: controller?.signal });
+      }
+      if (!response.ok)
+        throw new Error(`Missing model chunk (${response.status})`);
+      const compressed = await response.arrayBuffer();
+      if ((await hash(compressed)) !== part.sha256) {
+        if (cache && cached) await cache.delete(url);
+        throw new Error("Model chunk checksum mismatch");
+      }
+      if (cache && !cached) {
+        try {
+          await cache.put(url, new Response(compressed));
+        } catch {
+          cache = null;
+        }
+      }
+      const raw = await new Response(
+        new Blob([compressed])
+          .stream()
+          .pipeThrough(new DecompressionStream("gzip")),
+      ).arrayBuffer();
+      if (raw.byteLength !== part.raw_bytes)
+        throw new Error("Model chunk length mismatch");
+      loadedBytes += compressed.byteLength;
+      result.set(new Uint8Array(raw), part.offset);
+      postMessage({
+        type: "progress",
+        stage: "Loading and checking the fly model",
+        fraction: Math.min(1, loadedBytes / manifest.transfer_bytes),
+        bytes: loadedBytes,
+      });
+    },
+    downloadConcurrency,
+  );
   if ((await hash(result)) !== spec.sha256)
     throw new Error("Lossless model checksum mismatch");
   return spec.dtype === "float32"
@@ -86,6 +96,7 @@ self.onmessage = async ({ data }) => {
       const r = await fetch(base, { signal: controller.signal });
       if (!r.ok) throw new Error("Benchmark model export is unavailable");
       manifest = await r.json();
+      downloadConcurrency = data.downloadConcurrency === 1 ? 1 : 2;
       captureGroups = data.captureGroups || {};
       for (const ids of Object.values(captureGroups))
         if (

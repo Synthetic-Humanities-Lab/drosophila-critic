@@ -88,6 +88,11 @@ pages are excluded from the published site; their code and data remain in this
 repository for local development. GitHub Actions rebuilds `dist/` and publishes it on pushes to
 `main`; do not commit the generated directory or private recordings.
 
+The export produces lossless, compact copies of the curated movement recordings
+and waveforms. Original experiment files remain unchanged. Stanza changes reuse
+the loaded recording; processing models still load only after an explicit click.
+See [loading measurements and verification](docs/LOADING-PERFORMANCE.md).
+
 ## What is being simulated?
 
 ```

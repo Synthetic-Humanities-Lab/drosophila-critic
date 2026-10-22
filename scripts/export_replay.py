@@ -7,6 +7,11 @@ import shutil
 import tempfile
 from pathlib import Path
 
+if __package__:
+    from .pack_playback import optimize_playback
+else:
+    from pack_playback import optimize_playback
+
 ROOT = Path(__file__).resolve().parents[1]
 PUBLIC_FILES = (
     "index.html",
@@ -19,6 +24,8 @@ PUBLIC_FILES = (
     "listening-room.js",
     "recorded-path.js",
     "body-view.js",
+    "body-recording.js",
+    "parallel-load.js",
     "neural-scene.js",
     "audio-player.js",
     "playback-data.js",
@@ -45,6 +52,32 @@ PUBLIC_FILES = (
 )
 PUBLIC_DIRECTORIES = ("assets", "vendor", "browser-model-v1")
 PLAYBACK_DIRECTORIES = ("encounter-v1", "encounter-v2", "encounter-v3")
+
+
+def preload_interface(output: Path):
+    """Start the actual entry module's static dependencies without serial discovery."""
+    seen = set()
+
+    def visit(path):
+        for dependency in re.findall(
+            r'(?:^|\n)\s*(?:import|export)\s+[^;]*?\bfrom\s*["\'](\.[^"\']+\.js)["\']',
+            path.read_text(),
+        ):
+            target = (path.parent / dependency).resolve()
+            if not target.is_relative_to(output.resolve()) or not target.is_file():
+                raise ValueError(f"Missing interface dependency: {dependency}")
+            relative = target.relative_to(output.resolve()).as_posix()
+            if relative not in seen:
+                seen.add(relative)
+                visit(target)
+
+    visit(output / "encounter.js")
+    links = "\n".join(f'<link rel="modulepreload" href="./{name}" />' for name in sorted(seen))
+    links += '\n<link rel="preload" as="fetch" crossorigin href="./experiments/encounter-v4/manifest.json" />'
+    page = output / "index.html"
+    page.write_text(
+        page.read_text().replace('<script type="module"', links + '\n<script type="module"', 1)
+    )
 
 
 def version_interface(output: Path):
@@ -91,6 +124,8 @@ def export(output: Path):
             shutil.copytree(ROOT / "static" / name, staged / name)
         for name in PLAYBACK_DIRECTORIES:
             shutil.copytree(ROOT / "experiments" / name, staged / "experiments" / name)
+        optimize_playback(staged)
+        preload_interface(staged)
         version_interface(staged)
         (staged / ".nojekyll").touch()
         if output.exists():

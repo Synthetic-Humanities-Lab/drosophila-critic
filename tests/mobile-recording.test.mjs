@@ -51,6 +51,22 @@ test("mobile capability checks allow iPhone and iPad without weakening required 
     );
 });
 
+test("phones retain one large connectivity chunk in flight; desktops can overlap two", async () => {
+  for (const sequential of [true, false]) {
+    const session = new LocalSession(() => {}, { sequential });
+    session.loadMetadata = async () => {
+      session.motor = { groups: {} };
+    };
+    let initialization;
+    session.neural.sound.request = async (request) => {
+      initialization = request;
+    };
+    await session.initialize(session.generation, { soundOnly: true });
+    assert.equal(initialization.downloadConcurrency, sequential ? 1 : 2);
+    session.cancel();
+  }
+});
+
 test("recording format selection supports newer and older Safari and browser defaults", () => {
   assert.deepEqual(recorderOptions({ isTypeSupported: () => true }), {
     mimeType: "audio/webm;codecs=opus",

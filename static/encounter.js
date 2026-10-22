@@ -4,10 +4,11 @@ import { NeuralScene } from "./neural-scene.js";
 import { selection, stanzaAtTime } from "./encounter-data.js";
 import { binAt, responseExplanation, timeLabel } from "./playback-data.js";
 import { RecordingPanel } from "./recording-panel.js";
+import { decodeBodyRecording } from "./body-recording.js";
 
 const query = new URLSearchParams(location.search);
 const $ = (id) => document.getElementById(id),
-  base = "./experiments/encounter-v3/";
+  base = "./experiments/encounter-v4/";
 const audio = new RecordedAudio(),
   stage = new EncounterScene($("stage")),
   neural = new NeuralScene($("neural-scene"));
@@ -57,10 +58,14 @@ async function json(path) {
             throw new Error(
               `The recorded response could not load (${r.status}). Select the recording to retry.`,
             );
-          if (path.endsWith(".gz"))
-            return new Response(
+          if (path.endsWith(".gz")) {
+            const decoded = new Response(
               r.body.pipeThrough(new DecompressionStream("gzip")),
-            ).json();
+            );
+            return path.endsWith(".body.gz")
+              ? decodeBodyRecording(await decoded.arrayBuffer())
+              : decoded.json();
+          }
           return r.json();
         })
         .catch((e) => {
@@ -211,6 +216,26 @@ function explain() {
 }
 async function choose(nextReader, options = {}) {
   if (!manifest || (nextReader === "visitor" && !visitor)) return;
+  // Stanza navigation seeks the already loaded recording and its existing scenes.
+  if (
+    ready &&
+    nextReader === reader &&
+    (options.silent ?? false) === silent &&
+    (reader !== "visitor" || record === visitor.playback)
+  ) {
+    stop();
+    recording.preview.pause();
+    stanza = options.stanza ?? null;
+    audio.currentTime =
+      options.time ??
+      (stanza === null || reader === "visitor"
+        ? 0
+        : manifest.performances[reader].passages[stanza].start);
+    history.replaceState(null, "", locationForSelection());
+    render();
+    if (options.autoplay) await toggle();
+    return;
+  }
   const token = ++generation;
   stop();
   recording.preview.pause();
@@ -292,11 +317,20 @@ async function choose(nextReader, options = {}) {
         : "Your recording · processed locally · no automatic line timing";
     } else {
       const performance = manifest.performances[reader];
+      const playback = json(performance.playback);
       const [nextRecord, nextSpatial, nextBody, summary] = await Promise.all([
-        json(performance.playback),
+        playback,
         json(silent ? performance.silence_spatial : performance.spatial),
         json(silent ? performance.silence_body : performance.sound_body),
         json(manifest.body.summary),
+        silent
+          ? null
+          : playback.then((data) => {
+              if (token === generation)
+                return audio.load(base + performance.audio, {
+                  duration: data.playback_duration,
+                });
+            }),
       ]);
       if (token !== generation) return;
       record = nextRecord;
@@ -308,12 +342,11 @@ async function choose(nextReader, options = {}) {
           duration: record.playback_duration,
           silent: true,
         });
-      else
-        await audio.load(base + performance.audio, {
-          duration: record.playback_duration,
-        });
       $("credit").textContent = performance.credit;
     }
+    // Keep PLAY disabled until the anatomy is visible (or its explicit map fallback).
+    // Faster data downloads must not start a reading with an absent fly.
+    await stage.fly?.ready.catch(() => {});
     if (token !== generation) return;
     audio.offset =
       options.time ??

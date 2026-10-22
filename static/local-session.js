@@ -121,6 +121,9 @@ export class LocalSession {
         type: "initialize",
         url: "./browser-model-v1/manifest.json",
         cache: true,
+        // Large connectivity chunks expand to 24 MiB each. Preserve the phone
+        // memory bound; smaller body/control assets can still overlap downloads.
+        downloadConcurrency: this.sequential ? 1 : 2,
         captureGroups: this.motor.groups,
       });
       this.neuralReady.add(worker);

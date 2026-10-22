@@ -1,0 +1,8 @@
+{
+  "python_states_exact": true,
+  "neural_output_exact": true,
+  "body_output_exact": true,
+  "metrics_exact": true,
+  "input": "325 timesteps: 75 silence, 100 alternating .15/.4 pulse strengths, 150 silence; seed 1101",
+  "note": "Both workers initialized from all original connectivity and supplied-noise Python fixtures. No model approximation. Localhost initialization timings are not internet download benchmarks."
+}

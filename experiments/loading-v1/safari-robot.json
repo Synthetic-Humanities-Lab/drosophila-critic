@@ -1,0 +1,271 @@
+{
+  "name": "safari-robot",
+  "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5 Mobile/15E148 Safari/604.1",
+  "scenario": "HTTP1, no browser cache, gzip text/GLB, aggregate 10 Mbit/s and 80ms/request",
+  "events": [
+    {
+      "event": "ready",
+      "ms": 8885,
+      "reader": "ROBOT / SYNTHETIC VOICE"
+    }
+  ],
+  "errors": [],
+  "long_tasks": [],
+  "dom_ms": 1039,
+  "fly_ms": 8769,
+  "initial_resources": [
+    {
+      "path": "/after/encounter.58f3372a26be64f8.css",
+      "start": 112,
+      "end": 244,
+      "bytes": 4196,
+      "transfer": 4496
+    },
+    {
+      "path": "/after/arena-scene.58f3372a26be64f8.js",
+      "start": 114,
+      "end": 251,
+      "bytes": 4054,
+      "transfer": 4354
+    },
+    {
+      "path": "/after/audio-player.58f3372a26be64f8.js",
+      "start": 115,
+      "end": 249,
+      "bytes": 1643,
+      "transfer": 1943
+    },
+    {
+      "path": "/after/body-metrics.58f3372a26be64f8.js",
+      "start": 116,
+      "end": 239.00000000000003,
+      "bytes": 589,
+      "transfer": 889
+    },
+    {
+      "path": "/after/body-recording.58f3372a26be64f8.js",
+      "start": 118.00000000000001,
+      "end": 250,
+      "bytes": 1051,
+      "transfer": 1351
+    },
+    {
+      "path": "/after/body-session.58f3372a26be64f8.js",
+      "start": 119.00000000000001,
+      "end": 255,
+      "bytes": 319,
+      "transfer": 619
+    },
+    {
+      "path": "/after/body-view.58f3372a26be64f8.js",
+      "start": 121,
+      "end": 327,
+      "bytes": 1518,
+      "transfer": 1818
+    },
+    {
+      "path": "/after/content-hash.58f3372a26be64f8.js",
+      "start": 122,
+      "end": 331,
+      "bytes": 171,
+      "transfer": 471
+    },
+    {
+      "path": "/after/encounter-data.58f3372a26be64f8.js",
+      "start": 125,
+      "end": 336,
+      "bytes": 564,
+      "transfer": 864
+    },
+    {
+      "path": "/after/follow-camera.58f3372a26be64f8.js",
+      "start": 128,
+      "end": 342,
+      "bytes": 1184,
+      "transfer": 1484
+    },
+    {
+      "path": "/after/listening-room.58f3372a26be64f8.js",
+      "start": 131,
+      "end": 340,
+      "bytes": 3236,
+      "transfer": 3536
+    },
+    {
+      "path": "/after/local-audio.58f3372a26be64f8.js",
+      "start": 132,
+      "end": 350.00000000000006,
+      "bytes": 1990,
+      "transfer": 2290
+    },
+    {
+      "path": "/after/local-session.58f3372a26be64f8.js",
+      "start": 133,
+      "end": 417,
+      "bytes": 3666,
+      "transfer": 3966
+    },
+    {
+      "path": "/after/neural-scene.58f3372a26be64f8.js",
+      "start": 133,
+      "end": 423,
+      "bytes": 1772,
+      "transfer": 2072
+    },
+    {
+      "path": "/after/parallel-load.58f3372a26be64f8.js",
+      "start": 134,
+      "end": 424,
+      "bytes": 380,
+      "transfer": 680
+    },
+    {
+      "path": "/after/playback-data.58f3372a26be64f8.js",
+      "start": 135,
+      "end": 435,
+      "bytes": 1559,
+      "transfer": 1859
+    },
+    {
+      "path": "/after/recorded-path.58f3372a26be64f8.js",
+      "start": 135,
+      "end": 439,
+      "bytes": 478,
+      "transfer": 778
+    },
+    {
+      "path": "/after/recording-panel.58f3372a26be64f8.js",
+      "start": 137,
+      "end": 442,
+      "bytes": 4546,
+      "transfer": 4846
+    },
+    {
+      "path": "/after/result-store.58f3372a26be64f8.js",
+      "start": 138,
+      "end": 508,
+      "bytes": 1369,
+      "transfer": 1669
+    },
+    {
+      "path": "/after/silence-control.58f3372a26be64f8.js",
+      "start": 139,
+      "end": 519,
+      "bytes": 1962,
+      "transfer": 2262
+    },
+    {
+      "path": "/after/simulation-contract.58f3372a26be64f8.js",
+      "start": 141,
+      "end": 520,
+      "bytes": 503,
+      "transfer": 803
+    },
+    {
+      "path": "/after/vendor/BufferGeometryUtils.js",
+      "start": 141,
+      "end": 590,
+      "bytes": 8020,
+      "transfer": 8320
+    },
+    {
+      "path": "/after/vendor/GLTFLoader.js",
+      "start": 142.00000000000003,
+      "end": 578,
+      "bytes": 24755,
+      "transfer": 25055
+    },
+    {
+      "path": "/after/vendor/three.module.js",
+      "start": 143.00000000000003,
+      "end": 794,
+      "bytes": 118149,
+      "transfer": 118449
+    },
+    {
+      "path": "/after/vendor/three.core.js",
+      "start": 143.00000000000003,
+      "end": 903,
+      "bytes": 278598,
+      "transfer": 278898
+    },
+    {
+      "path": "/after/worker-session.58f3372a26be64f8.js",
+      "start": 144.00000000000003,
+      "end": 639,
+      "bytes": 590,
+      "transfer": 890
+    },
+    {
+      "path": "/after/experiments/encounter-v3/manifest.json",
+      "start": 144.00000000000003,
+      "end": 646,
+      "bytes": 3115,
+      "transfer": 3415
+    },
+    {
+      "path": "/after/encounter.58f3372a26be64f8.js",
+      "start": 145,
+      "end": 730,
+      "bytes": 7406,
+      "transfer": 7706
+    },
+    {
+      "path": "/after/assets/flybody/wing-blur.json",
+      "start": 943.0000000000001,
+      "end": 1066,
+      "bytes": 362,
+      "transfer": 662
+    },
+    {
+      "path": "/after/assets/flybody/flybody.glb",
+      "start": 943.0000000000001,
+      "end": 8753,
+      "bytes": 4092705,
+      "transfer": 4093005
+    },
+    {
+      "path": "/after/experiments/encounter-v3/manifest.json",
+      "start": 1035,
+      "end": 1133,
+      "bytes": 3115,
+      "transfer": 3415
+    },
+    {
+      "path": "/after/experiments/encounter-v2/playback-a.json",
+      "start": 1140.0000000000002,
+      "end": 1523.0000000000002,
+      "bytes": 89734,
+      "transfer": 90034
+    },
+    {
+      "path": "/after/experiments/encounter-v1/spatial-a.json",
+      "start": 1141,
+      "end": 5288,
+      "bytes": 1266676,
+      "transfer": 1266976
+    },
+    {
+      "path": "/after/experiments/encounter-v3/34fc77c26b7aac2508772a49.body.gz",
+      "start": 1142.0000000000002,
+      "end": 6954,
+      "bytes": 2079550,
+      "transfer": 2079850
+    },
+    {
+      "path": "/after/experiments/encounter-v3/movement-summary.json",
+      "start": 1143,
+      "end": 1267.0000000000002,
+      "bytes": 2267,
+      "transfer": 2567
+    },
+    {
+      "path": "/after/experiments/encounter-v3/2c931f26f82358bff57a2518.wav.gz",
+      "start": 1525.0000000000002,
+      "end": 6443.000000000001,
+      "bytes": 1618417,
+      "transfer": 1618717
+    }
+  ],
+  "initial_bytes": 9630209
+}

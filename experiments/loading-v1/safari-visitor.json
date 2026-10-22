@@ -1,0 +1,111 @@
+{
+  "fixture": "Public robot recording",
+  "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5 Mobile/15E148 Safari/604.1",
+  "execution": "sequential",
+  "microphone_format": {
+    "mimeType": "audio/webm;codecs=opus"
+  },
+  "started_at": "2026-10-22T18:23:01.498Z",
+  "validation": null,
+  "decoded": {
+    "duration": 26.165333333333333,
+    "hash": "07ba8d8eb49f13cf012ead96af746d78c1887b495aa894c58489632891a98a2f"
+  },
+  "duration": 3,
+  "processing": {
+    "execution": "sound-only-with-saved-control",
+    "saved_control_seconds": 0.352,
+    "silence_reused": true,
+    "model_load_seconds": 1.483,
+    "neural_pair_seconds": 7.365,
+    "body_pair_seconds": 26.593000000000007,
+    "total_seconds": 35.849
+  },
+  "silence_control": {
+    "kind": "precomputed-silence",
+    "version": "silence-cf82a0c4378054f2",
+    "contract_sha256": "cf82a0c4378054f2088792c51bf6d473ab3f9930a42b519d484f1a4afc1c567c",
+    "steps": 380,
+    "duration": 3,
+    "generation": {
+      "neural_seconds": 53.94816470799999,
+      "body_seconds": 220.38963975000001,
+      "runtime": "v26.0.0",
+      "duration": 60
+    },
+    "note": "Exact prefix of the same zero-input simulation; interval measurements recomputed for this recording."
+  },
+  "processed_hash": "adf8e88ec7c4b51a0b43115252d6bd74e7f3a7e58ed7ccf70c7722709cda3192",
+  "neural": {
+    "sound": {
+      "counts": "cc974d987706d61c38841eee289972671de09038cabbc147c448ffb547d1b1f2",
+      "groups": "b5c57045cee7a7751f91631d4aa5a5644b95b04c1ba939cce4a6170af29133d3",
+      "spatial": "b3d96ac0e57a5143e035ee81f2b16d28aff76798a55e512b3b3c700250b87f6a",
+      "steps": 380
+    },
+    "silence": {
+      "counts": "5f00f18ce76b3ff2946ca2e1583484c9ef245f0027ebcff24dd3227a0d336f10",
+      "groups": "cc5814088dd2fe5e3710e00f911b13825d56ac5c5b5a2fdce1f04a230afc787f",
+      "spatial": "731b3fe1ff84351f5ee8dfadbb442c7fc6282d2611b1b374245cc8a6cf4787fa",
+      "steps": 380
+    }
+  },
+  "body": {
+    "sound": {
+      "positions": "48304c111ce4792b81ce9e36992bcae35f6242197ee8e1e9f334f6c534bdaea4",
+      "quaternions": "65669203edc24d56ba1b2c47a5fcf666ce18bcad1200ced16e9cd7eea67ed8a0",
+      "metrics": {
+        "distance_walked_cm": 4.892475431246511,
+        "flight_seconds": 4.199999999999998,
+        "turns_revolutions": 2.5150345300148755,
+        "after_voice_distance_cm": 5.312165634971725,
+        "boundary_seconds": 3.5,
+        "inverted_seconds": 0,
+        "complete": true,
+        "failures": [],
+        "wall_seconds": 25.938
+      }
+    },
+    "silence": {
+      "positions": "8f8028a20cbf0d9b267834807fdba60d58a7c0367bd876907c48c69556951d04",
+      "quaternions": "b41ced673310fb78db6efccc22f42dc0176c2f4e30f99771da406fef226e2a9b",
+      "metrics": {
+        "distance_walked_cm": 4.8611856028571925,
+        "flight_seconds": 4.459999999999993,
+        "turns_revolutions": 2.5751376803486044,
+        "after_voice_distance_cm": 5.542008871800295,
+        "boundary_seconds": 1.28,
+        "inverted_seconds": 0,
+        "complete": true,
+        "failures": [],
+        "wall_seconds": null
+      }
+    }
+  },
+  "body_memory": {
+    "physics": 17563648,
+    "policies": 33554432
+  },
+  "passed": true,
+  "storage": {
+    "saved": true,
+    "load_seconds": 0.027,
+    "samples": true,
+    "body": true
+  },
+  "finished_at": "2026-10-22T18:23:37.803Z",
+  "downloads": [
+    {
+      "url": "/dist/assets/body-v1/manifest.json",
+      "bytes": 300
+    },
+    {
+      "url": "/dist/assets/body-v1/capture.json",
+      "bytes": 300
+    },
+    {
+      "url": "/dist/browser-model-v1/manifest.json",
+      "bytes": 300
+    }
+  ]
+}

@@ -12,6 +12,7 @@ export class RecordedAudio extends EventTarget {
     this.paused = true;
     this.duration = 0;
     this.playbackEnd = null;
+    this.recordings = new Map();
   }
   async load(url, { duration = 0 } = {}) {
     this.pause();
@@ -24,11 +25,39 @@ export class RecordedAudio extends EventTarget {
     this.extendedDuration = duration;
     this.samples = null;
     this.silent = false;
-    const response = await fetch(url);
-    if (!response.ok)
-      throw new Error("The saved waveform could not be loaded.");
-    const bytes = await response.arrayBuffer();
-    if (generation === this.generation) this.bytes = bytes;
+    this.loadedRecording = null;
+    const key = `${url}\n${duration}`;
+    let entry = this.recordings.get(key);
+    if (!entry) {
+      entry = { buffer: null };
+      entry.bytes = fetch(url)
+        .then(async (response) => {
+          if (!response.ok)
+            throw new Error("The saved waveform could not be loaded.");
+          return (
+            String(url).endsWith(".gz")
+              ? new Response(
+                  response.body.pipeThrough(new DecompressionStream("gzip")),
+                )
+              : response
+          ).arrayBuffer();
+        })
+        .catch((error) => {
+          if (this.recordings.get(key) === entry) this.recordings.delete(key);
+          throw error;
+        });
+    }
+    // Two curated voices; bound retained audio while reusing both downloaded and decoded data.
+    this.recordings.delete(key);
+    this.recordings.set(key, entry);
+    while (this.recordings.size > 2)
+      this.recordings.delete(this.recordings.keys().next().value);
+    const bytes = await entry.bytes;
+    if (generation === this.generation) {
+      this.bytes = bytes;
+      this.buffer = entry.buffer;
+      this.loadedRecording = entry;
+    }
   }
   setRecording({
     samples = null,
@@ -53,6 +82,7 @@ export class RecordedAudio extends EventTarget {
     this.extendedDuration = duration;
     this.duration = duration;
     this.silent = silent;
+    this.loadedRecording = null;
   }
   get currentTime() {
     return this.paused
@@ -107,6 +137,7 @@ export class RecordedAudio extends EventTarget {
     }
     if (!this.playRequested || generation !== this.generation) return;
     this.buffer = buffer;
+    if (this.loadedRecording) this.loadedRecording.buffer = buffer;
     this.duration = this.buffer.duration;
     if (this.offset >= this.duration) this.offset = 0;
     const end =
