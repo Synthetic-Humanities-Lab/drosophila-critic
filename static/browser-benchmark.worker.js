@@ -1,4 +1,8 @@
-import { BrowserBrain } from "./browser-brain.js";
+import {
+  CompiledNoiseBrain,
+  loadNoiseKernel,
+  NOISE_KERNEL_SHA256,
+} from "./compiled-noise.js";
 import { PCG64 } from "./browser-random.js";
 import { NeuralCapture } from "./neural-capture.js";
 import { forEachConcurrent } from "./parallel-load.js";
@@ -117,14 +121,21 @@ self.onmessage = async ({ data }) => {
       const arrays = {};
       for (const [name, spec] of Object.entries(manifest.arrays))
         arrays[name] = await loadArray(spec, base);
-      brain = new BrowserBrain(manifest, arrays);
+      brain = new CompiledNoiseBrain(
+        manifest,
+        arrays,
+        await loadNoiseKernel(controller.signal),
+      );
       postMessage({
         type: "initialized",
         milliseconds: performance.now() - start,
         transfer_bytes: manifest.transfer_bytes,
         connectivity_memory_bytes: manifest.connectivity_memory_bytes,
         working_array_bytes:
-          manifest.connectivity_memory_bytes + manifest.neurons * 20,
+          manifest.connectivity_memory_bytes +
+          manifest.neurons * 20 +
+          brain.noise.output.byteLength,
+        noise_kernel_sha256: NOISE_KERNEL_SHA256,
       });
     } else if (data.type === "validate") {
       if (!brain) throw new Error("Load the model first");
@@ -226,6 +237,7 @@ self.onmessage = async ({ data }) => {
       postMessage({
         type: "result",
         weights_sha256: weightHash,
+        noise_kernel_sha256: NOISE_KERNEL_SHA256,
         label: data.label,
         seconds: performance.now() / 1000 - start / 1000,
         simulated_seconds: data.input.length * manifest.configuration.dt,

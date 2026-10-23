@@ -16,6 +16,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Rebuild and verify the exact noise kernel
+        run: |
+          npm exec --yes --package=wabt@1.0.37 -- wat2wasm scripts/neural_noise.wat -o /tmp/neural-noise.wasm
+          cmp static/neural-noise.wasm /tmp/neural-noise.wasm
       - run: |
           mkdir -p vendor data results
           git clone https://github.com/alextitonis/fly.ai.git vendor/fly.ai

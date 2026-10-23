@@ -1,0 +1,39 @@
+{
+  "passed": true,
+  "node": "v26.0.0",
+  "neurons": 166700,
+  "connections": 25582938,
+  "kernel_sha256": "f2cbb5dcb8c892e2054ec8123b905005612cd72b389fb2864a41981e3ae8fad6",
+  "trials": [
+    {
+      "name": "compiled-supplied-noise",
+      "seconds": 0.7290081250000001,
+      "exact_steps": 100
+    },
+    {
+      "name": "original",
+      "seconds": 2.146375334,
+      "exact_steps": 100
+    },
+    {
+      "name": "compiled",
+      "seconds": 0.8062725829999999,
+      "exact_steps": 100
+    },
+    {
+      "name": "compiled-repeat",
+      "seconds": 0.8140284169999995,
+      "exact_steps": 100
+    },
+    {
+      "name": "original-repeat",
+      "seconds": 2.1295609159999995,
+      "exact_steps": 100
+    }
+  ],
+  "saved_silence": {
+    "steps": 3230,
+    "exact": true,
+    "seconds": 29.451137500000005
+  }
+}

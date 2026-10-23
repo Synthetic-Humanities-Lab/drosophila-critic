@@ -1,0 +1,30 @@
+{
+  "baseline_commit": "0aad0d2394258b066a81d5b77145d46bf7f2f663",
+  "conditions": "Two sequential full recordings per final/baseline build, iPhone 17 / iOS 26.5 Simulator Safari on the available Mac. Cached models/local delivery; not physical-phone or first internet download timings.",
+  "duration": 26.165333333333333,
+  "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5 Mobile/15E148 Safari/604.1",
+  "means": {
+    "before": {
+      "model_load_seconds": 1.472,
+      "neural_pair_seconds": 40.411500000000004,
+      "body_pair_seconds": 139.7385,
+      "total_seconds": 181.949
+    },
+    "final": {
+      "model_load_seconds": 1.3245,
+      "neural_pair_seconds": 11.585999999999999,
+      "body_pair_seconds": 139.7575,
+      "total_seconds": 152.94299999999998
+    }
+  },
+  "total_reduction_percent": 15.941829853420476,
+  "neural_reduction_percent": 71.329943209235,
+  "exact_processed_audio_neural_body_and_measurements": true,
+  "source_sha256": {
+    "static/neural-noise.wasm": "f2cbb5dcb8c892e2054ec8123b905005612cd72b389fb2864a41981e3ae8fad6",
+    "scripts/neural_noise.wat": "535ec5cfa1ff45b32326bd3caa820a427d1ba80b9c03d8978a43895828df75c0",
+    "static/compiled-noise.js": "3b92bca3a1fde288b9825a10155f0932a717f3a98614708536f67b3553d7a8f1",
+    "static/browser-benchmark.worker.js": "c48d8632da8762e388f76f6a537dc37bcc74c9aa162962a91d96422c7a0bd258"
+  },
+  "rejected_candidate": "An earlier linear-memory kernel made the neural stage faster but the body stage slower. It was not published; reports retained separately."
+}

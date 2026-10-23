@@ -39,6 +39,8 @@ PUBLIC_FILES = (
     "worker-session.js",
     "browser-benchmark.worker.js",
     "browser-brain.js",
+    "compiled-noise.js",
+    "neural-noise.wasm",
     "browser-random.js",
     "neural-capture.js",
     "body-session.js",

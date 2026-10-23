@@ -69,6 +69,9 @@ same complete model, receiver, seed and controls. This does not qualify every
 phone or extend the desktop's five-minute claim to phones. See
 [mobile recording checks](docs/MOBILE-RECORDING.md) and
 [the performance change](docs/LOCAL-PERFORMANCE.md).
+Visitor processing now generates the same PCG64 noise in a small compiled
+module, preserving the recorded neural and body results. See
+[visitor calculation speed and exactness checks](docs/VISITOR-SPEED.md).
 
 ## Run the public app locally
 
@@ -129,7 +132,7 @@ workers. It has no npm build or framework dependency. Main boundaries:
 | `static/encounter.js`, `arena-scene.js / body-view.js`, `neural-scene.js` | One playback clock, staging, recorded neuron display |
 | `static/recording-panel.js`, `local-session.js` | Recording lifecycle, privacy, worker progress/cancellation |
 | `static/local-audio.js` | Mono conversion, fixed linear level policy, mechanical receiver |
-| `static/browser-brain.js`, `browser-benchmark.worker.js` | Original numerical update and PCG64 noise |
+| `static/browser-brain.js`, `compiled-noise.js`, `browser-benchmark.worker.js` | Original numerical update and exact compiled PCG64 noise |
 | `static/neural-capture.js`, `playback-data.js` | Observational spike capture and sound/silence measurements |
 | `scripts/export_encounter_playback.py` | Adapt saved runs into the versioned shared playback contract |
 
