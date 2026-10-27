@@ -1,0 +1,44 @@
+[
+  {
+    "kind": "reference",
+    "mode": "walking",
+    "steps": 500,
+    "seconds": 3.3762959169999998,
+    "hash": "3fbada7b22b29c1579b8a98e8394b44ee1c516c3c096a54d84c486f776ded5d2"
+  },
+  {
+    "kind": "reference",
+    "mode": "flight",
+    "steps": 6323,
+    "seconds": 7.037077583,
+    "hash": "1eaddbb2a73324571b7c2a5c8572f60f49830c5c4dfadaee3e1de3c9c295928b"
+  },
+  {
+    "kind": "split-first",
+    "mode": "walking",
+    "steps": 500,
+    "seconds": 3.2368824999999997,
+    "hash": "a7455bde2f05824376473fb11ccf9609be2b0a7b5446ae0a371d7f38e8d0a7a3"
+  },
+  {
+    "kind": "split-first",
+    "mode": "flight",
+    "steps": 6329,
+    "seconds": 6.483955375,
+    "hash": "3439474af123d4a904c23a3106c17de800e3525d80ddddf6ac7511f0d370510b"
+  },
+  {
+    "kind": "split-both",
+    "mode": "walking",
+    "steps": 500,
+    "seconds": 3.3961079580000004,
+    "hash": "243688bb4d14731898c28ca8ab265dcad1b0755b4d4e12370463b412a5cb3dae"
+  },
+  {
+    "kind": "split-both",
+    "mode": "flight",
+    "steps": 6330,
+    "seconds": 7.176436499999999,
+    "hash": "68ddc2d5fd12550a85624639e8b9687ad68020cc46a7e5cd925dbb7c71e1dea1"
+  }
+]

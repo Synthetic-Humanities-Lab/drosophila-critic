@@ -32,7 +32,7 @@ acoustics to the model.
 
 Choose **YOUR VOICE**, then record or select audio between 1 and 60 seconds.
 Listen back before choosing **READ TO THE FLY**. That explicit action loads
-roughly 156 MB of brain and body models and up to 17 MB of saved silence,
+roughly 150 MB of brain and body models and up to 17 MB of saved silence,
 cached where possible. The browser calculates your sound's neural response and
 body movement, then compares them with an equal-duration portion of a verified,
 precomputed silence run. The control uses the same model, starting state and
@@ -72,6 +72,9 @@ phone or extend the desktop's five-minute claim to phones. See
 Visitor processing now generates the same PCG64 noise in a small compiled
 module, preserving the recorded neural and body results. See
 [visitor calculation speed and exactness checks](docs/VISITOR-SPEED.md).
+The body worker uses a strict SIMD compilation of the same MuJoCo 3.14.0
+source. Its build identity is recorded separately from the unchanged model
+contract. See [body calculation checks and rebuild instructions](docs/BODY-SPEED.md).
 
 ## Run the public app locally
 

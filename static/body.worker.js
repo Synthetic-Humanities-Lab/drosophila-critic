@@ -1,5 +1,6 @@
-import loadMuJoCo from "./vendor/mujoco/mujoco.js";
-import { BodyPolicy } from "./body-policy.js";
+import loadMuJoCo from "./vendor/mujoco-simd/mujoco.js";
+import { BODY_PHYSICS_BUILD, bodyPhysicsAsset } from "./body-physics.js";
+import { createBodyPolicies } from "./body-policy-bundle.js";
 import { simulateBody } from "./body-processing.js";
 import { forEachConcurrent } from "./parallel-load.js";
 
@@ -23,6 +24,7 @@ async function initialize() {
     });
   if (!response.ok) throw new Error("The body model is unavailable.");
   const manifest = await response.json();
+  const physics = bodyPhysicsAsset(manifest);
   let cache;
   try {
     cache = await caches.open(manifest.version);
@@ -51,19 +53,19 @@ async function initialize() {
     postMessage({
       type: "progress",
       stage: "Loading the legs and wings model",
-      fraction: Math.min(1, loaded / manifest.download_bytes),
+      fraction: Math.min(1, loaded / physics.download_bytes),
       bytes: loaded,
     });
     return bytes;
   };
   const files = {};
   const kernelName = "../../body-dense.wasm",
-    physicsName = "../../vendor/mujoco/mujoco.wasm";
+    physicsName = physics.file;
   await forEachConcurrent(
     [
       ...Object.entries(manifest.files),
       [kernelName, manifest.kernel],
-      [physicsName, manifest.physics],
+      [physicsName, physics],
     ],
     async ([name, spec]) => {
       files[name] = await file(name, spec);
@@ -80,16 +82,16 @@ async function initialize() {
       new TextDecoder().decode(await decompress(files["wingbeat.json.gz"])),
     ),
   };
-  const policies = {};
   const kernel = files[kernelName];
-  for (const kind of ["walking", "flight"]) {
-    const { instance } = await WebAssembly.instantiate(kernel);
-    policies[kind] = new BodyPolicy(
-      json(kind + ".json"),
-      await decompress(files[kind + ".f32.gz"]),
-      instance.exports,
-    );
-  }
+  const { instance } = await WebAssembly.instantiate(kernel);
+  const policies = createBodyPolicies(
+    { walking: json("walking.json"), flight: json("flight.json") },
+    {
+      walking: await decompress(files["walking.f32.gz"]),
+      flight: await decompress(files["flight.f32.gz"]),
+    },
+    instance.exports,
+  );
   const wasm = files[physicsName];
   const mj = await loadMuJoCo({ wasmBinary: wasm });
   runtime = { mj, assets, policies, manifest };
@@ -103,12 +105,11 @@ async function initialize() {
   return {
     asset_manifest: manifest,
     runtime_module: import.meta.url,
-    download_bytes: manifest.download_bytes,
+    download_bytes: physics.download_bytes,
+    physics_build: BODY_PHYSICS_BUILD,
+    policy_storage: "exact-weights-shared-memory-v1",
     physics_heap_bytes: physicsHeapBytes,
-    policy_memory_bytes: Object.values(policies).reduce(
-      (total, policy) => total + policy.kernel.memory.buffer.byteLength,
-      0,
-    ),
+    policy_memory_bytes: instance.exports.memory.buffer.byteLength,
   };
 }
 self.onmessage = async ({ data }) => {
@@ -147,6 +148,10 @@ self.onmessage = async ({ data }) => {
             }),
         },
       );
+      result.provenance.runtime =
+        "MuJoCo 3.14.0 WebAssembly (strict SIMD build); frozen SavedModel mean policies";
+      result.provenance.physics_build = BODY_PHYSICS_BUILD;
+      result.provenance.policy_storage = "exact-weights-shared-memory-v1";
       postMessage({ type: "result", result });
     } else throw new Error("Unknown body worker request.");
   } catch (e) {

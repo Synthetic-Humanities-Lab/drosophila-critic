@@ -1,0 +1,87 @@
+{
+  "baseline_commit": "509bc859a27a0aa552f6f64597c4843aa5173094",
+  "host": "Apple M3 Max",
+  "browser": "Safari 26.5, iOS 26.5 Simulator, iPhone 17 profile",
+  "physical_iphone_tested": false,
+  "fixture": "Existing public robot reading, 26.165333 seconds",
+  "conditions": "Same local HTTP server and input; warm model cache; one recording run at a time; sequential mobile worker configuration; exact saved silence reused. No other benchmark or build running during these four timed trials.",
+  "timing": {
+    "body_pair_seconds": {
+      "before": [
+        94.826,
+        92.952
+      ],
+      "after": [
+        92.289,
+        88.543
+      ],
+      "before_mean": 93.889,
+      "after_mean": 90.416,
+      "reduction_percent": 3.6990488768652336
+    },
+    "total_seconds": {
+      "before": [
+        105.166,
+        103.188
+      ],
+      "after": [
+        102.746,
+        98.031
+      ],
+      "before_mean": 104.17699999999999,
+      "after_mean": 100.3885,
+      "reduction_percent": 3.636599249354463
+    }
+  },
+  "physics_download_bytes": {
+    "before": 10313475,
+    "after": 4632279
+  },
+  "policy_wasm_memory_bytes": {
+    "before": 33554432,
+    "after": 16777216
+  },
+  "physics_wasm_memory_bytes": {
+    "before": 17563648,
+    "after": 17629184
+  },
+  "equivalence": {
+    "audio": true,
+    "neural_counts_groups_spatial": true,
+    "all_body_poses": true,
+    "body_times_commands_states_events": true,
+    "movement_metrics_excluding_wall_time": true,
+    "saved_result_round_trip": true
+  },
+  "body_cancellation_ms": 1,
+  "limits": [
+    "Two runs per version give a small timing sample, not a physical-phone performance guarantee.",
+    "Compilation exactness is checked on specified inputs; not a proof for every possible trajectory.",
+    "Only the policy WASM allocation is halved, not total browser memory."
+  ],
+  "candidate": {
+    "version": "mujoco-3.14.0-strict-simd-v1",
+    "source_commit": "9ecbb9d7b5ee623f54745638d36799ff90e6f7cd",
+    "emscripten": "4.0.10",
+    "flags": "-O3 -msimd128 -ffp-contract=off; single threaded; no fast math",
+    "reference_sha256": "2d380f1070a556c3003b4a7c7c10c98a5f61db4e91815de1075ec478e9487e76",
+    "sha256": "30656f5922f4144b68e9b62c7d2b3d3a86fcb82890b3ab51e422f9f1538a7655",
+    "bytes": 4632279,
+    "loader_sha256": "64f5909a08be90cb958a715850e1d4680c696a5d6e6c285f0fba285a11b00071"
+  },
+  "desktop_equivalence": {
+    "browser": "Chromium 156 in-app browser, Apple M3 Max",
+    "complete_old_new_results_exact": true,
+    "timing_note": "Verification overlapped other checks; not used for the speed claim.",
+    "reopened_saved_result": true,
+    "played_through_post_sound_end": true,
+    "browser_errors": []
+  },
+  "checks": {
+    "python_tests": 181,
+    "javascript_tests": 83,
+    "full_silence_frames": 3230,
+    "controlled_transition_frames": 550,
+    "compiled_files_reproduced_exactly": true
+  }
+}

@@ -1,0 +1,15 @@
+MuJoCo 3.14.0, Google DeepMind. Apache License 2.0; see LICENSE.txt.
+Upstream: https://github.com/google-deepmind/mujoco
+Source commit: 9ecbb9d7b5ee623f54745638d36799ff90e6f7cd
+
+This is a project-specific compilation, not an unmodified npm distribution.
+Emscripten 4.0.10, Release -O3, -msimd128, -ffp-contract=off, single threaded.
+No fast-math or relaxed-SIMD arithmetic. Upstream assertion and exception
+handling settings remain enabled. No MuJoCo physics source was changed.
+Debug/source-map output was removed from wasm/CMakeLists.txt to permit the
+normal post-link optimizations; source paths in diagnostics are normalized.
+
+Rebuild: scripts/build_mujoco_simd.py in the Drosophila Critic repository.
+Qualification: tests/body-physics.test.mjs, scripts/check_body_physics.mjs,
+docs/BODY-SPEED.md and experiments/body-speed-v1/.
+The original official binary in vendor/mujoco remains the numerical reference.

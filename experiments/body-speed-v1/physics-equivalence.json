@@ -1,0 +1,40 @@
+{
+  "build": {
+    "version": "mujoco-3.14.0-strict-simd-v1",
+    "source_commit": "9ecbb9d7b5ee623f54745638d36799ff90e6f7cd",
+    "emscripten": "4.0.10",
+    "flags": "-O3 -msimd128 -ffp-contract=off; single threaded; no fast math",
+    "reference_sha256": "2d380f1070a556c3003b4a7c7c10c98a5f61db4e91815de1075ec478e9487e76",
+    "sha256": "30656f5922f4144b68e9b62c7d2b3d3a86fcb82890b3ab51e422f9f1538a7655",
+    "bytes": 4632279,
+    "loader_sha256": "64f5909a08be90cb958a715850e1d4680c696a5d6e6c285f0fba285a11b00071"
+  },
+  "node": "v26.0.0",
+  "checks": [
+    {
+      "name": "eleven-second controlled movement",
+      "frames": 550,
+      "states": [
+        "walking",
+        "takeoff",
+        "flight",
+        "landing",
+        "standing"
+      ],
+      "exact": true,
+      "hash": "7d31fe2f9634a5f01444c5cbf583eb9518e4d583ffa16fb0abf1448eef9ffdc6",
+      "before_seconds": 35.119383542,
+      "after_seconds": 33.35151762499999
+    },
+    {
+      "name": "complete saved silence",
+      "frames": 3230,
+      "simulated_seconds": 64.6,
+      "exact": true,
+      "hash": "68942ab8dfb3fe44625667854bbc6d13b15a782c63ba721648ed03e44ebc8426",
+      "seconds": 191.16961062499996
+    }
+  ],
+  "passed": true,
+  "timing_note": "Wall times here are diagnostic only; other verification tasks overlapped. Use the separate repeated Safari trials for the performance comparison."
+}
