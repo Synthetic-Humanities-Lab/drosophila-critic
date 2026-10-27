@@ -1,5 +1,8 @@
 # Faster body calculation, 27 October 2026
 
+This is the historical first optimization (release `6cb20e8`). The current
+implementation and subsequent measurements are in [BODY-SPEED-V2.md](BODY-SPEED-V2.md).
+
 Visitor recordings still run locally. This change compiles the existing MuJoCo
 3.14.0 engine with standard WebAssembly SIMD instructions. It retains the same
 20,000 physics steps per simulated second, solver settings, collision geometry,

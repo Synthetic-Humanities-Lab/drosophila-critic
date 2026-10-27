@@ -73,8 +73,9 @@ Visitor processing now generates the same PCG64 noise in a small compiled
 module, preserving the recorded neural and body results. See
 [visitor calculation speed and exactness checks](docs/VISITOR-SPEED.md).
 The body worker uses a strict SIMD compilation of the same MuJoCo 3.14.0
-source. Its build identity is recorded separately from the unchanged model
-contract. See [body calculation checks and rebuild instructions](docs/BODY-SPEED.md).
+source. It reuses already-computed position/velocity stages only when the body
+state and timestep are unchanged. Its build and adapter identities are recorded
+separately from the unchanged model contract. See [body calculation checks and rebuild instructions](docs/BODY-SPEED-V2.md).
 
 ## Run the public app locally
 

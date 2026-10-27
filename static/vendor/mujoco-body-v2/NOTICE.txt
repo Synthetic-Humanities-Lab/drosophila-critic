@@ -1,0 +1,21 @@
+MuJoCo 3.14.0, Google DeepMind. Apache License 2.0; see LICENSE.txt.
+Upstream: https://github.com/google-deepmind/mujoco
+Source commit: 9ecbb9d7b5ee623f54745638d36799ff90e6f7cd
+
+This is a project-specific compilation, not an unmodified npm distribution.
+Emscripten 4.0.10, Release -O3, -msimd128, -ffp-contract=off, full LTO, single threaded. No fast math or relaxed SIMD.
+Upstream assertions and exception handling remain enabled. No MuJoCo physics
+source was changed. Debug/source-map output was removed from wasm/CMakeLists.txt
+to permit normal post-link optimizations; source diagnostic paths are normalized.
+
+An added binding, scripts/body_step.cc, exposes an audited composition of
+upstream calls: value checks, cache invalidation after numerical warnings,
+step-counter bookkeeping, and mj_step2. It reuses position/velocity stages only
+for the unchanged state in this project's BodyRuntime. It is not a general
+replacement for mj_step. All new-state physics and integration remain intact.
+
+Rebuild: scripts/build_mujoco_simd.py --full-lto --body-step.
+Qualification: tests/body-physics.test.mjs, tests/body-stepping.test.mjs,
+scripts/check_body_physics.mjs, docs/BODY-SPEED-V2.md,
+experiments/body-speed-v2/. The original official binary in vendor/mujoco
+remains the numerical reference.

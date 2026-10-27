@@ -6,7 +6,7 @@ import {
   BODY_PHYSICS_BUILD,
   bodyPhysicsAsset,
 } from "../static/body-physics.js";
-import loadOptimized from "../static/vendor/mujoco-simd/mujoco.js";
+import loadOptimized from "../static/vendor/mujoco-body-v2/mujoco.js";
 import { loadBodyAssets } from "../scripts/body_browser_assets.mjs";
 import { BodyRuntime } from "../static/body-runtime.js";
 import { createBodyPolicies } from "../static/body-policy-bundle.js";
@@ -18,11 +18,15 @@ const digest = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const manifest = JSON.parse(await read("static/assets/body-v1/manifest.json"));
 
 test("the faster physics build is pinned and leaves the reference contract intact", async () => {
-  const wasm = await read("static/vendor/mujoco-simd/mujoco.wasm");
+  const wasm = await read("static/vendor/mujoco-body-v2/mujoco.wasm");
   assert.equal(digest(wasm), BODY_PHYSICS_BUILD.sha256);
   assert.equal(wasm.length, BODY_PHYSICS_BUILD.bytes);
   assert.equal(
-    digest(await read("static/vendor/mujoco-simd/mujoco.js")),
+    digest(await read("scripts/body_step.cc")),
+    BODY_PHYSICS_BUILD.binding_sha256,
+  );
+  assert.equal(
+    digest(await read("static/vendor/mujoco-body-v2/mujoco.js")),
     BODY_PHYSICS_BUILD.loader_sha256,
   );
   assert.equal(
@@ -54,7 +58,7 @@ test("the faster physics build is pinned and leaves the reference contract intac
 test("strict SIMD reproduces actuated physics, controller observations and policy outputs exactly", async () => {
   const reference = await loadBodyAssets();
   const optimized = await loadOptimized({
-    wasmBinary: await read("static/vendor/mujoco-simd/mujoco.wasm"),
+    wasmBinary: await read("static/vendor/mujoco-body-v2/mujoco.wasm"),
   });
   const bodies = [reference.mj, optimized].map(
     (mj) => new BodyRuntime(mj, reference.assets, reference.policies),

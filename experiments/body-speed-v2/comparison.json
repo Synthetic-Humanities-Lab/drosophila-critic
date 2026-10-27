@@ -1,0 +1,83 @@
+{
+  "baseline_commit": "6cb20e87f22e5caba9447bfabab4d17c53310fc2",
+  "host": "Apple M3 Max",
+  "browser": "Safari 26.5, iOS 26.5 Simulator, iPhone 17 profile",
+  "physical_iphone_tested": false,
+  "fixture": "Existing public robot recording, 26.165333 seconds",
+  "conditions": "Idle page, stop and relaunch Safari before each run; same local HTTP server and fixture; cached model files; no simultaneous benchmark or build. Alternating candidate and reference. Saved exact silence reused. Earlier trials without this restart protocol excluded.",
+  "reports": [
+    "safari-clean-before-1",
+    "safari-clean-before-2",
+    "safari-clean-full-1",
+    "safari-clean-full-2"
+  ],
+  "timing": {
+    "body_pair_seconds": {
+      "before": [
+        89.919,
+        88.548
+      ],
+      "after": [
+        85.684,
+        85.939
+      ],
+      "before_mean": 89.23349999999999,
+      "after_mean": 85.8115,
+      "reduction_percent": 3.8348826393674993
+    },
+    "total_seconds": {
+      "before": [
+        100.395,
+        97.748
+      ],
+      "after": [
+        96.10100000000001,
+        96.229
+      ],
+      "before_mean": 99.0715,
+      "after_mean": 96.165,
+      "reduction_percent": 2.9337397737997244
+    }
+  },
+  "candidate": {
+    "version": "mujoco-3.14.0-body-v2",
+    "source_commit": "9ecbb9d7b5ee623f54745638d36799ff90e6f7cd",
+    "emscripten": "4.0.10",
+    "flags": "-O3 -msimd128 -ffp-contract=off -flto; single threaded; no fast math",
+    "binding_sha256": "e1ef634a20209f7f6a7bcb90958c81b88cf3e154ed5766586bc915a5f8ccd204",
+    "reference_sha256": "2d380f1070a556c3003b4a7c7c10c98a5f61db4e91815de1075ec478e9487e76",
+    "sha256": "1f76943fabce08685efa15c2bde149479347bbeed2fd30ee7ba4bedf8aeba324",
+    "bytes": 4672599,
+    "loader_sha256": "17c82ae37c5d78ede061598dfa4d35dab2b1ff68b111058ddba6897b14e10349"
+  },
+  "stepping": "body-forward-reuse-v1",
+  "equivalence": {
+    "audio": true,
+    "neural_counts_groups_spatial": true,
+    "all_body_poses": true,
+    "body_times_commands_states_events": true,
+    "movement_metrics_excluding_wall_time": true,
+    "saved_result_round_trip": true
+  },
+  "limits": [
+    "Two runs per version are a small sample, not a physical-phone performance guarantee.",
+    "Exactness is checked on specified trajectories, not every possible input.",
+    "Earlier long-lived Safari trials showed substantial drift and are not used for the speed claim."
+  ],
+  "desktop_equivalence": {
+    "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+    "complete_results_exact": true,
+    "timing_note": "Verification overlapped other checks; excluded from performance claims.",
+    "reopened_saved_result": true,
+    "played_through_post_sound_end": true,
+    "browser_errors": []
+  },
+  "body_cancellation_ms": 0.999999999998181,
+  "compiled_files_reproduced_exactly": true,
+  "checks": {
+    "python_tests": 181,
+    "javascript_tests": 87,
+    "full_silence_frames": 3230,
+    "controlled_transition_frames": 550
+  }
+}

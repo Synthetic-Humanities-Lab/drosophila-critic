@@ -46,6 +46,7 @@ PUBLIC_FILES = (
     "body-session.js",
     "body.worker.js",
     "body-physics.js",
+    "body-stepping.js",
     "body-policy.js",
     "body-policy-bundle.js",
     "body-adapter.js",

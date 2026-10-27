@@ -1,0 +1,38 @@
+{
+  "command_options": "--full-lto --body-step",
+  "links": [
+    {
+      "log": "full-lto-build.log",
+      "output": {
+        "source_commit": "9ecbb9d7b5ee623f54745638d36799ff90e6f7cd",
+        "files": {
+          "mujoco.js": {
+            "bytes": 164799,
+            "sha256": "17c82ae37c5d78ede061598dfa4d35dab2b1ff68b111058ddba6897b14e10349"
+          },
+          "mujoco.wasm": {
+            "bytes": 4672599,
+            "sha256": "1f76943fabce08685efa15c2bde149479347bbeed2fd30ee7ba4bedf8aeba324"
+          }
+        }
+      }
+    },
+    {
+      "log": "full-native-build.log",
+      "output": {
+        "source_commit": "9ecbb9d7b5ee623f54745638d36799ff90e6f7cd",
+        "files": {
+          "mujoco.js": {
+            "bytes": 164799,
+            "sha256": "17c82ae37c5d78ede061598dfa4d35dab2b1ff68b111058ddba6897b14e10349"
+          },
+          "mujoco.wasm": {
+            "bytes": 4672599,
+            "sha256": "1f76943fabce08685efa15c2bde149479347bbeed2fd30ee7ba4bedf8aeba324"
+          }
+        }
+      }
+    }
+  ],
+  "both_files_exact": true
+}

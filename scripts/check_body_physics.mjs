@@ -4,21 +4,27 @@ import assert from "node:assert/strict";
 import { gunzipSync } from "node:zlib";
 import { createHash } from "node:crypto";
 import { loadBodyAssets } from "./body_browser_assets.mjs";
-import loadOptimized from "../static/vendor/mujoco-simd/mujoco.js";
+import loadOptimized from "../static/vendor/mujoco-body-v2/mujoco.js";
 import { BODY_PHYSICS_BUILD } from "../static/body-physics.js";
 import { simulateBody } from "../static/body-processing.js";
 import { NeuralBodyAdapter } from "../static/body-adapter.js";
 import { createBodyPolicies } from "../static/body-policy-bundle.js";
+import {
+  bodyStepping,
+  BODY_STEPPING_VERSION,
+} from "../static/body-stepping.js";
 import { silencePrefix, BODY_FRAME_KEYS } from "../static/silence-control.js";
 
-const output = process.argv[2] || "output/body-speed/physics-equivalence.json";
+const output =
+  process.argv[2] || "output/body-speed-v2/physics-equivalence.json";
 const reference = await loadBodyAssets();
 const optimized = {
   ...reference,
   mj: await loadOptimized({
-    wasmBinary: await fs.readFile("static/vendor/mujoco-simd/mujoco.wasm"),
+    wasmBinary: await fs.readFile("static/vendor/mujoco-body-v2/mujoco.wasm"),
   }),
 };
+optimized.mj = bodyStepping(optimized.mj);
 const metadata = {},
   weights = {};
 for (const kind of ["walking", "flight"]) {
@@ -65,7 +71,12 @@ const diagnostic = {
     });
   }),
 };
-const report = { build: BODY_PHYSICS_BUILD, node: process.version, checks: [] };
+const report = {
+  build: BODY_PHYSICS_BUILD,
+  stepping: BODY_STEPPING_VERSION,
+  node: process.version,
+  checks: [],
+};
 const run = (runtime, input, duration, baseline) =>
   simulateBody(runtime, runtime.assets.config, input, {
     duration,

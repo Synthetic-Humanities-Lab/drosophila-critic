@@ -1,6 +1,7 @@
-import loadMuJoCo from "./vendor/mujoco-simd/mujoco.js";
+import loadMuJoCo from "./vendor/mujoco-body-v2/mujoco.js";
 import { BODY_PHYSICS_BUILD, bodyPhysicsAsset } from "./body-physics.js";
 import { createBodyPolicies } from "./body-policy-bundle.js";
+import { bodyStepping, BODY_STEPPING_VERSION } from "./body-stepping.js";
 import { simulateBody } from "./body-processing.js";
 import { forEachConcurrent } from "./parallel-load.js";
 
@@ -94,7 +95,7 @@ async function initialize() {
   );
   const wasm = files[physicsName];
   const mj = await loadMuJoCo({ wasmBinary: wasm });
-  runtime = { mj, assets, policies, manifest };
+  runtime = { mj: bodyStepping(mj), assets, policies, manifest };
   // MuJoCo does not export Emscripten's HEAPU8 accessor. Its typed state views
   // expose the backing memory without relying on private runtime properties.
   const probeModel = mj.MjModel.from_xml_string(assets.xml),
@@ -107,6 +108,7 @@ async function initialize() {
     runtime_module: import.meta.url,
     download_bytes: physics.download_bytes,
     physics_build: BODY_PHYSICS_BUILD,
+    stepping: BODY_STEPPING_VERSION,
     policy_storage: "exact-weights-shared-memory-v1",
     physics_heap_bytes: physicsHeapBytes,
     policy_memory_bytes: instance.exports.memory.buffer.byteLength,
@@ -151,6 +153,7 @@ self.onmessage = async ({ data }) => {
       result.provenance.runtime =
         "MuJoCo 3.14.0 WebAssembly (strict SIMD build); frozen SavedModel mean policies";
       result.provenance.physics_build = BODY_PHYSICS_BUILD;
+      result.provenance.stepping = BODY_STEPPING_VERSION;
       result.provenance.policy_storage = "exact-weights-shared-memory-v1";
       postMessage({ type: "result", result });
     } else throw new Error("Unknown body worker request.");

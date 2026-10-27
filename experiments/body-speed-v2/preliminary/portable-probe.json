@@ -1,0 +1,26 @@
+[
+  {
+    "name": "current",
+    "steps": 6328,
+    "seconds": 6.254263834,
+    "hash": "4972fa3198f51b63624a4cd2e714966593edff69544ea190ee0f28d0d2220ff4"
+  },
+  {
+    "name": "lto",
+    "steps": 6328,
+    "seconds": 6.16525825,
+    "hash": "4972fa3198f51b63624a4cd2e714966593edff69544ea190ee0f28d0d2220ff4"
+  },
+  {
+    "name": "reuse",
+    "steps": 6328,
+    "seconds": 5.788208708,
+    "hash": "4972fa3198f51b63624a4cd2e714966593edff69544ea190ee0f28d0d2220ff4"
+  },
+  {
+    "name": "both",
+    "steps": 6328,
+    "seconds": 5.7258197499999985,
+    "hash": "4972fa3198f51b63624a4cd2e714966593edff69544ea190ee0f28d0d2220ff4"
+  }
+]

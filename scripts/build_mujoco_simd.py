@@ -16,6 +16,8 @@ def main():
     parser.add_argument("--build", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--jobs", type=int, default=4)
+    parser.add_argument("--full-lto", action="store_true")
+    parser.add_argument("--body-step", action="store_true")
     args = parser.parse_args()
     source = args.source.resolve()
     revision = subprocess.check_output(["git", "-C", source, "rev-parse", "HEAD"], text=True)
@@ -41,8 +43,17 @@ def main():
         ],
         text=True,
     )
-    if extra.strip():
+    binding_name = "wasm/codegen/generated/critic_body_step.cc"
+    if set(extra.splitlines()) - {binding_name}:
         parser.error("Unexpected untracked binding sources; use a clean checkout.")
+    binding_source = Path(__file__).with_name("body_step.cc").read_bytes()
+    binding = source / binding_name
+    if binding.exists() and binding.read_bytes() != binding_source:
+        parser.error("Unexpected body stepping binding; use a clean checkout.")
+    if args.body_step:
+        binding.write_bytes(binding_source)
+    elif binding.exists():
+        binding.unlink()
     # Debug information disables some of Emscripten's ordinary post-link passes.
     # Keep upstream assertions, exceptions, memory growth and all physics options.
     original = subprocess.check_output(
@@ -60,6 +71,8 @@ def main():
     flags = "-msimd128 -ffp-contract=off " + " ".join(
         f"-ffile-prefix-map={prefix}=mujoco" for prefix in sorted(prefixes)
     )
+    if args.full_lto:
+        flags += " -flto"
     subprocess.run(
         [
             "emcmake",
@@ -71,6 +84,9 @@ def main():
             "-DCMAKE_BUILD_TYPE=Release",
             "-DMUJOCO_WASM_THREADS=OFF",
             "-DMUJOCO_BUILD_TESTS_WASM=OFF",
+            "-DMUJOCO_ENABLE_AVX_INTRINSICS=ON",
+            f"-DCMAKE_INTERPROCEDURAL_OPTIMIZATION={'OFF' if args.full_lto else 'ON'}",
+            "-DCMAKE_EXE_LINKER_FLAGS=",
             f"-DCMAKE_C_FLAGS={flags}",
             f"-DCMAKE_CXX_FLAGS={flags}",
         ],
@@ -84,7 +100,20 @@ def main():
         shutil.copyfile(source / "wasm/dist" / name, target)
         data = target.read_bytes()
         digests[name] = {"bytes": len(data), "sha256": hashlib.sha256(data).hexdigest()}
-    print(json.dumps({"source_commit": COMMIT, "files": digests}, indent=2))
+    print(
+        json.dumps(
+            {
+                "source_commit": COMMIT,
+                "full_lto": args.full_lto,
+                "body_step": args.body_step,
+                "binding_sha256": hashlib.sha256(binding_source).hexdigest()
+                if args.body_step
+                else None,
+                "files": digests,
+            },
+            indent=2,
+        )
+    )
 
 
 if __name__ == "__main__":
